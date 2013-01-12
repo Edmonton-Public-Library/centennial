@@ -11,6 +11,14 @@ class BranchModelTest(TestCase):
         self.assertEqual(len(saved_branches), 1)
         self.assertEqual(saved_branch, saved_branches[0])
 
+    def test_branch_unicode(self):
+        branch_name = "Branch1"
+        branch = save_branch(branch_name, "Branch1 description field",
+                                   1950, 1978, 53.3712, -112.6638
+                                  )
+        self.assertEquals(unicode(branch), branch_name)
+
+
 def save_branch(name, description, start_year, end_year, longitude, latitude):
     branch = Branch()
     branch.name = name
