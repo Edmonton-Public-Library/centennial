@@ -37,7 +37,7 @@ class AdminTest(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Django administration', body.text)
 
-    def add_branch(self, name, description, start_year, end_year, longitude, latitude):
+    def add_branch(self, name, description, start_year, end_year, latitude, longitude):
         """ Requires browser to be in the administration page
         """
         branch_links = self.browser.find_elements_by_link_text("Branches")
