@@ -1,0 +1,20 @@
+[
+  {
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "admin", 
+      "first_name": "", 
+      "last_name": "", 
+      "is_active": true, 
+      "is_superuser": true, 
+      "is_staff": true, 
+      "last_login": "2013-01-12T03:34:00.698Z", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "pbkdf2_sha256$10000$VWDUrhItCLJS$V56UQ00EFjvqtRnTKUp9lRu8CvH4z/NSn41yXrTuEsE=", 
+      "email": "admin@rmz.ca", 
+      "date_joined": "2013-01-12T02:40:25.781Z"
+    }
+  }
+]

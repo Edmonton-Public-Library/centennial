@@ -1,0 +1,11 @@
+Django==1.4.3
+Fabric==1.5.1
+South==0.7.6
+distribute==0.6.24
+logilab-astng==0.24.1
+logilab-common==0.58.3
+mock==1.0.1
+paramiko==1.9.0
+pycrypto==2.6
+pylint==0.26.0
+selenium==2.28.0
