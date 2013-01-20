@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     'fts',
     'timemap',
     'django.contrib.admin',
+    'tastypie',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
