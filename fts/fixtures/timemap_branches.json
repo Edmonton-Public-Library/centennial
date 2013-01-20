@@ -1,0 +1,26 @@
+[
+  {
+    "pk": 1, 
+    "model": "timemap.branch", 
+    "fields": {
+      "start_year": 1989, 
+      "name": "Branch1", 
+      "end_year": 2000, 
+      "longitude": -113.489864, 
+      "latitude": 53.544094, 
+      "description": "My first branch"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "timemap.branch", 
+    "fields": {
+      "start_year": 1943, 
+      "name": "Strathcona Branch", 
+      "end_year": 2005, 
+      "longitude": -113.497245, 
+      "latitude": 53.519339, 
+      "description": "Part of the Edmonton Public Library. Spread the Words!"
+    }
+  }
+]
