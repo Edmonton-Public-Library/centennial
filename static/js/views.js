@@ -11,13 +11,11 @@ define(['lib/csc.View'], function() {
 epl.views.main = new csc.View('timemap', 'Home', 
 	//in
 	function (fromView, viewport, callback) {
-		alert('home');
 		callback();
 	}, 
 
 	//out
 	function (toView, viewport, callback) {
-		alert('leaving home');
 		callback();
 	}
 );
@@ -27,13 +25,11 @@ epl.views.main = new csc.View('timemap', 'Home',
  *************************************/
 epl.views.example = new csc.View('example', 'Example', 
 	function (fromView, viewport, callback) {
-		alert('example');
 		callback();
 	}, 
 
 	//out
 	function (toView, viewport, callback) {
-		alert('leaving example');
 		callback();
 	}
 );
