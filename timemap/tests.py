@@ -1,5 +1,6 @@
 from django.test import TestCase
 from timemap.models import Branch
+from timemap.models import Story
 from django.core.exceptions import ValidationError
 
 class BranchModelTest(TestCase):
@@ -25,6 +26,26 @@ class BranchModelTest(TestCase):
             save_branch(branch_name, "Branch3 description field",
                         1950, 1948, 53.3712, -112.6638
                        )
+
+class StoryModelTest(TestCase):
+
+    def test_unknown_date_fields(self):
+        story = Story()
+        story.day = 0
+        story.month = 0
+        story.year = 2000
+        story.clean()
+        self.assertEquals(story.day, 0)
+        self.assertEquals(story.month, 0)
+        self.assertEquals(story.year, 2000)
+
+    def test__date_validation(self):
+        story = Story()
+        story.day = 29
+        story.month = 2
+        story.year = 2013
+        with self.assertRaises(ValidationError):
+            story.clean()
 
 def save_branch(name, description, start_year, end_year, longitude, latitude):
     branch = Branch()
