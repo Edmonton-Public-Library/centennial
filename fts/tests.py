@@ -5,12 +5,14 @@ from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+BROWSER_WAIT = 10
+
 class AdminTest(LiveServerTestCase):
     fixtures = ['admin_user.json']
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(10)
+        self.browser.implicitly_wait(BROWSER_WAIT)
 
     def tearDown(self):
         self.browser.quit()
@@ -70,7 +72,7 @@ class APITest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(2)
+        self.browser.implicitly_wait(BROWSER_WAIT)
 
     def tearDown(self):
         self.browser.quit()

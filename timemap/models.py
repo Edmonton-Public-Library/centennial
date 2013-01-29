@@ -10,7 +10,7 @@ class Branch(models.Model):
         verbose_name_plural = "Branches"
 
     name = models.CharField(max_length=BRANCH_NAME_LEN)
-    description = models.CharField(max_length=BRANCH_DESCRIPTION_LEN)
+    description = models.TextField(max_length=BRANCH_DESCRIPTION_LEN)
     start_year = IntegerRangeField(min_value=1900, max_value=3000)
     end_year = IntegerRangeField(min_value=1900, max_value=3000)
     latitude = FloatRangeField(min_value=-90, max_value=90)
@@ -25,6 +25,9 @@ class Branch(models.Model):
 
 from django.db.models.signals import pre_save
 def validate_model(sender, **kwargs):
+    """ Force a clean call when certain models are saved in order to do
+        keep model constrains
+    """
     if sender in [Branch] and 'raw' in kwargs and not kwargs['raw']:
         kwargs['instance'].full_clean()
 
