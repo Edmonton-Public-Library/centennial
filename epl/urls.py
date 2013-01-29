@@ -1,7 +1,12 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from tastypie.api import Api
+
+import epl.settings
+
 from timemap.api import BranchResource
+from timemap.views import timemap
+from django.http import HttpResponse
 
 admin.autodiscover()
 v1_api = Api(api_name="v1")
@@ -11,4 +16,5 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(v1_api.urls)),
+    url(r'^timemap/', timemap),
 )

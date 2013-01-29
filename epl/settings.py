@@ -1,7 +1,11 @@
 # Django settings for epl project.
+import os
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+ROOT_PATH = os.path.dirname(__file__)
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -60,13 +64,11 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = '/static'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    'static/',
 )
 
 # List of finder classes that know how to find static files in
