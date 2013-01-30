@@ -1,4 +1,4 @@
-from fabric.api import local, lcd
+from fabric.api import local
 from fabric.context_managers import settings
 
 def test():
@@ -9,16 +9,7 @@ def updatedb():
     with settings(warn_only=True):
         local('python manage.py migrate fts')
         local('python manage.py migrate timemap')
+        local('python manage.py migrate tastypie')
 
-#def prepare_deployment(branch_name):
-#    local('python manage.py test epl')
-#    local('git add -p && git commit')
-#    local('git checkout master && git merge ' + branch_name)
-#
-#def deploy():
-#    with lcd('~/tmp/epl/'):
-#        local('git pull ~/epl')
-#        local('python manage.py migrate epl')
-#        local('python manage.py test epl')
-#        local(restart webserver)
-
+def load_manual_fixture():
+    local('python manage.py loaddata fts/fixtures/manual_sample.json')
