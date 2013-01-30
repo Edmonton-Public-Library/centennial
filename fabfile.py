@@ -13,3 +13,11 @@ def updatedb():
 
 def load_manual_fixture():
     local('python manage.py loaddata fts/fixtures/manual_sample.json')
+
+def resetdb():
+    with settings(warn_only=True):
+        local('rm epl/timemap.db')
+    local('python manage.py syncdb --noinput')
+    updatedb()
+    load_manual_fixture()
+
