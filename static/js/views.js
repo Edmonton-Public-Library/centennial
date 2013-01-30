@@ -11,7 +11,10 @@ define(['lib/csc.View'], function() {
 epl.views.main = new csc.View('timemap', 'Home', 
 	//in
 	function (fromView, viewport, callback) {
-		callback();
+		//Load the Google Maps API
+		require('https://maps.googleapis.com/maps/api/js?key=AIzaSyA59Z_Kym_voRl--cHJzYkep3Cs-_71luc&sensor=false', function () {
+			callback();
+		});
 	}, 
 
 	//out
