@@ -23,6 +23,7 @@ var AppClass = (function () {
 	var AppClass = function (viewport) {
 		var self = this;
 		this.viewport = viewport;
+		this.storage = {}; //Persistent storage (for the current page load) for the views
 	};
 
 	/**

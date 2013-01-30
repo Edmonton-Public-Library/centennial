@@ -11,7 +11,10 @@ csc.Error = (function () {
 	var messages = {
 		'001: invalidCallback' : 'Invalid callback function passed to %1',
 		'002: wrongObjectType' : 'Argument %1 to %2 has the wrong argument type. Expecting %3.',
-		'003: invalidTemplate' : 'Invalid template provided to loader (id: %1)'
+		'003: invalidTemplate' : 'Invalid template provided to loader (id: %1)',
+
+		//Maps
+		'004: invalidViewport' : 'The selected viewport cannot be rendered into'
 	};
 
 	/**
@@ -40,10 +43,12 @@ csc.Error = (function () {
 	 */
 	Error.prototype.getMessage = function () {
 		var message = this.message;
-		for(var i=1; i<=this.args.length; i++) {
-			message = message.replace('%' + i, '[' + this.args[i-1] + ']');
+		if (typeof args != 'undefined') {
+			for(var i=1; i<=this.args.length; i++) {
+				message = message.replace('%' + i, '[' + this.args[i-1] + ']');
+			}
 		}
-		if(this.messageID.length > 0) {
+		if (this.messageID.length > 0) {
 			return this.messageID + ' -- ' + message;
 		} else {
 			return message;

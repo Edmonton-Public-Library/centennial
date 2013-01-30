@@ -11,10 +11,23 @@ define(['lib/csc.View'], function() {
 epl.views.main = new csc.View('timemap', 'Home', 
 	//in
 	function (fromView, viewport, callback) {
-		//Load the Google Maps API
-		require(['epl.map'], function () {
-			var map = new epl.map($('#tm-canvas'));
-		});
+		var self = this,
+			mapCanvas = $('#tm-canvas');
+		
+		//Persist the map between navigations
+		epl.storage.map = epl.storage.map || null;
+
+		//Load the Google Maps API if not already loaded
+		if (epl.storage.map == null) {
+			require(['epl.Map'], function () {
+				epl.storage.map = new epl.Map(function () {
+					epl.storage.map.render(mapCanvas);
+				});
+			});
+		//Otherwise display the loaded map
+		} else {
+			epl.storage.map.render(mapCanvas);
+		}
 	}, 
 
 	//out
