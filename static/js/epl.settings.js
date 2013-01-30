@@ -8,6 +8,14 @@ define(['epl'], function () {
 var settings = {
 	siteUrl : 'http://localhost:8000',
 	viewDirectory : function () { return '/static/views'; },
+
+	//API Keys
+	apiKeys : {
+		'google' : {
+			'maps' : 'AIzaSyA59Z_Kym_voRl--cHJzYkep3Cs-_71'
+		}
+	},
+
 	//Set up application routes
 	routes : Sammy(function () {
 
