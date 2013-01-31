@@ -50,5 +50,20 @@ epl.views.example = new csc.View('example', 'Example',
 	}
 );
 
+/**************************************
+ * Upload Story view *
+ *************************************/
+epl.views.uploadStory = new csc.View('uploadStory', 'Upload Story', 
+	//in
+	function (fromView, viewport, callback) {
+		callback();
+	}, 
+
+	//out
+	function (toView, viewport, callback) {
+		callback();
+	}
+);
+
 //End module
 });

@@ -9,6 +9,7 @@ body {
 	margin: 0;
 	padding: 0;
 	background-color: @pageBackground;
+	font-family: @font;
 }
 
 [data-role=viewport] {
@@ -94,6 +95,36 @@ body {
 	height: 100%;
 }
 
+#tm-inputForm {
+    // temporary style; will be changed!
+    width: 600px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+
+    .required {
+        color: red;
+    }
+	
+    .top {
+        vertical-align:text-top;
+    }
+	
+    .hintText {
+        font-size: 10px;
+        color: gray;
+    }
+	
+    .indent {
+        margin-left: 40px;
+    }
+	
+    td.keywordCell {
+        width: 300px;
+    }
+}
+
 //==========================//
 // Cross-Browser Facilities //
 //==========================//
@@ -110,3 +141,4 @@ body {
 @pageBackground: white;
 @sidebarWidth: 80px;
 @topBarHeight: 60px;
+@font: Arial;

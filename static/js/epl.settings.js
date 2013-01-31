@@ -25,6 +25,11 @@ var settings = {
 			//@see the csc.View constructor for information on transitioning between views using the parameters below
 			epl.nav.transition(epl.views.example);
 		});
+		
+		//Route to Upload Story view
+		this.get('#uploadStory', function () {
+			epl.nav.transition(epl.views.uploadStory);
+		});
 
 		this.get('', function () {
 			epl.nav.transition(epl.views.main);
