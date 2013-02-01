@@ -34,7 +34,7 @@ class Story(models.Model):
     description = models.TextField(max_length=STORY_DESCRIPTION_LEN, blank=True)
     story_text = models.TextField(max_length=STORY_TEXT_LEN, blank=True)
     link_url = models.URLField(blank=True)
-    #file_url = models.URLField(blank=True)
+    media_file = models.FileField(upload_to="images", blank=True)
     year = IntegerRangeField(min_value=1900, max_value=3000)
     month = IntegerRangeField(min_value=0, max_value=12)
     day = IntegerRangeField(min_value=0, max_value=31)
@@ -67,3 +67,7 @@ def validate_model(sender, **kwargs):
         kwargs['instance'].full_clean()
 
 pre_save.connect(validate_model, dispatch_uid='validate_models')
+
+def generate_story_path(story_instance, filename):
+    #TODO: generate correct path
+    return "%s/%s" % (story_instance, filename)

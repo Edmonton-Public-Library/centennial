@@ -7,6 +7,7 @@ def test():
 
 def updatedb():
     with settings(warn_only=True):
+        local('python manage.py syncdb --noinput')
         local('python manage.py migrate fts')
         local('python manage.py migrate timemap')
         local('python manage.py migrate tastypie')
