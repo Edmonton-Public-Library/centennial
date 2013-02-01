@@ -28,6 +28,11 @@ return {
 				epl.nav.transition(epl.views.example);
 			});
 		});
+		
+		//Route to Upload Story view
+		this.get('#uploadStory', function () {
+			epl.nav.transition(epl.views.uploadStory);
+		});
 
 		self.get('', function () {
 			require(['epl', 'views'], function (epl, views) {
