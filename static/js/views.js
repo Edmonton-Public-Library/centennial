@@ -45,24 +45,23 @@ example : new View('example', 'Example',
 		//out
 		function (toView, viewport, callback) {
 			callback();
-		})
-
-};
+		}),
 
 /**************************************
  * Upload Story view *
  *************************************/
-epl.views.uploadStory = new csc.View('uploadStory', 'Upload Story', 
-	//in
-	function (fromView, viewport, callback) {
-		callback();
-	}, 
+uploadStory : new View('uploadStory', 'Upload Story', 
+		//in
+		function (fromView, viewport, callback) {
+			callback();
+		}, 
 
-	//out
-	function (toView, viewport, callback) {
-		callback();
-	}
-);
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		})
+
+};
 
 //End module
 });

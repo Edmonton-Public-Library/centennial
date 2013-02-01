@@ -59,8 +59,6 @@ return (function () {
 		$.each(viewport.prop('attributes'), function () {
 		    self.mapElement.attr(this.name, this.value);
 		});
-
-		console.log(ko);
 	};
 
 	return Map;
