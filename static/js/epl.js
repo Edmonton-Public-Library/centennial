@@ -32,6 +32,9 @@ var AppClass = (function () {
 	 *  - Viewport setup
 	 */
 	AppClass.prototype.init = function () {
+		require(['lib/knockout'], function (ko) {
+			console.log(ko);
+		});
 		var self = this;
 		//Start accepting routes
 		//Bootstrap components that depend on the DOM

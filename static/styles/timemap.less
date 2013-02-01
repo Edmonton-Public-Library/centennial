@@ -43,7 +43,7 @@ body {
 
 	@iconSize: 59px; //What is the base size for icons?
 	@itemSpacing: 10px;
-	@menuColor: rgba(0,0,0,0.7);
+	@menuColor: rgba(235, 235, 235, 1);
 
 	width: @sidebarWidth;
 	height: 100%;
@@ -52,6 +52,8 @@ body {
 	top: 0;
 	left: 0;
 	z-index: 999;
+
+	.x-box-shadow(1px, 0, 10px, 0px, rgba(0,0,0,0.3));
 
 	//Width increases when activated/hovered
 	&.expanded, &:hover {
@@ -108,5 +110,5 @@ body {
 //==========================//
 
 @pageBackground: white;
-@sidebarWidth: 80px;
+@sidebarWidth: 300px;
 @topBarHeight: 60px;
