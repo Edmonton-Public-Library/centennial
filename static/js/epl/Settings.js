@@ -1,11 +1,10 @@
 ;
-var epl = epl || {};
-define(['epl'], function () {
+define(['lib/sammy'], function (epl) {
 
 /******************************
  * Contains app-wide settings *
  *****************************/
-var settings = {
+return {
 	siteUrl : 'http://localhost:8000',
 	viewDirectory : function () { return '/static/views'; },
 
@@ -19,22 +18,25 @@ var settings = {
 	//Set up application routes
 	routes : Sammy(function () {
 
+		var self = this;
+
 		//Example route
-		this.get('#example', function () {
+		self.get('#example', function () {
 			//The template within /static/views/example.html will be loaded into the viewport provided to the AppClass constructor
 			//@see the csc.View constructor for information on transitioning between views using the parameters below
-			epl.nav.transition(epl.views.example);
+			require(['epl', 'views'], function (epl, views) {
+				epl.nav.transition(epl.views.example);
+			});
 		});
 
-		this.get('', function () {
-			epl.nav.transition(epl.views.main);
+		self.get('', function () {
+			require(['epl', 'views'], function (epl, views) {
+				epl.nav.transition(views.main);
+			});
 		});
 
 	})
 };
-
-//Apply the settings
-epl.settings = settings;
 
 //End module
 });

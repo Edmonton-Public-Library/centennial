@@ -1,8 +1,7 @@
 ;
-var epl = epl || {};
-define(['epl', 'epl.settings', 'lib/csc.Error', 'lib/knockout'], function (epl, epl_settings, epl_Error, ko) {
+define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout'], function (epl, Settings, Error, ko) {
 
-epl.Map = (function () {
+return (function () {
 
 	/**
 	 * Creates an epl-wrapped Google Map
@@ -14,7 +13,7 @@ epl.Map = (function () {
 		this.mapOptions = null;
 		this.map = null;
 		this.mapElement = $('<div>'); //For caching the map when not in view
-		require(['https://maps.googleapis.com/maps/api/js?key=' + epl.settings.apiKeys.google.maps + 'luc&sensor=true&callback=init'], function () { });
+		require(['https://maps.googleapis.com/maps/api/js?key=' + Settings.apiKeys.google.maps + 'luc&sensor=true&callback=init'], function () { });
 
 		window.init = function () {
 			//Run the Map loader
@@ -46,7 +45,7 @@ epl.Map = (function () {
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
 		});
 
-		if (typeof canvas[0] == 'undefined') csc.Error.throw(new csc.Error('004: invalidViewport'));
+		if (typeof canvas[0] == 'undefined') Error.throw(new Error('004: invalidViewport'));
 		
 		//Clear canvas attributes from previous renderings
 		$.each(this.mapElement.prop('attributes'), function () {
@@ -68,6 +67,5 @@ epl.Map = (function () {
 
 })();
 
-return epl.Map;
 //End module
 });

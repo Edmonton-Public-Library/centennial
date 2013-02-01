@@ -1,6 +1,5 @@
 ;
-var csc = csc || {};
-define(['lib/knockout', 'lib/csc.View', 'lib/jquery.hashchange'], function (ko) {
+define(['lib/knockout', 'lib/csc/View', 'lib/csc/Error', 'lib/jquery.hashchange'], function (ko, View, Error) {
 
 /**
  * Facilitates view-based navigation using Sammy and Knockout.js
@@ -9,7 +8,7 @@ define(['lib/knockout', 'lib/csc.View', 'lib/jquery.hashchange'], function (ko) 
  *					csc.Error
  *					knockout
  */
-csc.Nav = (function () {
+return (function () {
 
 	var defaultViewportSelector = '[data-role=viewport]';
 
@@ -17,7 +16,7 @@ csc.Nav = (function () {
 		if(typeof viewportSelector == 'undefined') viewportSelector = defaultViewportSelector;
 		this.viewport = $(viewportSelector);
 		//Define a dummy view that just immediately fires callbacks
-		this.currentView = new csc.View('~', '~', function (a, b, callback) { callback(); }, function (a, b, callback) { callback(); });
+		this.currentView = new View('~', '~', function (a, b, callback) { callback(); }, function (a, b, callback) { callback(); });
 		//Set up routing on hashchange, and ensure routing happens on every page load
 		$(document).ready(function () {
 			router.run();
@@ -40,7 +39,7 @@ csc.Nav = (function () {
 		//Make the URL parameters available
 		this.params = params;
 		//Ensure a csc.View was passed
-		if(!toView instanceof csc.View) throw new csc.Error('002: wrongObjectType', [
+		if(!toView instanceof View) throw new Error('002: wrongObjectType', [
 			'1', 'Nav.transition', 'csc.View'
 		]).getMessage();
 		//If forceRefresh isn't enabled, don't transition on identical targets
@@ -82,5 +81,4 @@ csc.Nav = (function () {
 })();
 
 //End module
-return csc.Nav;
 });

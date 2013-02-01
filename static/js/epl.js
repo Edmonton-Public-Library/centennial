@@ -1,22 +1,10 @@
 ;
-var epl = {};
-
-//Dependencies for the base application
-//These will be erased upon initialization
-epl.dependencies = [
-	//General
-	'lib/jquery-ui',
-	//Navigation
-	'lib/csc.Nav',
-	'lib/sammy',
-
-	//Layout
-	'lib/knockout',
-	'lib/less'
-];
-
 //Create the application module
-define(epl.dependencies, function () {
+define(['epl/Settings', 'lib/csc/Nav', 'lib/knockout', 'lib/sammy', 'lib/less', 'lib/jquery-ui'], function (Settings, Nav, ko) {
+var epl = null;
+
+//Only start the app once the page has loaded
+$(document).ready(function () {
 
 var AppClass = (function () {
 
@@ -32,15 +20,9 @@ var AppClass = (function () {
 	 *  - Viewport setup
 	 */
 	AppClass.prototype.init = function () {
-		require(['lib/knockout'], function (ko) {
-			console.log(ko);
-		});
-		var self = this;
 		//Start accepting routes
 		//Bootstrap components that depend on the DOM
-		$(document).ready(function () {
-			self.nav = new csc.Nav(this.viewport, self.settings.routes);
-		});
+		this.nav = new Nav(this.viewport, Settings.routes);
 	};
 
 	return AppClass;
@@ -50,11 +32,10 @@ var AppClass = (function () {
 //Start the app in the specified viewport
 epl = new AppClass('[data-role=viewport]');
 //Start application initialization
-require(['epl.settings', 'views'], function () {
-	//Once we have settings to use, start loading the app
-	epl.init();
-});
+epl.init();
 
 //End module
+});
+
 return epl;
 });

@@ -1,12 +1,11 @@
 ;
-var csc = csc || {};
 define(function () {
 
 /**
  * Provides a wrapper for standard JavaScript exception handling
  * 	- Supports centralized error codes as well as literal text errors
  */
-csc.Error = (function () {
+return (function () {
 	
 	var messages = {
 		'001: invalidCallback' : 'Invalid callback function passed to %1',
@@ -67,6 +66,5 @@ csc.Error = (function () {
 
 })();
 
-return csc.Error;
 //End module
 });

@@ -1,11 +1,10 @@
 ;
-var csc = csc || {};
 define(function() {
 
 /**
  * Provides abstract utility functions for convenience
  */
-csc.Utils = (function () {
+return (function () {
 	
 	var Utils = function () { };
 
@@ -27,6 +26,5 @@ csc.Utils = (function () {
 
 })();
 
-return csc.Utils;
 //End module
 });

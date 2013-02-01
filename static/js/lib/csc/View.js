@@ -1,16 +1,15 @@
 ;
-var csc = csc || {};
-define(['lib/csc.Utils'], function() {
+define(['epl/Settings' ,'lib/csc/Utils'], function(Settings, Utils) {
 	
 /**
  * Wraps view functionality for use with csc.Nav
  * Dependencies:	epl
  *					csc.Utils
  */
-csc.View = (function () {
+return (function () {
 
 	//TODO: Find a better way to do this without the rest of CSC app framework
-	var viewDirectory = function () { return epl.settings.viewDirectory() || '/'; }; //requires EPL to be initialized
+	var viewDirectory = function () { return Settings.viewDirectory() || '/'; }; //requires EPL to be initialized
 
 	var View = function (viewID, viewTitle, inFunction, outFunction) {
 		this.id = viewID;
@@ -31,7 +30,7 @@ csc.View = (function () {
 	 */
 	View.prototype.in = function (fromView, viewport, callback) {
 		this.inFunction(fromView, viewport, function () {
-			if(!csc.Utils.isFunction(callback)) return;
+			if(!Utils.isFunction(callback)) return;
 			callback();
 		});
 	};
@@ -46,7 +45,7 @@ csc.View = (function () {
 	 */
 	View.prototype.out = function (toView, viewport, callback) {
 		this.outFunction(toView, viewport, function () {
-			if(!csc.Utils.isFunction(callback)) return;
+			if(!Utils.isFunction(callback)) return;
 			callback();	
 		});
 	};
@@ -56,5 +55,4 @@ csc.View = (function () {
 })();
 
 //End module
-return csc.View;
 });
