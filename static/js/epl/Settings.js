@@ -6,6 +6,8 @@ define(['lib/sammy'], function (epl) {
  *****************************/
 return {
 	siteUrl : 'http://localhost:8000',
+	apiBranchUrl : '/api/v1/branch/',
+	apiStoryUrl : '/api/v1/story/',
 	viewDirectory : function () { return '/static/views'; },
 
 	//API Keys
