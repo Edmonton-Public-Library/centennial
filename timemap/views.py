@@ -11,12 +11,12 @@ def timemap(request):
 	t = get_template('timemap.html')
 	return HttpResponse(t.render(Context({'STATIC_URL' : epl.settings.STATIC_URL})))
 
-def upload(request):
+def upload(request, story_id):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
             media_file = request.FILES['up_file']
-            story = Story.objects.get(pk=form.cleaned_data['story_id'])
+            story = Story.objects.get(pk=story_id)
             story.media_file = media_file
             story.save()
             return HttpResponse()

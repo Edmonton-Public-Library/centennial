@@ -17,5 +17,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(v1_api.urls)),
     url(r'^timemap/', timemap),
-    url(r'^upload/', upload),
+    url(r'^upload/(\d+)/$', upload),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
