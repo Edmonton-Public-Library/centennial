@@ -13,6 +13,12 @@
 		</ul>
 	</div>
 </div>
-<div id="tm-canvas">
+<div id="tm-canvas" data-bind="
+	style: {
+		width: (Environment.display.viewportWidth() + 'px'),
+		height: Environment.display.viewportHeight() + 'px',
+		left: Environment.display.sidebarWidth() + 'px',
+		top: Environment.display.topBarHeight() + 'px'
+	}">
 
 </div>

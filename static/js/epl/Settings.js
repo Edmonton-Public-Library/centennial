@@ -10,8 +10,8 @@ return {
 
 	//API Keys
 	apiKeys : {
-		'google' : {
-			'maps' : 'AIzaSyA59Z_Kym_voRl--cHJzYkep3Cs-_71'
+		google : {
+			maps : 'AIzaSyA59Z_Kym_voRl--cHJzYkep3Cs-_71'
 		}
 	},
 

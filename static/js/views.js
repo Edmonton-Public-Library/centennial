@@ -1,6 +1,6 @@
 ;
 //Create a module to contain client-side views
-define(['epl', 'lib/csc/View'], function(epl, View) {
+define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment'], function(epl, View, ko, Environment) {
 
 return {
 
@@ -21,6 +21,9 @@ main : new View('timemap', 'Home',
 				require(['epl/Map'], function (Map) {
 					epl.storage.map = new Map(function () {
 						epl.storage.map.render(mapCanvas);
+					});
+					ko.applyBindings({
+						Environment : Environment
 					});
 				});
 			//Otherwise display the loaded map

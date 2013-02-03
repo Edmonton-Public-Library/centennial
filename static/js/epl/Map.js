@@ -1,5 +1,5 @@
 ;
-define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout'], function (epl, Settings, Error, ko) {
+define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'epl/Environment'], function (epl, Settings, Error, ko, Environment) {
 
 return (function () {
 
@@ -13,9 +13,9 @@ return (function () {
 		this.mapOptions = null;
 		this.map = null;
 		this.mapElement = $('<div>'); //For caching the map when not in view
-		require(['https://maps.googleapis.com/maps/api/js?key=' + Settings.apiKeys.google.maps + 'luc&sensor=true&callback=init'], function () { });
+		require(['https://maps.googleapis.com/maps/api/js?key=' + Settings.apiKeys.google.maps + 'luc&sensor=true&callback=eplMapsInit'], function () { });
 
-		window.init = function () {
+		window.eplMapsInit = function () {
 			//Run the Map loader
 			self.map = new google.maps.Map(self.mapElement[0], {}); //Defer setting options until rendering
 			callback();
@@ -59,6 +59,9 @@ return (function () {
 		$.each(viewport.prop('attributes'), function () {
 		    self.mapElement.attr(this.name, this.value);
 		});
+
+		//Keep the map viewport in sync with the window properties
+		ko.applyBindings({Environment: Environment}, this.mapElement[0]);
 	};
 
 	return Map;
