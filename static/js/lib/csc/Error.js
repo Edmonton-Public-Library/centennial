@@ -13,7 +13,11 @@ return (function () {
 		'003: invalidTemplate' : 'Invalid template provided to loader (id: %1)',
 
 		//Maps
-		'004: invalidViewport' : 'The selected viewport cannot be rendered into'
+		'Maps.invalidViewport' : 'The selected viewport cannot be rendered into',
+		
+		//Ajax
+		'UploadStory.branchesAjax' : 'Error occured while obtaining all branches.',
+		'UploadStory.uploadStoryAjax' : 'Error occured while uploading the story.'
 	};
 
 	/**

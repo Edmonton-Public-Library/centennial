@@ -45,7 +45,7 @@ return (function () {
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
 		});
 
-		if (typeof canvas[0] == 'undefined') Error.throw(new Error('004: invalidViewport'));
+		if (typeof canvas[0] == 'undefined') Error.throw(new Error('Maps.invalidViewport'));
 		
 		//Clear canvas attributes from previous renderings
 		$.each(this.mapElement.prop('attributes'), function () {

@@ -1,56 +1,30 @@
-<script type="text/javascript">
-;   
-/**
- * Script specific to the fields on this Upload Story screen.
- */
-$(document).ready(function() {    
-    // Clear the text in a date field when focused.
-    $("input[id$=Date]").bind("focus", function() {
-        $(this).val("");    
-    });
-     
-    // Automatically move to the month field after entering a day.
-    $("#dayDate").bind("keyup", function() {
-        if ($("#dayDate").val().length >= 2) {
-            $("#monthDate").focus();
-        }
-    });
-
-    // Automatically move to the year field after entering a month. 
-    $("#monthDate").bind("keyup", function() {
-        if ($("#monthDate").val().length >= 2) {
-            $("#yearDate").focus();
-        }
-    });
-});
-</script>
-
 <div id="tm-inputForm">
-    <form>
+    <form action="" id="uploadStoryForm" method="POST" enctype="multipart/form-data">
         <h2>Upload Your Story</h2>
         
         <p>
             <label for="title">Title: <span class="required">*</span></label>
-            <input type="text" id="title" name="title" maxLength="50" size="50"/>
+            <input type="text" id="title" name="title" maxLength="50" size="50" data-bind="value: story.title"/>
         </p>
         
         <p>
             Story: <span class="required">*</span>
             <div class="indent">
                 <p>
-                    <input type="radio" id="textRadio" name="contentType" value="text">
+                    <input type="radio" name="contentType" id="textRadio" value="text" data-bind="checked: story.content_type">
                     <label for="textRadio">Add text:</label>
-                    <textarea id="textInput" name="textInput" rows="7" cols="50" class="top"></textarea>
+                    <textarea id="textInput" name="textInput" rows="7" cols="50"
+                        class="top" data-bind="value: story.storyText"></textarea>
                 </p>
                 <p>
-                    <input type="radio" id="linkRadio" name="contentType" value="link">
+                    <input type="radio" name="contentType" id="linkRadio" value="link" data-bind="checked: story.content_type">
                     <label for="linkRadio">Add link:</label>
-                    <input type="text" id="linkInput" name="linkInput" size="50"><br />
+                    <input type="text" id="linkInput" name="linkInput" size="50" data-bind="value: story.link_url">
                 </p>
                 <p>
-                    <input type="radio" id="fileRadio" name="contentType" value="media">
+                    <input type="radio" name="contentType" id="fileRadio" alue="media" data-bind="checked: story.content_type">
                     <label for="fileRadio">Choose file:</label>
-                    <input type="file" id="fileInput" name="fileInput">
+                    <input type="file" id="file" name="file">
                     <span class="hintText">(.jpg, .png or .pdf)</span>
                 </p>
             </div>
@@ -58,17 +32,19 @@ $(document).ready(function() {
            
         <p>
             <label for="branch">Branch: <span class="required">*</span></label>
-            <select id="branch">
-                <option value="invalid">Select branch</option>
-                <!-- obtain branches! -->
-            <select>
+            <select data-bind= "options: branchOptions, optionsText: 'name', optionsValue: 'id',
+                optionsCaption: 'Select a branch', value: story.branch">
+            </select>
         </p>
         
         <p>
             <label for="dayDate">Date:</label>
-            <input type="text" id="dayDate" name="day" value="Day" maxLength="2" size="2">
-            <input type="text" id="monthDate" name="month" value="Month" maxLength="2" size="4">
-            <input type="text" id="yearDate" name="year" value="Year" maxLength="4" size="4">
+            <input type="text" id="dayDate" name="day" maxLength="2"size="2"
+                data-bind="value: story.day">
+            <input type="text" id="monthDate" name="month" maxLength="2" size="2"
+                data-bind="value: story.month">
+            <input type="text" id="yearDate" name="year" maxLength="4" size="4"
+                data-bind="value: story.year">
             <span class="required">*</span>
             <span class="hintText">(dd MM yyyy)</span>
         </p>
@@ -79,54 +55,68 @@ $(document).ready(function() {
                 <table>
                     <tr>
                         <td class="keywordCell">
-                            <input type="checkbox" name="keywords" value="Books" id="booksKeyword">
+                            <input type="checkbox" id="booksKeyword" value="Books"
+                                data-bind="checked: story.preset_keywords">
                             <label for="booksKeyword">Books</label></td>
                         <td class="keywordCell">
-                            <input type="checkbox" name="keywords" value="Library Celebrations" id="libCelebKeyword">
+                            <input type="checkbox" id="libCelebKeyword" value="Library Celebrations"
+                                data-bind="checked: story.preset_keywords">
                             <label for="libCelebKeyword">Library Celebrations</label></td>
                     </tr>
                     <tr>
                         <td class="keywordCell">
-                            <input type="checkbox" name="keywords" value="Children and Libraries" id="childrenKeyword">
+                            <input type="checkbox" id="childrenKeyword" value="Children and Libraries"
+                                data-bind="checked: story.preset_keywords">
                             <label for="childrenKeyword">Children and Libraries</label></td>
                         <td class="keywordCell">
-                            <input type="checkbox" name="keywords" value="Library Programs" id="libraryProgKeyword">
+                            <input type="checkbox" id="libraryProgKeyword" value="Library Programs"
+                                data-bind="checked: story.preset_keywords">
                             <label for="libraryProgKeyword">Library Programs</label></td>
                     </tr>
                     <tr>
                         <td class="keywordCell">
-                            <input type="checkbox" name="keywords" value="Families and Libraries" id="familiesKeyword">
+                            <input type="checkbox" id="familiesKeyword" value="Families and Libraries"
+                                data-bind="checked: story.preset_keywords">
                             <label for="familiesKeyword">Families and Libraries</label></td>
                         <td class="keywordCell">
-                            <input type="checkbox" name="keywords" value="Library Renovations" id="renoKeyword">
+                            <input type="checkbox" id="renoKeyword" value="Library Renovations"
+                                data-bind="checked: story.preset_keywords">
                             <label for="renoKeyword">Library Renovations</label></td>
                     </tr>
                     <tr>
                         <td class="keywordCell">
-                            <input type="checkbox" name="keywords" value="Librarians" id="librariansKeyword">
+                            <input type="checkbox" id="librariansKeyword" value="Librarians" 
+                                data-bind="checked: story.preset_keywords"> 
                             <label for="librariansKeyword">Librarians</label></td>
                         <td class="keywordCell">
-                            <input type="checkbox" name="keywords" value="Reading" id="readingKeyword">
+                            <input type="checkbox" id="readingKeyword" value="Reading" 
+                                data-bind="checked: story.preset_keywords"> 
                             <label for="readingKeyword">Reading</label></td>
                     </tr>
                 </table><br/>
                 
                 <label for="customKeywords">Enter your own:</label>
-                <input type="text" id="customKeywords" name="customKeywords" size="50">
+                <input type="text" id="custom_keywords" name="custom_keywords" size="50"
+                    data-bind="value: story.custom_keywords">
                 <span class="hintText">(Separated by commas)</span>
             </div>
         </p>
         
         <p>
             <label for="description">Description: <span class="required">*</span></label>
-            <textarea id="description" name="description" rows="7" cols="55" class="top"></textarea>
+            <textarea id="description" name="description" rows="7" cols="55"
+                class="top" data-bind="value: story.description"></textarea>
         </p>
             
         <p>
-            <input type="checkbox" id="anonymousInd">
+            <input type="checkbox" id="anonymousInd" data-bind="checked: story.anonymous_ind">
             <label for="anonymousInd">Check if you wish to remain anonymous.</label>
         </p>
         
-        <input type="submit"> <input type="button" value="Cancel">
+        <button data-bind="click: submitStory">Upload</button> <input type="button" value="Cancel">
+        
+        <p>
+            <textarea name="tasks" data-bind="value: ko.toJSON(story)" rows="7" cols="50"></textarea>
+        </p>
     </form>
 </div>
