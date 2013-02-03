@@ -56,14 +56,8 @@ body {
 
 	.x-box-shadow(1px, 0, 10px, 0px, rgba(0,0,0,0.3));
 
-	//Width increases when activated/hovered
-	&.expanded, &:hover {
-		width: 300px;
-	}
-
 	div.contents {
 		margin-top: @topBarHeight;
-		padding: 0 @itemSpacing @itemSpacing @itemSpacing;
 
 		ul.menu {
 			margin: 0;
@@ -91,9 +85,36 @@ body {
 		}
 
 		ul.tabs {
+			@tabHeight: 43px;
+			@fontSize: 16px;
 			width: 100%;
-			height: 40px;
+			height: @tabHeight;
+			font-size: @fontSize;
 			background-color: black;
+			padding: 0;
+			list-style-type: none;
+
+			li {
+				@backgroundColor: #4E7398;
+				background-color: @backgroundColor;
+				color: white;
+				text-shadow: 1px 1px 0 darken(@backgroundColor, 50%);
+				font-weight: bold;
+				font-family: Arial;
+				display: inline;
+				float: left;
+				padding: (@tabHeight / 3) 21px (@tabHeight / 3 - 2) 21px;
+				cursor: pointer;
+
+				&:first-child {
+					padding-left: 18px;
+				}
+
+				&:hover, &.active {
+					background-color: darken(@backgroundColor, 6%);
+					color: white;
+				}
+			}
 		}
 	}
 }
@@ -150,6 +171,6 @@ body {
 //==========================//
 
 @pageBackground: white;
-@sidebarWidth: 300px;
+@sidebarWidth: 380px;
 @topBarHeight: 60px;
 @font: Arial;
