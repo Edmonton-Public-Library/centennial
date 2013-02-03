@@ -25,42 +25,43 @@ return (function () {
             }
         });
 
-        // In progress: Ajax call to upload the media file. 
-        self.submitStory = function() {
-            $.ajaxFileUpload({
-                url: '/upload/' + 1 + '/', 
-                secureuri: false,
-                fileElementId: 'file',
-                success: function (data, status) {
-                    if(typeof(data.error) != 'undefined') {
-                        if(data.error != '') {
-                            alert(data.error);
-                        } else {
-                            alert(data.msg);
-                        }
-                    }
-                    alert(status);
-                },
-                error: function (data, status, e) {
-                    alert(status);
-                }
-            });
-            
-            /* This ajax call is working to upload a new 
-               story, except for the media file. 
+        // On submit, upload the story
+        self.submitStory = function () {
+            // First, save the story without the media file (if present) 
             $.ajax(Settings.apiStoryUrl, {
                 data: ko.toJSON(self.story),
                 type: "POST",
                 contentType: "application/json",
                 success: function(result) {
-                    if (content_type == "media") {
-                        // Upload image
+                    // Upload the media file in a separate ajax call
+                    alert('Test' + self.story.content_type);
+                    if (self.story.content_type == "media") {
+                        $.ajaxFileUpload({
+                            // TODO: Remove hardcoded story id!
+                            // Obtain the story id from the response
+                            url: '/upload/' + 1 + '/', 
+                            secureuri: false,
+                            fileElementId: 'fileInput',
+                            success: function (data, status) {
+                                if (typeof(data.error) != 'undefined') {
+                                    if (data.error != '') {
+                                        alert(data.error);
+                                    } else {
+                                        alert(data.msg);
+                                    }
+                                }
+                                alert(status);
+                            },
+                            error: function (data, status, e) {
+                                alert(status);
+                            }
+                        });
                     }
                 }, 
                 error: function(result) {
                     // Handle errors
                 }
-            });*/
+            });
         };
     };
 	
@@ -91,7 +92,7 @@ return (function () {
     };
     
     // Modifies the json to be compatible with what is expected from the API
-    Story.prototype.toJSON = function(){
+    Story.prototype.toJSON = function() {
         var copy = this;
         delete copy.custom_keywords;
         delete copy.preset_keywords;
