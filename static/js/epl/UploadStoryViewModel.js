@@ -94,7 +94,7 @@ return (function () {
     Story.prototype.toJSON = function(){
         var copy = this;
         delete copy.custom_keywords;
-        delete copy.preset_keywords
+        delete copy.preset_keywords;
         copy.branch = Settings.apiBranchUrl + copy.branch + "/";
     	return copy;
     }
