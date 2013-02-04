@@ -15,8 +15,10 @@ class Branch(models.Model):
     description = models.TextField(max_length=BRANCH_DESCRIPTION_LEN)
     start_year = IntegerRangeField(min_value=1900, max_value=3000)
     end_year = IntegerRangeField(min_value=1900, max_value=3000)
-    latitude = FloatRangeField(min_value=-90, max_value=90)
-    longitude = FloatRangeField(min_value=-180, max_value=180)
+    latitude_help = "Latitude range : -90:90"
+    latitude = FloatRangeField(min_value=-90, max_value=90, help_text=latitude_help)
+    longitude_help = "Longitude range : -180:180"
+    longitude = FloatRangeField(min_value=-180, max_value=180, help_text=longitude_help)
 
     def clean(self):
         if self.start_year > self.end_year:
