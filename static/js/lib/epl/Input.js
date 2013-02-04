@@ -119,7 +119,7 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 
 					if(blurValue != storage.initialValue && config.events.textChanged.interval == 'blur') {
 						//If the value changed, invoke the supplied callback
-						config.events.textChanged.callback(input, input.val(), storage.initialValue, e);
+						config.events.textChanged.callback(input, blurValue, storage.initialValue, e);
 					}
 				});
 
@@ -139,8 +139,10 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 							//Set a timeout for the specified interval
 							storage.timeout = window.setTimeout(function () {
 								//If the value changed, invoke the supplied callback
-								if(storage.initialValue != input.val())
-									config.events.textChanged.callback(input, input.val(), storage.initialValue, config.events.textChanged.interval);
+								if(storage.initialValue != input.val()) {
+									var value = storage.textEntered ? input.val() : '';
+									config.events.textChanged.callback(input, value, storage.initialValue, config.events.textChanged.interval);
+								}
 								storage.timeout = null;
 							}, config.events.textChanged.interval);
 						} else {
