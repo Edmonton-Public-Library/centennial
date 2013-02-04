@@ -4,10 +4,21 @@
 <div id="tm-sidebar">
 	<div class="contents">
 		<ul class="tabs">
-			<li>Features</li>
-			<li>Search</li>
-			<li>Advanced Search</li>
+			<li>
+				Features
+				<div class="indicator"></div>
+			</li>
+			<li class="active">
+				Search
+				<div class="indicator"></div>
+			</li>
+			<li>
+				Advanced Search
+				<div class="indicator"></div>
+			</li>
 		</ul>
+		<input type="text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
+		<div class="results">Results for: </div>
 	</div>
 </div>
 <div id="tm-canvas" data-bind="

@@ -11,25 +11,31 @@ main : new View('timemap', 'Home',
 		//in
 		function (fromView, viewport, callback) {
 			var self = this,
-				mapCanvas = $('#tm-canvas');
-			
-			//Persist the map between navigations
-			epl.storage.map = epl.storage.map || null;
+				mapCanvas = $('#tm-canvas'),
+				sidebar = null;
 
-			//Load the Google Maps API if not already loaded
-			if (epl.storage.map == null) {
-				require(['epl/Map'], function (Map) {
+			require(['epl/Map', 'epl/Sidebar', 'lib/epl/Input'], function(Map, Sidebar) {
+				
+				//Persist the map between navigations
+				epl.storage.map = epl.storage.map || null;
+
+				//Load the Google Maps API if not already loaded
+				if (epl.storage.map == null) {
 					epl.storage.map = new Map(function () {
 						epl.storage.map.render(mapCanvas);
 					});
 					ko.applyBindings({
 						Environment : Environment
 					});
-				});
-			//Otherwise display the loaded map
-			} else {
-				epl.storage.map.render(mapCanvas);
-			}
+				//Otherwise display the loaded map
+				} else {
+					epl.storage.map.render(mapCanvas);
+				}
+
+				//Initialize the sidebar
+				sidebar = new Sidebar($('#tm-sidebar'));
+
+			});
 		}, 
 
 		//out

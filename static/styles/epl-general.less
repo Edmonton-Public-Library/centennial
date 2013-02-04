@@ -1,0 +1,46 @@
+//==========================//
+// Cross-Browser Facilities //
+//==========================//
+
+.x-box-shadow (@x, @y, @radius, @size, @color) {
+	box-shadow: @x @y @radius @size @color;
+	-webkit-box-shadow: @x @y @radius @size @color; 
+}
+
+.x-border-radius (@radius) {
+	border-radius: @radius;
+	-webkit-border-radius: @radius;
+
+  /* useful if you don't want a bg color from leaking outside the border: */
+  -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+
+//==========================//
+// General Element Styles   //
+//==========================//
+
+.epl-input {
+	height: 30px;
+	display: block;
+	padding: 3px 12px;
+	border: solid 1px lighten(gray, 30%);
+	color: lighten(gray, 15%);
+
+	&.text {
+		.x-border-radius(30px);
+		border: none;
+		outline: none;
+		font-style: italic;
+
+		//When text has been entered, the text should be more prominent
+		&.text-entered {
+			font-style: normal;
+			color: darken(gray, 5%);
+		}
+
+		&:focus {
+			.x-box-shadow(0, 0, 5px, 0, rgba(0,0,0,0.15));
+		}
+	}
+
+}
