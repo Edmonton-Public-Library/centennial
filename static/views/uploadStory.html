@@ -13,18 +13,22 @@
                 <p>
                     <input type="radio" name="contentType" id="textRadio" value="text" data-bind="checked: story.content_type">
                     <label for="textRadio">Add text:</label>
+                    <span class="required" data-bind="css: { hidden: story.content_type() != 'text' }">*</span>
                     <textarea id="textInput" name="textInput" rows="7" cols="50"
-                        class="top" data-bind="value: story.storyText"></textarea>
+                        class="top" data-bind="value: story.story_text, enable: story.content_type() == 'text'"></textarea>
                 </p>
                 <p>
                     <input type="radio" name="contentType" id="linkRadio" value="link" data-bind="checked: story.content_type">
                     <label for="linkRadio">Add link:</label>
-                    <input type="text" id="linkInput" name="linkInput" size="50" data-bind="value: story.link_url">
+                    <span class="required" data-bind="css: { hidden: story.content_type() != 'link' }">*</span>
+                    <input type="text" id="linkInput" name="linkInput" size="50"
+                        data-bind="value: story.link_url, enable: story.content_type() == 'link'">
                 </p>
                 <p>
                     <input type="radio" name="contentType" id="fileRadio" value="media" data-bind="checked: story.content_type">
                     <label for="fileRadio">Choose file:</label>
-                    <input type="file" id="fileInput" name="up_file">
+                    <span class="required" data-bind="css: { hidden: story.content_type() != 'media' }">*</span>
+                    <input type="file" id="fileInput" name="up_file" data-bind="enable: story.content_type() == 'media'">
                     <span class="hintText">(.jpg, .png or .pdf)</span>
                 </p>
             </div>

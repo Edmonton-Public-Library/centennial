@@ -74,7 +74,7 @@ return (function () {
         this.day = ko.observable();
         this.public_approved = ko.observable();
         this.anonymous_ind = ko.observable();
-        this.contentType = ko.observable();
+        this.content_type = ko.observable();
         this.custom_keywords = ko.observable();
         this.preset_keywords = ko.observableArray([]);
         this.keywords = ko.computed(function() {
