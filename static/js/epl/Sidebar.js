@@ -8,12 +8,22 @@ define(function () {
 			//TODO: REMOVE! THIS IS FOR EXPERIMENTING ONLY!
 			$('.search-box').eplInput({
 				events: {
-					textChanged: {
-						callback: function (element, value, oldValue) { 
-							$('.results').html('Results for: ' + value);
+					onchange: {
+						callback: function (e) { 
+							$('.results').html('Results for: ' + e.currentValue);
 						},
 
-						interval: 0
+						interval: 100
+					}
+				}
+			});
+
+			$('.search-select').eplInput({
+				events: {
+					onchange: {
+						callback: function (e) {
+							console.log(e.currentValue);
+						}
 					}
 				}
 			});

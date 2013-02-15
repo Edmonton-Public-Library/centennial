@@ -2,6 +2,13 @@
 // Cross-Browser Facilities //
 //==========================//
 
+/* Prevent outset borders -- allows precise element sizing */
+div {
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
 .x-box-shadow (@x, @y, @radius, @size, @color) {
 	box-shadow: @x @y @radius @size @color;
 	-webkit-box-shadow: @x @y @radius @size @color; 
@@ -15,22 +22,59 @@
   -webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
+.x-border-bottom-left-radius (@radius) {
+	border-bottom-left-radius: @radius;
+	-webkit-border-bottom-left-radius: @radius;
+
+  /* useful if you don't want a bg color from leaking outside the border: */
+  -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+
+.x-border-bottom-right-radius (@radius) {
+	border-bottom-right-radius: @radius;
+	-webkit-border-bottom-right-radius: @radius;
+
+  /* useful if you don't want a bg color from leaking outside the border: */
+  -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+
+.x-border-top-left-radius (@radius) {
+	border-top-left-radius: @radius;
+	-webkit-border-top-left-radius: @radius;
+
+  /* useful if you don't want a bg color from leaking outside the border: */
+  -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+
+.x-border-top-right-radius (@radius) {
+	border-top-right-radius: @radius;
+	-webkit-border-top-right-radius: @radius;
+
+  /* useful if you don't want a bg color from leaking outside the border: */
+  -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+
 //==========================//
 // General Element Styles   //
 //==========================//
 
 .epl-input {
-	height: 30px;
+	@inputHeight: 30px;
+	@inputBackgroundColor: white;
+	@inputBorderColor: lighten(gray, 30%);
+	width: 300px;
+	height: @inputHeight;
 	display: block;
-	padding: 3px 12px;
-	border: solid 1px lighten(gray, 30%);
+	border: solid 1px @inputBorderColor;
 	color: lighten(gray, 15%);
+	position: relative;
 
 	&.text {
 		.x-border-radius(30px);
-		border: none;
+		padding: 3px 12px;
 		outline: none;
 		font-style: italic;
+		background-color: @inputBackgroundColor;
 
 		//When text has been entered, the text should be more prominent
 		&.text-entered {
@@ -43,8 +87,77 @@
 		}
 	}
 
-}
+	&.select {
+		@optionPaddingVertical: 4px;
+		@optionPaddingHorizontal: 12px;
+		@borderWidth: 1px;
+		@selectHeight: @inputHeight + (2 * @optionPaddingVertical);
+		height: @selectHeight + @borderWidth;
+		padding: none;
+		border: none;
+		overflow: hidden;
+		background-color: none;
+		position: relative; /* To allow for drop-down positioning */
 
+		.option-list {
+			padding: 0 2px 0 0; /* Fit the borders of the option elements */
+			height: auto;
+			width: 100%;
+			position: absolute;
+			top: 0;
+		}
+
+		.option {
+			width: 100%;
+			height: @selectHeight;
+			.x-border-radius(30px);
+			border: solid @borderWidth @inputBorderColor;
+			background-color: @inputBackgroundColor;
+			display: none;
+			cursor: default;
+			
+			/* To collapse borders between option elements */
+			margin-top: -1px;
+			&:first-child {
+				margin-top: 1px;
+			}
+			/* End of collapsing */
+
+			&.option-selected {
+				display: block;
+			}
+
+			&:hover, &.hover {
+				background-color: darken(@inputBackgroundColor, 10%);
+			}
+
+			.option-contents {
+				height: @inputHeight;
+				margin: @optionPaddingVertical @optionPaddingHorizontal;
+				width: 100px;
+				padding: 6px 0;
+				color: darken(@inputBorderColor, 30%);
+			}
+		}
+
+		&.select-active {
+
+			overflow: visible;
+
+			.option {
+				.x-border-radius(0px);
+				display: block;
+			}
+
+			.option-selected {
+				background-color: darken(@inputBackgroundColor, 5%);
+				border-bottom-width: 3px;
+			}
+
+		}
+	}
+
+}
 .top {
         vertical-align:text-top;
 }

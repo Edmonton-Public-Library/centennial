@@ -13,13 +13,22 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 					escapeClear : true,
 					textEnteredClass : 'text-entered',
 					events : {
-						textChanged : {
+						onchange : {
 							callback : function () {},
-							//Interval after which to notify a listener if the text has changed
-							//Listener format: function (element, currentText, previousText, event)
-							// 'blur' 	: The listener will be notified when the element is burred, if the text has changed since focus
-							// 100 		: The listener will be notified every 100ms if the text has changed since the last alert or focus
-							interval : 200 //use a number in ms for an alert every x ms if the text has changed
+
+							//Text input properties
+							//-------------------------------------------------------------
+							//Interval after which to notify a listener if the text has 
+							//changed
+							//Listener format: 	function (element, currentText, 
+							//					previousText, event)
+							// 'blur' 	: 	The listener will be notified when the element 
+							//				is burred, if the text has changed since focus
+							// 100 		: 	The listener will be notified every 100ms if 
+							//				the text has changed since the last alert or 
+							//				focus
+							interval : 200 	//interval in ms
+							//-------------------------------------------------------------
 						}
 					}
 				},
@@ -69,7 +78,146 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 							break;
 						}
 					break;
+					case 'select':
+						initSelect();
+					break;
+					case 'div':
+						initSelect();
 				}
+			}
+
+			function initSelect () {
+
+				var inputOpen = false,
+					//TODO: Set this properly
+					selectedItem = null,
+					divInput = $('<div>');
+
+				//Copy attributes to the new object
+				$.each(input.prop("attributes"), function () {
+					divInput.attr(this.name, this.value);
+				});
+				
+				config = Utils.mergeObjects(userConfig, config);
+				createInput();
+
+				function createInput () {
+					input.find('option').each(function (index, element) {
+						var newOption = $('<div>'),
+							optionContents = $('<div>'),
+							element = $(element);
+
+						if(element.attr('selected') == 'selected') {
+							addOption(divInput, {
+								className: 'option option-selected',
+								'data-value': element.attr('value'),
+								'data-text': element.html()
+							}, 'front');
+						}
+
+						addOption(divInput, {
+							className: 'option',
+							'data-value': element.attr('value'),
+							'data-text': element.html()
+						});
+
+					});
+
+					input.after(divInput);
+					input.css('display', 'none');
+				}
+
+				function addOption (element, options, position) {
+					var newOption = $('<div>'),
+						optionContents = $('<div>');
+
+					newOption.addClass(options.className);
+					newOption.attr('data-value', options['data-value']);
+					newOption.attr('data-text', options['data-text']);
+
+					optionContents.addClass('option-contents');
+					optionContents.html(options['data-text']);
+
+					newOption.append(optionContents);
+
+					switch(position) {
+						case 'front':
+							element.prepend(newOption);
+						break;
+						default:
+							element.append(newOption);
+					}
+
+				}
+
+				/**
+				 * Opens the input, showing the available options
+				 */
+				function open () {
+					inputOpen = true;
+					divInput.addClass('select-active');
+				}
+
+				/**
+				 * Closes the divInput 
+				 */
+				function close () {
+					inputOpen = false;
+					divInput.removeClass('select-active');
+				}
+				
+				/**
+				 * Selects an item, setting the "selected" text
+				 * and firing any bound events
+				 * @param	element		jQuery		The selected element
+				 */
+				function selectItem (element) {
+					var html = '',
+						optionElement = null;
+
+					selectedItem = element;
+
+					//Get the actual option element, regardless of the click source
+					if(element.hasClass('option-contents')) {
+						optionElement = element.parent();
+					} else {
+						optionElement = element;
+					}
+
+					divInput.find('.option-selected').find('.option-contents').html(optionElement.attr('data-text'));
+					config.events.onchange.callback({
+						currentValue: optionElement.attr('data-value')
+					});
+				}
+
+				// ------------------- //
+				// EVENT CONFIGURATION //
+				// ------------------- //
+
+				divInput.find('.option:not(.option-selected)').click(function (e) {
+					selectItem($(e.srcElement));
+					if(inputOpen) {
+						close();
+						//If we're closing it, don't allow the main element
+						//to trigger an open again
+						e.stopPropagation();
+					}
+				}).mousedown(function (e) { e.stopPropagation(); })
+
+				divInput.click(function (e) {
+					if(!inputOpen) {
+						open();
+						//If we're opening it, don't allow the event to
+						//bubble to the document and trigger a close
+						e.stopPropagation();
+					}
+					return false;
+				}).mousedown(function (e) { e.stopPropagation(); })
+
+				//Catch all other clicks and close the divInput
+				$(document).mousedown(function () {
+					close();
+				});
 			}
 
 			/**
@@ -102,7 +250,7 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 						input.addClass(config.textEnteredClass);
 						storage.textEntered = true;
 					}
-					//Store the initial value for the "textChanged" event
+					//Store the initial value for the "onchange" event
 					storage.initialValue = input.val();
 				});
 
@@ -117,23 +265,33 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 						storage.textEntered = false;
 					}
 
-					if(blurValue != storage.initialValue && config.events.textChanged.interval == 'blur') {
+					if(blurValue != storage.initialValue && config.events.onchange.interval == 'blur') {
 						//If the value changed, invoke the supplied callback
-						config.events.textChanged.callback(input, blurValue, storage.initialValue, e);
+						config.events.onchange.callback({
+							element: input,
+							currentValue: blurValue,
+							initialValue: storage.initialValue,
+							event: e
+						});
 					}
 				});
 
 				//Handle custom textChange events
-				if(typeof config.events.textChanged.interval == 'string' && config.events.textChanged.interval != 'blur') {
-					input.bind(config.events.textChanged.interval, function (e) {
-						config.events.textChanged.callback(input, input.val(), storage.initialValue, e);
+				if(typeof config.events.onchange.interval == 'string' && config.events.onchange.interval != 'blur') {
+					input.bind(config.events.onchange.interval, function (e) {
+						config.events.onchange.callback({
+							element: input, 
+							currentValue: input.val(), 
+							initialValue: storage.initialValue, 
+							event: e
+						});
 						storage.initialValue = input.val();
 					});
 				}
 
-				//If time intervals were requested for textChanged, set up that handler sequence
-				if(typeof config.events.textChanged.interval == 'number') {
-					input.bind('keydown', '', function () {
+				//If time intervals were requested for onchange, set up that handler sequence
+				if(typeof config.events.onchange.interval == 'number') {
+					input.bind('keydown', '', function (e) {
 						if(storage.timeout == null) {
 							storage.initialValue = input.val();
 							//Set a timeout for the specified interval
@@ -141,10 +299,16 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 								//If the value changed, invoke the supplied callback
 								if(storage.initialValue != input.val()) {
 									var value = storage.textEntered ? input.val() : '';
-									config.events.textChanged.callback(input, value, storage.initialValue, config.events.textChanged.interval);
+									config.events.onchange.callback({
+										element: input, 
+										currentValue: value, 
+										initialValue: storage.initialValue, 
+										interval: config.events.onchange.interval,
+										event: e
+									});
 								}
 								storage.timeout = null;
-							}, config.events.textChanged.interval);
+							}, config.events.onchange.interval);
 						} else {
 						}
 					});
