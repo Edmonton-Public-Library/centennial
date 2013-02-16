@@ -2,7 +2,8 @@ from datetime import datetime
 from django.db import models
 from django.core.exceptions import ValidationError
 from timemap.constants import BRANCH_NAME_LEN, BRANCH_DESCRIPTION_LEN, STORY_TITLE_LEN, \
-                              STORY_DESCRIPTION_LEN, STORY_TEXT_LEN
+                              STORY_DESCRIPTION_LEN, STORY_TEXT_LEN, MAP_BASE_FOLDER_LEN, \
+                              MAP_TITLE_LEN, MAP_AUTHOR_LEN
 
 from epl.custommodels import IntegerRangeField, FloatRangeField
 
@@ -60,6 +61,24 @@ class Story(models.Model):
     def __unicode__(self):
         return self.title
 
+class Map(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Maps"
+
+    base_folder = models.CharField(max_length=MAP_BASE_FOLDER_LEN)
+    title = models.CharField(max_length=MAP_TITLE_LEN)
+    author = models.CharField(max_length=MAP_AUTHOR_LEN)
+    published = IntegerRangeField(min_value=1900, max_value=3000)
+    start_year = IntegerRangeField(min_value=1900, max_value=3000)
+    end_year = IntegerRangeField(min_value=1900, max_value=3000)
+
+    def clean(self):
+        if self.start_year > self.end_year:
+            raise ValidationError("End year must occur after start year")
+
+    def __unicode__(self):
+        return self.title
 
 from django.db.models.signals import pre_save
 def validate_model(sender, **kwargs):
