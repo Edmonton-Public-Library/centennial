@@ -14,6 +14,7 @@ def updatedb():
 
 def load_manual_fixture():
     local('python manage.py loaddata fts/fixtures/manual_sample.json')
+    local('python manage.py loaddata fts/fixtures/branch_csv.json')
 
 def resetdb():
     with settings(warn_only=True):
