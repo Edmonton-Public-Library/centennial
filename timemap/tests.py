@@ -76,6 +76,7 @@ class EntryResourceTest(ResourceTestCase):
         self.assertValidJSONResponse(resp)
         keys = ['description',
                 'end_year',
+                'floor_plan',
                 'id',
                 'latitude',
                 'longitude',

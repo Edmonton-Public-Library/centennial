@@ -22,3 +22,9 @@ def resetdb():
     updatedb()
     load_manual_fixture()
 
+def resetdbadmin():
+    with settings(warn_only=True):
+        local('rm epl/timemap.db')
+    local('python manage.py syncdb --noinput')
+    updatedb()
+    local('python manage.py loaddata fts/fixtures/admin_user.json')
