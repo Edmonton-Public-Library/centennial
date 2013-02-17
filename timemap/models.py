@@ -3,9 +3,11 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from timemap.constants import BRANCH_NAME_LEN, BRANCH_DESCRIPTION_LEN, STORY_TITLE_LEN, \
                               STORY_DESCRIPTION_LEN, STORY_TEXT_LEN, MAP_BASE_FOLDER_LEN, \
-                              MAP_TITLE_LEN, MAP_AUTHOR_LEN
+                              MAP_TITLE_LEN, MAP_AUTHOR_LEN, UPLOAD_EXTENSIONS, \
+                              UPLOAD_MIME_TYPES
 
 from epl.custommodels import IntegerRangeField, FloatRangeField
+from util.file_validator import FileValidator
 
 class Branch(models.Model):
 
@@ -38,7 +40,10 @@ class Story(models.Model):
     description = models.TextField(max_length=STORY_DESCRIPTION_LEN, blank=True)
     story_text = models.TextField(max_length=STORY_TEXT_LEN, blank=True)
     link_url = models.URLField(blank=True)
-    media_file = models.FileField(upload_to="images", blank=True)
+    media_file = models.FileField(upload_to="images",
+                                  blank=True,
+                                  validators=[FileValidator(allowed_extensions=UPLOAD_EXTENSIONS,
+                                                           allowed_mimetypes=UPLOAD_MIME_TYPES)])
     year = IntegerRangeField(min_value=1900, max_value=3000)
     month = IntegerRangeField(min_value=0, max_value=12)
     day = IntegerRangeField(min_value=0, max_value=31)

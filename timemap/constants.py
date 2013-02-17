@@ -12,3 +12,13 @@ MAP_AUTHOR_LEN = 200
 
 # Timeline API Constants
 STORY_RESOURCE_LIMIT = 100
+
+# File Constraints
+UPLOAD_MIME_TYPES = ('image/png',
+                     'image/jpeg',
+                     'image/pjpeg',
+                     'audio/mpeg3',
+                     'audio/x-mpeg-3',
+                     'application/pdf',
+                     'video/mp4')
+UPLOAD_EXTENSIONS = ('png', 'jpg', 'mp4', 'pdf', 'jpg')
