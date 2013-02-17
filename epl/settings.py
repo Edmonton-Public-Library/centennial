@@ -116,14 +116,15 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
+    #'django.contrib.sites',
+    #'django.contrib.messages',
     'django.contrib.staticfiles',
     'south',
     'fts',
     'timemap',
     'django.contrib.admin',
     'tastypie',
+    'taggit',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

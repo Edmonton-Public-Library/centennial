@@ -1,13 +1,14 @@
 from datetime import datetime
 from django.db import models
 from django.core.exceptions import ValidationError
+from taggit.managers import TaggableManager
+
+from epl.custommodels import IntegerRangeField, FloatRangeField
+from util.file_validator import FileValidator
 from timemap.constants import BRANCH_NAME_LEN, BRANCH_DESCRIPTION_LEN, STORY_TITLE_LEN, \
                               STORY_DESCRIPTION_LEN, STORY_TEXT_LEN, MAP_BASE_FOLDER_LEN, \
                               MAP_TITLE_LEN, MAP_AUTHOR_LEN, UPLOAD_EXTENSIONS, \
                               UPLOAD_MIME_TYPES
-
-from epl.custommodels import IntegerRangeField, FloatRangeField
-from util.file_validator import FileValidator
 
 class Branch(models.Model):
 
@@ -48,7 +49,7 @@ class Story(models.Model):
     month = IntegerRangeField(min_value=0, max_value=12)
     day = IntegerRangeField(min_value=0, max_value=31)
     branch = models.ForeignKey('Branch')
-    #keywords
+    keywords = TaggableManager()
     #user
     public_approved = models.BooleanField(default=False)
     #content type
