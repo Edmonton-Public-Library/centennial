@@ -3,7 +3,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def do_send(msg_text, dst_address):
+def do_send(msg_text, dst_address, smtp_login=None):
     me = "noorez@debian-cs.nooni.inc"
 
     # Create message container - the correct MIME type is multipart/alternative.
@@ -40,5 +40,7 @@ def do_send(msg_text, dst_address):
     s = smtplib.SMTP('localhost')
     # sendmail function takes 3 arguments: sender's address, recipient's address
     # and message to send - here it is sent as one string.
+    if smtp_login is not None:
+        smtp.login(smtp_login[0], smtp_login[1])
     s.sendmail(me, dst_address, msg.as_string())
     s.quit()
