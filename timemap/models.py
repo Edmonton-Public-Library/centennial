@@ -46,8 +46,8 @@ class Story(models.Model):
                                   validators=[FileValidator(allowed_extensions=UPLOAD_EXTENSIONS,
                                                            allowed_mimetypes=UPLOAD_MIME_TYPES)])
     year = IntegerRangeField(min_value=1900, max_value=3000)
-    month = IntegerRangeField(min_value=0, max_value=12)
-    day = IntegerRangeField(min_value=0, max_value=31)
+    month = IntegerRangeField(min_value=0, max_value=12, blank=True, null=True)
+    day = IntegerRangeField(min_value=0, max_value=31, blank=True, null=True)
     branch = models.ForeignKey('Branch')
     keywords = TaggableManager()
     #user
