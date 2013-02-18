@@ -1,5 +1,5 @@
 ;
-define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'lib/ajaxfileupload'], function (epl, Settings, Error, ko) {
+define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'lib/knockout.validation', 'lib/ajaxfileupload'], function (epl, Settings, Error, ko) {
 
 return (function () {
 
@@ -9,10 +9,16 @@ return (function () {
      */
      var UploadStoryViewModel = function () {
         var self = this;
+
+        // Set up empty story and form validation
         self.story = new Story();
-        self.branchOptions = ko.observableArray([]);
+        ko.validation.configure({
+            insertMessages: false
+        });
+        self.story.errors = ko.validation.group(self.story);
 
         // Obtain branches for the 'Branches' drop down
+        self.branchOptions = ko.observableArray([]);
         $.ajax({
             type : "GET",
             dataType : "json",
@@ -27,6 +33,10 @@ return (function () {
 
         // On submit, upload the story
         self.submitStory = function () {
+            if (!self.story.isValid()) {
+                self.story.errors.showAllMessages();
+                return false;
+            }
             // First, save the story without the media file (if present) 
             $.ajax(Settings.apiStoryUrl, {
                 data: ko.toJSON(self.story),
@@ -51,30 +61,64 @@ return (function () {
                                 }
                             },
                             error: function (data, status, e) {
-                                alert(status);
+                                $("#ajaxError").text(result.responseText);
                             }
                         });
                     }
                 }, 
                 error: function(result) {
-                    // Handle errors
+                    $("#ajaxError").text(result.responseText);
                 }
             });
         };
     };
 	
     function Story() {
-        this.title = ko.observable();
-        this.description = ko.observable();
-        this.story_text = ko.observable();
-        this.link_url = ko.observable();
-        this.branch = ko.observable();
-        this.year = ko.observable();
+        this.title = ko.observable().extend({
+                required: { message: 'Title is required.' }
+            });
+        this.description = ko.observable().extend({
+                required: { message: 'Description is required.' }
+            });
+        this.content_type = ko.observable().extend({
+                required: { message: 'Story type must be selected.' }
+            });
+        this.story_text = ko.observable().extend({
+                validation: {
+                    validator: function (val, content_type) {
+                        if (content_type() == "text" && val == "") {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    },
+                    message: 'Story text must be entered.',
+                    params: this.content_type
+                }
+            });
+        this.link_url = ko.observable().extend({
+                validation: {
+                    validator: function (val, content_type) {
+                        if (content_type() == "link" && val == "") {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    },
+                    message: 'Link URL must be entered.',
+                    params: this.content_type
+                }
+            });
+        this.branch = ko.observable().extend({
+                required: { message: 'Branch is required.' }
+            });
+        this.year = ko.observable().extend({
+                required: { message: 'Year is required.' }
+            });
         this.month = ko.observable();
         this.day = ko.observable();
         this.public_approved = ko.observable();
         this.anonymous_ind = ko.observable();
-        this.content_type = ko.observable();
         this.custom_keywords = ko.observable();
         this.preset_keywords = ko.observableArray([]);
         this.keywords = ko.computed(function() {
@@ -94,6 +138,7 @@ return (function () {
         var copy = this;
         delete copy.custom_keywords;
         delete copy.preset_keywords;
+        delete copy.errors;
         copy.branch = Settings.apiBranchUrl + copy.branch + "/";
     	return copy;
     }

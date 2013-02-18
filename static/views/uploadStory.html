@@ -2,48 +2,66 @@
     <form action="" id="uploadStoryForm" method="POST" enctype="multipart/form-data">
         <h2>Upload Your Story</h2>
         
+        <p class="inputError" id="ajaxError"></p>
+        
         <p>
-            <label for="title">Title: <span class="required">*</span></label>
-            <input type="text" id="title" name="title" maxLength="50" size="50" data-bind="value: story.title"/>
+            <label for="title" class="standard">Title: <span class="required">*</span></label>
+            <input type="text" class="standard" id="title" name="title"  maxLength="40" data-bind="value: story.title"/>
         </p>
+        <p class="inputError indent" data-bind="validationMessage: story.title"></p>
+        
+        <p>
+            <label for="description" class="standard">Description: <span class="required">*</span></label>
+            <textarea id="description" name="description" rows="4" 
+                class="top standard" data-bind="value: story.description"></textarea>
+        </p>
+        <p class="inputError indent" data-bind="validationMessage: story.description"></p>
         
         <p>
             Story: <span class="required">*</span>
-            <div class="indent">
                 <p>
-                    <input type="radio" name="contentType" id="textRadio" value="text" data-bind="checked: story.content_type">
-                    <label for="textRadio">Add text:</label>
-                    <span class="required" data-bind="css: { hidden: story.content_type() != 'text' }">*</span>
-                    <textarea id="textInput" name="textInput" rows="7" cols="50"
-                        class="top" data-bind="value: story.story_text, enable: story.content_type() == 'text'"></textarea>
+                    <input type="radio" name="contentType" id="textRadio" value="text"
+                        class="storyRadio" data-bind="checked: story.content_type">
+                    <label for="textRadio" class="storyRadioLabel">Add text:
+                        <span class="required" data-bind="css: { hidden: story.content_type() != 'text' }">*</span>
+                    </label>
+                    <textarea id="textInput" name="textInput" rows="7" class="top standard" 
+                        data-bind="value: story.story_text, enable: story.content_type() == 'text'"></textarea>
                 </p>
+                <p class="inputError indent" data-bind="validationMessage: story.story_text"></p>
                 <p>
-                    <input type="radio" name="contentType" id="linkRadio" value="link" data-bind="checked: story.content_type">
-                    <label for="linkRadio">Add link:</label>
-                    <span class="required" data-bind="css: { hidden: story.content_type() != 'link' }">*</span>
-                    <input type="text" id="linkInput" name="linkInput" size="50"
+                    <input type="radio" name="contentType" id="linkRadio" value="link"
+                        class="storyRadio" data-bind="checked: story.content_type">
+                    <label for="linkRadio" class="storyRadioLabel">Add link:
+                        <span class="required" data-bind="css: { hidden: story.content_type() != 'link' }">*</span>
+                    </label>
+                    <input type="text" id="linkInput" name="linkInput" class="standard"
                         data-bind="value: story.link_url, enable: story.content_type() == 'link'">
                 </p>
+                <p class="indent" data-bind="validationMessage: story.link_url"></p>
                 <p>
-                    <input type="radio" name="contentType" id="fileRadio" value="media" data-bind="checked: story.content_type">
-                    <label for="fileRadio">Choose file:</label>
-                    <span class="required" data-bind="css: { hidden: story.content_type() != 'media' }">*</span>
+                    <input type="radio" name="contentType" id="fileRadio" value="media"
+                        class="storyRadio" data-bind="checked: story.content_type">
+                    <label for="fileRadio"class="storyRadioLabel">Choose file:
+                        <span class="required" data-bind="css: { hidden: story.content_type() != 'media' }">*</span>
+                    </label>
                     <input type="file" id="fileInput" name="up_file" data-bind="enable: story.content_type() == 'media'">
                     <span class="hintText">(.jpg, .png or .pdf)</span>
                 </p>
-            </div>
         </p>
+        <p class="inputError" data-bind="validationMessage: story.content_type"></p>
            
         <p>
-            <label for="branch">Branch: <span class="required">*</span></label>
+            <label for="branch" class="standard">Branch: <span class="required">*</span></label>
             <select data-bind= "options: branchOptions, optionsText: 'name', optionsValue: 'id',
                 optionsCaption: 'Select a branch', value: story.branch">
             </select>
         </p>
+        <p class="inputError indent" data-bind="validationMessage: story.branch"></p>
         
         <p>
-            <label for="dayDate">Date:</label>
-            <input type="text" id="dayDate" name="day" maxLength="2"size="2"
+            <label for="dayDate" class="standard">Date:</label>
+            <input type="text" id="dayDate" name="day" maxLength="2" size="2"
                 data-bind="value: story.day">
             <input type="text" id="monthDate" name="month" maxLength="2" size="2"
                 data-bind="value: story.month">
@@ -52,6 +70,7 @@
             <span class="required">*</span>
             <span class="hintText">(dd MM yyyy)</span>
         </p>
+        <p class="inputError indent" data-bind="validationMessage: story.year"></p>
     
         <p>
             Keywords:
@@ -81,7 +100,7 @@
                         <td class="keywordCell">
                             <input type="checkbox" id="familiesKeyword" value="Families and Libraries"
                                 data-bind="checked: story.preset_keywords">
-                            <label for="familiesKeyword">Families and Libraries</label></td>
+                                <label for="familiesKeyword">Families and Libraries</label></td>
                         <td class="keywordCell">
                             <input type="checkbox" id="renoKeyword" value="Library Renovations"
                                 data-bind="checked: story.preset_keywords">
@@ -105,13 +124,7 @@
                 <span class="hintText">(Separated by commas)</span>
             </div>
         </p>
-        
-        <p>
-            <label for="description">Description: <span class="required">*</span></label>
-            <textarea id="description" name="description" rows="7" cols="55"
-                class="top" data-bind="value: story.description"></textarea>
-        </p>
-            
+
         <p>
             <input type="checkbox" id="anonymousInd" data-bind="checked: story.anonymous_ind">
             <label for="anonymousInd">Check if you wish to remain anonymous.</label>
@@ -119,8 +132,5 @@
         
         <button data-bind="click: submitStory">Upload</button> <input type="button" value="Cancel">
         
-        <p>
-            <textarea name="tasks" data-bind="value: ko.toJSON(story)" rows="7" cols="50"></textarea>
-        </p>
     </form>
 </div>

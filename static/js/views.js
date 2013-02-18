@@ -1,6 +1,6 @@
 ;
 //Create a module to contain client-side views
-define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment', 'epl/UploadStoryViewModel'], function(epl, View, ko, Environment, UploadStoryViewModel) {
+define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment'], function(epl, View, ko, Environment) {
 
 return {
 
@@ -62,8 +62,9 @@ example : new View('example', 'Example',
 uploadStory : new View('uploadStory', 'Upload Story', 
 		//in
 		function (fromView, viewport, callback) {
-			require(['epl/UploadStoryViewModel'], function (UploadStoryViewModel) {
-				ko.applyBindings(new UploadStoryViewModel());
+			require(['epl/UploadStoryViewModel', 'lib/epl/Input'], function (UploadStoryViewModel) {
+			    var uploadStoryViewModel = new UploadStoryViewModel();
+				ko.applyBindings(uploadStoryViewModel);
 			});
 			callback();
 		}, 
@@ -72,7 +73,6 @@ uploadStory : new View('uploadStory', 'Upload Story',
 		function (toView, viewport, callback) {
 			callback();
 		})
-
 };
 
 //End module
