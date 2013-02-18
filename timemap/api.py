@@ -17,6 +17,10 @@ class BranchResource(ModelResource):
         queryset = Branch.objects.all()
         resource_name = "branch"
         allowed_methods = ['get']
+        filtering = {"name": ['contains'],
+                     "start_year": ['exact', 'gt', 'gte', 'lt', 'lte'],
+                     "end_year": ['exact', 'gt', 'gte', 'lt', 'lte']
+                    }
 
 class StoryResource(ModelResource):
     """
@@ -33,7 +37,15 @@ class StoryResource(ModelResource):
         #TODO:  This removes authorization. Currently setup like this to allow
         #       testing. Should be removed as soon as Users and sessions are setup
         authorization = Authorization()
-        filtering = {"keywords" : ALL_WITH_RELATIONS}
+        filtering = {"keywords": ALL_WITH_RELATIONS,
+                     "branch": ALL_WITH_RELATIONS,
+                     "title": ['icontains'],
+                     "description": ['icontains'],
+                     "year": ['exact', 'gt', 'gte', 'lt', 'lte'],
+                     "month": ['exact', 'gt', 'gte', 'lt', 'lte'],
+                     "day": ['exact', 'gt', 'gte', 'lt', 'lte'],
+                    }
+
 
     def build_filters(self, filters=None):
         if filters is None:
