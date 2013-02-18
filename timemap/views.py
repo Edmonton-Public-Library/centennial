@@ -32,3 +32,7 @@ def upload(request, story_id):
     else:
         return HttpResponse(status="501")
     return HttpResponse(status="500")
+
+def accountActivate(request):
+# add calls to backend to activate account
+    pass
