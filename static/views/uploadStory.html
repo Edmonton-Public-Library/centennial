@@ -38,7 +38,7 @@
                     <input type="text" id="linkInput" name="linkInput" class="standard"
                         data-bind="value: story.link_url, enable: story.content_type() == 'link'">
                 </p>
-                <p class="indent" data-bind="validationMessage: story.link_url"></p>
+                <p class="inputError indent" data-bind="validationMessage: story.link_url"></p>
                 <p>
                     <input type="radio" name="contentType" id="fileRadio" value="media"
                         class="storyRadio" data-bind="checked: story.content_type">
@@ -100,7 +100,7 @@
                         <td class="keywordCell">
                             <input type="checkbox" id="familiesKeyword" value="Families and Libraries"
                                 data-bind="checked: story.preset_keywords">
-                                <label for="familiesKeyword">Families and Libraries</label></td>
+                            <label for="familiesKeyword">Families and Libraries</label></td>
                         <td class="keywordCell">
                             <input type="checkbox" id="renoKeyword" value="Library Renovations"
                                 data-bind="checked: story.preset_keywords">
