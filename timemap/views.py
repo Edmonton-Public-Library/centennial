@@ -34,5 +34,19 @@ def upload(request, story_id):
     return HttpResponse(status="500")
 
 def accountActivate(request):
-# add calls to backend to activate account
-    pass
+    if request.method == 'GET':
+        # i should only have one parameter
+        if len(request) != 1:
+            return HttpResponse(status='501')
+
+        activationKey = request.get('key', None)
+        # make sure that  i had the correct parameter
+        if activationKey is None:
+            return HttpResponse(status='501')
+
+        #need to connect to backed to verify the key and activate the account if
+        #successful
+
+        return HttpResponse("Your account has been successfully activated")
+    else:
+        return HttpResponse(status='501')
