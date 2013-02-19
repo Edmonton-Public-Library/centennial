@@ -49,7 +49,9 @@ class Story(models.Model):
     month = IntegerRangeField(min_value=0, max_value=12, blank=True, null=True)
     day = IntegerRangeField(min_value=0, max_value=31, blank=True, null=True)
     branch = models.ForeignKey('Branch')
-    keywords = TaggableManager()
+    keywords = TaggableManager(verbose_name="keywords",
+                               help_text=("A comma-separated list of keywords"),
+                               blank=True)
     #user
     public_approved = models.BooleanField(default=False)
     #content type
