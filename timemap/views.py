@@ -3,7 +3,7 @@ from django.template.loader import get_template
 from django.template import Context
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 import epl.settings
 import util
@@ -50,3 +50,7 @@ def login_user(request):
                 util.gen_json_badrrequest_response("Disabled Account")
     else:
         return HttpResponse(status="401")
+
+def logout_user(request):
+    logout(request)
+    return HttpResponse()
