@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.contrib.auth.models import User
 from timemap.models import Branch
 from timemap.models import Story
 from django.core.exceptions import ValidationError
@@ -64,9 +65,20 @@ class EntryResourceTest(ResourceTestCase):
 
     def setUp(self):
         super(EntryResourceTest, self).setUp()
-
+        create_test_user()
         self.capilano_branch = Branch.objects.get(name="Capilano")
         self.capilano_url = '/api/v1/branch/{0}/'.format(self.capilano_branch.pk)
+        self.test_story = {"branch": self.capilano_url,
+                     "day": 30,
+                     "description": "For children up to age three",
+                     "link_url": "http://www.shareedmonton.ca/",
+                     "month": 1,
+                     "public_approved": True,
+                     "resource_uri": "/api/v1/story/1/",
+                     "story_text": "Location\tInformation\tRegistration",
+                     "title": "Sing, Sign, Laugh and Learn",
+                     "year": 2013
+                    }
 
     def get_credentials(self):
         pass
@@ -87,17 +99,18 @@ class EntryResourceTest(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['name'], "Capilano")
 
     def test_add_story(self):
-        story = {"branch": self.capilano_url,
-                 "day": 30,
-                 "description": "For children up to age three",
-                 "link_url": "http://www.shareedmonton.ca/",
-                 "month": 1,
-                 "public_approved": True,
-                 "resource_uri": "/api/v1/story/1/",
-                 "story_text": "Location\tInformation\tRegistration",
-                 "title": "Sing, Sign, Laugh and Learn",
-                 "year": 2013
-                }
+        login = self.api_client.client.login(username='testuser', password='hello')
+        self.assertTrue(login)
 
-        resp = self.api_client.post('/api/v1/story/', data=story)
+        resp = self.api_client.post('/api/v1/story/', data=self.test_story)
         self.assertHttpCreated(resp)
+
+    def test_add_story_authentication(self):
+        resp = self.api_client.post('/api/v1/story/', data=self.test_story)
+        self.assertHttpUnauthorized(resp)
+
+def create_test_user():
+    user = User.objects.create(username='testuser', password='12345',
+                               is_active=True, is_staff=True, is_superuser=True)
+    user.set_password('hello')
+    user.save()
