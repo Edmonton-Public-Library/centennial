@@ -1,4 +1,4 @@
-from Crypto.Cypher import AES
+#from Crypto.Cypher import AES
 
 def getRegistrationNotification(name, email, creationTime):
     activationKey = aesEncrypt(email + "=" + creationTime)

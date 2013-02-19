@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 
 import epl.settings
 import util
-import util.email
+import util.email.email_template
 from timemap.models import Story
 from timemap.forms import UploadForm
 
