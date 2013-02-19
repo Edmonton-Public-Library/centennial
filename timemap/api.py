@@ -45,6 +45,7 @@ class StoryResource(ModelResource):
     class Meta:
         queryset = Story.objects.all()
         resource_name = "story"
+        always_return_data = True
         max_limit = STORY_RESOURCE_LIMIT
         #TODO:  This removes authorization. Currently setup like this to allow
         #       testing. Should be removed as soon as Users and sessions are setup
