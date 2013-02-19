@@ -1,3 +1,4 @@
+from django.shortcuts import render_to_response
 from django.template.loader import get_template
 from django.template import Context
 from django.http import HttpResponse
@@ -35,14 +36,17 @@ def upload(request, story_id):
     return HttpResponse(status="500")
 
 def login_user(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            return HttpResponse()
-        else:
-            util.gen_json_badrrequest_response("Disabled Account")
+    if request.method == "GET":
+        return render_to_response('login.html')
+    if request.method == "POST" and 'username' in request.POST and 'password' in request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponse()
+            else:
+                util.gen_json_badrrequest_response("Disabled Account")
     else:
-        return HttpResponse(status="400")
+        return HttpResponse(status="401")
