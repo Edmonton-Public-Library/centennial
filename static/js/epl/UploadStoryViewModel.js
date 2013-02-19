@@ -10,13 +10,6 @@ return (function () {
      var UploadStoryViewModel = function () {
         var self = this;
 
-        // Set up empty story and form validation
-        self.story = new Story();
-        ko.validation.configure({
-            insertMessages: false
-        });
-        self.story.errors = ko.validation.group(self.story);
-
         // Obtain branches for the 'Branches' drop down
         self.branchOptions = ko.observableArray([]);
         $.ajax({
@@ -30,6 +23,23 @@ return (function () {
                 Error.throw(new Error('UploadStory.branchesAjax'));
             }
         });
+        
+        // Set up empty story and form validation
+        self.story = new Story();
+        ko.validation.configure({
+            insertMessages: false
+        });
+        self.story.errors = ko.validation.group(self.story);
+
+        // Ensure that when the user changes the story type,
+        // the previous story field is cleared
+        self.story.content_type.subscribe(function (previousValue) {
+            if (previousValue == "text") {
+                self.story.story_text = "";
+            } else if (previousValue == "link") {
+                self.story.link_url = "";
+            }
+        }, self.story, "beforeChange");
 
         // On submit, upload the story
         self.submitStory = function () {
@@ -41,32 +51,26 @@ return (function () {
             $.ajax(Settings.apiStoryUrl, {
                 data: ko.toJSON(self.story),
                 type: "POST",
+                dataType: "json",
                 contentType: "application/json",
-                success: function(result) {
+                success: function (result) {
                     // Upload the media file in a separate ajax call
                     if (self.story.content_type() == "media") {
                         $.ajaxFileUpload({
-                            // TODO: Remove hardcoded story id!
                             // Obtain the story id from the response
-                            url: '/upload/' + 1 + '/', 
+                            url: '/upload/' + result.id + '/', 
                             secureuri: false,
                             fileElementId: 'fileInput',
                             success: function (data, status) {
-                                if (typeof(data.error) != 'undefined') {
-                                    if (data.error != '') {
-                                        alert(data.error);
-                                    } else {
-                                        alert(data.msg);
-                                    }
-                                }
+                                // TODO - handle successful upload
                             },
-                            error: function (data, status, e) {
-                                $("#ajaxError").text(result.responseText);
+                            error: function (error) {
+                                // TODO - handle upload error
                             }
                         });
                     }
                 }, 
-                error: function(result) {
+                error: function (result) {
                     $("#ajaxError").text(result.responseText);
                 }
             });
@@ -74,47 +78,47 @@ return (function () {
     };
 	
     function Story() {
-        this.title = ko.observable().extend({
-                required: { message: 'Title is required.' }
-            });
+        this.title = ko.observable("Test").extend({
+            required: { message: 'Title is required.' }
+        });
         this.description = ko.observable().extend({
-                required: { message: 'Description is required.' }
-            });
+            required: { message: 'Description is required.' }
+        });
         this.content_type = ko.observable().extend({
-                required: { message: 'Story type must be selected.' }
-            });
+            required: { message: 'Story type must be selected.' }
+        });
         this.story_text = ko.observable().extend({
-                validation: {
-                    validator: function (val, content_type) {
-                        if (content_type() == "text" && val == "") {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    },
-                    message: 'Story text must be entered.',
-                    params: this.content_type
-                }
-            });
+            validation: {
+                validator: function (val, content_type) {
+                    if (content_type() == "text" && val == "") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
+                message: 'Story text must be entered.',
+                params: this.content_type
+            }
+        });
         this.link_url = ko.observable().extend({
-                validation: {
-                    validator: function (val, content_type) {
-                        if (content_type() == "link" && val == "") {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    },
-                    message: 'Link URL must be entered.',
-                    params: this.content_type
-                }
-            });
+            validation: {
+                validator: function (val, content_type) {
+                    if (content_type() == "link" && val == "") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
+                message: 'Link URL must be entered.',
+                params: this.content_type
+            }
+        });
         this.branch = ko.observable().extend({
-                required: { message: 'Branch is required.' }
-            });
+            required: { message: 'Branch is required.' }
+        });
         this.year = ko.observable().extend({
-                required: { message: 'Year is required.' }
-            });
+            required: { message: 'Year is required.' }
+        });
         this.month = ko.observable();
         this.day = ko.observable();
         this.public_approved = ko.observable();
@@ -142,7 +146,7 @@ return (function () {
         copy.branch = Settings.apiBranchUrl + copy.branch + "/";
     	return copy;
     }
-
+    
     return UploadStoryViewModel;
 })();
 
