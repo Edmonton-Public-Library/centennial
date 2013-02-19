@@ -1,11 +1,23 @@
+from tastypie.authentication import Authentication
+from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
-from tastypie.authorization import Authorization
+#from tastypie.authorization import Authorization
 from taggit.models import Tag
 
 from timemap.models import Branch, Story
 from timemap.constants import STORY_RESOURCE_LIMIT
 
+class StoryAuthentication(Authentication):
+    """
+    Authenticates everyone if the request is GET otherwise
+    checks the user is authenticated through a session
+    """
+
+    def is_authenticated(self, request, **kwargs):
+        if request.method == 'GET':
+            return True
+        return request.user.is_authenticated()
 
 class TagResource(ModelResource):
     class Meta:
@@ -36,7 +48,8 @@ class StoryResource(ModelResource):
         max_limit = STORY_RESOURCE_LIMIT
         #TODO:  This removes authorization. Currently setup like this to allow
         #       testing. Should be removed as soon as Users and sessions are setup
-        authorization = Authorization()
+        authentication = StoryAuthentication()
+        authorization = DjangoAuthorization()
         filtering = {"keywords": ALL_WITH_RELATIONS,
                      "branch": ALL_WITH_RELATIONS,
                      "title": ['icontains'],

@@ -1,7 +1,9 @@
+from django.shortcuts import render_to_response
 from django.template.loader import get_template
 from django.template import Context
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.contrib.auth import authenticate, login, logout
 
 import epl.settings
 import util
@@ -53,3 +55,23 @@ def accountActivate(request):
         return HttpResponse("Your account %s has been successfully activated" % (emailAndTime))
     else:
         return HttpResponse(status='501')
+
+def login_user(request):
+    if request.method == "GET":
+        return render_to_response('login.html')
+    if request.method == "POST" and 'username' in request.POST and 'password' in request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponse()
+            else:
+                util.gen_json_badrrequest_response("Disabled Account")
+    else:
+        return HttpResponse(status="401")
+
+def logout_user(request):
+    logout(request)
+    return HttpResponse()
