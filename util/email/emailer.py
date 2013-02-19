@@ -41,6 +41,6 @@ def do_send(msg_text, dst_address, smtp_login=None):
     # sendmail function takes 3 arguments: sender's address, recipient's address
     # and message to send - here it is sent as one string.
     if smtp_login is not None:
-        smtp.login(smtp_login[0], smtp_login[1])
+        smtp_login(smtp_login[0], smtp_login[1])
     s.sendmail(me, dst_address, msg.as_string())
     s.quit()
