@@ -5,6 +5,7 @@ from django.contrib import admin
 from tastypie.api import Api
 
 from timemap.api import BranchResource, StoryResource
+from timemap.views import timemap, upload, accountActivate
 from timemap.views import timemap, upload, login_user, logout_user
 
 admin.autodiscover()
@@ -20,4 +21,5 @@ urlpatterns = patterns('',
     url(r'^login/', login_user),
     url(r'^logout/', logout_user),
     url(r'^upload/(\d+)/$', upload),
+    url(r'^account/activate', accountActivate),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

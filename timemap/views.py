@@ -7,9 +7,9 @@ from django.contrib.auth import authenticate, login, logout
 
 import epl.settings
 import util
+import util.email.email_template
 from timemap.models import Story
 from timemap.forms import UploadForm
-
 
 def timemap(request):
     t = get_template('timemap.html')
@@ -34,6 +34,28 @@ def upload(request, story_id):
     else:
         return HttpResponse(status="501")
     return HttpResponse(status="500")
+
+def accountActivate(request):
+    if request.method == 'GET':
+        # i should only have one parameter
+        if len(request.GET) != 1:
+            return HttpResponse(status='501')
+
+        activationKey = request.GET.get('key', None)
+        # make sure that  i had the correct parameter
+        if activationKey is None:
+            return HttpResponse(status='501')
+
+        #need to connect to backed to verify the key and activate the account if
+        #successful
+        #emailAndTime = util.email.email_template.aesDecrypt(activationKey)
+        emailAndTime = activationKey
+
+        #TODO: call activate method here
+
+        return HttpResponse("Your account %s has been successfully activated" % (emailAndTime))
+    else:
+        return HttpResponse(status='501')
 
 def login_user(request):
     if request.method == "GET":
