@@ -2,6 +2,7 @@ from django.template.loader import get_template
 from django.template import Context
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.contrib.auth import authenticate, login
 
 import epl.settings
 import util
@@ -32,3 +33,16 @@ def upload(request, story_id):
     else:
         return HttpResponse(status="501")
     return HttpResponse(status="500")
+
+def login_user(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            return HttpResponse()
+        else:
+            util.gen_json_badrrequest_response("Disabled Account")
+    else:
+        return HttpResponse(status="400")

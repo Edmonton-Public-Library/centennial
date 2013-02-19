@@ -1,4 +1,4 @@
-from tastypie.authentication import BasicAuthentication
+from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
@@ -8,20 +8,16 @@ from taggit.models import Tag
 from timemap.models import Branch, Story
 from timemap.constants import STORY_RESOURCE_LIMIT
 
-class StoryAuthentication(BasicAuthentication):
+class StoryAuthentication(Authentication):
     """
-    Authenticates everyone if the request is GET otherwise performs
-    BasicAuthentication.
+    Authenticates everyone if the request is GET otherwise
+    checks the user is authenticated through a session
     """
 
     def is_authenticated(self, request, **kwargs):
         if request.method == 'GET':
-            import pdb
-            pdb.set_trace()
             return True
-        import pdb
-        pdb.set_trace()
-        return super(StoryAuthentication, self).is_authenticated( request, **kwargs )
+        return request.user.is_authenticated()
 
 class TagResource(ModelResource):
     class Meta:
