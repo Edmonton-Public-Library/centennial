@@ -86,16 +86,24 @@ class Map(models.Model):
     def __unicode__(self):
         return self.title
 
-from django.db.models.signals import pre_save
+# Signal setup
+
+from django.dispatch.dispatcher import receiver
+from django.db.models.signals import pre_save, pre_delete
+
+@receiver(pre_save)
 def validate_model(sender, **kwargs):
-    """ Force a clean call when certain models are saved in order to do
-        keep model constrains
+    """
+    Force a clean call when certain models are saved in order to do
+    keep model constrains
     """
     if sender in [Branch, Story] and 'raw' in kwargs and not kwargs['raw']:
         kwargs['instance'].full_clean()
 
-pre_save.connect(validate_model, dispatch_uid='validate_models')
-
-def generate_story_path(story_instance, filename):
-    #TODO: generate correct path
-    return "%s/%s" % (story_instance, filename)
+@receiver(pre_delete)
+def story_delete(sender, instance, **kwargs):
+    """
+    Delete media files when stories are deleted
+    """
+    if sender in [Story]:
+        instance.media_file.delete(False)
