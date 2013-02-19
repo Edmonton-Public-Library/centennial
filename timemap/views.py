@@ -38,17 +38,18 @@ def upload(request, story_id):
 def accountActivate(request):
     if request.method == 'GET':
         # i should only have one parameter
-        if len(request) != 1:
+        if len(request.GET) != 1:
             return HttpResponse(status='501')
 
-        activationKey = request.get('key', None)
+        activationKey = request.GET.get('key', None)
         # make sure that  i had the correct parameter
         if activationKey is None:
             return HttpResponse(status='501')
 
         #need to connect to backed to verify the key and activate the account if
         #successful
-        emailAndTime = util.email.email_template.aesDecrypt(activationKey)
+        #emailAndTime = util.email.email_template.aesDecrypt(activationKey)
+        emailAndTime = activationKey
 
         #TODO: call activate method here
 
