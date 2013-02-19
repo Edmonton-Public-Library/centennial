@@ -44,7 +44,7 @@ return (function () {
                 contentType: "application/json",
                 success: function(result) {
                     // Upload the media file in a separate ajax call
-                    if (self.story.content_type == "media") {
+                    if (self.story.content_type() == "media") {
                         $.ajaxFileUpload({
                             // TODO: Remove hardcoded story id!
                             // Obtain the story id from the response
