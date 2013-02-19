@@ -18,5 +18,5 @@ urlpatterns = patterns('',
     url(r'^api/', include(v1_api.urls)),
     url(r'^timemap/', timemap),
     url(r'^upload/(\d+)/$', upload),
-    url(r'^account/activate/', accountActivate),
+    url(r'^account/activate', accountActivate),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

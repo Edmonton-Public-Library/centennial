@@ -5,10 +5,9 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 import epl.settings
 import util
+import util.email
 from timemap.models import Story
 from timemap.forms import UploadForm
-
-from Crypto.Cypher import AES
 
 def timemap(request):
     t = get_template('timemap.html')
@@ -47,15 +46,10 @@ def accountActivate(request):
 
         #need to connect to backed to verify the key and activate the account if
         #successful
-        emailAndTime = _aesDecrypt(activationKey)
+        emailAndTime = util.email.email_template.aesDecrypt(activationKey)
 
-        #call activate method here
+        #TODO: call activate method here
 
         return HttpResponse("Your account %s has been successfully activated" % (emailAndTime))
     else:
         return HttpResponse(status='501')
-
-def _aesDecrypt(msg):
-    key = b'Sixteen byte key'
-    cipher = AES.new(key)
-    return cipher.decrypt(msg)
