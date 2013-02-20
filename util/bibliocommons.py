@@ -42,7 +42,8 @@ def userContent(userID):
         req = requests.get(APIRoot+"users/"+userID+"/user_content"}, params={'page': page, 'api_key': APIKey})
         req.raise_for_status()
         response = req.json()
-        content.extend(response["user_content"]
+        content.extend(response["user_content"])
+    return content
 
 
 
