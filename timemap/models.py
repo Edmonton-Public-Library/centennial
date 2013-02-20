@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
 
 from epl.custommodels import IntegerRangeField, FloatRangeField
@@ -52,7 +53,7 @@ class Story(models.Model):
     keywords = TaggableManager(verbose_name="keywords",
                                help_text=("A comma-separated list of keywords"),
                                blank=True)
-    #user
+    user = models.ForeignKey(User)
     public_approved = models.BooleanField(default=False)
     #content type
 

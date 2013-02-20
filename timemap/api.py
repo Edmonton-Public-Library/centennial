@@ -4,6 +4,7 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 #from tastypie.authorization import Authorization
 from taggit.models import Tag
+from django.contrib.auth.models import User
 
 from timemap.models import Branch, Story
 from timemap.constants import STORY_RESOURCE_LIMIT
@@ -33,6 +34,11 @@ class BranchResource(ModelResource):
                      "start_year": ['exact', 'gt', 'gte', 'lt', 'lte'],
                      "end_year": ['exact', 'gt', 'gte', 'lt', 'lte']
                     }
+class UserResource(ModelResource):
+    class Meta:
+        queryset = User.objects.all()
+        resource_name = 'user'
+        fields = ["id"]
 
 class StoryResource(ModelResource):
     """
@@ -40,6 +46,7 @@ class StoryResource(ModelResource):
     https://gist.github.com/joshbohde/1702293
     """
     branch = fields.ForeignKey(BranchResource, 'branch')
+    user = fields.ForeignKey(UserResource, 'user')
     keywords = fields.ListField()
 
     class Meta:
@@ -79,3 +86,7 @@ class StoryResource(ModelResource):
         keywords = [k.lower() for k in keywords]
         bundle.obj.keywords.set(*keywords)
         return super(StoryResource, self).save_m2m(bundle)
+
+    def hydrate(self, bundle):
+        bundle.data['user'] = "/api/v1/user/%d/" % bundle.request.user.id
+        return bundle
