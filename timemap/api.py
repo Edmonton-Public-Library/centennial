@@ -2,7 +2,6 @@ from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
-#from tastypie.authorization import Authorization
 from taggit.models import Tag
 from django.contrib.auth.models import User
 
@@ -11,7 +10,7 @@ from timemap.constants import STORY_RESOURCE_LIMIT
 
 class StoryAuthentication(Authentication):
     """
-    Authenticates everyone if the request is GET otherwise
+    Authenticates everyone if the request is GET, otherwise
     checks the user is authenticated through a session
     """
 
@@ -79,14 +78,26 @@ class StoryResource(ModelResource):
         return orm_filters
 
     def dehydrate_keywords(self, bundle):
+        """
+        Converts Tag objects to simple strings for use on the
+        front end.
+        """
         return map(str, bundle.obj.keywords.all())
 
     def save_m2m(self, bundle):
+        """
+        Sets the tags of the story acording to the given keywords argument
+        """
         keywords = bundle.data.get('keywords', [])
         keywords = [k.lower() for k in keywords]
         bundle.obj.keywords.set(*keywords)
         return super(StoryResource, self).save_m2m(bundle)
 
     def hydrate(self, bundle):
+        """
+        Sets the user of the story to be the currently logged in
+        user. At this point Authentication has already been done, so
+        we are guaranteed the request contains a user object.
+        """
         bundle.data['user'] = "/api/v1/user/%d/" % bundle.request.user.id
         return bundle

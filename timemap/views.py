@@ -16,6 +16,10 @@ def timemap(request):
     return HttpResponse(t.render(Context({'STATIC_URL' : epl.settings.STATIC_URL})))
 
 def upload(request, story_id):
+    """
+    Once stories are created, this view is used to attach the media file to the
+    story.
+    """
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -58,6 +62,10 @@ def accountActivate(request):
         return HttpResponse(status='501')
 
 def login_user(request):
+    """
+    View used to create a user cookie to maintain a session.
+    """
+    # TODO: Remove login.html with GET requests once the timemap section handles logins
     if request.method == "GET":
         return render_to_response('login.html')
     if request.method == "POST" and 'username' in request.POST and 'password' in request.POST:
@@ -74,5 +82,8 @@ def login_user(request):
         return HttpResponse(status="401")
 
 def logout_user(request):
+    """
+    View to close out the user's session.
+    """
     logout(request)
     return HttpResponse()
