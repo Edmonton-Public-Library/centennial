@@ -2,11 +2,11 @@
 define(['epl', 'epl/Settings', 'lib/knockout'], function (epl, Settings, ko) {
 
 return (function () {
-     /**
-     * Creates the ViewModel to back viewing a story.
-     * @return void
-     */
-     var StoryViewModel = function (storyId) {
+    /**
+    * Creates the ViewModel to back viewing a story.
+    * @return void
+    */
+    var StoryViewModel = function (storyId) {
         var self = this;
         self.title = ko.observable();
         self.description = ko.observable();

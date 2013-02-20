@@ -184,7 +184,11 @@ jQuery.extend({
 
     uploadHttpData: function( r, type ) {
         var data = !type;
-        data = type == "xml" || data ? r.responseXML : r.responseText;
+        // Changed by Tim Phillips (Feb 20, 2013)
+        // It seems like we only want the responseXML if the type is XML?
+        // Old code was:
+        //    data = type == "xml" || data ? r.responseXML : r.responseText;
+        data = type == "xml" ? r.responseXML : r.responseText;
         // If the type is "script", eval it in global context
         if ( type == "script" )
             jQuery.globalEval( data );
@@ -196,6 +200,22 @@ jQuery.extend({
             jQuery("<div>").html(data).evalScripts();
 
         return data;
+    }, 
+    
+    // Added by Tim Phillips (Feb 20, 2013)
+    // jQuery's built-in handleError was deprecated in V 1.5.
+    // so we have to define our own error handler now
+    // See http://stackoverflow.com/questions/8627201/ajax-upload-plugin-throwing-jquery-handleerror-not-found
+    handleError: function( s, xhr, status, e ) {
+        // If a local callback was specified, fire it
+        if ( s.error ) {
+            s.error.call( s.context || window, xhr, status, e );
+        }
+
+        // Fire the global callback
+        if ( s.global ) {
+            (s.context ? jQuery(s.context) : jQuery.event).trigger( "ajaxError", [xhr, s, e] );
+        }
     }
 })
 

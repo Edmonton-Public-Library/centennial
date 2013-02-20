@@ -35,9 +35,9 @@ return (function () {
         // the previous story field is cleared
         self.story.content_type.subscribe(function (previousValue) {
             if (previousValue == "text") {
-                self.story.story_text = "";
+                self.story.story_text("");
             } else if (previousValue == "link") {
-                self.story.link_url = "";
+                self.story.link_url("");
             }
         }, self.story, "beforeChange");
 
@@ -62,10 +62,14 @@ return (function () {
                             secureuri: false,
                             fileElementId: 'fileInput',
                             success: function (data, status) {
-                                // TODO - handle successful upload
+                                var jsonData = jQuery.parseJSON($(data).text());
+                                if (jsonData != null && jsonData.errors) {
+                                    $("#ajaxError").text(jsonData.errors);
+                                } 
+                                // TODO - redirect to the "thank you" screen
                             },
-                            error: function (error) {
-                                // TODO - handle upload error
+                            error: function (data, status, e) {
+                                $("#ajaxError").text(data);
                             }
                         });
                     }
@@ -78,7 +82,7 @@ return (function () {
     };
 	
     function Story() {
-        this.title = ko.observable("Test").extend({
+        this.title = ko.observable().extend({
             required: { message: 'Title is required.' }
         });
         this.description = ko.observable().extend({
@@ -90,7 +94,7 @@ return (function () {
         this.story_text = ko.observable().extend({
             validation: {
                 validator: function (val, content_type) {
-                    if (content_type() == "text" && val == "") {
+                    if (content_type() == "text" && (val == null || val == "")) {
                         return false;
                     } else {
                         return true;
@@ -103,7 +107,7 @@ return (function () {
         this.link_url = ko.observable().extend({
             validation: {
                 validator: function (val, content_type) {
-                    if (content_type() == "link" && val == "") {
+                    if (content_type() == "link" && (val == null || val == "")) {
                         return false;
                     } else {
                         return true;
@@ -121,8 +125,8 @@ return (function () {
         });
         this.month = ko.observable();
         this.day = ko.observable();
-        this.public_approved = ko.observable();
-        this.anonymous_ind = ko.observable();
+        this.public_approved = ko.observable(false);
+        this.anonymous_ind = ko.observable(false);
         this.custom_keywords = ko.observable();
         this.preset_keywords = ko.observableArray([]);
         this.keywords = ko.computed(function() {
