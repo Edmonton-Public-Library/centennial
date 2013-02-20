@@ -7,6 +7,9 @@ from django.contrib.auth import authenticate, login, logout
 import epl.settings
 import util
 import util.email.email_template
+import urlparse
+from timemap.models import Story
+from timemap.forms import UploadForm
 
 def timemap(request):
     t = get_template('timemap.html')
@@ -36,8 +39,9 @@ def accountActivate(request):
 
         #need to connect to backed to verify the key and activate the account if
         #successful
-        #emailAndTime = util.email.email_template.aesDecrypt(activationKey)
-        emailAndTime = activationKey
+        parseResult = urlparse.parse_qs(request.META['QUERY_STRING'])
+        activationKey = parseResult['key'][0]
+        emailAndTime = util.email.email_template.aesDecrypt(activationKey)
 
         #TODO: call activate method here
 

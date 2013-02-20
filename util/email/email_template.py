@@ -1,9 +1,30 @@
-from Crypto.Cipher import AES
+import sys
 
-def getRegistrationNotification(name, baseUrl, email, creationTime):
+from Crypto.Cipher import AES
+import urllib
+
+def getRegistrationNotification(name, baseUrl, email, creationTime, MIME):
     activationKey = aesEncrypt(email + "=" + creationTime)
-    url = "%s/account/activate?key=%s" % (baseUrl, activationKey)
-    return _REGISTRATION_NOTIFICATION % (name, url)
+    keyValue = urllib.urlencode({"key" : activationKey})
+    urlFormatter = "_formatUrlAs%s"%(MIME)
+    url = getattr(sys.modules[__name__], urlFormatter)("%s/account/activate?%s" % (baseUrl, keyValue))
+    textFormatter = "_formatTextAs%s"%(MIME)
+    return getattr(sys.modules[__name__], textFormatter)(_REGISTRATION_NOTIFICATION % (name, url))
+
+def _formatUrlAshtml(raw):
+    return "<a href=\"%s\">"%(raw)
+
+def _formatTextAshtml(raw):
+    return """\
+    <html>
+      <head></head>
+      <body>
+        <p>Greetings from EPL<br>
+           %s
+        </p>
+      </body>
+    </html>
+    """ % (raw)
 
 def aesEncrypt(msg):
     cipher = AES.new(_ENCRYPTION_KEY)
@@ -15,6 +36,6 @@ def aesDecrypt(msg):
 
 _ENCRYPTION_KEY = b'Sixteen byte key'
 
-_REGISTRATION_NOTIFICATION = """Thank you %s for registering with EPL. To activate your account, you will need to verify your account by navigating to the following URL: %s"""
+_REGISTRATION_NOTIFICATION = """Thank you %s for registering with EPL TimeMap. To activate your account, you will need to verify your account by navigating to the following URL: %s"""
 
 PASSWORD_RESET_EMAIL = """To reset your password, please click on the following link: %s"""
