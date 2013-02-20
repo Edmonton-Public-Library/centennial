@@ -63,7 +63,7 @@ uploadStory : new View('uploadStory', 'Upload Story',
 		//in
 		function (fromView, viewport, callback) {
 			require(['epl/UploadStoryViewModel', 'lib/epl/Input'], function (UploadStoryViewModel) {
-			    var uploadStoryViewModel = new UploadStoryViewModel();
+				var uploadStoryViewModel = new UploadStoryViewModel();
 				ko.applyBindings(uploadStoryViewModel);
 			});
 			callback();
@@ -72,8 +72,29 @@ uploadStory : new View('uploadStory', 'Upload Story',
 		//out
 		function (toView, viewport, callback) {
 			callback();
-		})
+		}),
+
+/**************************************
+ * View Story view *
+ *************************************/
+viewStory : new View('viewStory', 'View Story', 
+        //in
+        function (fromView, viewport, callback) {
+            require(['epl/StoryViewModel'], function (StoryViewModel) {
+                // TODO - obtain the storyId from the params
+                var storyId = 1;
+                var storyViewModel = new StoryViewModel(storyId);
+                ko.applyBindings(storyViewModel);
+            });
+            callback();
+        }, 
+
+        //out
+        function (toView, viewport, callback) {
+            callback();
+        })
 };
+
 
 //End module
 });
