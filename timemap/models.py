@@ -108,5 +108,5 @@ def story_delete(sender, instance, **kwargs):
     """
     Delete media files when stories are deleted
     """
-    if sender in [Story]:
+    if sender in [Story] and instance.media_file:
         instance.media_file.delete(False)
