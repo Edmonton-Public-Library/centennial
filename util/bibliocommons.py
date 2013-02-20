@@ -27,3 +27,22 @@ def userID(username):
             return user["id"]
     raise Error("No user matches provided Username")
 
+def userContent(userID):
+    req = requests.get(APIRoot+"users/"+userID+"/user_content"}, params={'api_key': APIKey})
+    req.raise_for_status()
+    response = req.json()
+    
+    # Pagination possible
+    page = int(response["page"])
+    pages = int(response["pages"])
+    content = response["user_content"]
+    while (page < pages):
+        #rate limiting will be required here...
+        page++
+        req = requests.get(APIRoot+"users/"+userID+"/user_content"}, params={'page': page, 'api_key': APIKey})
+        req.raise_for_status()
+        response = req.json()
+        content.extend(response["user_content"]
+
+
+
