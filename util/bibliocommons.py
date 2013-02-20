@@ -1,0 +1,29 @@
+import requests
+
+# Publicly available Bibliocommons API
+APIRoot = "https://api.bibliocommons.com/v1/"
+APIKey = "5rre95xsrxv75tvekpzv5a5x"
+
+# Library information
+LibraryIndex = 5
+LibraryShortCode = "epl"
+
+# Bibliocommons EasyProxy
+AuthRoot = "https://"+LibraryShortCode+".bibliocommons.com/user/ext_auth"
+
+
+def validUser(username, password):
+    valid = requests.get(AuthRoot, params={'name': username, 'user_pin': password})
+    valid.raise_for_status()
+    return (valid.text == "+VALID")
+
+# Shouldn't ever need more than the first page
+def userID(username):
+    req = requests.get(APIRoot+"users", params={'q': username, 'api_key': APIKey})
+    req.raise_for_status()
+    response = req.json()
+    for user in response["users"]:
+        if (user["name"] == username):
+            return user["id"]
+    raise Error("No user matches provided Username")
+
