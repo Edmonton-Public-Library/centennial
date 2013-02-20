@@ -49,7 +49,7 @@ class StoryResource(ModelResource):
     keywords = fields.ListField()
 
     class Meta:
-        queryset = Story.objects.all()
+        queryset = Story.objects.filter(public_approved=True)
         resource_name = "story"
         always_return_data = True
         max_limit = STORY_RESOURCE_LIMIT
@@ -66,6 +66,7 @@ class StoryResource(ModelResource):
                      "month": ['exact', 'gt', 'gte', 'lt', 'lte'],
                      "day": ['exact', 'gt', 'gte', 'lt', 'lte'],
                     }
+        excludes = ['public_approved']
 
 
     def build_filters(self, filters=None):
