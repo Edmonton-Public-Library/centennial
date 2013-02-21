@@ -20,6 +20,7 @@ return (function () {
         self.day = ko.observable();
         self.keywords = ko.observableArray();
         self.public_approved = ko.observable();
+        self.content_type = ko.observable();
         self.date = ko.computed(function() {
             if (self.day() != null && self.month() != null) {
                 return self.day() + "/" + self.month() + "/" + self.year();
@@ -39,6 +40,7 @@ return (function () {
             self.month(data.month);
             self.day(data.day);
             self.keywords(data.keywords);
+            self.content_type(data.content_type);
             self.public_approved(data.public_approved);
             $.getJSON(self.branch(), function(branchData) {
                 self.branch_name(branchData.name);
