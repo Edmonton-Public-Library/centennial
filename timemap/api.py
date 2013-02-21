@@ -42,6 +42,7 @@ class BranchResource(ModelResource):
                      "start_year": ['exact', 'gt', 'gte', 'lt', 'lte'],
                      "end_year": ['exact', 'gt', 'gte', 'lt', 'lte']
                     }
+
 class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
@@ -72,6 +73,7 @@ class StoryResource(ModelResource):
                      "year": ['exact', 'gt', 'gte', 'lt', 'lte'],
                      "month": ['exact', 'gt', 'gte', 'lt', 'lte'],
                      "day": ['exact', 'gt', 'gte', 'lt', 'lte'],
+                     "content_type":['in'],
                     }
         excludes = ['public_approved']
         validation = StoryValidation()
@@ -84,6 +86,9 @@ class StoryResource(ModelResource):
 
         if 'keyword' in filters:
             orm_filters['keywords__name__in'] = [k.lower() for k in filters['keyword'].split(',')]
+
+        if 'content_type__in' in filters:
+            orm_filters['content_type__in'] = [CONTENT_HYDRATE[f] for f in filters['content_type__in'].split(',')]
         return orm_filters
 
     def dehydrate_keywords(self, bundle):
