@@ -41,7 +41,7 @@ return (function () {
             self.keywords(data.keywords);
             self.public_approved(data.public_approved);
             $.getJSON(self.branch(), function(branchData) {
-                self.branch_name(branchData.name)
+                self.branch_name(branchData.name);
             });
         });
     };
