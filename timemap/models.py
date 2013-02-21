@@ -34,6 +34,20 @@ class Branch(models.Model):
         return self.name
 
 class Story(models.Model):
+    TEXT = "T"
+    LINK = "L"
+    IMAGE = "I"
+    PDF = "P"
+    AUDIO = "A"
+    VIDEO = "V"
+    CONTENT_TYPE_CHOICES = (
+        (TEXT, 'text'),
+        (LINK, 'link'),
+        (IMAGE, 'image'),
+        (PDF, 'pdf'),
+        (AUDIO, 'audio'),
+        (VIDEO, 'video'),
+    )
 
     class Meta:
         verbose_name_plural = "Stories"
@@ -55,7 +69,9 @@ class Story(models.Model):
                                blank=True)
     user = models.ForeignKey(User)
     public_approved = models.BooleanField(default=False)
-    #content type
+    content_type = models.CharField(max_length=1,
+                                    choices=CONTENT_TYPE_CHOICES,
+                                    default=TEXT)
 
     def clean(self):
         try:

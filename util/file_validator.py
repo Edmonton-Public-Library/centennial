@@ -45,8 +45,9 @@ class FileValidator(object):
         Check the extension, content type and file size.
         """
         self.check_file_extension(value)
-        self.check_file_mime_type(value)
+        mimetype = self.check_file_mime_type(value)
         self.check_file_size(value)
+        return mimetype
 
     def check_file_extension(self, value):
         ext = splitext(value.name)[1][1:].lower()
@@ -59,13 +60,17 @@ class FileValidator(object):
 
     def check_file_mime_type(self, value):
         mime = magic.Magic(mime=True)
-        mimetype = mime.from_file(value.file.temporary_file_path())
+        if hasattr(value.file, 'temporary_file_path'):
+            mimetype = mime.from_file(value.file.temporary_file_path())
+        else:
+            mimetype = mime.from_file(value.file.name)
         if self.allowed_mimetypes and mimetype not in self.allowed_mimetypes:
             message = self.mime_message % {
                 'mimetype': mimetype,
                 'allowed_mimetypes': ', '.join(self.allowed_mimetypes)
             }
             raise ValidationError(message)
+        return mimetype
 
     def check_file_size(self, value):
         filesize = len(value)

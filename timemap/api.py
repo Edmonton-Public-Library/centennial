@@ -9,6 +9,14 @@ from timemap.models import Branch, Story
 from timemap.constants import STORY_RESOURCE_LIMIT
 from util.story_validation import StoryValidation
 
+CONTENT_HYDRATE = {"text" : "T",
+                   "link": "L",
+                   "image": "I",
+                   "pdf": "P",
+                   "audio": "A",
+                   "video": "V",
+                  }
+
 class StoryAuthentication(Authentication):
     """
     Authenticates everyone if the request is GET, otherwise
@@ -102,3 +110,13 @@ class StoryResource(ModelResource):
         """
         bundle.data['user'] = "/api/v1/user/%d/" % bundle.request.user.id
         return bundle
+
+    def hydrate_content_type(self, bundle):
+        if bundle.data['content_type'] == 'media':
+            bundle.data['content_type'] = "T"
+            return bundle
+        bundle.data['content_type'] = CONTENT_HYDRATE[bundle.data['content_type']]
+        return bundle
+
+    def dehydrate_content_type(self, bundle):
+        return dict(Story.CONTENT_TYPE_CHOICES)[bundle.data['content_type']]

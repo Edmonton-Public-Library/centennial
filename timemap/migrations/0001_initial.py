@@ -35,6 +35,7 @@ class Migration(SchemaMigration):
             ('branch', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['timemap.Branch'])),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('public_approved', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('content_type', self.gf('django.db.models.fields.CharField')(default='T', max_length=1)),
         ))
         db.send_create_signal('timemap', ['Story'])
 
@@ -136,6 +137,7 @@ class Migration(SchemaMigration):
         'timemap.story': {
             'Meta': {'object_name': 'Story'},
             'branch': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['timemap.Branch']"}),
+            'content_type': ('django.db.models.fields.CharField', [], {'default': "'T'", 'max_length': '1'}),
             'day': ('epl.custommodels.IntegerRangeField', [], {'max_value': '31', 'min_value': '0', 'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'max_length': '40', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
