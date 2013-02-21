@@ -37,6 +37,15 @@ return {
 				epl.nav.transition(views.uploadStory);
 			});
 		});
+
+    		//branch view 
+		this.get('#branch', function () {
+                        require(['epl', 'views'], function (epl, views) {
+                                epl.nav.transition(views.branch);
+                        });
+                });
+
+
 		
 		//Route to View Story view
 		this.get('#viewStory/:id', function () {

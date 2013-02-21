@@ -56,6 +56,19 @@ example : new View('example', 'Example',
 			callback();
 		}),
 
+/*************************************
+* Branch View 
+*************************************/
+branch : new View('branch', 'Branch',
+                function (fromView, viewport, callback) {
+                        callback();
+                },
+
+                //out
+                function (toView, viewport, callback) {
+                        callback();
+                }),
+
 /**************************************
  * Upload Story view *
  *************************************/
