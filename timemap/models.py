@@ -33,6 +33,9 @@ class Branch(models.Model):
     def __unicode__(self):
         return self.name
 
+def media_upload_to(instance, filename):
+    return instance.CONTENT_TYPE_DICT[instance.content_type]+ "/" + filename
+
 class Story(models.Model):
     TEXT = "T"
     LINK = "L"
@@ -48,6 +51,7 @@ class Story(models.Model):
         (AUDIO, 'audio'),
         (VIDEO, 'video'),
     )
+    CONTENT_TYPE_DICT = dict(CONTENT_TYPE_CHOICES)
 
     class Meta:
         verbose_name_plural = "Stories"
@@ -56,7 +60,7 @@ class Story(models.Model):
     description = models.TextField(max_length=STORY_DESCRIPTION_LEN, blank=True)
     story_text = models.TextField(max_length=STORY_TEXT_LEN, blank=True)
     link_url = models.URLField(blank=True, error_messages={'invalid': "Please input a valid URL"})
-    media_file = models.FileField(upload_to="images",
+    media_file = models.FileField(upload_to=media_upload_to,
                                   blank=True,
                                   validators=[FileValidator(allowed_extensions=UPLOAD_EXTENSIONS,
                                                            allowed_mimetypes=UPLOAD_MIME_TYPES)])
