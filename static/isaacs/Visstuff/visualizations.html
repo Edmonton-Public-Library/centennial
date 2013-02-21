@@ -1,0 +1,58 @@
+
+<html>
+  <head>
+	<title>Visualizations</title>
+	
+	<script>
+		var studentColours = ["#ff0000", "#008000", "#0000ff", "#ff6600", "#800080", "#a52a2a", "#000000"];
+		var studentMapping = {"Daniel Kritsky":0, "Dylan Gibbs":1, "Joel Boulet":2, "Marko Grasa":3, "Nicholas Liu":4, "Zachary Jullion":5};
+		var preloadMap = {"Students":{"Student1":0, "Student2":1, "Student3":2, "Student4":3, "Student5":4, "Student6":5, "Student7":6}};
+		
+		var getStudentLabel = function(obj) {
+			var stuNum = studentMapping[obj.author] + 1;
+			return "Student" + stuNum;
+		};
+		
+		var getAuthor1Label = function(obj) {
+			var stuNum = studentMapping[obj.author1] + 1;
+			return "Student" + stuNum;
+		};
+		
+		var getAuthor2Label = function(obj) {
+			var stuNum = studentMapping[obj.author2] + 1;
+			return "Student" + stuNum;
+		};
+	</script>
+	
+	<script src='combined visuals.js' type='text/javascript'> </script>
+	
+	
+    <link type="text/css" rel="stylesheet" href="partition/partition.css"/>
+	<link href='force graph/force.css' rel='stylesheet' type='text/css' />
+	<link href="wheel/wheel.css" rel="stylesheet">
+	<link href='chord/chord.css' rel='stylesheet' type='text/css' />
+	<link type="text/css" href="timeline/simile.css" rel="stylesheet">
+	
+	<link href='imports/legend/legend.css' rel='stylesheet' type='text/css' />
+	<link href='imports/info/infoWindow.css' rel='stylesheet' type='text/css' />
+  </head>
+  <body onload="loadEverything()">
+	<div id='mapChoices'></div>
+	<div id='filters' class='filters'>
+	</div>
+		<button type="button" onclick="refreshAll()">Refresh</button> 
+	
+	<div id="activityTimeline" style="height: 600px; border: 1px solid #aaa"></div>
+	<div id="simileTimeline" style="height: 600px; border: 1px solid #aaa"></div>
+	<div class='gallery' id='activityChord'> </div>
+	<div id="activityWheel"></div>
+	<div id="timeWheel"></div>
+	<div id="timePartition"></div>
+	<div id="bigFDG"></div>
+	<div id="forceGraph"></div>
+	<div id="streamGraph"></div>
+	
+		<div id='infoWindow' class='info_window'></div>
+		<div id='legend' class='legend'></div>
+  </body>
+</html>

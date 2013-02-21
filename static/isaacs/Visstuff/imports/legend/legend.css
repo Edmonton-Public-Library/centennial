@@ -1,0 +1,14 @@
+circle.circle {
+  stroke: #000;
+  stroke-width: 0.7px;
+}
+
+polygon.shape {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+circle.shape {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
