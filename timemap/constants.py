@@ -17,6 +17,7 @@ STORY_RESOURCE_LIMIT = 100
 UPLOAD_MIME_TYPES = ('image/png',
                      'image/jpeg',
                      'image/pjpeg',
+                     'audio/mpeg',
                      'audio/mpeg3',
                      'audio/x-mpeg-3',
                      'application/pdf',

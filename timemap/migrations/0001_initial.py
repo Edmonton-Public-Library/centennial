@@ -51,6 +51,15 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('timemap', ['Map'])
 
+        # Adding model 'UserProfile'
+        db.create_table('timemap_userprofile', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], unique=True)),
+            ('phoneNumber', self.gf('django.db.models.fields.CharField')(max_length=10)),
+            ('activated', self.gf('django.db.models.fields.BooleanField')(default=False)),
+        ))
+        db.send_create_signal('timemap', ['UserProfile'])
+
 
     def backwards(self, orm):
         # Deleting model 'Branch'
@@ -61,6 +70,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Map'
         db.delete_table('timemap_map')
+
+        # Deleting model 'UserProfile'
+        db.delete_table('timemap_userprofile')
 
 
     models = {
@@ -149,6 +161,13 @@ class Migration(SchemaMigration):
             'title': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'year': ('epl.custommodels.IntegerRangeField', [], {'max_value': '3000', 'min_value': '1900'})
+        },
+        'timemap.userprofile': {
+            'Meta': {'object_name': 'UserProfile'},
+            'activated': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'phoneNumber': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'unique': 'True'})
         }
     }
 

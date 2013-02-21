@@ -33,6 +33,9 @@ class Branch(models.Model):
     def __unicode__(self):
         return self.name
 
+def media_upload_to(instance, filename):
+    return instance.CONTENT_TYPE_DICT[instance.content_type]+ "/" + filename
+
 class Story(models.Model):
     TEXT = "T"
     LINK = "L"
@@ -48,6 +51,7 @@ class Story(models.Model):
         (AUDIO, 'audio'),
         (VIDEO, 'video'),
     )
+    CONTENT_TYPE_DICT = dict(CONTENT_TYPE_CHOICES)
 
     class Meta:
         verbose_name_plural = "Stories"
@@ -56,7 +60,7 @@ class Story(models.Model):
     description = models.TextField(max_length=STORY_DESCRIPTION_LEN, blank=True)
     story_text = models.TextField(max_length=STORY_TEXT_LEN, blank=True)
     link_url = models.URLField(blank=True, error_messages={'invalid': "Please input a valid URL"})
-    media_file = models.FileField(upload_to="images",
+    media_file = models.FileField(upload_to=media_upload_to,
                                   blank=True,
                                   validators=[FileValidator(allowed_extensions=UPLOAD_EXTENSIONS,
                                                            allowed_mimetypes=UPLOAD_MIME_TYPES)])
@@ -105,10 +109,29 @@ class Map(models.Model):
     def __unicode__(self):
         return self.title
 
+class UserProfile(models.Model):
+
+    class Meta:
+        verbose_name = "User Profile"
+
+    user = models.ForeignKey(User, unique=True)
+    phoneNumber = models.CharField(max_length=10)
+    activated = models.BooleanField()
+
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
 # Signal setup
 
 from django.dispatch.dispatcher import receiver
 from django.db.models.signals import pre_save, pre_delete
+
+@receiver(pre_save, sender=UserProfile)
+def send_activation_email(sender, **kwargs):
+    """
+    Send acivation e-mail for unactivated users
+    """
+    instance = kwargs['instance']
+    print instance
 
 @receiver(pre_save)
 def validate_model(sender, **kwargs):
