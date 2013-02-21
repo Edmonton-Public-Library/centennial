@@ -41,7 +41,7 @@ class Story(models.Model):
     title = models.CharField(max_length=STORY_TITLE_LEN)
     description = models.TextField(max_length=STORY_DESCRIPTION_LEN, blank=True)
     story_text = models.TextField(max_length=STORY_TEXT_LEN, blank=True)
-    link_url = models.URLField(blank=True)
+    link_url = models.URLField(blank=True, error_messages={'invalid': "Please input a valid URL"})
     media_file = models.FileField(upload_to="images",
                                   blank=True,
                                   validators=[FileValidator(allowed_extensions=UPLOAD_EXTENSIONS,

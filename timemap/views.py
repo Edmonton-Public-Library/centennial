@@ -2,14 +2,11 @@ from django.shortcuts import render_to_response
 from django.template.loader import get_template
 from django.template import Context
 from django.http import HttpResponse
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.contrib.auth import authenticate, login, logout
 
 import epl.settings
 import util
 import util.email.email_template
-from timemap.models import Story
-from timemap.forms import UploadForm
 
 def timemap(request):
     t = get_template('timemap.html')
@@ -21,20 +18,7 @@ def upload(request, story_id):
     story.
     """
     if request.method == 'POST':
-        form = UploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            media_file = request.FILES['up_file']
-            try:
-                story = Story.objects.get(pk=story_id)
-            except ObjectDoesNotExist:
-                return util.gen_json_badrrequest_response("Invalid story_id")
-            story.media_file = media_file
-            try:
-                story.save()
-            except ValidationError, e:
-                errors = [m[0] for m in e.message_dict.values()]
-                return util.gen_json_badrrequest_response('\n'.join(errors))
-            return HttpResponse()
+        return util.validate_media_upload(request, story_id)
     else:
         return HttpResponse(status="501")
     return HttpResponse(status="500")

@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 from timemap.models import Branch, Story
 from timemap.constants import STORY_RESOURCE_LIMIT
+from util.story_validation import StoryValidation
 
 class StoryAuthentication(Authentication):
     """
@@ -54,8 +55,6 @@ class StoryResource(ModelResource):
         always_return_data = True
         max_limit = STORY_RESOURCE_LIMIT
         allowed_methods = ['get', 'post']
-        #TODO:  This removes authorization. Currently setup like this to allow
-        #       testing. Should be removed as soon as Users and sessions are setup
         authentication = StoryAuthentication()
         authorization = DjangoAuthorization()
         filtering = {"keywords": ALL_WITH_RELATIONS,
@@ -67,7 +66,7 @@ class StoryResource(ModelResource):
                      "day": ['exact', 'gt', 'gte', 'lt', 'lte'],
                     }
         excludes = ['public_approved']
-
+        validation = StoryValidation()
 
     def build_filters(self, filters=None):
         if filters is None:

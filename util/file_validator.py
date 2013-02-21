@@ -2,7 +2,7 @@
 Modified from:
 https://gist.github.com/jrosebr1/2140738/raw/b92151bc2b10dbd6bfa656eb2e6c47a53c1b5b52/validators.py
 """
-import mimetypes
+import magic
 from os.path import splitext
 
 from django.core.exceptions import ValidationError
@@ -58,7 +58,8 @@ class FileValidator(object):
             raise ValidationError(message)
 
     def check_file_mime_type(self, value):
-        mimetype = mimetypes.guess_type(value.name)[0]
+        mime = magic.Magic(mime=True)
+        mimetype = mime.from_file(value.file.temporary_file_path())
         if self.allowed_mimetypes and mimetype not in self.allowed_mimetypes:
             message = self.mime_message % {
                 'mimetype': mimetype,
