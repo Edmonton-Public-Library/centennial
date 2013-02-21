@@ -17,7 +17,6 @@ def validUser(username, password):
     valid.raise_for_status()
     return (valid.text == "+VALID")
 
-# Shouldn't ever need more than the first page
 def userID(username):
     req = requests.get(APIRoot+"users", params={'q': username, 'api_key': APIKey})
     req.raise_for_status()
@@ -28,22 +27,37 @@ def userID(username):
     raise Error("No user matches provided Username")
 
 def userContent(userID):
-    req = requests.get(APIRoot+"users/"+userID+"/user_content"}, params={'api_key': APIKey})
+    req = requests.get(APIRoot+"users/"+userID+"/user_content", params={'api_key': APIKey})
     req.raise_for_status()
     response = req.json()
     
-    # Pagination possible
     page = int(response["page"])
     pages = int(response["pages"])
     content = response["user_content"]
     while (page < pages):
         #rate limiting will be required here...
-        page++
-        req = requests.get(APIRoot+"users/"+userID+"/user_content"}, params={'page': page, 'api_key': APIKey})
+        page += 1
+        req = requests.get(APIRoot+"users/"+userID+"/user_content", params={'page': page, 'api_key': APIKey})
         req.raise_for_status()
         response = req.json()
         content.extend(response["user_content"])
     return content
 
+def userLists(userID):
+    req = requests.get(APIRoot+"users/"+userID+"/lists", params={'api_key': APIKey})
+    req.raise_for_status()
+    response = req.json()
+    
+    page = int(response["page"])
+    pages = int(response["pages"])
+    content = response["lists"]
+    while (page < pages):
+        #rate limiting will be required here...
+        page += 1
+        req = requests.get(APIRoot+"users/"+userID+"/lists", params={'page': page, 'api_key': APIKey})
+        req.raise_for_status()
+        response = req.json()
+        content.extend(response["lists"])
+    return content
 
 
