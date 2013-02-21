@@ -71,12 +71,12 @@ class EntryResourceTest(ResourceTestCase):
         self.test_story = {"branch": self.capilano_url,
                      "day": 30,
                      "description": "For children up to age three",
-                     "link_url": "http://www.shareedmonton.ca/",
                      "month": 1,
                      "public_approved": True,
                      "resource_uri": "/api/v1/story/1/",
                      "story_text": "Location\tInformation\tRegistration",
                      "title": "Sing, Sign, Laugh and Learn",
+                     "content_type": "text",
                      "year": 2013
                     }
 

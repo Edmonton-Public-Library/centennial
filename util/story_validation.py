@@ -46,4 +46,3 @@ class StoryValidation(Validation):
 
         errors.update(self.content_types[bundle.data['content_type']](bundle))
         return errors
-
