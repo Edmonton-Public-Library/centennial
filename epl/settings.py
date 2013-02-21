@@ -159,3 +159,5 @@ LOGGING = {
 FILE_UPLOAD_HANDLERS = (
             'django.core.files.uploadhandler.TemporaryFileUploadHandler',
             )
+
+AUTH_PROFILE_MODEL = "timemap.models.UserProfile"
