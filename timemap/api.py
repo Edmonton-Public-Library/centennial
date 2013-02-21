@@ -42,6 +42,18 @@ class BranchResource(ModelResource):
                      "start_year": ['exact', 'gt', 'gte', 'lt', 'lte'],
                      "end_year": ['exact', 'gt', 'gte', 'lt', 'lte']
                     }
+        ordering = ['start_year', 'end_year']
+
+class SimpleBranchResource(ModelResource):
+    class Meta:
+        queryset = Branch.objects.all()
+        resource_name = "simple_branch"
+        allowed_methods = ['get']
+        fields = ["id", "start_year", "end_year"]
+        filtering = {"start_year": ['exact', 'gt', 'gte', 'lt', 'lte'],
+                     "end_year": ['exact', 'gt', 'gte', 'lt', 'lte']
+                    }
+        ordering = ['start_year', 'end_year']
 
 class UserResource(ModelResource):
     class Meta:
@@ -77,6 +89,7 @@ class StoryResource(ModelResource):
                     }
         excludes = ['public_approved']
         validation = StoryValidation()
+        ordering = ['year', 'month', 'day']
 
     def build_filters(self, filters=None):
         if filters is None:

@@ -4,13 +4,14 @@ from django.conf import settings
 from django.contrib import admin
 from tastypie.api import Api
 
-from timemap.api import BranchResource, StoryResource, UserResource
+from timemap.api import BranchResource, StoryResource, UserResource, SimpleBranchResource
 from timemap.views import timemap, upload, accountActivate
 from timemap.views import timemap, upload, login_user, logout_user
 
 admin.autodiscover()
 v1_api = Api(api_name="v1")
 v1_api.register(BranchResource())
+v1_api.register(SimpleBranchResource())
 v1_api.register(StoryResource())
 v1_api.register(UserResource())
 
