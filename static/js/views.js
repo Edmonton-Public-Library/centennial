@@ -1,6 +1,6 @@
 ;
 //Create a module to contain client-side views
-define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment'], function(epl, View, ko, Environment) {
+define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment', 'epl/Branch'], function(epl, View, ko, Environment) {
 
 return {
 
@@ -61,7 +61,10 @@ example : new View('example', 'Example',
 *************************************/
 branch : new View('branch', 'Branch',
                 function (fromView, viewport, callback) {
-                        callback();
+                 	require(['epl/Branch'], function (Branch) { 
+				var brch = new Branch(${'#BranchView'}); 
+			});			       
+			callback();
                 },
 
                 //out
@@ -81,6 +84,7 @@ uploadStory : new View('uploadStory', 'Upload Story',
 			});
 			callback();
 		}, 
+
 
 		//out
 		function (toView, viewport, callback) {
