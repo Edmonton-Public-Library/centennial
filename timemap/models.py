@@ -118,6 +118,8 @@ class UserProfile(models.Model):
     phoneNumber = models.CharField(max_length=10)
     activated = models.BooleanField()
 
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
 # Signal setup
 
 from django.dispatch.dispatcher import receiver
