@@ -157,6 +157,33 @@ body {
 			width: @sidebarWidth - 15;
 			margin: 20px auto;
 		}
+
+		.results {
+
+			.search-result {
+				@search-result-background-color: #DBDBDB;
+				background-color: @search-result-background-color;
+				margin: 8px;
+				padding: 8px;
+				cursor: default;
+
+				&:hover {
+					background-color: darken(@search-result-background-color, 6%);
+				}
+				
+				.title {
+					color: #525252;
+					font-size: 18px;
+					margin: 0;
+				}
+
+				.description {
+					color: #7A7A7A;
+					font-size: 12px;
+					margin: 10px 0 0 0;
+				}
+			}
+		}
 	}
 }
 

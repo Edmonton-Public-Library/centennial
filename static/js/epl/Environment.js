@@ -2,6 +2,8 @@
 define(['lib/knockout'], function (ko) {
 
 	var Environment = new(function () {
+
+		//Display characteristics
 		this.display = new (function () {
 			var display = this;
 
@@ -18,7 +20,12 @@ define(['lib/knockout'], function (ko) {
 			this.viewportHeight = ko.computed(function () {
 				return display.height() - display.topBarHeight();
 			});
+		})();
 
+		//Server paths and other route information
+		this.routes = new (function () {
+			this.baseUri = 'http://localhost:8000';
+			this.apiBase = this.baseUri + '/api/v1';
 		})();
 	})();
 

@@ -26,7 +26,7 @@ main : new View('timemap', 'Home',
 					});
 					ko.applyBindings({
 						Environment : Environment
-					});
+					}, mapCanvas[0]);
 				//Otherwise display the loaded map
 				} else {
 					epl.storage.map.render(mapCanvas);
@@ -60,17 +60,17 @@ example : new View('example', 'Example',
 * Branch View 
 *************************************/
 branch : new View('branch', 'Branch',
-                function (fromView, viewport, callback) {
-                 	require(['epl/Branch'], function (Branch) { 
+		function (fromView, viewport, callback) {
+			require(['epl/Branch'], function (Branch) { 
 				var brch = new Branch(${'#BranchView'}); 
-			});			       
+			});
 			callback();
-                },
+		},
 
-                //out
-                function (toView, viewport, callback) {
-                        callback();
-                }),
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
 
 /**************************************
  * Upload Story view *

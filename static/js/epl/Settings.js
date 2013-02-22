@@ -51,8 +51,9 @@ return {
 		this.get('#viewStory/:id', function () {
 		    // TODO - figure out how to pass the param to the view?
 		    // var storyId = this.params['id'];
+		    var self = this;
 			require(['epl', 'views'], function (epl, views) {
-				epl.nav.transition(views.viewStory);
+				epl.nav.transition(views.viewStory, self.params);
 			});
 		});
 		

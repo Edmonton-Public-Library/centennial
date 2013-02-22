@@ -18,10 +18,10 @@
 			</li>
 		</ul>
 		<input type="text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
-		<select class="epl-input select search-select">
+		<!--<select class="epl-input select search-select">
 			<option value="test">Test</option>
 			<option value="cool" selected="selected">Cool</option>
-		</select>
+		</select>-->
 		<!-- <div class="epl-input select search-select">
 			<div class="option-list">
 				<div class="option option-selected" data-value="option1" data-text="Option 1">
@@ -44,7 +44,20 @@
 				</div>
 			</div>
 		</div> -->
-		<div class="results">Results for: </div>
+		<div class="results">
+			<!-- ko ifnot: searchResults().length > 0 -->
+			<div class="search-result">
+				<p class="title">No results.</p>
+				<p class="description">Begin typing in the search box to narrow your query.</p>
+			</div>
+			<!-- /ko -->
+			<!-- ko foreach: {data: searchResults(), as: 'result'} -->
+			<div class="search-result">
+				<p class="title" data-bind="text: result.title"></p>
+				<p class="description" data-bind="text: result.description"></p>
+			</div>
+			<!-- /ko -->
+		</div>
 	</div>
 </div>
 <div id="tm-canvas" data-bind="
