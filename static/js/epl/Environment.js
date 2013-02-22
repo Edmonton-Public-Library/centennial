@@ -24,8 +24,8 @@ define(['lib/knockout'], function (ko) {
 
 		//Server paths and other route information
 		this.routes = new (function () {
-			this.baseUri = 'http://localhost:8000';
-			this.apiBase = this.baseUri + '/api/v1';
+			this.baseUri = 'http://localhost:8000'; //TODO: Make this portable
+			this.apiBase = '/api/v1';
 		})();
 	})();
 
