@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 from epl.custommodels import IntegerRangeField, FloatRangeField
 from util.file_validator import FileValidator
-from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE_LEN, TASK_TITLE_LEN, TASK_TYPES
+from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE_LEN, TASK_TITLE_LEN, TASK_DESC_LEN, TASK_CODE_LEN, TASK_TYPES
 
 class QuestSet(models.Model):
     

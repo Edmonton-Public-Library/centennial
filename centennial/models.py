@@ -10,9 +10,11 @@ class UserProfile(models.Model):
     class Meta:
         verbose_name_plural = "UserProfiles"
     
-    facebook = models.CharField(max_length=FACEBOOK_KEY_LEN, blank=True)
-    biblioname = models.CharField(max_length=BIBLIO_USER_LEN, blank=True)
-    biblioid = models.IntegerField(blank=True)
+    facebook = models.CharField(max_length=FACEBOOK_KEY_LEN, default='', blank=True)
+    biblioname = models.CharField(max_length=BIBLIO_USER_LEN, default='', blank=True)
+    biblioid = models.IntegerField(default=-1,blank=True)
+    phoneNumber = models.CharField(max_length=10,default='', blank=True)
+    activated = models.BooleanField()
     
     def __unicode__(self):
         return self.user.__unicode__() + "'s Profile"
@@ -25,3 +27,15 @@ post_save.connect(create_user_profile, sender=User)
 
 User.profile = property(lambda u: u.get_profile() )
 
+#Signals
+
+from django.dispatch.dispatcher import receiver
+from django.db.models.signals import pre_save
+
+@receiver(pre_save, sender=UserProfile)
+def send_activation_email(sender, **kwargs):
+    """
+        Send acivation e-mail for unactivated users
+        """
+    instance = kwargs['instance']
+    print instance
