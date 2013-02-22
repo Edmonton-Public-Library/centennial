@@ -1,11 +1,10 @@
 from datetime import datetime
 from django.db import models
 from django.core.exceptions import ValidationError
-from taggit.managers import TaggableManager
 
 from epl.custommodels import IntegerRangeField, FloatRangeField
 from util.file_validator import FileValidator
-from hyquest.constants import QUEST_TITLE_LEN, TASK_TITLE_LEN, TASK_TYPES
+from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE_LEN, TASK_TITLE_LEN, TASK_TYPES
 
 class QuestSet(models.Model):
     
@@ -39,7 +38,7 @@ class Task(models.Model):
     title = models.CharField(max_length=TASK_TITLE_LEN)
     points = IntegerRangeField(min_value=0, max_value=6000)
     quest = models.ForeignKey('Quest')
-    type = models.IntegerRangeField(min_value=0, max_value=len(TASK_TYPES))
+    type = IntegerRangeField(min_value=0, max_value=len(TASK_TYPES))
 
     def __unicode__(self):
         return self.title
