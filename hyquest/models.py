@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.contrib.auth.models import User
 from django.db import models
 from django.core.exceptions import ValidationError
 
@@ -43,6 +44,17 @@ class Task(models.Model):
     def __unicode__(self):
         return self.title
 
+class UserCompletion(models.Model):
+    
+    class Meta:
+        verbose_name_plural = "UserCompletions"
+    
+    user = models.ForeignKey(User)
+    task = models.ForeignKey('Task')
+    completionTime = models.DateField()
+    
+    def __unicode__(self):
+        return self.title
 # Signal setup
 
 from django.dispatch.dispatcher import receiver
