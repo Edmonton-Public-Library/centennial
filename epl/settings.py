@@ -123,9 +123,13 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'tastypie',
     'taggit',
+    'hyquest',
+    'centennial'
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+AUTH_PROFILE_MODULE = 'centennial.UserProfile'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
