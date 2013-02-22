@@ -19,7 +19,6 @@ return (function () {
         self.month = ko.observable();
         self.day = ko.observable();
         self.keywords = ko.observableArray();
-        self.public_approved = ko.observable();
         self.content_type = ko.observable();
         self.date = ko.computed(function() {
             if (self.day() != null && self.month() != null) {
@@ -29,7 +28,12 @@ return (function () {
             }
         }, this);
 
-        $.getJSON(Settings.apiStoryUrl + storyId, function(data) {
+        // Need to set ajax to be synchronous so that we don't apply the 
+        // knockout bindings until the story data is populated.
+        $.ajaxSetup ({
+            "async": false
+        });
+        $.getJSON (Settings.apiStoryUrl + storyId, function(data) {
             self.title(data.title);
             self.description(data.description);
             self.story_text(data.story_text);
@@ -41,11 +45,11 @@ return (function () {
             self.day(data.day);
             self.keywords(data.keywords);
             self.content_type(data.content_type);
-            self.public_approved(data.public_approved);
             $.getJSON(self.branch(), function(branchData) {
                 self.branch_name(branchData.name);
             });
         });
+        
     };
     return StoryViewModel;
 })();

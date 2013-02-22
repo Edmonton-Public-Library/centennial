@@ -97,11 +97,22 @@ uploadStory : new View('uploadStory', 'Upload Story',
 viewStory : new View('viewStory', 'View Story', 
         //in
         function (fromView, viewport, callback) {
-            require(['epl/StoryViewModel'], function (StoryViewModel) {
+            require(['epl/StoryViewModel', 'lib/jquery.jplayer'], function (StoryViewModel) {
                 // TODO - obtain the storyId from the params
                 var storyId = 1;
-                var storyViewModel = new StoryViewModel(storyId);
-                ko.applyBindings(storyViewModel);
+                var story = new StoryViewModel(storyId);
+                ko.applyBindings(story);
+                
+                if (story.content_type() == "audio") {
+                    $("#audio_jplayer").jPlayer({
+                        ready: function () {
+                            $(this).jPlayer("setMedia", {
+                                mp3: story.media_file()
+                             });
+                        },
+                        supplied: "mp3"
+                    });
+                }
             });
             callback();
         }, 
