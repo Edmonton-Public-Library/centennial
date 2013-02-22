@@ -30,12 +30,12 @@ def accountActivate(request):
     if request.method == 'GET':
         # i should only have one parameter
         if len(request.GET) != 1:
-            return HttpResponse(status='501')
+            return HttpResponse('here1: %s'%str(request.GET))
 
         activationKey = request.GET.get('key', None)
         # make sure that  i had the correct parameter
         if activationKey is None:
-            return HttpResponse(status='501')
+            return HttpResponse('here2')
 
         #need to connect to backed to verify the key and activate the account if
         #successful
@@ -47,7 +47,7 @@ def accountActivate(request):
 
         return HttpResponse("Your account %s has been successfully activated" % (emailAndTime))
     else:
-        return HttpResponse(status='501')
+        return HttpResponse(status='here3')
 
 def login_user(request):
     """

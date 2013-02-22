@@ -11,6 +11,8 @@ from timemap.constants import BRANCH_NAME_LEN, BRANCH_DESCRIPTION_LEN, STORY_TIT
                               MAP_TITLE_LEN, MAP_AUTHOR_LEN, UPLOAD_EXTENSIONS, \
                               UPLOAD_MIME_TYPES
 
+from util.email import emailer, email_template
+
 class Branch(models.Model):
 
     class Meta:
@@ -115,8 +117,10 @@ class UserProfile(models.Model):
         verbose_name = "User Profile"
 
     user = models.ForeignKey(User, unique=True)
-    phoneNumber = models.CharField(max_length=10)
-    activated = models.BooleanField()
+    phone_number = models.CharField(max_length=10)
+    email_sent = models.BooleanField(default=False)
+    def __unicode__(self):
+        return unicode(self.user)
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
@@ -131,7 +135,12 @@ def send_activation_email(sender, **kwargs):
     Send acivation e-mail for unactivated users
     """
     instance = kwargs['instance']
-    print instance
+    if instance.email_sent == False:
+        name = "%s %s"%(instance.user.first_name, instance.user.last_name)
+        email = instance.user.email
+        notification_email = email_template.getRegistrationNotification(name, "http://localhost:8000", email, "00:00", "html")
+        emailer.do_send(notification_email, email)
+        instance.email_sent = True
 
 @receiver(pre_save)
 def validate_model(sender, **kwargs):
