@@ -40,6 +40,8 @@ class Task(models.Model):
     points = IntegerRangeField(min_value=0, max_value=6000)
     quest = models.ForeignKey('Quest')
     type = IntegerRangeField(min_value=0, max_value=len(TASK_TYPES))
+    description = models.CharField(max_length=TASK_DESC_LEN)
+    taskcode = models.CharField(max_length=TASK_CODE_LEN)
 
     def __unicode__(self):
         return self.title
