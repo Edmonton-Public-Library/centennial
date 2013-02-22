@@ -1,3 +1,4 @@
 *.pyc
 epl/timemap.db
 tags
+media/stats.json

@@ -30,3 +30,13 @@ def resetdbadmin():
     local('python manage.py syncdb --noinput')
     updatedb()
     local('python manage.py loaddata fts/fixtures/admin_user.json')
+
+def storystats():
+    import sys
+    import os
+    sys.path.append(os.curdir)
+    import epl.settings as epl_settings
+    from django.core.management import setup_environ
+    setup_environ(epl_settings)
+    import util
+    util.gen_story_stats()

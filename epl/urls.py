@@ -5,8 +5,7 @@ from django.contrib import admin
 from tastypie.api import Api
 
 from timemap.api import BranchResource, StoryResource, UserResource, SimpleBranchResource
-from timemap.views import timemap, upload, accountActivate
-from timemap.views import timemap, upload, login_user, logout_user
+from timemap.views import timemap, upload, accountActivate, login_user, logout_user
 
 admin.autodiscover()
 v1_api = Api(api_name="v1")

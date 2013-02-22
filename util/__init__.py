@@ -44,3 +44,14 @@ def validate_media_upload(request, story_id):
         errors = [m[0] for m in e.message_dict.values()]
         return gen_json_badrrequest_response('\n'.join(errors))
     return HttpResponse()
+
+def gen_story_stats():
+    from timemap.models import Story
+    counts = {}
+    for story in Story.objects.all():
+        branch_count = counts.setdefault(story.branch.name, {})
+        branch_count.setdefault(story.year, 0)
+        branch_count[story.year] += 1
+    with open("media/stats.json", 'w') as f:
+        f.write(json.dumps(counts))
+    return counts
