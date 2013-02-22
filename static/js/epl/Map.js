@@ -1,5 +1,5 @@
 ;
-define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'epl/Environment', 'lib/timemap/mxn'], function (epl, Settings, Error, ko, Environment) {
+define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'epl/Environment'], function (epl, Settings, Error, ko, Environment) {
 
 return (function () {
 

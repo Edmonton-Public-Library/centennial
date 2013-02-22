@@ -18,10 +18,8 @@ return (function () {
 	 * Make instance methods like this
 	 */
 	Branch.prototype.setData = function (floorPlan, userData) {
-	this.data.stories(userData);
-	this.data.image(floorPlan); 
-	
-<div data-bind="css: {backgroundImage: image}"></div>	
+		this.data.stories(userData);
+		this.data.image(floorPlan); 
 	};
 
 	/**
