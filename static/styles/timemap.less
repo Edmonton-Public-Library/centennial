@@ -257,9 +257,10 @@ body {
 	@infoRadius: 7px;
 	width: @infoWidth;
 	height: @infoHeight;
-	margin: -(@infoHeight + 50) 0 0 -(@infoWidth / 2);
+	margin: -(@infoHeight + 20) 0 0 -(@infoWidth / 2);
 	background-color: white;
 	border: solid 1px #969696;
+	cursor: default;
 	.x-border-radius(@infoRadius);
 	.x-box-shadow(0,0,15px,0,rgba(0,0,0,0.7));
 	p {
@@ -284,10 +285,17 @@ body {
 			height: @titleHeight;
 			padding: @closePadding;
 			background-color: darken(@titleBackground, 10%);
+			text-align: center;
 			position: absolute;
 			top: 0;
 			right: 0;
 			.x-border-top-right-radius(@infoRadius);
+			cursor: pointer;
+
+			&:hover {
+				background-color: #C4272A;
+				color: white;
+			}
 		}
 	}
 

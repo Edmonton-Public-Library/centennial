@@ -30,6 +30,8 @@ return (function () {
 			}
 		};
 
+		this.registerBindingHandlers();
+
 		window.eplMapsInit = function () {
 			//Run the Map loader
 			self.map = new google.maps.Map(self.mapElement[0], {}); //Defer setting options until rendering
@@ -154,15 +156,21 @@ return (function () {
 		require(['lib/infobox'], function (InfoBox) {
 			Map.withBranchInfo(pin.id, function (branch) {
 				self.mapData.selectedBranch(branch);
+
+				//Clone the overlay template and create a unique ID for tracking it
 				templateID = Utils.guid();
 				infoTemplate = $(branchInfoSelector).clone();
 				infoTemplate.find('.' + branchInfoClass).attr('id', templateID);
+
+				//Create the info box and set its content
 				self.mapData.infoBox = new InfoBox({
 					position : new google.maps.LatLng(pin.lat, pin.lng),
 					content : infoTemplate.html(),
+					zIndex: 1,
 					closeBoxURL: ''
 				});
 
+				//Bind data from the selected branch to the info box
 				google.maps.event.addListener(self.mapData.infoBox, 'domready', function () {
 					ko.applyBindings(self.mapData, $('#' + templateID)[0]);
 				});
@@ -196,9 +204,21 @@ return (function () {
 		});
 	};
 
+	Map.prototype.registerBindingHandlers = function () {
+		var self = this;
+		ko.bindingHandlers.closeBranchInfo = {
+			init : function (element) {
+				$(element).click(function () {
+					self.hideInfo();
+				});
+			}
+		};
+	}
+
 	return Map;
 
 })();
+
 
 //End module
 });
