@@ -11,6 +11,8 @@ from timemap.constants import BRANCH_NAME_LEN, BRANCH_DESCRIPTION_LEN, STORY_TIT
                               MAP_TITLE_LEN, MAP_AUTHOR_LEN, UPLOAD_EXTENSIONS, \
                               UPLOAD_MIME_TYPES
 
+from util.email import emailer, email_template
+
 class Branch(models.Model):
 
     class Meta:
@@ -108,7 +110,6 @@ class Map(models.Model):
 
     def __unicode__(self):
         return self.title
-
 
 # Signal setup
 
