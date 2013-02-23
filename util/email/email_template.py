@@ -12,7 +12,7 @@ def getRegistrationNotification(name, baseUrl, email, creationTime, MIME):
     return getattr(sys.modules[__name__], textFormatter)(_REGISTRATION_NOTIFICATION % (name, url))
 
 def _formatUrlAshtml(raw):
-    return "<a href=\"%s\">"%(raw)
+    return "<a href=\"%s\">link</a>"%(raw)
 
 def _formatTextAshtml(raw):
     return """\
@@ -27,6 +27,9 @@ def _formatTextAshtml(raw):
     """ % (raw)
 
 def aesEncrypt(msg):
+    diff = len(msg) % 16
+    padd = " "*(16-diff)
+    msg += padd
     cipher = AES.new(_ENCRYPTION_KEY)
     return cipher.encrypt(msg)
 

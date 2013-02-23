@@ -4,8 +4,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def do_send(msg_text, dst_address, MIME='html', smtp_login=None):
-    me = "noorez@debian-cs.nooni.inc"
+def do_send(msg_text, src_address, dst_address, MIME='html', smtp_login=None):
+    me = src_address
 
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')

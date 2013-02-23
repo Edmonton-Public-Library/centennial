@@ -11,6 +11,8 @@ from timemap.constants import BRANCH_NAME_LEN, BRANCH_DESCRIPTION_LEN, STORY_TIT
                               MAP_TITLE_LEN, MAP_AUTHOR_LEN, UPLOAD_EXTENSIONS, \
                               UPLOAD_MIME_TYPES
 
+from util.email import emailer, email_template
+
 class Branch(models.Model):
 
     class Meta:
@@ -57,7 +59,7 @@ class Story(models.Model):
         verbose_name_plural = "Stories"
 
     title = models.CharField(max_length=STORY_TITLE_LEN)
-    description = models.TextField(max_length=STORY_DESCRIPTION_LEN, blank=True)
+    description = models.TextField(max_length=STORY_DESCRIPTION_LEN)
     story_text = models.TextField(max_length=STORY_TEXT_LEN, blank=True)
     link_url = models.URLField(blank=True, error_messages={'invalid': "Please input a valid URL"})
     media_file = models.FileField(upload_to=media_upload_to,
@@ -108,7 +110,6 @@ class Map(models.Model):
 
     def __unicode__(self):
         return self.title
-
 
 # Signal setup
 
