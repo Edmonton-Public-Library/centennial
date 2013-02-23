@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db import models
@@ -32,13 +33,14 @@ User.profile = property(lambda u: u.get_profile() )
 
 #Bibliocommons User Linkage
 class BibliocommonsLink(models.Model):
-    
+
     class Meta:
         verbose_name_plural = "Bibliocommons Links"
-    
+
     biblioname = models.CharField(max_length=BIBLIO_USER_LEN, default='', blank=True)
     biblioid = models.IntegerField(default=-1,blank=True)
-    user = models.OneToOneField(User)    
+    user = models.OneToOneField(User)
+
 #Signals
 
 from django.dispatch.dispatcher import receiver
@@ -50,7 +52,7 @@ def send_activation_email(sender, **kwargs):
     Send acivation e-mail for unactivated users
     """
     instance = kwargs['instance']
-    if instance.user.is_staff or instance.user.is_superuser:
+    if instance.user.is_staff or instance.user.is_superuser or instance.user.is_active:
         instance.email_sent = True
         instance.user.is_active = True
     else:
@@ -64,3 +66,4 @@ def send_activation_email(sender, **kwargs):
                 instance.email_sent = True
             except Exception:
                 instance.email_sent = False
+                raise ValidationError("Failed to create user profile. Please try again later")
