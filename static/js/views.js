@@ -111,7 +111,7 @@ uploadStory : new View('uploadStory', 'Upload Story',
 viewStory : new View('viewStory', 'View Story', 
         //in
         function (fromView, viewport, callback) {
-            require(['epl/StoryViewModel', 'lib/jquery.jplayer'], function (StoryViewModel) {
+            require(['epl/StoryViewModel', 'lib/jquery.jplayer', 'lib/pdfobject'], function (StoryViewModel) {
                 // TODO - obtain the storyId from the params
                 var storyId = 1;
                 var story = new StoryViewModel(storyId);
@@ -124,8 +124,15 @@ viewStory : new View('viewStory', 'View Story',
                                 mp3: story.media_file()
                              });
                         },
-                        supplied: "mp3"
+                        supplied: "mp3", 
+                        swfPath: "/lib/Jplayer.swf",
                     });
+                } else if (story.content_type() == "pdf") {
+                    var myPDF = new PDFObject({
+                      url: story.media_file(),
+                      width: "700px",
+                      height: "500px"
+                    }).embed("pdfObject");
                 }
             });
             callback();
