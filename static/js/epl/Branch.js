@@ -7,28 +7,115 @@ return (function () {
 	 * This is the class object. Put private things in here.
 	 */
 	var Branch = function (viewport) {
-	  this.data = {
-		stories: ko.observable,
-		image: ko.observable('')
-	  };
-	  ko.applyBindings(this.data, viewport[0]);
+	 // this.data = {
+	//	stories: ko.observable,
+	//	image: ko.observable('')
+	//  };
+	//  ko.applyBindings(this.data, viewport[0]);i
+	  this.object = new Array(); 
+	  this.displayed = new Array();
+	  this.setBackground("sample.gif")  
 	};
 
 	/**
 	 * Make instance methods like this
 	 */
-	Branch.prototype.setData = function (floorPlan, userData) {
-		this.data.stories(userData);
-		this.data.image(floorPlan); 
+	Branch.prototype.setBackground = function (floorPlan) {
+	console.log("Testhere"); 
+	$('#BranchView').css('background-image', 'url(' + floorPlan + ')');
+	$('#BranchView').css('width', '444px').css('height', '328px'),
+	$('#video').html("JS test") 
+	//	this.data.stories(userData);
+	//	this.data.image(floorPlan); 
+	//update image 
 	};
-
+	Branch.prototype.showPin = function (pin) { 
+	 for (var i = 0; i<objects.length; i++) { 
+           if(this.object[i].id == pin.id) {
+	     if(this.displayed[i] == "false") {
+	       this.displayed[i] = "true"
+	       Branch.update();
+	       return; 
+	       }
+	    }
+	} 
+	this.object[object.length] = pin
+	this.displayed[displayed.length] = "true" 
+	Branch.update()
+	};
+	Branch.prototype.hidePin = function (pin) { 
+	// hide the given element
+	for (var i = 0; i<this.object.length;i++) {
+	  if(this.object[i].id == pin.id) { 
+	    if(displayed[i] == "true") { 
+	      displayed[i] = "false"; 
+	      Branch.update() 
+	    }
+	  }
+	}
+	}; 
 	/**
 	 * Make static methods like this
 	 */
-	Branch.staticMethod = function () {
-
+	Branch.update = function () {
+	var count = Branch.count("video") 
+	if(count ==0) { 
+	  $('#video').css("visibility", "hidden")
+	}
+	else {
+	  $('#video').css("visibility", "visible") 
+	  $('#video').html(count) 
+	}
+	count = Branch.count("audio") 
+        if(count ==0) {
+          $('#audio').css("visibility", "hidden")
+        }
+        else {
+          $('#audio').css("visibility", "visible")
+          $('#audio').html(count) 
+        }
+	count = Branch.count("image")
+	if(count ==0) {
+          $('#image').css("visibility", "hidden")
+        }
+        else {
+          $('#image').css("visibility", "visible")
+          $('#image').html(count) 
+        }
+	count = Branch.count("text")
+        if(count ==0) {
+          $('#text').css("visibility", "hidden")
+        }
+        else {
+          $('#text').css("visibility", "visible")
+          $('#text').html(count) 
+        }	
+	count = Branch.count("link")
+        if(count ==0) {
+          $('#link').css("visibility", "hidden")
+        }
+        else {
+          $('#link').css("visibility", "visible")
+          $('#link').html(count) 
+        }
+	count = Branch.count("pdf")
+        if(count ==0) {
+          $('#pdf').css("visibility", "hidden")
+        }
+        else {
+          $('#pdf').css("visibility", "visible")
+          $('#pdf').html(count) 
+        }
 	};
-
+	Branch.count = function(value) { 
+	var count = 0; 
+	for(var i = 0; i<this.object.length; i++) {
+	  if(this.object[i].type == value && this.displayed[i]=="true") {
+	    count++; 
+	  }
+	}
+	return count; 
+	};
 	return Branch;
 
 })();

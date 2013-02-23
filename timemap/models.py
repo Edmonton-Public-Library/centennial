@@ -59,7 +59,7 @@ class Story(models.Model):
         verbose_name_plural = "Stories"
 
     title = models.CharField(max_length=STORY_TITLE_LEN)
-    description = models.TextField(max_length=STORY_DESCRIPTION_LEN, blank=True)
+    description = models.TextField(max_length=STORY_DESCRIPTION_LEN)
     story_text = models.TextField(max_length=STORY_TEXT_LEN, blank=True)
     link_url = models.URLField(blank=True, error_messages={'invalid': "Please input a valid URL"})
     media_file = models.FileField(upload_to=media_upload_to,

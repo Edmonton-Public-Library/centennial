@@ -76,7 +76,8 @@ example : new View('example', 'Example',
 branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
 			require(['epl/Branch'], function (Branch) { 
-				var brch = new Branch($('#BranchView')); 
+				var brch = new Branch($('#BranchView'));
+				brch.setBackground("~/Doccuments/sample.gif"); 
 			});
 			callback();
 		},
@@ -122,16 +123,26 @@ viewStory : new View('viewStory', 'View Story',
                         ready: function () {
                             $(this).jPlayer("setMedia", {
                                 mp3: story.media_file()
-                             });
+                            });
                         },
                         supplied: "mp3", 
-                        swfPath: "/lib/Jplayer.swf",
+                        swfPath: "/static/js/lib/Jplayer.swf"
+                    });
+                } else if (story.content_type() == "video") {
+                    $("#jquery_jplayer_1").jPlayer({
+                        ready: function () {
+                            $(this).jPlayer("setMedia", {
+                                m4v: story.media_file()
+                            });
+                        },
+                        supplied: "m4v",
+                        swfPath: "/static/js/lib/Jplayer.swf"
                     });
                 } else if (story.content_type() == "pdf") {
-                    var myPDF = new PDFObject({
-                      url: story.media_file(),
-                      width: "700px",
-                      height: "500px"
+                    var pdf = new PDFObject({
+                        url: story.media_file(),
+                        width: "700px",
+                        height: "500px"
                     }).embed("pdfObject");
                 }
             });
