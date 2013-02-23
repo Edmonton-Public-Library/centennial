@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db import models
@@ -64,3 +65,4 @@ def send_activation_email(sender, **kwargs):
                 instance.email_sent = True
             except Exception:
                 instance.email_sent = False
+                raise ValidationError("Failed to create user profile. Please try again later")
