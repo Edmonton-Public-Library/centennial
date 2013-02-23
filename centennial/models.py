@@ -33,13 +33,13 @@ User.profile = property(lambda u: u.get_profile() )
 
 #Bibliocommons User Linkage
 class BibliocommonsLink(models.Model):
-    
+
     class Meta:
         verbose_name_plural = "Bibliocommons Links"
-    
+
     biblioname = models.CharField(max_length=BIBLIO_USER_LEN, default='', blank=True)
     biblioid = models.IntegerField(default=-1,blank=True)
-    
+
 #Signals
 
 from django.dispatch.dispatcher import receiver
@@ -51,7 +51,7 @@ def send_activation_email(sender, **kwargs):
     Send acivation e-mail for unactivated users
     """
     instance = kwargs['instance']
-    if instance.user.is_staff or instance.user.is_superuser:
+    if instance.user.is_staff or instance.user.is_superuser or instance.user.is_active:
         instance.email_sent = True
         instance.user.is_active = True
     else:
