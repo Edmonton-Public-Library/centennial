@@ -4,8 +4,6 @@ define(['epl/Settings', 'lib/csc/Nav', 'lib/knockout', 'lib/sammy', 'lib/less', 
 var epl = null;
 
 //Only start the app once the page has loaded
-$(document).ready(function () {
-
 var AppClass = (function () {
 
 	var AppClass = function (viewport) {
@@ -35,7 +33,6 @@ epl = new AppClass('[data-role=viewport]');
 epl.init();
 
 //End module
-});
 
 return epl;
 });
