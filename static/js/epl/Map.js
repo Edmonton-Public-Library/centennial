@@ -1,7 +1,10 @@
 ;
-define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'epl/Environment'], function (epl, Settings, Error, ko, Environment) {
+define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'epl/Environment', 'epl/map/BranchPin'], function (epl, Settings, Error, ko, Environment, BranchPin) {
 
 return (function () {
+
+	var branchEndpoint = Environment.routes.apiBase + '/branch';
+	var formatString = '?format=json';
 
 	/**
 	 * Creates an epl-wrapped Google Map
@@ -14,6 +17,15 @@ return (function () {
 		this.map = null;
 		this.mapElement = $('<div>'); //For caching the map when not in view
 		require(['https://maps.googleapis.com/maps/api/js?key=' + Settings.apiKeys.google.maps + 'luc&sensor=true&callback=eplMapsInit'], function () { });
+
+		this.mapData = {
+			markers: {},
+			infoBox: null,
+			range: {
+				startDate: new Date(), 
+				endDate: new Date()
+			}
+		};
 
 		window.eplMapsInit = function () {
 			//Run the Map loader
@@ -62,6 +74,113 @@ return (function () {
 
 		//Keep the map viewport in sync with the window properties
 		ko.applyBindings({Environment: Environment}, this.mapElement[0]);
+	};
+
+	/**
+	 * Show a pin on the map
+	 * @param	pin		BranchPin	The pin to show
+	 */
+	Map.prototype.showPin = function (pin) {
+		var self = this;
+		//Create the pin if needed
+		if(typeof self.mapData.markers[pin.id] == 'undefined') {
+			self.mapData.markers[pin.id] = pin;
+			self.mapData.markers[pin.id].marker = new google.maps.Marker({
+				map: self.map,
+				position: new google.maps.LatLng(pin.lat, pin.lng),
+				clickable: true,
+				cursor: 'pointer',
+				draggable: false,
+				flat: true,
+				optimized: true,
+				visible: true
+			});
+
+			//Open the branch info when the user clicks on a pin
+			google.maps.event.addListener(self.mapData.markers[pin.id].marker, 'click', function () {
+				var clickedPin = self.mapData.markers[pin.id];
+				self.showInfo(clickedPin);
+			});
+		//Otherwise, just show it
+		} else {
+			self.mapData.markers[pin.id].setVisible(true);
+		}
+		//TODO: Adjust the map zoom/position to show all of the pins? Or is this intrusive?
+	};
+
+	/**
+	 * Hide a pin from the map
+	 * @param	pin		BranchPin	The pin to hide
+	 */
+	Map.prototype.hidePin = function (pin) {
+		var self = this;
+		if(typeof self.mapData.markers[pin.id] != 'undefined') {
+			self.mapData.markers[pin.id].setVisible(false);
+		}
+		//TODO: Adjust the map zoom/position to show all of the pins? Or is this intrusive?
+	};
+
+	/**
+	 * Set the current date range for the map and trigger any subscribed listeners
+	 * like the tile overlay service
+	 * @param	startDate		Date		The lower end of the date range
+	 * @param	endDate			Date		The upper end of the date range
+	 */
+	Map.prototype.setRange = function (startDate, endDate) {
+		var self = this;
+		self.mapData.range = {
+			startDate: startDate,
+			endDate: endDate
+		};
+		//TODO: Trigger any required handlers
+	};
+
+	/**
+	 * Show information about a branch, given its pin
+	 * @param	pin		BranchPin		The Branch pin
+	 */
+	Map.prototype.showInfo  = function (pin) {
+		var self = this;
+		self.hideInfo();
+		//We need the InfoBox library to show the popup;
+		//it needs to be loaded here (when the google library is
+		//pretty much guaranteed to be loaded), because it depends 
+		//google library which doesn't support AMD loading
+		require(['lib/infobox'], function (InfoBox) {
+			Map.withBranchInfo(pin.id, function (branch) {
+				self.mapData.infoBox = new InfoBox({
+					position: new google.maps.LatLng(pin.lat, pin.lng),
+					content: branch.name,
+					closeBoxURL: ''
+				});
+
+				self.mapData.infoBox.open(self.map);
+			});
+		});
+	};
+
+	/**
+	 * Close any currently-displayed InfoBox
+	 */
+	Map.prototype.hideInfo = function () {
+		var self = this;
+		if(self.mapData.infoBox != null) {
+			self.mapData.infoBox.close();
+			self.mapData.infoBox = null;
+		}
+	};
+
+	/**
+	 * Invokes the provided callback with a single argument containing branch data
+	 * matching the provided ID
+	 * @param	id			String		The Branch ID to gather data from
+	 * @param	callback	Function	The callback function to invoke
+	 */
+	Map.withBranchInfo = function(id, callback) {
+		//TODO: Do some caching here
+		$.get(branchEndpoint + '/' + id + formatString, {}, function (data) {
+			callback(data);
+		});
 	};
 
 	return Map;
