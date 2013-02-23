@@ -4,6 +4,8 @@ from django.db import models
 
 from centennial.constants import FACEBOOK_KEY_LEN, BIBLIO_USER_LEN
 
+from util.email import emailer, email_template
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
