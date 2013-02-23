@@ -6,15 +6,10 @@ return (function () {
 	/**
 	 * This is the class object. Put private things in here.
 	 */
-	var Branch = function (viewport) {
-	 // this.data = {
-	//	stories: ko.observable,
-	//	image: ko.observable('')
-	//  };
-	//  ko.applyBindings(this.data, viewport[0]);i
+	var Branch = function (viewport, url) {
 	  this.object = new Array(); 
 	  this.displayed = new Array();
-	  this.setBackground("sample.gif")  
+	  this.setBackground(url)  
 	};
 
 	/**
@@ -22,7 +17,7 @@ return (function () {
 	 */
 	Branch.prototype.setBackground = function (floorPlan) {
 	console.log("Testhere"); 
-	$('#BranchView').css('background-image', 'url(' + floorPlan + ')');
+	$('#BranchView').css('background-image', 'url(\'' + floorPlan + '\')');
 	$('#BranchView').css('width', '444px').css('height', '328px'),
 	$('#video').html("JS test") 
 	//	this.data.stories(userData);
