@@ -1,0 +1,3 @@
+[submodule "EPLAssets"]
+	path = EPLAssets
+	url = git@github.com:UniversityOfAlberta/EPLAssets.git
