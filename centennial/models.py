@@ -16,13 +16,11 @@ class UserProfile(models.Model):
         verbose_name_plural = "UserProfiles"
 
     facebook = models.CharField(max_length=FACEBOOK_KEY_LEN, default='', blank=True)
-    biblioname = models.CharField(max_length=BIBLIO_USER_LEN, default='', blank=True)
-    biblioid = models.IntegerField(default=-1,blank=True)
     phone_number = models.CharField(max_length=10, default='', blank=True)
     email_sent = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.user.__unicode__() + "'s Profile"
+        return str(self.user) + "'s Profile"
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -32,6 +30,15 @@ post_save.connect(create_user_profile, sender=User)
 
 User.profile = property(lambda u: u.get_profile() )
 
+#Bibliocommons User Linkage
+class BibliocommonsLink(models.Model):
+    
+    class Meta:
+        verbose_name_plural = "Bibliocommons Links"
+    
+    biblioname = models.CharField(max_length=BIBLIO_USER_LEN, default='', blank=True)
+    biblioid = models.IntegerField(default=-1,blank=True)
+    
 #Signals
 
 from django.dispatch.dispatcher import receiver

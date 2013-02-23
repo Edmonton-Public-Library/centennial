@@ -12,18 +12,27 @@ class Migration(SchemaMigration):
         db.create_table('centennial_userprofile', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('facebook', self.gf('django.db.models.fields.CharField')(max_length=256, blank=True)),
-            ('biblioname', self.gf('django.db.models.fields.CharField')(max_length=80, blank=True)),
-            ('biblioid', self.gf('django.db.models.fields.IntegerField')(blank=True)),
-            ('phoneNumber', self.gf('django.db.models.fields.CharField')(max_length=10)),
-            ('activated', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('facebook', self.gf('django.db.models.fields.CharField')(default='', max_length=256, blank=True)),
+            ('phone_number', self.gf('django.db.models.fields.CharField')(default='', max_length=10, blank=True)),
+            ('email_sent', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal('centennial', ['UserProfile'])
+
+        # Adding model 'BibliocommonsLink'
+        db.create_table('centennial_bibliocommonslink', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('biblioname', self.gf('django.db.models.fields.CharField')(default='', max_length=80, blank=True)),
+            ('biblioid', self.gf('django.db.models.fields.IntegerField')(default=-1, blank=True)),
+        ))
+        db.send_create_signal('centennial', ['BibliocommonsLink'])
 
 
     def backwards(self, orm):
         # Deleting model 'UserProfile'
         db.delete_table('centennial_userprofile')
+
+        # Deleting model 'BibliocommonsLink'
+        db.delete_table('centennial_bibliocommonslink')
 
 
     models = {
@@ -56,14 +65,18 @@ class Migration(SchemaMigration):
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
+        'centennial.bibliocommonslink': {
+            'Meta': {'object_name': 'BibliocommonsLink'},
+            'biblioid': ('django.db.models.fields.IntegerField', [], {'default': '-1', 'blank': 'True'}),
+            'biblioname': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '80', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+        },
         'centennial.userprofile': {
             'Meta': {'object_name': 'UserProfile'},
-            'activated': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'biblioid': ('django.db.models.fields.IntegerField', [], {'blank': 'True'}),
-            'biblioname': ('django.db.models.fields.CharField', [], {'max_length': '80', 'blank': 'True'}),
-            'facebook': ('django.db.models.fields.CharField', [], {'max_length': '256', 'blank': 'True'}),
+            'email_sent': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'facebook': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '256', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'phoneNumber': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'phone_number': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '10', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'})
         },
         'contenttypes.contenttype': {
