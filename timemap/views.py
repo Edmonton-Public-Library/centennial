@@ -47,11 +47,18 @@ def accountActivate(request):
         email = split[0]
         time = split[2]
 
-        user = User.objects.get(email=email)
-        user.is_active = True
-        user.save()
+        user = None
+        try:
+            user = User.objects.get(email=email)
+        except DoesNotExist:
+            return HttpResponse("A user with email address %s does not exist!" % (email))
+        if not user.is_active:
+            user.is_active = True
+            user.save()
+            return HttpResponse("Your account %s created at %s has been successfully activated" % (email, time))
+        else:
+            return HttpResponse("Your account was already activated")
 
-        return HttpResponse("Your account %s created at %s has been successfully activated" % (email, time))
     else:
         return HttpResponse(status='501')
 
