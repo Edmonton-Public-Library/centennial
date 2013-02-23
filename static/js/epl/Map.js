@@ -1,10 +1,12 @@
 ;
-define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'epl/Environment', 'epl/map/BranchPin'], function (epl, Settings, Error, ko, Environment, BranchPin) {
+define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'epl/Environment', 'epl/map/BranchPin', 'lib/csc/Utils'], function (epl, Settings, Error, ko, Environment, BranchPin, Utils) {
 
 return (function () {
 
 	var branchEndpoint = Environment.routes.apiBase + '/branch';
 	var formatString = '?format=json';
+	var branchInfoSelector = '#tm-branch-info-pane';
+	var branchInfoClass = 'tm-branch-info';
 
 	/**
 	 * Creates an epl-wrapped Google Map
@@ -19,11 +21,12 @@ return (function () {
 		require(['https://maps.googleapis.com/maps/api/js?key=' + Settings.apiKeys.google.maps + 'luc&sensor=true&callback=eplMapsInit'], function () { });
 
 		this.mapData = {
-			markers: {},
-			infoBox: null,
-			range: {
-				startDate: new Date(), 
-				endDate: new Date()
+			markers : {},
+			infoBox : null,
+			selectedBranch : ko.observable({}),
+			range : {
+				startDate : new Date(), 
+				endDate : new Date()
 			}
 		};
 
@@ -140,7 +143,9 @@ return (function () {
 	 * @param	pin		BranchPin		The Branch pin
 	 */
 	Map.prototype.showInfo  = function (pin) {
-		var self = this;
+		var self = this,
+			infoTemplate = null,
+			templateID = null;
 		self.hideInfo();
 		//We need the InfoBox library to show the popup;
 		//it needs to be loaded here (when the google library is
@@ -148,10 +153,18 @@ return (function () {
 		//google library which doesn't support AMD loading
 		require(['lib/infobox'], function (InfoBox) {
 			Map.withBranchInfo(pin.id, function (branch) {
+				self.mapData.selectedBranch(branch);
+				templateID = Utils.guid();
+				infoTemplate = $(branchInfoSelector).clone();
+				infoTemplate.find('.' + branchInfoClass).attr('id', templateID);
 				self.mapData.infoBox = new InfoBox({
-					position: new google.maps.LatLng(pin.lat, pin.lng),
-					content: branch.name,
+					position : new google.maps.LatLng(pin.lat, pin.lng),
+					content : infoTemplate.html(),
 					closeBoxURL: ''
+				});
+
+				google.maps.event.addListener(self.mapData.infoBox, 'domready', function () {
+					ko.applyBindings(self.mapData, $('#' + templateID)[0]);
 				});
 
 				self.mapData.infoBox.open(self.map);

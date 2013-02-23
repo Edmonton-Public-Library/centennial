@@ -1,5 +1,5 @@
 <div id="epl-bar">
-	<span class="logo">EPL</span>
+	<img class="logo" src="/static/images/epl-logo.png" alt="EPL Logo"/>
 </div>
 <div id="tm-sidebar">
 	<div class="contents">
@@ -68,4 +68,13 @@
 		top: Environment.display.topBarHeight() + 'px'
 	}">
 
+</div>
+<div id="tm-branch-info-pane">
+	<div class="tm-branch-info">
+		<div class="title">
+			<span data-bind="text: selectedBranch().name"></span>
+			<div class="close" data-bind="">X</div>
+		</div>
+		<div class="description" data-bind="text: selectedBranch().description"></div>
+	</div>
 </div>

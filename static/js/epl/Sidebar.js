@@ -14,9 +14,7 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 		var Criteria = function (data) {
 			this.defaultData = {
 				keyword : '',
-				startDate : null,
-				endDate : null,
-				exactDate : null
+				title__icontains: ''
 			};
 
 			this.data = Utils.mergeObjects(data, this.defaultData);
@@ -86,7 +84,8 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 					onchange: {
 						callback: function (e) {
 							sidebar.search(new Criteria({
-								'keyword' : e.currentValue
+								'keyword' : e.currentValue,
+								'title__icontains' : e.currentValue
 							}));
 						},
 
@@ -105,6 +104,7 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 		 */
 		Sidebar.prototype.search = function (criteria) {
 			var self = this;
+			console.log(Environment.routes.apiBase + '/story/?format=json' + criteria);
 			$.get(Environment.routes.apiBase + '/story/?format=json' + criteria, function (data) {
 				self.data.searchResults(data.objects);
 			});

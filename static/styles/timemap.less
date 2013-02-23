@@ -33,8 +33,9 @@ body {
   	.x-box-shadow(0px, 2px, 4px, 0px, rgba(0,0,0,0.2));
 
   	.logo {
-  		width: 80px;
-  		height: @topBarHeight;
+  		@logoMargin: 10px;
+  		height: @topBarHeight - (2 * @logoMargin);
+  		margin: @logoMargin;
   		display: table-cell;
   		text-align: center;
   		vertical-align: middle;
@@ -248,6 +249,53 @@ body {
     td.keywordCell {
         width: 300px;
     }
+}
+
+.tm-branch-info {
+	@infoWidth: 350px;
+	@infoHeight: 230px;
+	@infoRadius: 7px;
+	width: @infoWidth;
+	height: @infoHeight;
+	margin: -(@infoHeight + 50) 0 0 -(@infoWidth / 2);
+	background-color: white;
+	border: solid 1px #969696;
+	.x-border-radius(@infoRadius);
+	.x-box-shadow(0,0,15px,0,rgba(0,0,0,0.7));
+	p {
+		margin: 0;
+	}
+
+	.title {
+		@titleHeight: 30px;
+		@titleBackground: #E0E0E0;
+		height: @titleHeight;
+		color: #696969;
+		font-size: 18px;
+		padding: 5px;
+		position: relative;
+		background-color: @titleBackground;
+		.x-border-top-left-radius(@infoRadius);
+		.x-border-top-right-radius(@infoRadius);
+
+		.close {
+			@closePadding: 5px;
+			width: @titleHeight;
+			height: @titleHeight;
+			padding: @closePadding;
+			background-color: darken(@titleBackground, 10%);
+			position: absolute;
+			top: 0;
+			right: 0;
+			.x-border-top-right-radius(@infoRadius);
+		}
+	}
+
+	.description {
+		padding: 5px;
+		color: #969696;
+		font-size: 14px;
+	}
 }
 
 //==========================//
