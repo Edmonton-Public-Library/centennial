@@ -38,7 +38,7 @@ class BibliocommonsLink(models.Model):
     
     biblioname = models.CharField(max_length=BIBLIO_USER_LEN, default='', blank=True)
     biblioid = models.IntegerField(default=-1,blank=True)
-    
+    user = models.OneToOneField(User)    
 #Signals
 
 from django.dispatch.dispatcher import receiver

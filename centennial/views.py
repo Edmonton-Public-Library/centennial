@@ -4,11 +4,11 @@ from django.template import Context
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-
 import epl.settings
 import util
 import util.email.email_template
 import urlparse
+
 
 def accountActivate(request):
     if request.method == 'GET':
@@ -62,8 +62,7 @@ def login_user(request):
                 return HttpResponse()
             else:
                 util.gen_json_badrrequest_response("Disabled Account")
-    else:
-        return HttpResponse(status="401")
+    return HttpResponse(status="401")
 
 def logout_user(request):
     """

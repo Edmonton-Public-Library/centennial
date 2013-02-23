@@ -131,6 +131,8 @@ INSTALLED_APPS = (
 
 AUTH_PROFILE_MODULE = 'centennial.UserProfile'
 
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 'centennial.biblioauth.BiblioBackend')
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -163,5 +165,3 @@ LOGGING = {
 FILE_UPLOAD_HANDLERS = (
             'django.core.files.uploadhandler.TemporaryFileUploadHandler',
             )
-
-AUTH_PROFILE_MODEL = "timemap.models.UserProfile"
