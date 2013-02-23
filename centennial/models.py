@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from django.db import models
 
 import datetime
+import socket
 
 from centennial.constants import FACEBOOK_KEY_LEN, BIBLIO_USER_LEN
 
@@ -42,10 +43,17 @@ def send_activation_email(sender, **kwargs):
     Send acivation e-mail for unactivated users
     """
     instance = kwargs['instance']
-    if instance.email_sent == False:
-        name = "%s %s"%(instance.user.first_name, instance.user.last_name)
-        email = instance.user.email
-        time = str(datetime.datetime.now())
-        notification_email = email_template.getRegistrationNotification(name, "http://localhost:8000", email, time, "html")
-        emailer.do_send(notification_email, email)
+    if instance.user.is_staff or instance.user.is_superuser:
         instance.email_sent = True
+        instance.user.is_active = True
+    else:
+        if instance.email_sent == False:
+            name = "%s %s"%(instance.user.first_name, instance.user.last_name)
+            email = instance.user.email
+            time = str(datetime.datetime.now())
+            notification_email = email_template.getRegistrationNotification(name, "http://localhost:8000", email, time, "html")
+            try:
+                emailer.do_send(notification_email, "noorez@debian-cs.nooni.inc", email)
+                instance.email_sent = True
+            except Exception:
+                instance.email_sent = False
