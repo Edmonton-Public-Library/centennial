@@ -4,6 +4,7 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 from taggit.models import Tag
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from timemap.models import Branch, Story
 from timemap.constants import STORY_RESOURCE_LIMIT
@@ -38,7 +39,7 @@ class BranchResource(ModelResource):
         queryset = Branch.objects.all()
         resource_name = "branch"
         allowed_methods = ['get']
-        filtering = {"name": ['contains'],
+        filtering = {"name": ['icontains'],
                      "start_year": ['exact', 'gt', 'gte', 'lt', 'lte'],
                      "end_year": ['exact', 'gt', 'gte', 'lt', 'lte']
                     }
@@ -81,6 +82,7 @@ class StoryResource(ModelResource):
         filtering = {"keywords": ALL_WITH_RELATIONS,
                      "branch": ALL_WITH_RELATIONS,
                      "title": ['icontains'],
+                     "story_text": ['icontains', 'exact'],
                      "description": ['icontains'],
                      "year": ['exact', 'gt', 'gte', 'lt', 'lte'],
                      "month": ['exact', 'gt', 'gte', 'lt', 'lte'],
@@ -97,12 +99,23 @@ class StoryResource(ModelResource):
 
         orm_filters = super(StoryResource, self).build_filters(filters)
 
-        if 'keyword' in filters:
-            orm_filters['keywords__name__in'] = [k.lower() for k in filters['keyword'].split(',')]
+        orm_filters['grouped'] = get_grouped_filters(filters)
 
         if 'content_type__in' in filters:
             orm_filters['content_type__in'] = [CONTENT_HYDRATE[f] for f in filters['content_type__in'].split(',')]
+
         return orm_filters
+
+
+    def apply_filters(self, request, applicable_filters):
+        if 'grouped' in applicable_filters:
+            custom = applicable_filters.pop('grouped')
+        else:
+            custom = None
+
+        semi_filtered = super(StoryResource, self).apply_filters(request, applicable_filters)
+
+        return semi_filtered.filter(custom) if custom else semi_filtered
 
     def dehydrate_keywords(self, bundle):
         """
@@ -138,3 +151,24 @@ class StoryResource(ModelResource):
 
     def dehydrate_content_type(self, bundle):
         return dict(Story.CONTENT_TYPE_CHOICES)[bundle.data['content_type']]
+
+def get_grouped_filters(filters):
+    grouped_filters = Q()
+
+    if 'keyword' in filters:
+        grouped_filters |= Q(keywords__name__in=[k.lower() for k in filters['keyword'].split(',')])
+        filters.pop('keyword')
+
+    pipe_map = lambda x, y: x | y
+    if 'title__icontains' in filters:
+        title_filters = [Q(title__icontains=f) for f in filters.pop('title__icontains')]
+        grouped_filters |= reduce(pipe_map, title_filters)
+    if 'description__icontains' in filters:
+        d_filters = [Q(description__icontains= f) for f in filters.pop('description__icontains')]
+        grouped_filters |= reduce(pipe_map, d_filters)
+    if 'story_text__icontains' in filters:
+        grouped_filters |= Q(story_text__exact="")
+        story_filters = [Q(story_text__icontains=f) for f in filters.pop('story_text__icontains')]
+        grouped_filters |= reduce(pipe_map, story_filters)
+
+    return grouped_filters
