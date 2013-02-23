@@ -3,6 +3,7 @@ from django.template.loader import get_template
 from django.template import Context
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 import epl.settings
 import util
@@ -30,24 +31,29 @@ def accountActivate(request):
     if request.method == 'GET':
         # i should only have one parameter
         if len(request.GET) != 1:
-            return HttpResponse('here1: %s'%str(request.GET))
+            return HttpResponse(stats='501')
 
         activationKey = request.GET.get('key', None)
         # make sure that  i had the correct parameter
         if activationKey is None:
-            return HttpResponse('here2')
+            return HttpResponse(status='501')
 
         #need to connect to backed to verify the key and activate the account if
         #successful
         parseResult = urlparse.parse_qs(request.META['QUERY_STRING'])
         activationKey = parseResult['key'][0]
         emailAndTime = util.email.email_template.aesDecrypt(activationKey)
+        split = emailAndTime.partition('=')
+        email = split[0]
+        time = split[2]
 
-        #TODO: call activate method here
+        user = User.objects.get(email=email)
+        user.is_active = True
+        user.save()
 
-        return HttpResponse("Your account %s has been successfully activated" % (emailAndTime))
+        return HttpResponse("Your account %s created at %s has been successfully activated" % (email, time))
     else:
-        return HttpResponse(status='here3')
+        return HttpResponse(status='501')
 
 def login_user(request):
     """
