@@ -118,6 +118,7 @@ viewStory : new View('viewStory', 'View Story',
                 ko.applyBindings(story);
                 
                 if (story.content_type() == "audio") {
+                    $("#audio").addClass('visible');
                     $("#audio_jplayer").jPlayer({
                         ready: function () {
                             $(this).jPlayer("setMedia", {
@@ -128,6 +129,7 @@ viewStory : new View('viewStory', 'View Story',
                         swfPath: "/static/js/lib/Jplayer.swf"
                     });
                 } else if (story.content_type() == "video") {
+                    $("#video").addClass('visible');
                     $("#jquery_jplayer_1").jPlayer({
                         ready: function () {
                             $(this).jPlayer("setMedia", {
@@ -138,11 +140,12 @@ viewStory : new View('viewStory', 'View Story',
                         swfPath: "/static/js/lib/Jplayer.swf"
                     });
                 } else if (story.content_type() == "pdf") {
+                    $("#pdf").addClass('visible');
                     var pdf = new PDFObject({
                         url: story.media_file(),
                         width: "700px",
                         height: "500px"
-                    }).embed("pdfObject");
+                    }).embed("pdf");
                 }
             });
             callback();
