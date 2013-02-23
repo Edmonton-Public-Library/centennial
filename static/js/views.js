@@ -76,8 +76,7 @@ example : new View('example', 'Example',
 branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
 			require(['epl/Branch'], function (Branch) { 
-				var brch = new Branch($('#BranchView'));
-				brch.setBackground("~/Doccuments/sample.gif"); 
+				var brch = new Branch($('#BranchView'), "/static/sample.gif");
 			});
 			callback();
 		},
