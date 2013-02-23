@@ -23,5 +23,3 @@ def upload(request, story_id):
     else:
         return HttpResponse(status="501")
     return HttpResponse(status="500")
-
-
