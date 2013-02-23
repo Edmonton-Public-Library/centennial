@@ -1,5 +1,5 @@
 ;
-define(['lib/sammy'], function (epl) {
+define(['lib/sammy'], function (Sammy) {
 
 /******************************
  * Contains app-wide settings *

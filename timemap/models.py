@@ -111,36 +111,10 @@ class Map(models.Model):
     def __unicode__(self):
         return self.title
 
-class UserProfile(models.Model):
-
-    class Meta:
-        verbose_name = "User Profile"
-
-    user = models.ForeignKey(User, unique=True)
-    phone_number = models.CharField(max_length=10)
-    email_sent = models.BooleanField(default=False)
-    def __unicode__(self):
-        return unicode(self.user)
-
-User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
-
 # Signal setup
 
 from django.dispatch.dispatcher import receiver
 from django.db.models.signals import pre_save, pre_delete
-
-@receiver(pre_save, sender=UserProfile)
-def send_activation_email(sender, **kwargs):
-    """
-    Send acivation e-mail for unactivated users
-    """
-    instance = kwargs['instance']
-    if instance.email_sent == False:
-        name = "%s %s"%(instance.user.first_name, instance.user.last_name)
-        email = instance.user.email
-        notification_email = email_template.getRegistrationNotification(name, "http://localhost:8000", email, "00:00", "html")
-        emailer.do_send(notification_email, email)
-        instance.email_sent = True
 
 @receiver(pre_save)
 def validate_model(sender, **kwargs):
