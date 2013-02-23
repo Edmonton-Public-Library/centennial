@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db import models
 
+import datetime
+
 from centennial.constants import FACEBOOK_KEY_LEN, BIBLIO_USER_LEN
 
 from util.email import emailer, email_template
@@ -43,6 +45,7 @@ def send_activation_email(sender, **kwargs):
     if instance.email_sent == False:
         name = "%s %s"%(instance.user.first_name, instance.user.last_name)
         email = instance.user.email
-        notification_email = email_template.getRegistrationNotification(name, "http://localhost:8000", email, "00:00", "html")
+        time = str(datetime.datetime.now())
+        notification_email = email_template.getRegistrationNotification(name, "http://localhost:8000", email, time, "html")
         emailer.do_send(notification_email, email)
         instance.email_sent = True

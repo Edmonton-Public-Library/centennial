@@ -28,7 +28,7 @@ def _formatTextAshtml(raw):
 
 def aesEncrypt(msg):
     diff = len(msg) % 16
-    padd = " "*diff
+    padd = " "*(16-diff)
     msg += padd
     cipher = AES.new(_ENCRYPTION_KEY)
     return cipher.encrypt(msg)
