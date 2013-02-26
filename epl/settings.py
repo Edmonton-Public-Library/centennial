@@ -124,14 +124,20 @@ INSTALLED_APPS = (
     'tastypie',
     'taggit',
     'hyquest',
-    'centennial'
+    'centennial',
+    'social_auth'
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 
 AUTH_PROFILE_MODULE = 'centennial.UserProfile'
 
-AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 'centennial.biblioauth.BiblioBackend')
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend', 'social_auth.backends.facebook.FacebookBackend', 'centennial.biblioauth.BiblioBackend')
+
+FACEBOOK_APP_ID = '150662938425048'
+FACEBOOK_API_SECRET = '90571e9510f94fb33ac98daf664e137f'
+
+SOCIAL_AUTH_CREATE_USERS = False
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
