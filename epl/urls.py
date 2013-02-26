@@ -6,7 +6,7 @@ from tastypie.api import Api
 
 from timemap.api import BranchResource, StoryResource, UserResource, SimpleBranchResource
 from timemap.views import timemap, upload
-from centennial.views import accountActivate, login_user, logout_user
+from centennial.views import accountActivate, login_user, logout_user, create_user
 
 admin.autodiscover()
 v1_api = Api(api_name="v1")
@@ -16,12 +16,14 @@ v1_api.register(StoryResource())
 v1_api.register(UserResource())
 
 urlpatterns = patterns('',
+    url(r'account/', include('social_auth.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(v1_api.urls)),
     url(r'^timemap/', timemap),
-    url(r'^login/', login_user),
-    url(r'^logout/', logout_user),
-    url(r'^upload/(\d+)/$', upload),
+    url(r'^account/login/centennial', login_user),
+    url(r'^account/logout', logout_user),
     url(r'^account/activate', accountActivate),
+    url(r'^account/create', create_user),
+    url(r'^upload/(\d+)/$', upload),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
