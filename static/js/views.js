@@ -112,9 +112,8 @@ viewStory : new View('viewStory', 'View Story',
         //in
         function (fromView, viewport, callback) {
             require(['epl/StoryViewModel', 'lib/jquery.jplayer', 'lib/pdfobject'], function (StoryViewModel) {
-                // TODO - obtain the storyId from the params
-                var storyId = 1;
-                var story = new StoryViewModel(storyId);
+                // Obtain the story id from the URL param
+                var story = new StoryViewModel(epl.nav.params['id']);
                 ko.applyBindings(story);
                 
                 if (story.content_type() == "audio") {
