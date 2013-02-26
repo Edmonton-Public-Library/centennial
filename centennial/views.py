@@ -48,7 +48,7 @@ def accountActivate(request):
 def login_user(request):
     """
         View used to create a user cookie to maintain a session.
-        """
+    """
     # TODO: Remove login.html with GET requests once the timemap section handles logins
     if request.method == "GET":
         return render_to_response('login.html')
@@ -70,3 +70,26 @@ def logout_user(request):
         """
     logout(request)
     return HttpResponse()
+
+def create_user(request):
+    """
+        Verifies information and creates a user
+    """
+    if request.method == "GET":
+        return HttpResponse(status='501')
+    if request.method == "POST":
+        #check for all required fields
+        if ('username' in request.POST and
+           'password' in request.POST and
+           'firstname' in request.POST and
+           'lastname' in request.POST and
+           'email' in request.POST):
+                #Perform data integrity verification
+                if User.objects.filter(username=request.POST['username']).count() == 0:
+                    user = User.objects.create_user(username = request.POST['username'],
+                                                    password = request.POST['password'],
+                                                    email = request.POST['email'])
+                    user.first_name = request.POST['firstname']
+                    user.last_name = request.POST['lastname']
+                    user.save()
+                    return HttpResponse(status='200')
