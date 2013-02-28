@@ -52,7 +52,9 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 					if(typeof this.data[criterion] == 'string') {
 						var components = this.data[criterion].split(' ');
 						for(component in components) {
-							this.string += '&' + criterion + '=' + components[component];
+							var text = components[component];
+							if(text != null && text.length > 0)
+								this.string += '&' + criterion + '=' + components[component];
 						}
 					//Otherwise just place the value in the string
 					} else {

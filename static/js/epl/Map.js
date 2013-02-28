@@ -22,6 +22,7 @@ return (function () {
 
 		this.mapData = {
 			markers : {},
+			branchInfo : {},
 			infoBox : null,
 			selectedBranch : ko.observable({}),
 			range : {
@@ -154,7 +155,7 @@ return (function () {
 		//pretty much guaranteed to be loaded), because it depends 
 		//google library which doesn't support AMD loading
 		require(['lib/infobox'], function (InfoBox) {
-			Map.withBranchInfo(pin.id, function (branch) {
+			self.withBranchInfo(pin.id, function (branch) {
 				self.mapData.selectedBranch(branch);
 
 				//Clone the overlay template and create a unique ID for tracking it
@@ -170,7 +171,7 @@ return (function () {
 					closeBoxURL: ''
 				});
 
- 3				//Bind data from the selected branch to the info box
+				//Bind data from the selected branch to the info box
 				google.maps.event.addListener(self.mapData.infoBox, 'domready', function () {
 					ko.applyBindings(self.mapData, $('#' + templateID)[0]);
 				});
@@ -197,11 +198,17 @@ return (function () {
 	 * @param	id			String		The Branch ID to gather data from
 	 * @param	callback	Function	The callback function to invoke
 	 */
-	Map.withBranchInfo = function(id, callback) {
-		//TODO: Do some caching here
-		$.get(branchEndpoint + '/' + id + formatString, {}, function (data) {
-			callback(data);
-		});
+	Map.prototype.withBranchInfo = function(id, callback) {
+		var self = this;
+		//TODO: Do we need to have a persistent cache (i.e. localStorage) here?
+		if(typeof self.mapData.branchInfo[id] == 'undefined') {
+			$.get(branchEndpoint + '/' + id + formatString, {}, function (data) {
+				self.mapData.branchInfo[id] = data;
+				callback(data);
+			});
+		} else {
+			callback(self.mapData.branchInfo[id]);
+		}
 	};
 
 	Map.prototype.registerBindingHandlers = function () {
