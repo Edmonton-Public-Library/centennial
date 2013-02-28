@@ -99,9 +99,8 @@ viewStory : new View('viewStory', 'View Story',
         //in
         function (fromView, viewport, callback) {
             require(['epl/StoryViewModel', 'lib/jquery.jplayer', 'lib/pdfobject'], function (StoryViewModel) {
-                // TODO - obtain the storyId from the params
-                var storyId = 1;
-                var story = new StoryViewModel(storyId);
+                // Obtain the story id from the URL param
+                var story = new StoryViewModel(epl.nav.params['id']);
                 ko.applyBindings(story);
                 
                 if (story.content_type() == "audio") {
@@ -113,7 +112,7 @@ viewStory : new View('viewStory', 'View Story',
                             });
                         },
                         supplied: "mp3", 
-                        swfPath: "/static/js/lib/Jplayer.swf"
+                        swfPath: "/static/swf/Jplayer.swf"
                     });
                 } else if (story.content_type() == "video") {
                     $("#video").addClass('visible');
@@ -124,7 +123,7 @@ viewStory : new View('viewStory', 'View Story',
                             });
                         },
                         supplied: "m4v",
-                        swfPath: "/static/js/lib/Jplayer.swf"
+                        swfPath: "/static/swf/Jplayer.swf"
                     });
                 } else if (story.content_type() == "pdf") {
                     $("#pdf").addClass('visible');
