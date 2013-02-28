@@ -15,7 +15,9 @@ return (function () {
 		this.marker = null;
 
 		for(option in options) {
-			this[option] = options[option];
+			if(typeof this[option] != 'undefined') {
+				this[option] = options[option];
+			}
 		}
 	};
 

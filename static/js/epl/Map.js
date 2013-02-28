@@ -5,8 +5,8 @@ return (function () {
 
 	var branchEndpoint = Environment.routes.apiBase + '/branch';
 	var formatString = '?format=json';
-	var branchInfoSelector = '#tm-branch-info-pane';
-	var branchInfoClass = 'tm-branch-info';
+	var branchInfoSelector = '#tm-branch-info-pane'; //Selector for the element containing the popup template
+	var branchInfoClass = 'tm-branch-info'; //The class used to style the popup box
 
 	/**
 	 * Creates an epl-wrapped Google Map
@@ -108,7 +108,7 @@ return (function () {
 			});
 		//Otherwise, just show it
 		} else {
-			self.mapData.markers[pin.id].setVisible(true);
+			self.mapData.markers[pin.id].marker.setVisible(true);
 		}
 		//TODO: Adjust the map zoom/position to show all of the pins? Or is this intrusive?
 	};
@@ -120,7 +120,7 @@ return (function () {
 	Map.prototype.hidePin = function (pin) {
 		var self = this;
 		if(typeof self.mapData.markers[pin.id] != 'undefined') {
-			self.mapData.markers[pin.id].setVisible(false);
+			self.mapData.markers[pin.id].marker.setVisible(false);
 		}
 		//TODO: Adjust the map zoom/position to show all of the pins? Or is this intrusive?
 	};
@@ -170,7 +170,7 @@ return (function () {
 					closeBoxURL: ''
 				});
 
-				//Bind data from the selected branch to the info box
+ 3				//Bind data from the selected branch to the info box
 				google.maps.event.addListener(self.mapData.infoBox, 'domready', function () {
 					ko.applyBindings(self.mapData, $('#' + templateID)[0]);
 				});

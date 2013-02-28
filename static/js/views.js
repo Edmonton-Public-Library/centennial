@@ -14,29 +14,17 @@ main : new View('timemap', 'Home',
 				mapCanvas = $('#tm-canvas'),
 				sidebar = null;
 
-			require(['epl/Map', 'epl/Sidebar', 'lib/epl/Input', 'epl/map/BranchPin'], function(Map, Sidebar, Input, BranchPin) {
-				
-				//Persist the map between navigations
+			require(['epl/Map', 'epl/Sidebar', 'lib/epl/Input', 'epl/map/BranchPin', 'epl/Timeline'], function(Map, Sidebar, Input, BranchPin, Timeline) {
+
+				//Persist the map and timeline between navigations
 				epl.storage.map = epl.storage.map || null;
+				epl.storage.timeline = epl.storage.timeline || null;
 
 				//Load the Google Maps API if not already loaded
 				if (epl.storage.map == null) {
 					epl.storage.map = new Map(function () {
 						epl.storage.map.render(mapCanvas);
-
-						//TODO: Remove; just for example
-						for(var i=1; i<12; i++) {
-							Map.withBranchInfo(i, function (branch) {
-								var pin = new BranchPin({
-									type: 'std',
-									id: branch.id,
-									lat: branch.latitude,
-									lng: branch.longitude
-								});
-								epl.storage.map.showPin(pin);
-							})
-						}
-						
+						epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
 					});
 					ko.applyBindings({
 						Environment : Environment
@@ -48,7 +36,6 @@ main : new View('timemap', 'Home',
 
 				//Initialize the sidebar
 				sidebar = new Sidebar($('#tm-sidebar'));
-
 			});
 		}, 
 

@@ -11,7 +11,7 @@ define(['lib/knockout'], function (ko) {
 			this.height = ko.observable($(window).height());
 
 			this.sideBarWidth = ko.observable(350); //in pixels
-			this.topBarHeight = ko.observable(60); //pixels
+			this.topBarHeight = ko.observable(139); //pixels
 
 			this.viewportWidth = ko.computed(function () {
 				return display.width() - display.sideBarWidth();
@@ -26,6 +26,9 @@ define(['lib/knockout'], function (ko) {
 		this.routes = new (function () {
 			this.baseUri = 'http://localhost:8000'; //TODO: Make this portable
 			this.apiBase = '/api/v1';
+			this.staticDirectory = '/static';
+			this.imageDirectory = this.staticDirectory + '/images';
+			this.styleDirectory = this.staticDirectory + '/styles';
 		})();
 	})();
 
