@@ -16,6 +16,7 @@ main : new View('timemap', 'Home',
 
 			require(['epl/Map', 'epl/Sidebar', 'lib/epl/Input', 'epl/map/BranchPin', 'epl/Timeline'], function(Map, Sidebar, Input, BranchPin, Timeline) {
 
+				epl.initFacebook();
 				//Persist the map and timeline between navigations
 				epl.storage.map = epl.storage.map || null;
 				epl.storage.timeline = epl.storage.timeline || null;
@@ -45,10 +46,14 @@ main : new View('timemap', 'Home',
 		}),
 
 /**************************************
- * An example view to test navigation *
+ * Create Account View *
  *************************************/
-example : new View('example', 'Example', 
+createAccount : new View('createAccount', 'createAccount', 
 		function (fromView, viewport, callback) {
+			require(['epl/CreateAccountViewModel'], function (CreateAccountViewModel) {
+				var createAccountViewModel = new CreateAccountViewModel();
+				ko.applyBindings(createAccountViewModel);
+			});
 			callback();
 		}, 
 
@@ -91,6 +96,20 @@ uploadStory : new View('uploadStory', 'Upload Story',
 			callback();
 		}, 
 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+/**************************************
+ * Upload Story Success view *
+ *************************************/
+uploadStorySuccess : new View('uploadStorySuccess', 'Upload Story Success', 
+		//in
+		function (fromView, viewport, callback) {
+			callback();
+		}, 
 
 		//out
 		function (toView, viewport, callback) {

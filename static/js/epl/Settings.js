@@ -9,6 +9,7 @@ return {
 	siteUrl : 'http://localhost:8000',
 	apiBranchUrl : '/api/v1/branch/',
 	apiStoryUrl : '/api/v1/story/',
+	apiAccountUrl : '/account/',
 	viewDirectory : function () { return '/static/views'; },
 	imageDirectory : '/static/images',
 
@@ -23,13 +24,11 @@ return {
 	routes : Sammy(function () {
 
 		var self = this;
-
-		//Example route
-		self.get('#example', function () {
-			//The template within /static/views/example.html will be loaded into the viewport provided to the AppClass constructor
-			//@see the csc.View constructor for information on transitioning between views using the parameters below
+		
+		//Route to Create Account view
+		this.get('#createAccount', function () {
 			require(['epl', 'views'], function (epl, views) {
-				epl.nav.transition(views.example);
+				epl.nav.transition(views.createAccount);
 			});
 		});
 		
@@ -37,6 +36,13 @@ return {
 		this.get('#uploadStory', function () {
 			require(['epl', 'views'], function (epl, views) {
 				epl.nav.transition(views.uploadStory);
+			});
+		});
+
+		//Route to Upload Story Success view
+		this.get('#uploadStorySuccess', function () {
+			require(['epl', 'views'], function (epl, views) {
+				epl.nav.transition(views.uploadStorySuccess);
 			});
 		});
 
