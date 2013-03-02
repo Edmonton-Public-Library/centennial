@@ -37,6 +37,8 @@ main : new View('timemap', 'Home',
 
 				//Initialize the sidebar
 				sidebar = new Sidebar($('#tm-sidebar'));
+				//Select the first available tab by default
+				sidebar.tab($(viewport.find('.tab')[0]).attr('data-tab'));
 			});
 		}, 
 

@@ -75,6 +75,7 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 		var Sidebar = function (viewport) {
 
 			var sidebar = this;
+			this.viewport = $(viewport);
 
 			this.data = {
 				searchResults : ko.observable([])
@@ -96,6 +97,10 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 				}
 			});
 
+			this.viewport.find('.tab').bind('click', function (e) {
+				sidebar.tab($(e.target).attr('data-tab'));
+			});
+
 			ko.applyBindings(this.data, viewport[0]);
 		};
 
@@ -110,6 +115,11 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 			$.get(Environment.routes.apiBase + '/story/?format=json' + criteria, function (data) {
 				self.data.searchResults(data.objects);
 			});
+		};
+
+		Sidebar.prototype.tab = function (id) {
+			this.viewport.find('.tab').add('.tab-contents').removeClass('active');
+			this.viewport.find('.tab[data-tab=' + id + ']').add('.tab-contents[data-tab=' + id + ']').addClass('active');
 		};
 
 		return Sidebar;
