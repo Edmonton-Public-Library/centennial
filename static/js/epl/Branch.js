@@ -1,5 +1,5 @@
 ;
-define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'epl/Environment'], function (epl, Settings, Error, ko, Environment) {
+define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'epl/Environment', 'epl/map/StoryPin'], function (epl, Settings, Error, ko, Environment, StoryPin) {
 
 return (function () {
 
@@ -16,27 +16,23 @@ return (function () {
 	 * Make instance methods like this
 	 */
 	Branch.prototype.setBackground = function (floorPlan) {
-	console.log("Testhere"); 
 	$('#BranchView').css('background-image', 'url(\'' + floorPlan + '\')');
-	$('#BranchView').css('width', '444px').css('height', '328px'),
-	$('#video').html("JS test") 
-	//	this.data.stories(userData);
-	//	this.data.image(floorPlan); 
-	//update image 
+	$('#BranchView').css('width', '444px').css('height', '328px')
 	};
 	Branch.prototype.showPin = function (pin) { 
-	 for (var i = 0; i<objects.length; i++) { 
+	 for (var i = 0; i<this.object.length; i++) { 
            if(this.object[i].id == pin.id) {
 	     if(this.displayed[i] == "false") {
 	       this.displayed[i] = "true"
-	       Branch.update();
+	       this.update();
 	       return; 
 	       }
 	    }
 	} 
-	this.object[object.length] = pin
-	this.displayed[displayed.length] = "true" 
-	Branch.update()
+	this.object[this.object.length] = pin
+	this.displayed[this.displayed.length] = "true" 
+	console.log(this.object.length); 
+	this.update();
 	};
 	Branch.prototype.hidePin = function (pin) { 
 	// hide the given element
@@ -44,24 +40,22 @@ return (function () {
 	  if(this.object[i].id == pin.id) { 
 	    if(displayed[i] == "true") { 
 	      displayed[i] = "false"; 
-	      Branch.update() 
+	      this.update() 
 	    }
 	  }
 	}
 	}; 
-	/**
-	 * Make static methods like this
-	 */
-	Branch.update = function () {
-	var count = Branch.count("video") 
+	Branch.prototype.update = function () {
+	var count = this.count("video") 
+	console.log(count); 
 	if(count ==0) { 
 	  $('#video').css("visibility", "hidden")
 	}
 	else {
-	  $('#video').css("visibility", "visible") 
+	  $('#video').css("visibility", "visible")
 	  $('#video').html(count) 
 	}
-	count = Branch.count("audio") 
+	count = this.count("audio") 
         if(count ==0) {
           $('#audio').css("visibility", "hidden")
         }
@@ -69,7 +63,7 @@ return (function () {
           $('#audio').css("visibility", "visible")
           $('#audio').html(count) 
         }
-	count = Branch.count("image")
+	count = this.count("image")
 	if(count ==0) {
           $('#image').css("visibility", "hidden")
         }
@@ -77,7 +71,7 @@ return (function () {
           $('#image').css("visibility", "visible")
           $('#image').html(count) 
         }
-	count = Branch.count("text")
+	count = this.count("text")
         if(count ==0) {
           $('#text').css("visibility", "hidden")
         }
@@ -85,7 +79,7 @@ return (function () {
           $('#text').css("visibility", "visible")
           $('#text').html(count) 
         }	
-	count = Branch.count("link")
+	count = this.count("link")
         if(count ==0) {
           $('#link').css("visibility", "hidden")
         }
@@ -93,7 +87,7 @@ return (function () {
           $('#link').css("visibility", "visible")
           $('#link').html(count) 
         }
-	count = Branch.count("pdf")
+	count = this.count("pdf")
         if(count ==0) {
           $('#pdf').css("visibility", "hidden")
         }
@@ -102,10 +96,11 @@ return (function () {
           $('#pdf').html(count) 
         }
 	};
-	Branch.count = function(value) { 
-	var count = 0; 
+	Branch.prototype.count = function(value) { 
+	var count = 0;
+	console.log(this.object[0].type);  
 	for(var i = 0; i<this.object.length; i++) {
-	  if(this.object[i].type == value && this.displayed[i]=="true") {
+	  if((this.object[i].type == value) && (this.displayed[i]=="true")) {
 	    count++; 
 	  }
 	}

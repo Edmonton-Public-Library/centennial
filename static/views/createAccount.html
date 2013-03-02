@@ -1,0 +1,67 @@
+<div id="tm-inputForm">
+    <form>
+        <h2>Create Account</h2>
+        
+        <p>
+            <label for="firstName" class="standard">First Name: <span class="required">*</span></label>
+            <input type="text" class="standard" id="firstName"
+                data-bind="value: account.firstname"/>
+        </p>
+        <p class="inputError indent" data-bind="validationMessage: account.firstname"></p>
+        
+        <p>
+            <label for="lastName" class="standard">Last Name: <span class="required">*</span></label>
+            <input type="text" class="standard" id="lastName"
+                data-bind="value: account.lastname"/>
+        </p>
+        <p class="inputError indent" data-bind="validationMessage: account.lastname"></p>
+
+        <p>
+            <label for="email" class="standard">Email: <span class="required">*</span></label>
+            <input type="text" class="standard" id="email" 
+                 data-bind="value: account.email"/>
+        </p>
+        <p class="inputError indent" data-bind="validationMessage: account.email"></p>
+        
+        <p>
+            <label for="username" class="standard">Username: <span class="required">*</span></label>
+            <input type="text" class="standard" id="username" 
+                data-bind="value: account.username"/>
+        </p>
+        <p class="inputError indent" data-bind="validationMessage: account.username"></p>
+        
+        <p>
+            <label for="password" class="standard">Password: <span class="required">*</span></label>
+            <input type="password" class="standard" id="password" 
+                data-bind="value: account.password"/>
+        </p>
+        <p class="inputError indent" data-bind="validationMessage: account.password"></p>
+        
+        <p>
+            <label for="confirmPassword" class="standard">Confirm Password: <span class="required">*</span></label>
+            <input type="password" class="standard" id="confirmPassword" 
+                data-bind="value: account.passwordConfirmation"/>
+        </p>
+        <p class="inputError indent" data-bind="validationMessage: account.passwordConfirmation"></p>
+        
+        <p>
+            <input type="checkbox" id="agreeToTerms" data-bind="checked: account.agreeToTerms">
+            <label for="agreeToTerms">I agree to the <a href="TODO" target="_blank">Terms and Conditions</a>.</label>
+        </p>
+        <p class="inputError indent" data-bind="validationMessage: account.agreeToTerms"></p>
+        
+        <p>
+            <input type="checkbox" id="optIntoGame" data-bind="checked: account.optIntoGame"/>
+            <label for="optIntoGame">Opt into EPL Centennial Game.</label>
+        </p>
+        
+        <button data-bind="click: submit">Create Account</button>
+        <input type="button" value="Cancel">
+        
+        <p>You will receive an email to confirm your new account.</p>
+        
+        <!-- Remove after testing -->
+        <textarea data-bind="value: ko.toJSON(account)" rows="7" cols="50"></textarea>
+        
+    </fom>
+</div>

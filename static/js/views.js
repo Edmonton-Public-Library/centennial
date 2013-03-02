@@ -1,6 +1,6 @@
 ;
 //Create a module to contain client-side views
-define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment'], function(epl, View, ko, Environment) {
+define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment', 'epl/map/StoryPin'], function(epl, View, ko, Environment, StoryPin) {
 
 return {
 
@@ -46,10 +46,14 @@ main : new View('timemap', 'Home',
 		}),
 
 /**************************************
- * An example view to test navigation *
+ * Create Account View *
  *************************************/
-example : new View('example', 'Example', 
+createAccount : new View('createAccount', 'createAccount', 
 		function (fromView, viewport, callback) {
+			require(['epl/CreateAccountViewModel'], function (CreateAccountViewModel) {
+				var createAccountViewModel = new CreateAccountViewModel();
+				ko.applyBindings(createAccountViewModel);
+			});
 			callback();
 		}, 
 
@@ -65,6 +69,11 @@ branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
 			require(['epl/Branch'], function (Branch) { 
 				var brch = new Branch($('#BranchView'), "/static/sample.gif");
+				brch.showPin(new StoryPin("video", "1", "Jan1")); 
+				brch.showPin(new StoryPin("audio", "2", "Jan2")); 
+			  	brch.showPin(new StoryPin("text", "3", "Jan3")); 
+
+
 			});
 			callback();
 		},
