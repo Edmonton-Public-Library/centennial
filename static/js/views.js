@@ -103,6 +103,20 @@ uploadStory : new View('uploadStory', 'Upload Story',
 		}),
 
 /**************************************
+ * Upload Story Success view *
+ *************************************/
+uploadStorySuccess : new View('uploadStorySuccess', 'Upload Story Success', 
+		//in
+		function (fromView, viewport, callback) {
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+/**************************************
  * View Story view *
  *************************************/
 viewStory : new View('viewStory', 'View Story', 

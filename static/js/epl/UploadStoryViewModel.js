@@ -65,14 +65,15 @@ return (function () {
                                 var jsonData = jQuery.parseJSON($(data).text());
                                 if (jsonData != null && jsonData.errors) {
                                     $("#ajaxError").text(jsonData.errors);
-                                } 
-                                // TODO - redirect to the "thank you" screen
+                                }
+                                top.location="#uploadStorySuccess";
                             },
                             error: function (data, status, e) {
                                 $("#ajaxError").text(data);
                             }
                         });
                     }
+                    top.location="#uploadStorySuccess";
                 }, 
                 error: function (result) {
                     $("#ajaxError").text(result.responseText);

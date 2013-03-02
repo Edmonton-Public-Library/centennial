@@ -39,6 +39,13 @@ return {
 			});
 		});
 
+		//Route to Upload Story Success view
+		this.get('#uploadStorySuccess', function () {
+			require(['epl', 'views'], function (epl, views) {
+				epl.nav.transition(views.uploadStorySuccess);
+			});
+		});
+
     		//branch view 
 		this.get('#branch', function () {
                         require(['epl', 'views'], function (epl, views) {
