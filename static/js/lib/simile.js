@@ -1675,7 +1675,7 @@ define(['epl/Environment'], function (Environment) {
 			if (SimileAjax.History._initialized) {
 				return
 			}
-			if (SimileAjax.History.enabled) {
+			/*if (SimileAjax.History.enabled) {
 				var A = document.createElement("iframe");
 				A.id = "simile-ajax-history";
 				A.style.position = "absolute";
@@ -1688,7 +1688,7 @@ define(['epl/Environment'], function (Environment) {
 				document.body.appendChild(A);
 				SimileAjax.DOM.registerEvent(A, "load", SimileAjax.History._handleIFrameOnLoad);
 				SimileAjax.History._iframe = A
-			}
+			}*/
 			SimileAjax.History._initialized = true
 		};
 		SimileAjax.History.addListener = function (A) {
