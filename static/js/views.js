@@ -64,9 +64,9 @@ branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
 			require(['epl/Branch'], function (Branch) { 
 				var brch = new Branch($('#BranchView'), "/static/sample.gif");
-				brch.showPin(new StoryPin("video", "1")); 
-			//	brch.showPin(new StoryPin("audio", "2")); 
-			//	brch.showPin(new StoryPin("text", "3")); 
+				brch.showPin(new StoryPin("video", "1", "Jan1")); 
+				brch.showPin(new StoryPin("audio", "2", "Jan2")); 
+			  	brch.showPin(new StoryPin("text", "3", "Jan3")); 
 
 
 			});

@@ -18,7 +18,6 @@ return (function () {
 	Branch.prototype.setBackground = function (floorPlan) {
 	$('#BranchView').css('background-image', 'url(\'' + floorPlan + '\')');
 	$('#BranchView').css('width', '444px').css('height', '328px')
-	$('#video').html("JS Test")
 	};
 	Branch.prototype.showPin = function (pin) { 
 	 for (var i = 0; i<this.object.length; i++) { 
