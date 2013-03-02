@@ -38,6 +38,13 @@ return {
 				epl.nav.transition(views.createAccount);
 			});
 		});
+
+		//Route to Create Account Success view
+		this.get('#createAccountSuccess', function () {
+			require(['epl', 'views'], function (epl, views) {
+				epl.nav.transition(views.createAccountSuccess);
+			});
+		});
 		
 		//Route to Upload Story view
 		this.get('#uploadStory', function () {
