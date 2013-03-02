@@ -45,10 +45,14 @@ main : new View('timemap', 'Home',
 		}),
 
 /**************************************
- * An example view to test navigation *
+ * Create Account View *
  *************************************/
-example : new View('example', 'Example', 
+createAccount : new View('createAccount', 'createAccount', 
 		function (fromView, viewport, callback) {
+			require(['epl/CreateAccountViewModel'], function (CreateAccountViewModel) {
+				var createAccountViewModel = new CreateAccountViewModel();
+				ko.applyBindings(createAccountViewModel);
+			});
 			callback();
 		}, 
 
