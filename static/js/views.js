@@ -62,6 +62,19 @@ createAccount : new View('createAccount', 'createAccount',
 			callback();
 		}),
 
+/**************************************
+ * Terms and Conditions *
+ *************************************/
+termsAndConditions : new View('termsAndConditions', 'termsAndConditions', 
+		function (fromView, viewport, callback) {
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
 /*************************************
 * Branch View 
 *************************************/
