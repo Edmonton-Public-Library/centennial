@@ -13,7 +13,7 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 		 */
 		var Criteria = function (data) {
 			this.defaultData = {
-				keywords : '',
+				keyword : '',
 				title__icontains: ''
 			};
 
