@@ -102,6 +102,11 @@ return (function () {
 				visible: true
 			});
 
+			//Cache this branch's info
+			self.withBranchInfo(pin.id, function (branchData) {
+				self.mapData.branchInfo[pin.id] = branchData;
+			});
+
 			//Open the branch info when the user clicks on a pin
 			google.maps.event.addListener(self.mapData.markers[pin.id].marker, 'click', function () {
 				var clickedPin = self.mapData.markers[pin.id];

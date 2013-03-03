@@ -6,60 +6,64 @@
 <div id="tm-sidebar">
 	<div class="contents">
 		<ul class="tabs">
-			<li>
+			<li class="tab" data-tab="features">
 				Features
 				<div class="indicator"></div>
 			</li>
-			<li class="active">
+			<li class="tab" class="active" data-tab="search">
 				Search
 				<div class="indicator"></div>
 			</li>
-			<li>
+			<li class="tab" data-tab="advanced-search">
 				Advanced Search
 				<div class="indicator"></div>
 			</li>
 		</ul>
-		<input type="text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
-		<!--<select class="epl-input select search-select">
-			<option value="test">Test</option>
-			<option value="cool" selected="selected">Cool</option>
-		</select>-->
-		<!-- <div class="epl-input select search-select">
-			<div class="option-list">
-				<div class="option option-selected" data-value="option1" data-text="Option 1">
-					<div class="option-contents">Option 1</div>
-				</div>
-				<div class="option" data-value="option1" data-text="Option 1">
-					<div class="option-contents">Option 1</div>
-				</div>
-				<div class="option" data-value="option2" data-text="Option 2">
-					<div class="option-contents">Option 2</div>
-				</div>
-				<div class="option" data-value="option3" data-text="Option 3">
-					<div class="option-contents">Option 3</div>
-				</div>
-				<div class="option" data-value="option4" data-text="Option 4">
-					<div class="option-contents">Option 4</div>
-				</div>
-				<div class="option" data-value="option5" data-text="Option 5">
-					<div class="option-contents">Option 5</div>
+		<div class="tab-containers">
+			<div class="tab-contents" data-tab="features">
+				<div class="results">
+					<div class="search-result">
+						<p class="title">No Stories</p>
+						<p class="description">No featured stories have been set.</p>
+					</div>
 				</div>
 			</div>
-		</div> -->
-		<div class="results">
-			<!-- ko ifnot: searchResults().length > 0 -->
-			<div class="search-result">
-				<p class="title">No results.</p>
-				<p class="description">Begin typing in the search box to narrow your query.</p>
+			<div class="tab-contents" data-tab="search">
+				<input type="text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
+				<div class="results">
+					<!-- ko ifnot: searchResults().length > 0 -->
+					<div class="search-result">
+						<p class="title">No results.</p>
+						<p class="description">Begin typing in the search box to narrow your query.</p>
+					</div>
+					<!-- /ko -->
+					<!-- ko foreach: {data: searchResults(), as: 'result'} -->
+					<div class="search-result">
+						<p class="title" data-bind="text: result.title"></p>
+						<p class="description" data-bind="text: result.description"></p>
+					</div>
+					<!-- /ko -->
+				</div>
 			</div>
-			<!-- /ko -->
-			<!-- ko foreach: {data: searchResults(), as: 'result'} -->
-			<div class="search-result">
-				<p class="title" data-bind="text: result.title"></p>
-				<p class="description" data-bind="text: result.description"></p>
+			<div class="tab-contents" data-tab="advanced-search">
+				<input type="text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
+				<div class="results">
+					<!-- ko ifnot: searchResults().length > 0 -->
+					<div class="search-result">
+						<p class="title">No results.</p>
+						<p class="description">Begin typing in the search box to narrow your query.</p>
+					</div>
+					<!-- /ko -->
+					<!-- ko foreach: {data: searchResults(), as: 'result'} -->
+					<div class="search-result">
+						<p class="title" data-bind="text: result.title"></p>
+						<p class="description" data-bind="text: result.description"></p>
+					</div>
+					<!-- /ko -->
+				</div>
 			</div>
-			<!-- /ko -->
 		</div>
+		
 	</div>
 </div>
 <div id="tm-canvas" data-bind="

@@ -37,6 +37,8 @@ main : new View('timemap', 'Home',
 
 				//Initialize the sidebar
 				sidebar = new Sidebar($('#tm-sidebar'));
+				//Select the first available tab by default
+				sidebar.tab($(viewport.find('.tab')[0]).attr('data-tab'));
 			});
 		}, 
 
@@ -62,6 +64,19 @@ createAccount : new View('createAccount', 'createAccount',
 			callback();
 		}),
 
+/**************************************
+ * Terms and Conditions *
+ *************************************/
+termsAndConditions : new View('termsAndConditions', 'termsAndConditions', 
+		function (fromView, viewport, callback) {
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
 /*************************************
 * Branch View 
 *************************************/
@@ -72,7 +87,10 @@ branch : new View('branch', 'Branch',
 				brch.showPin(new StoryPin("video", "1", "Jan1")); 
 				brch.showPin(new StoryPin("audio", "2", "Jan2")); 
 			  	brch.showPin(new StoryPin("text", "3", "Jan3")); 
-
+				brch.showPin(new StoryPin("video", "4", "Jan4")); 
+				brch.showPin(new StoryPin("link", "5", "Jan5")); 
+				brch.showPin(new StoryPin("image", "6", "Jan6")); 
+				brch.showPin(new StoryPin("pdf", "7", "Jan7")); 
 
 			});
 			callback();
@@ -96,6 +114,20 @@ uploadStory : new View('uploadStory', 'Upload Story',
 			callback();
 		}, 
 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+/**************************************
+ * Upload Story Success view *
+ *************************************/
+uploadStorySuccess : new View('uploadStorySuccess', 'Upload Story Success', 
+		//in
+		function (fromView, viewport, callback) {
+			callback();
+		}, 
 
 		//out
 		function (toView, viewport, callback) {
