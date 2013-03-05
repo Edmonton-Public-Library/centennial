@@ -5,8 +5,8 @@ return (function () {
 
 	var branchEndpoint = Environment.routes.apiBase + '/branch';
 	var formatString = '?format=json';
-	var branchInfoSelector = '#tm-branch-info-pane';
-	var branchInfoClass = 'tm-branch-info';
+	var branchInfoSelector = '#tm-branch-info-pane'; //Selector for the element containing the popup template
+	var branchInfoClass = 'tm-branch-info'; //The class used to style the popup box
 
 	/**
 	 * Creates an epl-wrapped Google Map
@@ -22,6 +22,7 @@ return (function () {
 
 		this.mapData = {
 			markers : {},
+			branchInfo : {},
 			infoBox : null,
 			selectedBranch : ko.observable({}),
 			range : {
@@ -101,6 +102,11 @@ return (function () {
 				visible: true
 			});
 
+			//Cache this branch's info
+			self.withBranchInfo(pin.id, function (branchData) {
+				self.mapData.branchInfo[pin.id] = branchData;
+			});
+
 			//Open the branch info when the user clicks on a pin
 			google.maps.event.addListener(self.mapData.markers[pin.id].marker, 'click', function () {
 				var clickedPin = self.mapData.markers[pin.id];
@@ -108,7 +114,7 @@ return (function () {
 			});
 		//Otherwise, just show it
 		} else {
-			self.mapData.markers[pin.id].setVisible(true);
+			self.mapData.markers[pin.id].marker.setVisible(true);
 		}
 		//TODO: Adjust the map zoom/position to show all of the pins? Or is this intrusive?
 	};
@@ -120,7 +126,7 @@ return (function () {
 	Map.prototype.hidePin = function (pin) {
 		var self = this;
 		if(typeof self.mapData.markers[pin.id] != 'undefined') {
-			self.mapData.markers[pin.id].setVisible(false);
+			self.mapData.markers[pin.id].marker.setVisible(false);
 		}
 		//TODO: Adjust the map zoom/position to show all of the pins? Or is this intrusive?
 	};
@@ -154,7 +160,7 @@ return (function () {
 		//pretty much guaranteed to be loaded), because it depends 
 		//google library which doesn't support AMD loading
 		require(['lib/infobox'], function (InfoBox) {
-			Map.withBranchInfo(pin.id, function (branch) {
+			self.withBranchInfo(pin.id, function (branch) {
 				self.mapData.selectedBranch(branch);
 
 				//Clone the overlay template and create a unique ID for tracking it
@@ -197,11 +203,17 @@ return (function () {
 	 * @param	id			String		The Branch ID to gather data from
 	 * @param	callback	Function	The callback function to invoke
 	 */
-	Map.withBranchInfo = function(id, callback) {
-		//TODO: Do some caching here
-		$.get(branchEndpoint + '/' + id + formatString, {}, function (data) {
-			callback(data);
-		});
+	Map.prototype.withBranchInfo = function(id, callback) {
+		var self = this;
+		//TODO: Do we need to have a persistent cache (i.e. localStorage) here?
+		if(typeof self.mapData.branchInfo[id] == 'undefined') {
+			$.get(branchEndpoint + '/' + id + formatString, {}, function (data) {
+				self.mapData.branchInfo[id] = data;
+				callback(data);
+			});
+		} else {
+			callback(self.mapData.branchInfo[id]);
+		}
 	};
 
 	Map.prototype.registerBindingHandlers = function () {

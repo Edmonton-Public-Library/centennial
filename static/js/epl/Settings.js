@@ -5,10 +5,13 @@ define(['lib/sammy'], function (Sammy) {
  * Contains app-wide settings *
  *****************************/
 return {
+	//TODO: Need to keep these paths in either Settings **OR** Environment. Not both.
 	siteUrl : 'http://localhost:8000',
 	apiBranchUrl : '/api/v1/branch/',
 	apiStoryUrl : '/api/v1/story/',
+	apiAccountUrl : '/account/',
 	viewDirectory : function () { return '/static/views'; },
+	imageDirectory : '/static/images',
 
 	//API Keys
 	apiKeys : {
@@ -22,12 +25,24 @@ return {
 
 		var self = this;
 
-		//Example route
-		self.get('#example', function () {
-			//The template within /static/views/example.html will be loaded into the viewport provided to the AppClass constructor
-			//@see the csc.View constructor for information on transitioning between views using the parameters below
+		//Route to Terms and Conditions
+		this.get('#termsAndConditions', function () {
 			require(['epl', 'views'], function (epl, views) {
-				epl.nav.transition(views.example);
+				epl.nav.transition(views.termsAndConditions);
+			});
+		});
+		
+		//Route to Create Account view
+		this.get('#createAccount', function () {
+			require(['epl', 'views'], function (epl, views) {
+				epl.nav.transition(views.createAccount);
+			});
+		});
+
+		//Route to Create Account Success view
+		this.get('#createAccountSuccess', function () {
+			require(['epl', 'views'], function (epl, views) {
+				epl.nav.transition(views.createAccountSuccess);
 			});
 		});
 		
@@ -35,6 +50,13 @@ return {
 		this.get('#uploadStory', function () {
 			require(['epl', 'views'], function (epl, views) {
 				epl.nav.transition(views.uploadStory);
+			});
+		});
+
+		//Route to Upload Story Success view
+		this.get('#uploadStorySuccess', function () {
+			require(['epl', 'views'], function (epl, views) {
+				epl.nav.transition(views.uploadStorySuccess);
 			});
 		});
 
@@ -49,9 +71,7 @@ return {
 		
 		//Route to View Story view
 		this.get('#viewStory/:id', function () {
-		    // TODO - figure out how to pass the param to the view?
-		    // var storyId = this.params['id'];
-		    var self = this;
+			var self = this;
 			require(['epl', 'views'], function (epl, views) {
 				epl.nav.transition(views.viewStory, self.params);
 			});

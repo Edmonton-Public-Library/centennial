@@ -1,6 +1,6 @@
 ;
 //Create a module to contain client-side views
-define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment'], function(epl, View, ko, Environment) {
+define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment', 'epl/map/StoryPin'], function(epl, View, ko, Environment, StoryPin) {
 
 return {
 
@@ -14,29 +14,18 @@ main : new View('timemap', 'Home',
 				mapCanvas = $('#tm-canvas'),
 				sidebar = null;
 
-			require(['epl/Map', 'epl/Sidebar', 'lib/epl/Input', 'epl/map/BranchPin'], function(Map, Sidebar, Input, BranchPin) {
-				
-				//Persist the map between navigations
+			require(['epl/Map', 'epl/Sidebar', 'lib/epl/Input', 'epl/map/BranchPin', 'epl/Timeline'], function(Map, Sidebar, Input, BranchPin, Timeline) {
+
+				epl.initFacebook();
+				//Persist the map and timeline between navigations
 				epl.storage.map = epl.storage.map || null;
+				epl.storage.timeline = epl.storage.timeline || null;
 
 				//Load the Google Maps API if not already loaded
 				if (epl.storage.map == null) {
 					epl.storage.map = new Map(function () {
 						epl.storage.map.render(mapCanvas);
-
-						//TODO: Remove; just for example
-						for(var i=1; i<12; i++) {
-							Map.withBranchInfo(i, function (branch) {
-								var pin = new BranchPin({
-									type: 'std',
-									id: branch.id,
-									lat: branch.latitude,
-									lng: branch.longitude
-								});
-								epl.storage.map.showPin(pin);
-							})
-						}
-						
+						epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
 					});
 					ko.applyBindings({
 						Environment : Environment
@@ -48,7 +37,8 @@ main : new View('timemap', 'Home',
 
 				//Initialize the sidebar
 				sidebar = new Sidebar($('#tm-sidebar'));
-
+				//Select the first available tab by default
+				sidebar.tab($(viewport.find('.tab')[0]).attr('data-tab'));
 			});
 		}, 
 
@@ -58,9 +48,38 @@ main : new View('timemap', 'Home',
 		}),
 
 /**************************************
- * An example view to test navigation *
+ * Create Account View *
  *************************************/
-example : new View('example', 'Example', 
+createAccount : new View('createAccount', 'createAccount', 
+		function (fromView, viewport, callback) {
+			require(['epl/CreateAccountViewModel'], function (CreateAccountViewModel) {
+				var createAccountViewModel = new CreateAccountViewModel();
+				ko.applyBindings(createAccountViewModel);
+			});
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+/**************************************
+ * Create Account Success View *
+ *************************************/
+createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess', 
+		function (fromView, viewport, callback) {
+			callback();
+		}, 
+
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+/**************************************
+ * Terms and Conditions *
+ *************************************/
+termsAndConditions : new View('termsAndConditions', 'termsAndConditions', 
 		function (fromView, viewport, callback) {
 			callback();
 		}, 
@@ -77,6 +96,14 @@ branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
 			require(['epl/Branch'], function (Branch) { 
 				var brch = new Branch($('#BranchView'), "/static/sample.gif");
+				brch.showPin(new StoryPin("video", "1", "Jan1")); 
+				brch.showPin(new StoryPin("audio", "2", "Jan2")); 
+			  	brch.showPin(new StoryPin("text", "3", "Jan3")); 
+				brch.showPin(new StoryPin("video", "4", "Jan4")); 
+				brch.showPin(new StoryPin("link", "5", "Jan5")); 
+				brch.showPin(new StoryPin("image", "6", "Jan6")); 
+				brch.showPin(new StoryPin("pdf", "7", "Jan7")); 
+
 			});
 			callback();
 		},
@@ -106,15 +133,28 @@ uploadStory : new View('uploadStory', 'Upload Story',
 		}),
 
 /**************************************
+ * Upload Story Success view *
+ *************************************/
+uploadStorySuccess : new View('uploadStorySuccess', 'Upload Story Success', 
+		//in
+		function (fromView, viewport, callback) {
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+/**************************************
  * View Story view *
  *************************************/
 viewStory : new View('viewStory', 'View Story', 
         //in
         function (fromView, viewport, callback) {
             require(['epl/StoryViewModel', 'lib/jquery.jplayer', 'lib/pdfobject'], function (StoryViewModel) {
-                // TODO - obtain the storyId from the params
-                var storyId = 1;
-                var story = new StoryViewModel(storyId);
+                // Obtain the story id from the URL param
+                var story = new StoryViewModel(epl.nav.params['id']);
                 ko.applyBindings(story);
                 
                 if (story.content_type() == "audio") {
