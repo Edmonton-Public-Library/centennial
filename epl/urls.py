@@ -1,12 +1,13 @@
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib import admin
 from tastypie.api import Api
 
 from timemap.api import BranchResource, StoryResource, UserResource, SimpleBranchResource
 from timemap.views import timemap, upload
-from centennial.views import accountActivate, login_user, logout_user, create_user
+from centennial.views import accountActivate, login_user, logout_user, create_user, current_user, link_bibliocommons
 
 admin.autodiscover()
 v1_api = Api(api_name="v1")
@@ -25,5 +26,7 @@ urlpatterns = patterns('',
     url(r'^account/logout', logout_user),
     url(r'^account/activate', accountActivate),
     url(r'^account/create', create_user),
+    url(r'^account/current', current_user),
+    url(r'^account/link/bibliocommons', link_bibliocommons),
     url(r'^upload/(\d+)/$', upload),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
