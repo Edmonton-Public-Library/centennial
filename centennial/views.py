@@ -4,10 +4,13 @@ from django.template import Context
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from centennial.models import BibliocommonsLink
+from centennial.bibliocommons import validUser
 import epl.settings
 import util
 import util.email.email_template
 import urlparse
+import json
 
 
 def accountActivate(request):
@@ -52,22 +55,28 @@ def login_user(request):
     # TODO: Remove login.html with GET requests once the timemap section handles logins
     if request.method == "GET":
         return render_to_response('login.html')
-    if request.method == "POST" and 'username' in request.POST and 'password' in request.POST:
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                return HttpResponse()
-            else:
-                util.gen_json_badrrequest_response("Disabled Account")
+    if request.method == "POST":
+        data = None
+        try:
+            data = json.loads(request.raw_post_data)
+        except ValueError:
+            return HttpResponse(status='400')
+        if 'username' in data and 'password' in data:
+            username = data['username']
+            password = data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse()
+                else:
+                    util.gen_json_badrrequest_response("Disabled Account")
     return HttpResponse(status="401")
 
 def logout_user(request):
     """
         View to close out the user's session.
-        """
+    """
     logout(request)
     return HttpResponse()
 
@@ -79,17 +88,61 @@ def create_user(request):
         return HttpResponse(status='501')
     if request.method == "POST":
         #check for all required fields
-        if ('username' in request.POST and
-           'password' in request.POST and
-           'firstname' in request.POST and
-           'lastname' in request.POST and
-           'email' in request.POST):
-                #Perform data integrity verification
-                if User.objects.filter(username=request.POST['username']).count() == 0:
-                    user = User.objects.create_user(username = request.POST['username'],
-                                                    password = request.POST['password'],
-                                                    email = request.POST['email'])
-                    user.first_name = request.POST['firstname']
-                    user.last_name = request.POST['lastname']
-                    user.save()
-                    return HttpResponse(status='200')
+        data = None
+        try:
+            data = json.loads(request.raw_post_data)
+        except ValueError:
+            return HttpResponse(status='400')
+        if ('username' in data and
+           'password' in data and
+           'firstname' in data and
+           'lastname' in data and
+           'email' in data):
+            #Perform data integrity verification
+            if User.objects.filter(username=data['username']).count() == 0:
+                user = User.objects.create_user(username = data['username'],
+                                                password = data['password'],
+                                                email = data['email'])
+                user.first_name = data['firstname']
+                user.last_name = data['lastname']
+                user.save()
+                return HttpResponse(status='201')
+            else:
+                return HttpResponse(status='409')
+        return HttpResponse(status='400')
+
+def current_user(request):
+    """
+        Returns information about the current user, if any
+    """
+    if request.user.is_authenticated():
+        bibliolink = BibliocommonsLink.objects.filter(user=request.user).count() != 0
+        facebooklink = request.user.social_auth.filter(provider='facebook').count() != 0
+        userinfo = { "username": request.user.username, "firstname": request.user.first_name, "lastname": request.user.last_name, "email": request.user.email, "bibliolink" : bibliolink, "facebooklink" : facebooklink}
+        return HttpResponse(json.dumps(userinfo), content_type='application/json')
+    return HttpResponse(status='403')
+
+def link_bibliocommons(request):
+    """
+        Links a bibliocommons account to an existing user account, given valid credentials
+    """
+    if request.method == "POST":
+        data = None
+        try:
+            data = json.loads(request.raw_post_data)
+        except ValueError:
+            return HttpResponse(status='400')
+            
+        if request.user.is_authenticated():
+            if ('username' in data and 'password' in data):
+                if validUser(data['username'], data['password']):
+                    link = BibliocommonsLink.objects.create(biblioname=data['username'], user=request.user)
+                    link.save()
+                    return HttpResponse(json.dumps({'result':'success'}))
+                else:
+                    return HttpResponse(json.dumps({'result':'Error: Invalid Username or Password'}))
+            else:
+                return HttpResponse(status='400')
+        else:
+            return HttpResponse(status='403')
+    return HttpResponse(status='501')
