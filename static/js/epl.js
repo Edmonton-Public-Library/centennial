@@ -1,6 +1,6 @@
 ;
 //Create the application module
-define(['epl/Settings', 'lib/csc/Nav', 'lib/knockout', 'lib/sammy', 'lib/less', 'lib/jquery-ui'], function (Settings, Nav, ko) {
+define(['epl/Settings', 'lib/csc/Nav', 'lib/knockout', 'epl/EPLBar', 'lib/sammy', 'lib/less', 'lib/jquery-ui'], function (Settings, Nav, ko, EPLBar) {
 var epl = null;
 
 //Only start the app once the page has loaded

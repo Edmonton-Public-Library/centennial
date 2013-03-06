@@ -70,11 +70,15 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 			 * the appropriate init function
 			 */
 			function init () {
+				config = Utils.mergeObjects(userConfig, config);
 				switch(input.prop('tagName').toLowerCase()) {
 					case 'input':
 						switch(input.attr('type')) {
 							case 'text':
 								initText();
+							break;
+							case 'password':
+								initPassword();
 							break;
 						}
 					break;
@@ -98,7 +102,6 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 					divInput.attr(this.name, this.value);
 				});
 				
-				config = Utils.mergeObjects(userConfig, config);
 				createInput();
 
 				function createInput () {
@@ -220,12 +223,45 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 				});
 			}
 
+			function initPassword () {
+				if(input.attr('data-default-text')) {
+					togglePasswordInput();
+					input.val(input.attr('data-default-text'));
+				}
+				input.focus(function () {
+					togglePasswordInput(true);
+					input.val('');
+				});
+			}
+
+			function togglePasswordInput (focus) {
+				var newType = '',
+					newInput = $('<input>');
+				//Get the new type
+				if(input.attr('type') == 'password') {
+					newType = 'text';
+				} else {
+					newType = 'password';
+				}
+				//Copy attributes to the new object
+				$.each(input.prop("attributes"), function () {
+					if(this.name == 'type') {
+						newInput.attr('type', newType);
+					} else {
+						newInput.attr(this.name, this.value);
+					}
+				});
+
+				input.replaceWith(newInput);
+				input = newInput;
+				if(focus) input.focus();
+				//TODO: Get toggling back to text working, when the input is empty on blur
+			}
+
 			/**
 			 * Initialize a text input element
 			 */
 			function initText () {
-				config = Utils.mergeObjects(userConfig, config);
-
 				//Enable clearing the field with escape
 				if(config.escapeClear) {
 					input.bind('keydown.esc', function () {

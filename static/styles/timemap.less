@@ -59,6 +59,7 @@ body {
   			@buttonBackground: #DEDEDE;
   			@buttonRadius: 3px;
   			@buttonBorderWidth: 1px;
+  			height: @fontSize + @heightAdjust + 2;
   			padding:(@padding - @heightAdjust) @padding (@padding - @heightAdjust) (@padding + @eplBarHeight - 5px);
   			margin: 0;
   			background-color: @buttonBackground;
@@ -71,16 +72,9 @@ body {
   			.x-border-radius(@buttonRadius);
   			.x-gradient(lighten(@buttonBackground, 3%), darken(@buttonBackground, 3%));
   			position: relative;
-  			overflow: hidden;
+  			// overflow: hidden;
+  			z-index: 1000;
 
-  			&:hover {
-  				background-color: darken(@buttonBackground, 10%);
-	  			.x-gradient(@buttonBackground, darken(@buttonBackground, 10%));
-	  			box-shadow: inset 0 0 0 1px lighten(@buttonBackground, 4%), 1px 1px 3px rgba(0,0,0,0.2);
-	  			color: darken(@buttonBackground, 55%);
-	  			border-color: darken(@buttonBackground, 35%);
-  			}
-  			
   			.icon {
   				float: left;
   				height: (2 * @padding) + @fontSize - (2 * @buttonBorderWidth);
@@ -94,6 +88,68 @@ body {
 	  			.x-gradient(darken(@buttonBackground, 8%), darken(@buttonBackground, 22%));
 	  			box-shadow: inset 0 0 0 1px white;
   			}
+
+  			.menu {
+  				@menuBackground: #F5F5F5;
+  				@saveButtonHeight: 35px;
+  				padding: 10px;
+  				position: absolute;
+  				right: -1px;
+  				top: 33px;
+  				background-color: @menuBackground;
+  				border: solid 1px darken(@menuBackground, 23%);
+				.x-box-shadow(0, 0, 40px, 0px, rgba(0,0,0,0.3), false);
+				display: none;
+				z-index: 999;
+
+				.section-title {
+					font-size: 16px;
+					font-weight: 900;
+					margin: 4px 0 10px 0;
+				}
+
+				.epl-input.text {
+					margin-top: 6px;
+				}
+
+				.save-button-space {
+					height:@saveButtonHeight;
+					clear: both;
+				}
+
+				.save-button {
+					height: @saveButtonHeight;
+					position: absolute;
+					left: 0;
+					bottom: 0;
+					width: 100%;
+					background-color: darken(@menuBackground, 10%);
+					border: none;
+					border-top: solid 1px darken(@menuBackground, 25%);
+					color: darken(@menuBackground, 45%);
+
+					&:hover {
+						background-color: darken(@menuBackground, 70%);
+						color: white;
+						border-color: darken(@menuBackground, 75%);
+					}
+				}
+  			}
+
+  			&:hover {
+  				background-color: darken(@buttonBackground, 10%);
+	  			.x-gradient(@buttonBackground, darken(@buttonBackground, 10%));
+	  			box-shadow: inset 0 0 0 1px lighten(@buttonBackground, 4%), 1px 1px 3px rgba(0,0,0,0.2);
+	  			color: darken(@buttonBackground, 55%);
+	  			border-color: darken(@buttonBackground, 35%);
+  			}
+
+  			&.active {
+  				.menu {
+  					display: block;
+  				}
+  			}
+  			
   		}
   	}
 }

@@ -1,6 +1,6 @@
 ;
 //Create a module to contain client-side views
-define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment', 'epl/map/StoryPin'], function(epl, View, ko, Environment, StoryPin) {
+define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment', 'epl/map/StoryPin', 'lib/epl/Input', 'epl/EPLBar'], function(epl, View, ko, Environment, StoryPin, Input, EPLBar) {
 
 return {
 
@@ -34,6 +34,12 @@ main : new View('timemap', 'Home',
 				} else {
 					epl.storage.map.render(mapCanvas);
 				}
+
+				$('.buttons').find('#auth-username').eplInput();
+				$('.buttons').find('#auth-password').eplInput();
+
+				//TODO: Extract the sidebar/EPL bar
+				var eplBar = new EPLBar('#epl-bar');
 
 				//Initialize the sidebar
 				sidebar = new Sidebar($('#tm-sidebar'));

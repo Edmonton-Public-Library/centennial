@@ -111,7 +111,6 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 		 */
 		Sidebar.prototype.search = function (criteria) {
 			var self = this;
-			console.log(Environment.routes.apiBase + '/story/?format=json' + criteria);
 			$.get(Environment.routes.apiBase + '/story/?format=json' + criteria, function (data) {
 				self.data.searchResults(data.objects);
 			});
