@@ -52,9 +52,6 @@ def login_user(request):
     """
         View used to create a user cookie to maintain a session.
     """
-    # TODO: Remove login.html with GET requests once the timemap section handles logins
-    if request.method == "GET":
-        return render_to_response('login.html')
     if request.method == "POST":
         data = None
         try:
@@ -68,9 +65,7 @@ def login_user(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponse()
-                else:
-                    util.gen_json_badrrequest_response("Disabled Account")
+                    return HttpResponse(status='200')
     return HttpResponse(status="401")
 
 def logout_user(request):
