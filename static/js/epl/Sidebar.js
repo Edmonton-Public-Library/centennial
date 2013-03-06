@@ -121,6 +121,12 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 			}
 		};
 
+		/**
+		 * Set the currently-displayed tab in the sidebar
+		 * @param	id		String		The ID of the tab that should be displayed
+		 *								(this ID matches the "data-tab" attribute of
+		 *								the tab element that should be displayed)
+		 */
 		Sidebar.prototype.tab = function (id) {
 			this.viewport.find('.tab').add('.tab-contents').removeClass('active');
 			this.viewport.find('.tab[data-tab=' + id + ']').add('.tab-contents[data-tab=' + id + ']').addClass('active');

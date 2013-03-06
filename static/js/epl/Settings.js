@@ -17,6 +17,9 @@ return {
 	apiKeys : {
 		google : {
 			maps : 'AIzaSyA59Z_Kym_voRl--cHJzYkep3Cs-_71'
+		},
+		facebook : {
+			connect : '150662938425048'
 		}
 	},
 

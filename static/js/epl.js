@@ -24,19 +24,19 @@ var AppClass = (function () {
 	};
 
 	AppClass.prototype.initFacebook = function () {
-		  window.fbAsyncInit = function() {
-		  // init the FB JS SDK
-		  FB.init({
-		    appId      : '150662938425048', // App ID from the App Dashboard
-		    //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File for x-domain communication
-		    status     : true, // check the login status upon init?
-		    cookie     : true, // set sessions cookies to allow your server to access the session?
-		    xfbml      : true  // parse XFBML tags on this page?
-		  });
+		window.fbAsyncInit = function() {
+			// init the FB JS SDK
+			FB.init({
+				appId      : Settings.apiKeys.facebook.connect, // App ID from the App Dashboard
+				//channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File for x-domain communication
+				status     : true, // check the login status upon init?
+				cookie     : true, // set sessions cookies to allow your server to access the session?
+				xfbml      : true  // parse XFBML tags on this page?
+			});
 
-		  // Additional initialization code such as adding Event Listeners goes here
+			// Additional initialization code such as adding Event Listeners goes here
 
-		  };
+		};
 
 		// Load the SDK's source Asynchronously
 		// Note that the debug version is being actively developed and might 
