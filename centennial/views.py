@@ -148,10 +148,10 @@ def link_bibliocommons(request):
     return HttpResponse(status='501')
 
 def update_user(request):
-    if !request.user.is_authenticated():
+    if not request.user.is_authenticated():
         return HttpResponse(status='403')
     if request.method != "POST":
-        return return HttpResponse(status='400')
+        return HttpResponse(status='400')
     data = None
     try:
         data = json.loads(request.raw_post_data)
