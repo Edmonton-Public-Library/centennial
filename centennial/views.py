@@ -138,11 +138,36 @@ def link_bibliocommons(request):
                 if validUser(data['username'], data['password']):
                     link = BibliocommonsLink.objects.create(biblioname=data['username'], user=request.user)
                     link.save()
-                    return HttpResponse(json.dumps({'result':'success'}))
+                    return HttpResponse(json.dumps({'result':'success'}, content_type='application/json'))
                 else:
-                    return HttpResponse(json.dumps({'result':'Error: Invalid Username or Password'}))
+                    return HttpResponse(json.dumps({'result':'Error: Invalid Username or Password'}, content_type='application/json'))
             else:
                 return HttpResponse(status='400')
         else:
             return HttpResponse(status='403')
     return HttpResponse(status='501')
+
+def update_user(request):
+    if !request.user.is_authenticated():
+        return HttpResponse(status='403')
+    if request.method != "POST":
+        return return HttpResponse(status='400')
+    data = None
+    try:
+        data = json.loads(request.raw_post_data)
+    except ValueError:
+        return HttpResponse(status='400')        
+    if 'firstname' in data:
+        request.user.first_name = data['firstname']
+    if 'lastname' in data:
+        request.user.last_name = data['lastname']
+    if 'oldpassword' in data:
+        if authenticate(request.user.username, data['oldpassword']):
+            if email in data:
+                request.user.email = data['email']
+            if 'newpassword' in data:
+                request.user.set_password(data['newpassword'])
+        else:
+            return HttpResponse(status='403')
+    request.user.save()
+    return HttpResponse(status='200')
