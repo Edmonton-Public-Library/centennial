@@ -9,7 +9,12 @@ div {
 	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
-.x-box-shadow (@x, @y, @radius, @size, @color) {
+.x-box-shadow (@x, @y, @radius, @size, @color, @inset) when (@inset = true) {
+	box-shadow: inset @x @y @radius @size @color;
+	-webkit-box-shadow: inset @x @y @radius @size @color;
+}
+
+.x-box-shadow (@x, @y, @radius, @size, @color, @inset) when (@inset = false) {
 	box-shadow: @x @y @radius @size @color;
 	-webkit-box-shadow: @x @y @radius @size @color;
 }
@@ -18,40 +23,49 @@ div {
 	border-radius: @radius;
 	-webkit-border-radius: @radius;
 
-  /* useful if you don't want a bg color from leaking outside the border: */
-  -webkit-background-clip: padding-box; background-clip: padding-box;
+	/* useful if you don't want a bg color from leaking outside the border: */
+	-webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
 .x-border-bottom-left-radius (@radius) {
 	border-bottom-left-radius: @radius;
 	-webkit-border-bottom-left-radius: @radius;
 
-  /* useful if you don't want a bg color from leaking outside the border: */
-  -webkit-background-clip: padding-box; background-clip: padding-box;
+	/* useful if you don't want a bg color from leaking outside the border: */
+	-webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
 .x-border-bottom-right-radius (@radius) {
 	border-bottom-right-radius: @radius;
 	-webkit-border-bottom-right-radius: @radius;
 
-  /* useful if you don't want a bg color from leaking outside the border: */
-  -webkit-background-clip: padding-box; background-clip: padding-box;
+	/* useful if you don't want a bg color from leaking outside the border: */
+	-webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
 .x-border-top-left-radius (@radius) {
 	border-top-left-radius: @radius;
 	-webkit-border-top-left-radius: @radius;
 
-  /* useful if you don't want a bg color from leaking outside the border: */
-  -webkit-background-clip: padding-box; background-clip: padding-box;
+	/* useful if you don't want a bg color from leaking outside the border: */
+	-webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
 .x-border-top-right-radius (@radius) {
 	border-top-right-radius: @radius;
 	-webkit-border-top-right-radius: @radius;
 
-  /* useful if you don't want a bg color from leaking outside the border: */
-  -webkit-background-clip: padding-box; background-clip: padding-box;
+	/* useful if you don't want a bg color from leaking outside the border: */
+	-webkit-background-clip: padding-box; background-clip: padding-box;
+}
+
+.x-gradient (@color1, @color2) {
+	background-color: @color1;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(@color1), to(@color2)); /* Chrome, Safari 4+ */
+	background-image: -webkit-linear-gradient(top, @color1, @color2); /* Chrome 10-25, iOS 5+, Safari 5.1+ */
+	background-image:    -moz-linear-gradient(top, @color1, @color2); /* Firefox 3.6-15 */
+	background-image:      -o-linear-gradient(top, @color1, @color2); /* Opera 11.10-12.00 */
+	background-image:         linear-gradient(to bottom, @color1, @color2); /* Chrome 26, Firefox 16+, IE 10+, Opera 12.50+ */
 }
 
 //==========================//
@@ -83,7 +97,7 @@ div {
 		}
 
 		&:focus {
-			.x-box-shadow(0, 0, 5px, 0, rgba(0,0,0,0.15));
+			.x-box-shadow(0, 0, 5px, 0, rgba(0,0,0,0.15), false);
 		}
 	}
 

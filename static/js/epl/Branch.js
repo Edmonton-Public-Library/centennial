@@ -13,7 +13,7 @@ return (function () {
 	  this.displayed = new Array();
 	  this.width = 444;
           this.height = 328;
-	  this.setBackground(url) 
+	  this.setBackground(url)
 	  var elementSize = 30;
 	  var spaceWidth = (this.width -90)/4;
 	  var spaceHeight = (this.height-90)/3;
