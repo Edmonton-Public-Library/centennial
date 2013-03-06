@@ -111,9 +111,14 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 		 */
 		Sidebar.prototype.search = function (criteria) {
 			var self = this;
-			$.get(Environment.routes.apiBase + '/story/?format=json' + criteria, function (data) {
-				self.data.searchResults(data.objects);
-			});
+			//Don't run empty queries
+			if(criteria.toString().length > 0) {
+				$.get(Environment.routes.apiBase + '/story/?format=json' + criteria, function (data) {
+					self.data.searchResults(data.objects);
+				});
+			} else {
+				self.data.searchResults([]);
+			}
 		};
 
 		Sidebar.prototype.tab = function (id) {
