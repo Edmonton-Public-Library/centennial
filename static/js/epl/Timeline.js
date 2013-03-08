@@ -21,20 +21,27 @@ return (function () {
 			pinsByStart,
 			pinsByEnd;
 
+		var timelineTheme = Simile.ClassicTheme.create();
+
+		timelineTheme.timeline_start = new Date(Date.UTC(1900, 0, 1));
+		timelineTheme.timeline_stop = new Date();
+
 		var inputBandInfo = [
 			{
-				width: "0%",
-				intervalUnit: Simile.DateTime.YEAR,
-				intervalPixels: self.viewport.width()/10,
-				eventSource: eventSource
+				width : "0%",
+				intervalUnit : Simile.DateTime.YEAR,
+				intervalPixels : self.viewport.width()/10,
+				eventSource : eventSource,
+				theme : timelineTheme
 			},
 			{
-				width: "100%",
-				intervalUnit: Simile.DateTime.DECADE,
-				intervalPixels: decadePixels,
-				showEventText: false,
-				overview: true,
-				eventSource: eventSource
+				width : "100%",
+				intervalUnit : Simile.DateTime.DECADE,
+				intervalPixels : decadePixels,
+				showEventText : false,
+				overview : true,
+				theme : timelineTheme,
+				//eventSource: eventSource
 			}
 		];
 
@@ -48,6 +55,7 @@ return (function () {
 
 		var processBranches = function (json) {
 			var newJson = [];
+			var currYear = new Date().getFullYear().toString();
 			for (i in json) {
 				newJson.push({
 					name: json[i].name,
@@ -55,8 +63,8 @@ return (function () {
 					title: json[i].name,
 					lat: json[i].latitude,
 					lng: json[i].longitude,
-					start: json[i].start_year,
-					end: json[i].end_year ? json[i].end_year : "2014",
+					start: json[i].start_year.toString(),
+					end: json[i].end_year ? json[i].end_year : currYear,
 					id: json[i].id
 				});
 			}
@@ -199,6 +207,7 @@ return (function () {
 			//tl._bands[1]._autoScroll2 = tl._bands[1]._autoScroll;
 			//tl._bands[1]._autoScroll = scrollByDecade;
 
+			tl._bands[0].setMaxVisibleDate(new Date());
 			hideShowOnScroll();
 
 	};
