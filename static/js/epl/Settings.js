@@ -17,6 +17,9 @@ return {
 	apiKeys : {
 		google : {
 			maps : 'AIzaSyA59Z_Kym_voRl--cHJzYkep3Cs-_71'
+		},
+		facebook : {
+			connect : '150662938425048'
 		}
 	},
 
@@ -62,12 +65,10 @@ return {
 
     		//branch view 
 		this.get('#branch', function () {
-                        require(['epl', 'views'], function (epl, views) {
-                                epl.nav.transition(views.branch);
-                        });
-                });
-
-
+			require(['epl', 'views'], function (epl, views) {
+				epl.nav.transition(views.branch);
+			});
+		});
 		
 		//Route to View Story view
 		this.get('#viewStory/:id', function () {

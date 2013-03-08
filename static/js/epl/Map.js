@@ -172,6 +172,8 @@ return (function () {
 				self.mapData.infoBox = new InfoBox({
 					position : new google.maps.LatLng(pin.lat, pin.lng),
 					content : infoTemplate.html(),
+					infoBoxClearance: 20,
+					disableAutoPan: false,
 					zIndex: 1,
 					closeBoxURL: ''
 				});

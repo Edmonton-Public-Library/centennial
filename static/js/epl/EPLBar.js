@@ -1,5 +1,5 @@
 ;
-define(function () {
+define(['epl/Authentication', 'lib/knockout'], function (Authentication, ko) {
 
 return (function () {
 
@@ -10,9 +10,15 @@ return (function () {
 		$(document).ready(function () {
 			self.element = $(selector);
 			self.initButtons();
+
+			ko.applyBindings({}, self.element[0]);
 		});
 	};
 
+	/**
+	 * Initializes any buttons in the EPLBar to work with menu drop-downs 
+	 * like the Account button
+	 */
 	EPLBar.prototype.initButtons = function () {
 		this.element.find('.buttons').find('li').bind('click', function(e) {
 			var button = $(this);
@@ -24,7 +30,7 @@ return (function () {
 				button.removeClass('active');
 			});
 		});
-	}
+	};
 
 	return EPLBar;
 
