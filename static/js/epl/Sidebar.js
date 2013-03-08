@@ -16,9 +16,19 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 				keyword : '',
 				title__icontains: ''
 			};
-
-			this.data = Utils.mergeObjects(data, this.defaultData);
+			this.data = { };
 			this.string = '';
+
+			//Allow criteria creation with a single string
+			if(typeof data == 'string') {
+				//Set all of the fields to the same string
+				for(field in this.defaultData) {
+					this.data[field] = data;
+				}
+			} else {
+				this.data = Utils.mergeObjects(data, this.defaultData);
+			}
+			console.log(data);
 		};
 
 		/**
@@ -74,7 +84,8 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 
 		var Sidebar = function (viewport) {
 
-			var sidebar = this;
+			var sidebar = this,
+				catchKey = true;
 			this.viewport = $(viewport);
 
 			this.data = {
@@ -97,6 +108,24 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 				}
 			});
 
+			$(document).bind('keyup', function(e) {
+				if(catchKey) {
+					var character = String.fromCharCode(e.which).toLowerCase();
+					console.log(character);
+					if(e.shiftKey) character = character.toUpperCase();
+					if (/[a-zA-Z0-9-_\.]/.test(character)) {
+						sidebar.tab('search');
+						sidebar.search(character, true);
+					}
+				}
+			});
+
+			$('input[type=text], textarea').bind('focus', function () {
+				catchKey = false;
+			}).bind('blur', function () {
+				catchKey = true;
+			});
+
 			this.viewport.find('.tab').bind('click', function (e) {
 				sidebar.tab($(e.target).attr('data-tab'));
 			});
@@ -109,7 +138,7 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 		 * all required views
 		 * @param	criteria	Criteria	The Criteria to use when filtering results
 		 */
-		Sidebar.prototype.search = function (criteria) {
+		Sidebar.prototype.search = function (criteria, fillTextbox) {
 			var self = this;
 			//Don't run empty queries
 			if(criteria.toString().length > 0) {
@@ -118,6 +147,10 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 				});
 			} else {
 				self.data.searchResults([]);
+			}
+
+			if(fillTextbox == true) {
+				self.viewport.find('[data-tab=search]').find('.search-box').focus().val(criteria);
 			}
 		};
 

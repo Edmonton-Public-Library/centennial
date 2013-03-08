@@ -33,9 +33,6 @@ var AppClass = (function () {
 				cookie     : true, // set sessions cookies to allow your server to access the session?
 				xfbml      : true  // parse XFBML tags on this page?
 			});
-
-			// Additional initialization code such as adding Event Listeners goes here
-
 		};
 
 		// Load the SDK's source Asynchronously

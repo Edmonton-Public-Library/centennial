@@ -12,7 +12,8 @@ main : new View('timemap', 'Home',
 		function (fromView, viewport, callback) {
 			var self = this,
 				mapCanvas = $('#tm-canvas'),
-				sidebar = null;
+				sidebar = null,
+				catchKey = true;
 
 			require(['epl/Map', 'epl/Sidebar', 'lib/epl/Input', 'epl/map/BranchPin', 'epl/Timeline'], function(Map, Sidebar, Input, BranchPin, Timeline) {
 

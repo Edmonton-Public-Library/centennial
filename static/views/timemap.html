@@ -4,7 +4,7 @@
 			<li data-role="account">
 				<img class="icon"/>
 				Account
-				<div class="menu">
+				<div class="menu" data-bind="authenticateSubmit: {username: 'auth-username', password: 'auth-password'}">
 					<p class="section-title">Authenticate</p>
 					<input id="auth-username" type="text" class="epl-input text" data-default-text="Username" />
 					<input id="auth-password" type="password" class="epl-input text" data-default-text="Password" />
@@ -25,10 +25,6 @@
 			</li>
 			<li class="tab" class="active" data-tab="search">
 				Search
-				<div class="indicator"></div>
-			</li>
-			<li class="tab" data-tab="advanced-search">
-				Advanced Search
 				<div class="indicator"></div>
 			</li>
 		</ul>
@@ -58,25 +54,7 @@
 					<!-- /ko -->
 				</div>
 			</div>
-			<div class="tab-contents" data-tab="advanced-search">
-				<input type="text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
-				<div class="results">
-					<!-- ko ifnot: searchResults().length > 0 -->
-					<div class="search-result">
-						<p class="title">No results.</p>
-						<p class="description">Begin typing in the search box to narrow your query.</p>
-					</div>
-					<!-- /ko -->
-					<!-- ko foreach: {data: searchResults(), as: 'result'} -->
-					<div class="search-result">
-						<p class="title" data-bind="text: result.title"></p>
-						<p class="description" data-bind="text: result.description"></p>
-					</div>
-					<!-- /ko -->
-				</div>
-			</div>
 		</div>
-		
 	</div>
 </div>
 <div id="tm-canvas" data-bind="
