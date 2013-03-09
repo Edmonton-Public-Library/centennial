@@ -103,13 +103,12 @@ branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
 			require(['epl/Branch'], function (Branch) { 
 				var brch = new Branch($('#BranchView'), "/static/sample.gif");
-				brch.showPin(new StoryPin("video", "1", "Jan1")); 
-				brch.showPin(new StoryPin("audio", "2", "Jan2")); 
-			  	brch.showPin(new StoryPin("text", "3", "Jan3")); 
-				brch.showPin(new StoryPin("video", "4", "Jan4")); 
-				brch.showPin(new StoryPin("link", "5", "Jan5")); 
-				brch.showPin(new StoryPin("image", "6", "Jan6")); 
-				brch.showPin(new StoryPin("pdf", "7", "Jan7")); 
+				brch.showPin(new StoryPin("video", "1", "a Video")); 
+				brch.showPin(new StoryPin("audio", "2", "some audio")); 
+			  	brch.showPin(new StoryPin("text", "3", "Fred's story")); 
+				brch.showPin(new StoryPin("video", "4", "second video")); 
+				brch.showPin(new StoryPin("link", "5", "link to somewhere")); 
+				brch.showPin(new StoryPin("pdf", "7", "a pdf")); 
 
 			});
 			callback();
