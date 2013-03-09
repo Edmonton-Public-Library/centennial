@@ -54,7 +54,9 @@
             <input type="checkbox" id="optIntoGame" data-bind="checked: account.optIntoGame"/>
             <label for="optIntoGame">Opt into EPL Centennial Game.</label>
         </p>
-        
+        <p>
+            <div id="recaptcha-section"/>
+        </p>
         <button data-bind="click: submit">Create Account</button>
         <input type="button" value="Cancel">
         
@@ -63,5 +65,5 @@
         <!-- Remove after testing -->
         <textarea data-bind="value: ko.toJSON(account)" rows="7" cols="50"></textarea>
         
-    </fom>
+    </form>
 </div>

@@ -6,12 +6,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from centennial.models import BibliocommonsLink
 from centennial.bibliocommons import validUser
+from centennial.recaptcha import verifyReCaptcha
 import epl.settings
 import util
 import util.email.email_template
 import urlparse
 import json
-
 
 def accountActivate(request):
     if request.method == 'GET':
@@ -88,11 +88,18 @@ def create_user(request):
             data = json.loads(request.raw_post_data)
         except ValueError:
             return HttpResponse(status='400')
+
         if ('username' in data and
            'password' in data and
            'firstname' in data and
            'lastname' in data and
-           'email' in data):
+           'email' in data and 
+           'recaptcha_challenge' in data and
+           'recaptcha_response' in data):
+            #Perform ReCaptcha Verification
+            captchaValid = verifyReCaptcha(request, data['recaptcha_challenge'], data['recaptcha_response'])
+            if not captchaValid[0]:
+                return HttpResponse(status='400')
             #Perform data integrity verification
             if User.objects.filter(username=data['username']).count() == 0:
                 user = User.objects.create_user(username = data['username'],
@@ -104,6 +111,7 @@ def create_user(request):
                 return HttpResponse(status='201')
             else:
                 return HttpResponse(status='409')
+        #print("Bad POST data:" + request.raw_post_data)
         return HttpResponse(status='400')
 
 def current_user(request):

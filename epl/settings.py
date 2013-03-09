@@ -139,6 +139,9 @@ FACEBOOK_API_SECRET = '90571e9510f94fb33ac98daf664e137f'
 
 SOCIAL_AUTH_CREATE_USERS = False
 
+# Recaptcha Information
+RECAPTCHA_PUBLIC_KEY = '6LeKB94SAAAAAJobmSzc9kLGeGizn8VWjbiKDJ9p'
+RECAPTCHA_PRIVATE_KEY = '6LeKB94SAAAAAMnjgn2uXAUEpm4BESDWnY4oEk00'
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

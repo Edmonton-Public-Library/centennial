@@ -6,6 +6,16 @@ return (function () {
     * Creates the ViewModel to back the Create Account screen.
     * @return void
     */
+
+    // Load the ReCaptcha Library
+    $.getScript("http://www.google.com/recaptcha/api/js/recaptcha_ajax.js")
+    .done(function(script, textStatus) {
+        Recaptcha.create("6LeKB94SAAAAAJobmSzc9kLGeGizn8VWjbiKDJ9p", 
+        "recaptcha-section",
+        {
+           theme: "red"
+        });
+    });
     var CreateAccountViewModel = function () {
         var self = this;
         
@@ -14,14 +24,17 @@ return (function () {
         // Add knockout validation to the account
         ko.validation.configure({ insertMessages: false });
         self.account.errors = ko.validation.group(self.account);
+
         
+
         // On submit, validate and save the account
         self.submit = function () {
             if (!self.account.isValid()) {
                 self.account.errors.showAllMessages();
                 return false;
             }
-            
+            // Append the ReCaptcha Information
+            self.account.recaptcha_challenge = $("#recaptcha-section #recaptcha_challenge_field").val();
             // Create the account - untested!
             $.ajax(Settings.apiAccountUrl + "create", {
                 data: ko.toJSON(self.account),
@@ -72,6 +85,10 @@ return (function () {
                 params: this.password
             }
         });
+
+        this.recaptcha_response = ko.observable();
+            $("#recaptcha-section #recaptcha_response_field").attr("data-bind", "value: ReCaptchaResponse");
+        this.recaptcha_challenge = "";
         this.agreeToTerms = ko.observable(false);
         this.optIntoGame = ko.observable(true);
     };
