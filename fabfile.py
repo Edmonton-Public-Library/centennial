@@ -13,6 +13,7 @@ def updatedb():
         local('python manage.py migrate tastypie')
         local('python manage.py migrate hyquest')
         local('python manage.py migrate centennial')
+        local('python manage.py migrate social_auth')
 
 def load_manual_fixture():
     local('python manage.py loaddata fts/fixtures/manual_sample.json')
