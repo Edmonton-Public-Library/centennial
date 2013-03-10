@@ -1,5 +1,5 @@
 ;
-define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils, Environment) {
+define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment', 'lib/epl/Input'], function (ko, Utils, Environment) {
 
 	/**
 	 * Contains and builds search criteria
@@ -28,7 +28,6 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 			} else {
 				this.data = Utils.mergeObjects(data, this.defaultData);
 			}
-			console.log(data);
 		};
 
 		/**
@@ -89,7 +88,8 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 			this.viewport = $(viewport);
 
 			this.data = {
-				searchResults : ko.observable([])
+				searchResults : ko.observable([]),
+				Environment: Environment
 			};
 
 			//TODO: REMOVE! THIS IS FOR EXPERIMENTING ONLY!
@@ -111,7 +111,6 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment'], function (ko, Utils
 			$(document).bind('keyup', function(e) {
 				if(catchKey) {
 					var character = String.fromCharCode(e.which).toLowerCase();
-					console.log(character);
 					if(e.shiftKey) character = character.toUpperCase();
 					if (/[a-zA-Z0-9-_\.]/.test(character)) {
 						sidebar.tab('search');

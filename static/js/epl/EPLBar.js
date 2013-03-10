@@ -1,5 +1,5 @@
 ;
-define(['epl/Authentication', 'lib/knockout'], function (Authentication, ko) {
+define(['epl/Authentication', 'lib/knockout', 'epl/Environment'], function (Authentication, ko, Environment) {
 
 return (function () {
 
@@ -11,7 +11,7 @@ return (function () {
 			self.element = $(selector);
 			self.initButtons();
 
-			ko.applyBindings({}, self.element[0]);
+			ko.applyBindings({Environment: Environment}, self.element[0]);
 		});
 	};
 

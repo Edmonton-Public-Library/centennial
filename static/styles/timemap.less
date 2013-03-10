@@ -15,16 +15,18 @@ body {
 }
 
 [data-role=viewport] {
-	width: 100%;
-	height: 100%;
 	padding: 0
 	margin: 0;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	overflow: auto;
 }
 
 #epl-bar {
 	@eplBarHeight: 40px;
 	width: 100%;
-	height: @topBarHeight;
+	// height: @topBarHeight;
 	padding: 0;
 	position: fixed;
 	top: 0;
@@ -158,6 +160,7 @@ body {
 	height: 80px;
 	border-top: 1px solid #aaa;
 	clear: both;
+	overflow: hidden;
 
 	.timeline-copyright {
 		display: none;
@@ -182,7 +185,6 @@ body {
 	.x-box-shadow(1px, 0, 10px, 0px, rgba(0,0,0,0.3), false);
 
 	div.contents {
-		margin-top: @topBarHeight;
 
 		ul.menu {
 			margin: 0;
@@ -330,9 +332,6 @@ body {
 #tm-canvas {
 	width: 100%;
 	height: 100%;
-	position: relative;
-	left: 0px; //Bound in timemap.html
-	top: 0px; //Bound in timemap.html
 }
 
 #tm-story {
@@ -388,6 +387,10 @@ body {
     td.keywordCell {
         width: 300px;
     }
+}
+
+#tm-branch-info-pane {
+	display: none;
 }
 
 .tm-branch-info {

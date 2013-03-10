@@ -1,68 +1,7 @@
-<div id="epl-bar">
-	    <img class="logo" src="/static/images/epl-logo.png" alt="EPL Logo"/>
-	    <ul class="buttons">
-			<li data-role="account">
-				<img class="icon"/>
-				Account
-				<div class="menu" data-bind="authenticateSubmit: {username: 'auth-username', password: 'auth-password'}">
-					<p class="section-title">Authenticate</p>
-					<input id="auth-username" type="text" class="epl-input text" data-default-text="Username" />
-					<input id="auth-password" type="password" class="epl-input text" data-default-text="Password" />
-					<button class="save-button">Log In</button>
-					<div class="save-button-space"></div>
-				</div>
-			</li>
-	    </ul>
-	    <div class="fb-like" data-href="http://eplcentennial.epl.ca" data-send="true" data-width="250" data-show-faces="false" data-font="arial"></div>
-	<div id="timeline"></div>
-</div>
-<div id="tm-sidebar">
-	<div class="contents">
-		<ul class="tabs">
-			<li class="tab" data-tab="features">
-				Features
-				<div class="indicator"></div>
-			</li>
-			<li class="tab" class="active" data-tab="search">
-				Search
-				<div class="indicator"></div>
-			</li>
-		</ul>
-		<div class="tab-containers">
-			<div class="tab-contents" data-tab="features">
-				<div class="results">
-					<div class="search-result">
-						<p class="title">No Stories</p>
-						<p class="description">No featured stories have been set.</p>
-					</div>
-				</div>
-			</div>
-			<div class="tab-contents" data-tab="search">
-				<input type="text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
-				<div class="results">
-					<!-- ko ifnot: searchResults().length > 0 -->
-					<div class="search-result">
-						<p class="title">No results.</p>
-						<p class="description">Begin typing in the search box to narrow your query.</p>
-					</div>
-					<!-- /ko -->
-					<!-- ko foreach: {data: searchResults(), as: 'result'} -->
-					<div class="search-result">
-						<p class="title" data-bind="text: result.title"></p>
-						<p class="description" data-bind="text: result.description"></p>
-					</div>
-					<!-- /ko -->
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 <div id="tm-canvas" data-bind="
 	style: {
-		width: (Environment.display.viewportWidth() + 'px'),
-		height: Environment.display.viewportHeight() + 'px',
-		left: Environment.display.sideBarWidth() + 'px',
-		top: Environment.display.topBarHeight() + 'px'
+		width: Environment.display.viewportWidth() + 'px',
+		height: Environment.display.viewportHeight() + 'px'
 	}">
 
 </div>

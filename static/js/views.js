@@ -15,7 +15,7 @@ main : new View('timemap', 'Home',
 				sidebar = null,
 				catchKey = true;
 
-			require(['epl/Map', 'epl/Sidebar', 'lib/epl/Input', 'epl/map/BranchPin', 'epl/Timeline'], function(Map, Sidebar, Input, BranchPin, Timeline) {
+			require(['epl/Map', 'lib/epl/Input', 'epl/map/BranchPin', 'epl/Timeline'], function(Map, Input, BranchPin, Timeline) {
 
 				epl.initFacebook();
 				//Persist the map and timeline between navigations
@@ -27,6 +27,7 @@ main : new View('timemap', 'Home',
 					epl.storage.map = new Map(function () {
 						epl.storage.map.render(mapCanvas);
 						epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
+						Environment.chrome.timeline.height(80);
 					});
 					ko.applyBindings({
 						Environment : Environment
@@ -38,14 +39,6 @@ main : new View('timemap', 'Home',
 
 				$('.buttons').find('#auth-username').eplInput();
 				$('.buttons').find('#auth-password').eplInput();
-
-				//TODO: Extract the sidebar/EPL bar
-				var eplBar = new EPLBar('#epl-bar');
-
-				//Initialize the sidebar
-				sidebar = new Sidebar($('#tm-sidebar'));
-				//Select the first available tab by default
-				sidebar.tab($(viewport.find('.tab')[0]).attr('data-tab'));
 			});
 		}, 
 
@@ -61,7 +54,7 @@ createAccount : new View('createAccount', 'createAccount',
 		function (fromView, viewport, callback) {
 			require(['epl/CreateAccountViewModel'], function (CreateAccountViewModel) {
 				var createAccountViewModel = new CreateAccountViewModel();
-				ko.applyBindings(createAccountViewModel);
+				ko.applyBindings(createAccountViewModel, $('#tm-inputForm')[0]);
 			});
 			callback();
 		}, 
@@ -127,7 +120,7 @@ uploadStory : new View('uploadStory', 'Upload Story',
 		function (fromView, viewport, callback) {
 			require(['epl/UploadStoryViewModel', 'lib/epl/Input'], function (UploadStoryViewModel) {
 				var uploadStoryViewModel = new UploadStoryViewModel();
-				ko.applyBindings(uploadStoryViewModel);
+				ko.applyBindings(uploadStoryViewModel, $('#tm-inputForm')[0]);
 			});
 			callback();
 		}, 
@@ -161,7 +154,7 @@ viewStory : new View('viewStory', 'View Story',
             require(['epl/StoryViewModel', 'lib/jquery.jplayer', 'lib/pdfobject'], function (StoryViewModel) {
                 // Obtain the story id from the URL param
                 var story = new StoryViewModel(epl.nav.params['id']);
-                ko.applyBindings(story);
+                ko.applyBindings(story, $('#tm-story')[0]);
                 
                 if (story.content_type() == "audio") {
                     $("#audio").addClass('visible');

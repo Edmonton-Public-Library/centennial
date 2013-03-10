@@ -2,6 +2,13 @@
 define(['lib/knockout'], function (ko) {
 
 	var Environment = new(function () {
+		var self = this;
+
+		this.chrome = new (function () {
+			this.timeline = {
+				height: ko.observable(0)
+			};
+		})();
 
 		//Display characteristics
 		this.display = new (function () {
@@ -11,7 +18,10 @@ define(['lib/knockout'], function (ko) {
 			this.height = ko.observable($(window).height());
 
 			this.sideBarWidth = ko.observable(350); //in pixels
-			this.topBarHeight = ko.observable(139); //pixels
+			this.topBarHeight = ko.computed(function () {
+				// return 60 + self.chrome.timeline.height();
+				return 139;
+			}); //pixels
 
 			this.viewportWidth = ko.computed(function () {
 				return display.width() - display.sideBarWidth();

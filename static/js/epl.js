@@ -1,6 +1,6 @@
 ;
 //Create the application module
-define(['epl/Settings', 'lib/csc/Nav', 'lib/knockout', 'epl/EPLBar', 'lib/sammy', 'lib/less', 'lib/jquery-ui'], function (Settings, Nav, ko, EPLBar) {
+define(['epl/Settings', 'lib/csc/Nav', 'lib/knockout', 'epl/EPLBar', 'epl/Environment', 'epl/Sidebar', 'lib/sammy', 'lib/less', 'lib/jquery-ui'], function (Settings, Nav, ko, EPLBar, Environment, Sidebar) {
 var epl = null;
 
 //Only start the app once the page has loaded
@@ -18,9 +18,27 @@ var AppClass = (function () {
 	 *  - Viewport setup
 	 */
 	AppClass.prototype.init = function () {
+
+		//Get the viewport ready
+		$(document).ready(function () {
+
+			//TODO: Extract the sidebar/EPL bar
+			var eplBar = new EPLBar('#epl-bar');
+
+			//Initialize the sidebar
+			sidebar = new Sidebar($('#tm-sidebar'));
+			//Select the first available tab by default
+			sidebar.tab($($('#tm-sidebar').find('.tab')[0]).attr('data-tab'));
+
+			ko.applyBindings({
+				Environment: Environment
+			}, $('[data-role=viewport]')[0]);
+		});
+
 		//Start accepting routes
 		//Bootstrap components that depend on the DOM
 		this.nav = new Nav(this.viewport, Settings.routes);
+
 	};
 
 	AppClass.prototype.initFacebook = function () {
