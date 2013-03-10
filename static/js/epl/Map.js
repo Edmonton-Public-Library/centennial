@@ -99,7 +99,8 @@ return (function () {
 				draggable: false,
 				flat: true,
 				optimized: true,
-				visible: true
+				visible: true,
+				icon: pin.iconUrl
 			});
 
 			//Cache this branch's info
