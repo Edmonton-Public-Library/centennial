@@ -15,7 +15,8 @@ class QuestSet(models.Model):
     title = models.CharField(max_length=QUESTSET_TITLE_LEN)
     description = models.CharField(max_length=QUESTSET_DESC_LEN)
     points = IntegerRangeField(min_value=0, max_value=6000)
-    
+    active = models.BooleanField(default=False)
+
     def __unicode__(self):
         return self.title
 
@@ -26,7 +27,7 @@ class Quest(models.Model):
 
     title = models.CharField(max_length=QUEST_TITLE_LEN)
     points = IntegerRangeField(min_value=0, max_value=6000)
-    active = models.BooleanField()
+    quest_set = models.ForeignKey('QuestSet')
 
     def __unicode__(self):
         return self.title
@@ -46,13 +47,27 @@ class Task(models.Model):
     def __unicode__(self):
         return self.title
 
-class UserCompletion(models.Model):
+class TaskCodes(models.Model):
+
+    class Meta:
+        verbose_name_plural = "TaskCodes"
+
+    task = models.ForeignKey('Task')
+    code = models.CharField(max_length=20)
+    uses_remaining = models.IntegerField(default=1)
+
+    def __unicode__(self):
+        return self.task.title+" ("+str(uses_remaining)+" remaining)"
+
+class UserAction(models.Model):
     
     class Meta:
-        verbose_name_plural = "UserCompletions"
+        verbose_name_plural = "UserActions"
     
     user = models.ForeignKey(User)
     task = models.ForeignKey('Task')
+    complete = models.BooleanField(default=False)
+    beginTime = models.DateField()
     completionTime = models.DateField()
     
     def __unicode__(self):
