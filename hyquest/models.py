@@ -42,12 +42,12 @@ class Task(models.Model):
     quest = models.ForeignKey('Quest')
     type = IntegerRangeField(min_value=0, max_value=len(TASK_TYPES))
     description = models.CharField(max_length=TASK_DESC_LEN)
-    taskcode = models.CharField(max_length=TASK_CODE_LEN)
+    taskinfo = models.CharField(max_length=TASK_CODE_LEN)
 
     def __unicode__(self):
         return self.title
 
-class TaskCodes(models.Model):
+class TaskCode(models.Model):
 
     class Meta:
         verbose_name_plural = "TaskCodes"
@@ -68,7 +68,7 @@ class UserAction(models.Model):
     task = models.ForeignKey('Task')
     complete = models.BooleanField(default=False)
     beginTime = models.DateField()
-    completionTime = models.DateField()
+    completionTime = models.DateField(null=True)
     
     def __unicode__(self):
         return self.title
