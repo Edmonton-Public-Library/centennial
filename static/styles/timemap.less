@@ -305,9 +305,14 @@ body {
 				padding: 8px;
 				cursor: default;
 
-				&:hover {
-					background-color: darken(@search-result-background-color, 6%);
+				&.linked {
+					cursor: pointer;
+					
+					&:hover {
+						background-color: darken(@search-result-background-color, 6%);
+					}
 				}
+
 				
 				.title {
 					color: #525252;

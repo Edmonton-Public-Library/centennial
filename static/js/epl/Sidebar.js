@@ -89,6 +89,9 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment', 'lib/epl/Input'], fu
 
 			this.data = {
 				searchResults : ko.observable([]),
+				resultClick : function (data) {
+					document.location = '#viewStory/' + data.id;
+				},
 				Environment: Environment
 			};
 
