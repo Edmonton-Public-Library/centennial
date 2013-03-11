@@ -17,7 +17,6 @@ main : new View('timemap', 'Home',
 
 			require(['epl/Map', 'lib/epl/Input', 'epl/map/BranchPin', 'epl/Timeline'], function(Map, Input, BranchPin, Timeline) {
 
-				epl.initFacebook();
 				//Persist the map and timeline between navigations
 				epl.storage.map = epl.storage.map || null;
 				epl.storage.timeline = epl.storage.timeline || null;
@@ -102,7 +101,6 @@ branch : new View('branch', 'Branch',
 				brch.showPin(new StoryPin("video", "4", "second video")); 
 				brch.showPin(new StoryPin("link", "5", "link to somewhere")); 
 				brch.showPin(new StoryPin("pdf", "7", "a pdf")); 
-
 			});
 			callback();
 		},

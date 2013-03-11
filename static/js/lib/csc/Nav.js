@@ -48,7 +48,6 @@ return (function () {
 		this.currentView.out(toView, this.viewport, function () {
 			//Ensure all handlers, etc. for the current view get destroyed
 			self.viewport.find("*").andSelf().unbind();
-			ko.cleanNode(self.viewport[0]);
 			self.viewport.empty();
 			//Get the nre
 			self.currentView = toView;

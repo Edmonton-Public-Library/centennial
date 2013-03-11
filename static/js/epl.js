@@ -19,6 +19,8 @@ var AppClass = (function () {
 	 */
 	AppClass.prototype.init = function () {
 
+		var self = this;
+
 		//Get the viewport ready
 		$(document).ready(function () {
 
@@ -29,6 +31,9 @@ var AppClass = (function () {
 			sidebar = new Sidebar($('#tm-sidebar'));
 			//Select the first available tab by default
 			sidebar.tab($($('#tm-sidebar').find('.tab')[0]).attr('data-tab'));
+
+			self.initFacebook();
+
 
 			ko.applyBindings({
 				Environment: Environment
