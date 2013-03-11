@@ -19,8 +19,8 @@ define(['lib/knockout'], function (ko) {
 
 			this.sideBarWidth = ko.observable(350); //in pixels
 			this.topBarHeight = ko.computed(function () {
-				// return 60 + self.chrome.timeline.height();
-				return 139;
+				return 60 + self.chrome.timeline.height();
+				// return 139;
 			}); //pixels
 
 			this.viewportWidth = ko.computed(function () {
