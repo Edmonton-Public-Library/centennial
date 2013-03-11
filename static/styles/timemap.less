@@ -158,9 +158,12 @@ body {
 
 #timeline {
 	height: 80px;
-	border-top: 1px solid #aaa;
 	clear: both;
 	overflow: hidden;
+
+	&.active {
+		border-top: 1px solid #aaa;
+	}
 
 	.timeline-copyright {
 		display: none;

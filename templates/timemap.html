@@ -32,7 +32,7 @@
     			</li>
     	    </ul>
     	    <div class="fb-like" data-href="http://eplcentennial.epl.ca" data-send="true" data-width="250" data-show-faces="false" data-font="arial"></div>
-    	<div id="timeline" data-bind="style: {display: Environment.chrome.timeline.height() > 0 ? 'block' : 'none'}"></div>
+    	<div id="timeline" data-bind="style: {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
     </div>
     <div id="tm-sidebar">
     	<div class="contents" data-bind="style: {marginTop: Environment.display.topBarHeight() + 'px'}">
