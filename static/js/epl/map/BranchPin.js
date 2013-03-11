@@ -7,7 +7,7 @@ return (function () {
 
 		var pinIcons = {
 			std: Environment.routes.staticDirectory + '/images/std-pin.png',
-			'bookmobile-bus': Environment.routes.staticDirectory + '/images/bookmobile-bus-pin.png'
+			'bookmobile-bus': Environment.routes.staticDirectory + '/images/bookmobile-bus-pin.png',
 			'bookmobile-trolley': Environment.routes.staticDirectory + '/images/bookmobile-bus-pin.png'
 		};
 

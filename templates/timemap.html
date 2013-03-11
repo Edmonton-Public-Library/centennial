@@ -14,7 +14,7 @@
 	<script type="text/javascript" src="{{ STATIC_URL }}/js/lib/require-jquery.js" data-main="/static/js/init.js"></script>
 
     </head>
-<body>
+<body data-bind="style: {marginTop: Environment.display.topBarHeight() + 'px', marginLeft: Environment.display.sidebarWidth() + 'px'}">
     <div id="fb-root"></div>
     <div id="epl-bar">
     	    <a href="#"><img class="logo" src="/static/images/epl-logo.png" alt="EPL Logo"/></a>
@@ -75,6 +75,10 @@
     		</div>
     	</div>
     </div>
-	<div data-role="viewport" data-bind="style: {height: Environment.display.viewportHeight() + 'px', width: Environment.display.viewportWidth() + 'px'}"></div>
+	<div data-role="viewport" data-bind="
+    style: {
+        width: Environment.display.viewportWidth() + 'px',
+        height: Environment.display.viewportHeight() + 'px'
+    }"></div>
 </body>
 </html>
