@@ -119,9 +119,9 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment', 'lib/epl/Input'], fu
 				}
 			});
 
-			$('input[type=text], textarea').bind('focus', function () {
+			$('input[type=text], textarea').live('focus', function () {
 				catchKey = false;
-			}).bind('blur', function () {
+			}).live('blur', function () {
 				catchKey = true;
 			});
 
