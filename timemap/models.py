@@ -36,6 +36,7 @@ class Branch(models.Model):
         return self.name
 
 def media_upload_to(instance, filename):
+    filename = filename.split('/')[-1]
     return instance.CONTENT_TYPE_DICT[instance.content_type]+ "/" + filename
 
 class Story(models.Model):
