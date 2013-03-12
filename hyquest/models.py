@@ -59,10 +59,10 @@ class TaskCode(models.Model):
     def __unicode__(self):
         return self.task.title+" ("+str(uses_remaining)+" remaining)"
 
-class UserAction(models.Model):
+class UserTaskAction(models.Model):
     
     class Meta:
-        verbose_name_plural = "UserActions"
+        verbose_name_plural = "UserTaskActions"
     
     user = models.ForeignKey(User)
     task = models.ForeignKey('Task')
@@ -71,7 +71,37 @@ class UserAction(models.Model):
     completionTime = models.DateField(null=True)
     
     def __unicode__(self):
-        return self.title
+        return str(self.user) + " - " + str(self.task)
+
+class UserQuestAction(models.Model):
+    
+    class Meta:
+        verbose_name_plural = "UserQuestActions"
+    
+    user = models.ForeignKey(User)
+    quest = models.ForeignKey('Quest')
+    complete = models.BooleanField(default=False)
+    beginTime = models.DateField()
+    completionTime = models.DateField(null=True)
+    
+    def __unicode__(self):
+        return str(self.user) + " - " + str(self.quest)
+
+class UserQuestSetAction(models.Model):
+    
+    class Meta:
+        verbose_name_plural = "UserQuestSetActions"
+    
+    user = models.ForeignKey(User)
+    questset = models.ForeignKey('QuestSet')
+    complete = models.BooleanField(default=False)
+    beginTime = models.DateField()
+    completionTime = models.DateField(null=True)
+    
+    def __unicode__(self):
+        return str(self.user) + " - " + str(self.questset)
+
+
 # Signal setup
 
 from django.dispatch.dispatcher import receiver
