@@ -122,7 +122,7 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment', 'lib/epl/Input'], fu
 				}
 			});
 
-			$('input[type=text], textarea').live('focus', function () {
+			$('input[type=text], textarea, input[type=password]').live('focus', function () {
 				catchKey = false;
 			}).live('blur', function () {
 				catchKey = true;
