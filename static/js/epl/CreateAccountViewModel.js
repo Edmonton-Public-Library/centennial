@@ -90,7 +90,6 @@ return (function () {
             $("#recaptcha-section #recaptcha_response_field").attr("data-bind", "value: ReCaptchaResponse");
         this.recaptcha_challenge = "";
         this.agreeToTerms = ko.observable(false);
-        this.optIntoGame = ko.observable(true);
     };
     
     // Modifies the json to be compatible with what is expected from the API
