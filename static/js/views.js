@@ -176,6 +176,10 @@ viewStory : new View('viewStory', 'View Story',
                     }).embed("pdf");
                 } else if (story.content_type() == "image") {
                     $("#image").addClass('visible');
+                } else if (story.content_type() == "link") {
+                    $("#link").addClass('visible');
+                } else if (story.content_type() == "text") {
+                    $("#text").addClass('visible');
                 }
             });
             callback();

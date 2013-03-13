@@ -11,7 +11,9 @@
         </p>
 
         <!-- ko if: content_type() == 'text' -->
-        <p data-bind="text: story_text"></p>
+        <div id="text" class="highlight-box text hidden">
+            <span data-bind="text: story_text"></span>
+        </div>
         <!-- /ko -->
 
         <!-- ko if: content_type() == 'image' -->
@@ -32,7 +34,9 @@
         <!-- /ko -->
 
         <!-- ko if: content_type() == 'link' -->
-        <a data-bind="attr: {href: link_url, target: '_blank'}, text: link_url"></a>
+        <div id="link" class="highlight-box link hidden">
+            <a data-bind="attr: {href: link_url, target: '_blank'}, text: link_url"></a>
+        </div>
         <!-- /ko -->
 
         <!-- ko if: content_type() == 'audio' -->

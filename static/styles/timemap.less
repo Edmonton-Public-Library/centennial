@@ -437,6 +437,35 @@ body {
 			font-style: italic;
 		}
 
+		div.highlight-box {
+			background-color: lighten(@content-background-color, 10%);
+			padding: 20px;
+			margin-left: auto;
+			margin-right: auto;
+			width: 650px;
+			.x-border-radius(15px);
+			.x-box-shadow(0, 10px, 10px, 0px, rgba(0,0,0,0.1), false);
+
+			&.text {
+				font-size: 16px;
+				span {
+					/* Ensures that new lines are displayed */
+					white-space: pre-wrap;
+				}
+			}
+			&.link {
+				font-size: 20px;
+				a {
+					text-decoration: none;
+					&:link, &:visited {
+						color: white;
+					}
+					&:hover {
+						color: lighten(@content-link-color, 10%);
+					}
+				}
+			}
+		}
    	}
 }
 
