@@ -342,60 +342,102 @@ body {
 	height: 100%;
 }
 
-#tm-story {
-    width: 700px;
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
-}
+#tm-content-panel {
+	@content-background-color: #27394c;
+	@required-error-color: #3394ff;
+	@content-link-color: #6299d6;
+	@hint-color: #6299d6;
 
-#tm-inputForm {
-    width: 700px;
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: auto;
+	background-color: @content-background-color;
+	height: 100%;
+	overflow: auto;
 
-    .required {
-        color: red;
-    }
-    
-    .inputError {
-        color: red;
-    }
-    
-    .hintText {
-        font-size: 10px;
-        color: gray;
-    }
-    
-    label.standard {
-        display: inline-block;
-        width: 150px;
-    }
-    
-    input.standard, textarea.standard {
-        border: 1px solid grey;
-        width: 448px;
-    }
-    
-    label.storyRadioLabel {
-        display: inline-block;
-        width: 100px;
-    }
-    
-    input.storyRadio {
-        width: 20px;
-        margin-left: 20px;
-    }
+	#content-container {
+		width: 700px;
+		padding: 30px 0px 60px 0px;
+		margin-left: auto;
+		margin-right: auto;
+		overflow: auto;
+		color: white;
+		font-weight: bold;
+
+		a {
+			text-decoration: none;
+			&:link, &:visited {
+				color: @content-link-color;
+			}
+			&:hover {
+				color: lighten(@content-link-color, 10%);
+			}
+		}
+
+		.required, .inputError {
+			color: @required-error-color;
+		}
+
+		.hintText {
+			font-size: 12px;
+			color: @hint-color;
+		}
+
+		.form-input {
+			border: solid 1px lighten(gray, 30%);
+			.x-border-radius(14px);
+			&.text  {
+				height: 25px;
+				width: 448px;
+				padding: 3px 12px;
+			}
+			&.textarea {
+				height: 70px;
+				width: 448px;
+				padding: 10px 12px;
+			}
+			&.date {
+				width: 45px;
+				height: 25px;
+				padding: 0px 5px;
+				text-align: center;
+			}
+			&:focus {
+				.x-box-shadow(0, 0, 10px, 0, rgba(0,0,0,0.8), false);
+			}
+		}
+
+		button, .button {
+			height: 50px;
+			font-size: 20px;
+			padding: 0px 20px;
+		}
+
+		input.storyRadio {
+			width: 20px;
+			margin-left: 20px;
+		}
 	
-    .indent {
-        margin-left: 150px;
-    }
+		label.form-label {
+			display: inline-block;
+			width: 160px;
+		}
+
+		label.storyRadioLabel {
+			display: inline-block;
+			width: 120px;
+		}
+
+		.indent {
+			margin-left: 165px;
+		}
 	
-    td.keywordCell {
-        width: 300px;
-    }
+		td.keywordCell {
+			width: 300px;
+		}
+
+		.keywords {
+			font-style: italic;
+		}
+
+   	}
 }
 
 #tm-branch-info-pane {

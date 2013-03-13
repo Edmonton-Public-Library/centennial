@@ -1,47 +1,48 @@
-<div id="tm-inputForm">
-    <form>
-        <h2>Create Account</h2>
+<div id="tm-content-panel">
+    <div id="content-container">
+        <form>
+        <h1>Create Account</h1>
 
         <p class="inputError" id="ajaxError"></p>
         
         <p>
-            <label for="firstName" class="standard">First Name: <span class="required">*</span></label>
-            <input type="text" class="standard" id="firstName" maxLength="30"
+            <label for="firstName" class="form-label">First Name: <span class="required">*</span></label>
+            <input type="text" class="form-input text" id="firstName" maxLength="30"
                 data-bind="value: account.firstname"/>
         </p>
         <p class="inputError indent" data-bind="validationMessage: account.firstname"></p>
         
         <p>
-            <label for="lastName" class="standard">Last Name: <span class="required">*</span></label>
-            <input type="text" class="standard" id="lastName" maxLength="30"
+            <label for="lastName" class="form-label">Last Name: <span class="required">*</span></label>
+            <input type="text" class="form-input text" id="lastName" maxLength="30"
                 data-bind="value: account.lastname"/>
         </p>
         <p class="inputError indent" data-bind="validationMessage: account.lastname"></p>
 
         <p>
-            <label for="email" class="standard">Email: <span class="required">*</span></label>
-            <input type="text" class="standard" id="email" 
+            <label for="email" class="form-label">Email: <span class="required">*</span></label>
+            <input type="text" class="form-input text" id="email" 
                  data-bind="value: account.email"/>
         </p>
         <p class="inputError indent" data-bind="validationMessage: account.email"></p>
         
         <p>
-            <label for="username" class="standard">Username: <span class="required">*</span></label>
-            <input type="text" class="standard" id="username" maxLength="30"
+            <label for="username" class="form-label">Username: <span class="required">*</span></label>
+            <input type="text" class="form-input text" id="username" maxLength="30"
                 data-bind="value: account.username"/>
         </p>
         <p class="inputError indent" data-bind="validationMessage: account.username"></p>
         
         <p>
-            <label for="password" class="standard">Password: <span class="required">*</span></label>
-            <input type="password" class="standard" id="password" maxLength="30"
+            <label for="password" class="form-label">Password: <span class="required">*</span></label>
+            <input type="password" class="form-input text" id="password" maxLength="30"
                 data-bind="value: account.password"/>
         </p>
         <p class="inputError indent" data-bind="validationMessage: account.password"></p>
         
         <p>
-            <label for="confirmPassword" class="standard">Confirm Password: <span class="required">*</span></label>
-            <input type="password" class="standard" id="confirmPassword" maxLength="30"
+            <label for="confirmPassword" class="form-label">Confirm Password: <span class="required">*</span></label>
+            <input type="password" class="form-input text" id="confirmPassword" maxLength="30"
                 data-bind="value: account.passwordConfirmation"/>
         </p>
         <p class="inputError indent" data-bind="validationMessage: account.passwordConfirmation"></p>
@@ -53,16 +54,16 @@
         <p class="inputError" data-bind="validationMessage: account.agreeToTerms"></p>
 
         <div style="display: none;">
+            <p>As a security measure, please complete the Captcha below:</p>
             <div id="recaptcha-section"/>
         </div>
 
-        <button data-bind="click: submit">Create Account</button>
-        <input type="button" value="Cancel">
+        <p><button data-bind="click: submit">Create Account</button></p>
         
         <p>You will receive an email to confirm your new account.</p>
         
-        <!-- Remove after testing -->
-        <textarea data-bind="value: ko.toJSON(account)" rows="7" cols="50"></textarea>
-        
-    </form>
+        <p class="hintText"><a href="/timemap/">(Cancel and return to the TimeMap)</a></p>
+
+        </form>
+    </div>
 </div>

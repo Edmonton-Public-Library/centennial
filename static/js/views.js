@@ -53,7 +53,7 @@ createAccount : new View('createAccount', 'createAccount',
 		function (fromView, viewport, callback) {
 			require(['epl/CreateAccountViewModel'], function (CreateAccountViewModel) {
 				var createAccountViewModel = new CreateAccountViewModel();
-				ko.applyBindings(createAccountViewModel, $('#tm-inputForm')[0]);
+				ko.applyBindings(createAccountViewModel, $('#tm-content-panel')[0]);
 			});
 			callback();
 		}, 
@@ -118,7 +118,7 @@ uploadStory : new View('uploadStory', 'Upload Story',
 		function (fromView, viewport, callback) {
 			require(['epl/UploadStoryViewModel', 'lib/epl/Input'], function (UploadStoryViewModel) {
 				var uploadStoryViewModel = new UploadStoryViewModel();
-				ko.applyBindings(uploadStoryViewModel, $('#tm-inputForm')[0]);
+				ko.applyBindings(uploadStoryViewModel, $('#tm-content-panel')[0]);
 			});
 			callback();
 		}, 
@@ -152,7 +152,7 @@ viewStory : new View('viewStory', 'View Story',
             require(['epl/StoryViewModel', 'lib/jquery.jplayer', 'lib/pdfobject'], function (StoryViewModel) {
                 // Obtain the story id from the URL param
                 var story = new StoryViewModel(epl.nav.params['id']);
-                ko.applyBindings(story, $('#tm-story')[0]);
+                ko.applyBindings(story, $('#tm-content-panel')[0]);
                 
                 if (story.content_type() == "audio") {
                     $("#audio").addClass('visible');
@@ -183,6 +183,8 @@ viewStory : new View('viewStory', 'View Story',
                         width: "700px",
                         height: "500px"
                     }).embed("pdf");
+                } else if (story.content_type() == "image") {
+                    $("#image").addClass('visible');
                 }
             });
             callback();
