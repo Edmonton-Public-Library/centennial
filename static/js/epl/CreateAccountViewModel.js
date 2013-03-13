@@ -2,11 +2,6 @@
 define(['epl', 'epl/Settings', 'lib/knockout', 'lib/knockout.validation'], function (epl, Settings, ko) {
 
 return (function () {
-    /**
-    * Creates the ViewModel to back the Create Account screen.
-    * @return void
-    */
-
     // Load the ReCaptcha Library
     $.getScript("http://www.google.com/recaptcha/api/js/recaptcha_ajax.js")
     .done(function(script, textStatus) {
@@ -16,6 +11,11 @@ return (function () {
            theme: "red"
         });
     });
+
+    /**
+    * Creates the ViewModel to back the Create Account screen.
+    * @return void
+    */
     var CreateAccountViewModel = function () {
         var self = this;
         
@@ -24,8 +24,6 @@ return (function () {
         // Add knockout validation to the account
         ko.validation.configure({ insertMessages: false });
         self.account.errors = ko.validation.group(self.account);
-
-        
 
         // On submit, validate and save the account
         self.submit = function () {
@@ -41,11 +39,17 @@ return (function () {
                 type: "POST",
                 dataType: "json",
                 contentType: "application/json",
-                success: function (result) {
-                    alert('success');
+                success: function () {
+                    top.location="#createAccountSuccess";
                 }, 
-                error: function (result) {
-                    alert('error');
+                error: function (xhr) {
+                    // Response code 409 indicates duplicate user.
+                    if (xhr.status == 409) {
+                        $("#ajaxError").text("Username is already taken. Please choose another username.");
+                    } else {
+                        $("#ajaxError").text("An error occurred while creating a new user." +
+                           " Please try again or contact a system administrator if the problem persists.");
+                    }
                 }
             });
             
@@ -61,8 +65,7 @@ return (function () {
         });
         this.username = ko.observable().extend({
             required: { message: 'Username is required.' },
-            minLength: 3,
-            maxLength: 10
+            minLength: 3
         });
         this.email = ko.observable().extend({
             required: { message: 'Email is required.' },
@@ -86,10 +89,12 @@ return (function () {
             }
         });
 
-        this.recaptcha_response = ko.observable();
+        this.recaptcha_response = ko.observable("");
             $("#recaptcha-section #recaptcha_response_field").attr("data-bind", "value: ReCaptchaResponse");
         this.recaptcha_challenge = "";
-        this.agreeToTerms = ko.observable(false);
+        this.agreeToTerms = ko.observable(false).extend({
+            equal: { value: true, message: "Please agree to the Terms and Conditions." }
+        });
     };
     
     // Modifies the json to be compatible with what is expected from the API
