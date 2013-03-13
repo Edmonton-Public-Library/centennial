@@ -97,9 +97,9 @@ class StoryResource(ModelResource):
         if filters is None:
             filters = {}
 
+        grouped = get_grouped_filters(filters)
         orm_filters = super(StoryResource, self).build_filters(filters)
-
-        orm_filters['grouped'] = get_grouped_filters(filters)
+        orm_filters['grouped'] = grouped
 
         if 'content_type__in' in filters:
             orm_filters['content_type__in'] = [CONTENT_HYDRATE[f] for f in filters['content_type__in'].split(',')]
@@ -114,6 +114,7 @@ class StoryResource(ModelResource):
             custom = None
 
         semi_filtered = super(StoryResource, self).apply_filters(request, applicable_filters)
+        semi_filtered = semi_filtered.distinct()
 
         return semi_filtered.filter(custom) if custom else semi_filtered
 
