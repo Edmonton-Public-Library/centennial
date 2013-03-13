@@ -13,6 +13,63 @@ return (function () {
 		});
 	};
 
+	Timeline.prototype.showStoryTimeline = function(branchID) {
+		var self = this,
+			yearPixels = 150,
+			eventSource = new Simile.DefaultEventSource(),
+			storiesByStart,
+			storiesbyEnd;
+
+		var timelineTheme = Simile.ClassicTheme.create();
+
+		//set start date here
+		//set end date here
+
+		var inputBandInfo = [
+			{
+				width : "0%",
+				intervalUnit : Simile.DateTime.YEAR,
+				intervalPixels : self.viewport.width(),
+				eventSource : eventSource,
+				theme : timelineTheme
+			},
+			{
+				width : "100%",
+				intervalUnit : Simile.DateTime.YEAR,
+				intervalPixels : yearPixels,
+				showEventText : true,
+				theme : timelineTheme,
+				eventSource: eventSource
+			}
+		];
+
+		var doShowStory = function(storyData) {
+			//put code to show the story here
+		};
+
+		var doHideStory = function(storyData) {
+			//put code to hide the story here
+		};
+
+		var processStories = function(json) {
+			json = json.objects;
+			var newJson = [];
+			for (i in json) {
+				newJson.push({
+					title: json[i].title,
+					description: json[i].description,
+					start: json[i].year.toString(),
+					end: json[i].year.toString(),
+					id: json[i].id,
+					instant : "true"
+				});
+			}
+			self.load(newJson, newJson, "start", "end", inputBandInfo, timelineTheme, eventSource, doShowStory, doHideStory);
+		}
+
+		$.get(Environment.routes.apiBase + '/story/?format=json&branch=' + branchID, processStories);
+	}
+
 	Timeline.prototype.showBranchTimeline = function () {
 
 		var self = this,
@@ -97,7 +154,7 @@ return (function () {
 
 		var checkIfReadyToLoad = function () {
 			if(pinsByStart != undefined && pinsByEnd != undefined) {
-				self.load(pinsByStart, pinsByEnd, "start", "end", inputBandInfo, eventSource, doShowPin, doHidePin);
+				self.load(pinsByStart, pinsByEnd, "start", "end", inputBandInfo, timelineTheme, eventSource, doShowPin, doHidePin);
 			}
 		};
 
@@ -105,19 +162,45 @@ return (function () {
 		$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=end_year', processPinsByEnd);
 	};
 
-	Timeline.prototype.load = function (pinsByStart, pinsByEnd, startTag, endTag, inputBandInfo, eventSource, showPin, hidePin) {
+	Timeline.prototype.load = function (pinsByStart, pinsByEnd, startTag, endTag, inputBandInfo, inputTheme, eventSource, showPin, hidePin) {
 		var self = this;
 	    var tl;
 	    var rightVisiblePin = -1;
 	    var leftVisiblePin = 0;
 
+	    var startYear = inputTheme.timeline_start;
+	    var endYear = inputTheme.timeline_stop;
+
+	    var endHighLight = new Date(endYear.toString());
+	    endHighLight.setFullYear(endHighLight.getFullYear() + 1000);
+
+	    var beginHighLight = new Date(startYear.toString());
+	    beginHighLight.setFullYear(beginHighLight.getFullYear() - 1000);
+
 	    var decadePixels = 150;
 
 	    var bandInfos = [];
 
-	    for (bInfo in inputBandInfo) {
-	      bandInfos.push(Simile.createBandInfo(inputBandInfo[bInfo]));
+	    for(i in inputBandInfo) {
+	    	bandInfos.push(Simile.createBandInfo(inputBandInfo[i]));
 	    }
+
+		var outOfBoundsColor = "#000000";
+
+		bandInfos[1].decorators = [
+			new Simile.SpanHighlightDecorator({
+				startDate : endYear,
+				endDate : endHighLight,
+				color : outOfBoundsColor,
+				opacity : 80
+			}),
+			new Simile.SpanHighlightDecorator({
+				startDate : beginHighLight,
+				endDate : startYear,
+				color : outOfBoundsColor,
+				opacity : 80
+			})
+		];
 	    
 	    bandInfos[1].syncWith = 0;
 	    bandInfos[1].highlight = true;
@@ -207,8 +290,15 @@ return (function () {
 			//tl._bands[1]._autoScroll2 = tl._bands[1]._autoScroll;
 			//tl._bands[1]._autoScroll = scrollByDecade;
 
-			tl._bands[0].setMaxVisibleDate(new Date());
+			//tl._bands[0].setMaxVisibleDate(endYear);
 			hideShowOnScroll();
+
+			if(tl._bands[0].getMaxVisibleDate().getTime() > endYear.getTime()) {
+				tl._bands[0].setMaxVisibleDate(endYear);
+			}
+			else if(tl._bands[0].getMinVisibleDate().getTime() > startYear.getTime()) {
+				tl._bands[0].setMinVisibleDate(startYear);
+			}
 
 	};
 
