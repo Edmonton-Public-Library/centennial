@@ -62,7 +62,7 @@ class Story(models.Model):
     title = models.CharField(max_length=STORY_TITLE_LEN)
     description = models.TextField(max_length=STORY_DESCRIPTION_LEN)
     story_text = models.TextField(max_length=STORY_TEXT_LEN, blank=True)
-    link_url = models.URLField(blank=True, error_messages={'invalid': "Please input a valid URL"})
+    link_url = models.URLField(blank=True, error_messages={'invalid': "Please input a valid URL (for example: http://www.example.com)."})
     media_file = models.FileField(upload_to=media_upload_to,
                                   blank=True,
                                   validators=[FileValidator(allowed_extensions=UPLOAD_EXTENSIONS,
@@ -88,7 +88,7 @@ class Story(models.Model):
             datetime.strptime(date, "%d/%m/%Y")
         except ValueError:
             #TODO: Should make the resulting error clearer
-            raise ValidationError("Please enter a valid date")
+            raise ValidationError("Please enter a valid date.")
 
     def __unicode__(self):
         return self.title
@@ -107,7 +107,7 @@ class Map(models.Model):
 
     def clean(self):
         if self.start_year > self.end_year:
-            raise ValidationError("End year must occur after start year")
+            raise ValidationError("End year must occur after start year.")
 
     def __unicode__(self):
         return self.title
