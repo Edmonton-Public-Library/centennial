@@ -49,12 +49,14 @@
         
         <p>
             <input type="checkbox" id="agreeToTerms" data-bind="checked: account.agreeToTerms">
-            <label for="agreeToTerms">I agree to the <a href="#termsAndConditions" target="_blank">Terms and Conditions</a>.</label>
+            <label for="agreeToTerms">I agree to the 
+                <a href="" target="_blank" id="termsAndConditions">Terms and Conditions</a>.
+            </label>
         </p>
         <p class="inputError" data-bind="validationMessage: account.agreeToTerms"></p>
 
         <div style="display: none;">
-            <p>As a security measure, please complete the Captcha below:</p>
+            <p>As a security measure to prevent spam account creation, please complete the Captcha below:</p>
             <div id="recaptcha-section"/>
         </div>
 
@@ -62,7 +64,7 @@
         
         <p>You will receive an email to confirm your new account.</p>
         
-        <p class="hintText"><a href="/timemap/">(Cancel and return to the TimeMap)</a></p>
+        <p class="hintText"><a href="/timemap/">(Click here to cancel and return to the TimeMap)</a></p>
 
         </form>
     </div>

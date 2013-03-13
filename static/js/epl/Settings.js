@@ -27,13 +27,6 @@ return {
 	routes : Sammy(function () {
 
 		var self = this;
-
-		//Route to Terms and Conditions
-		this.get('#termsAndConditions', function () {
-			require(['epl', 'views'], function (epl, views) {
-				epl.nav.transition(views.termsAndConditions);
-			});
-		});
 		
 		//Route to Create Account view
 		this.get('#createAccount', function () {

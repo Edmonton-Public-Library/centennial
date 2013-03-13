@@ -55,6 +55,10 @@ createAccount : new View('createAccount', 'createAccount',
 				var createAccountViewModel = new CreateAccountViewModel();
 				ko.applyBindings(createAccountViewModel, $('#tm-content-panel')[0]);
 			});
+
+			// Set the URL for the Terms and Conditions link
+			var termsAndConditionsURL = Environment.routes.staticDirectory + "/views/termsAndConditions.html";
+			$("#termsAndConditions").attr("href", termsAndConditionsURL);
 			callback();
 		}, 
 
@@ -71,19 +75,6 @@ createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess',
 			callback();
 		}, 
 
-		function (toView, viewport, callback) {
-			callback();
-		}),
-
-/**************************************
- * Terms and Conditions *
- *************************************/
-termsAndConditions : new View('termsAndConditions', 'termsAndConditions', 
-		function (fromView, viewport, callback) {
-			callback();
-		}, 
-
-		//out
 		function (toView, viewport, callback) {
 			callback();
 		}),
