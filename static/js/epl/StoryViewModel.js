@@ -19,6 +19,9 @@ return (function () {
         self.month = ko.observable();
         self.day = ko.observable();
         self.keywords = ko.observableArray();
+        self.keywordsCommaSeparated = ko.dependentObservable(function() {
+            return self.keywords().join(", ");
+        });
         self.content_type = ko.observable();
         self.date = ko.computed(function() {
             if (self.day() != null && self.month() != null) {
@@ -49,7 +52,7 @@ return (function () {
                 self.branch_name(branchData.name);
             });
         });
-        
+
     };
     return StoryViewModel;
 })();
