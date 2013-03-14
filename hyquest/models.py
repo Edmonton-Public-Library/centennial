@@ -16,7 +16,7 @@ class QuestSet(models.Model):
     description = models.CharField(max_length=QUESTSET_DESC_LEN)
     points = IntegerRangeField(min_value=0, max_value=6000)
     active = models.BooleanField(default=False)
-
+    featured = models.BooleanField(default=False)
     def __unicode__(self):
         return self.title
 
@@ -97,7 +97,6 @@ class UserQuestSetAction(models.Model):
     complete = models.BooleanField(default=False)
     beginTime = models.DateField()
     completionTime = models.DateField(null=True)
-    
     def __unicode__(self):
         return str(self.user) + " - " + str(self.questset)
 
