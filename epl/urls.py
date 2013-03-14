@@ -8,6 +8,7 @@ from tastypie.api import Api
 from timemap.api import BranchResource, StoryResource, UserResource, SimpleBranchResource
 from timemap.views import timemap, upload
 from centennial.views import accountActivate, login_user, logout_user, create_user, current_user, link_bibliocommons, update_user
+from hyquest.api import FeaturedQuestSetResource, ActiveQuestSetResource, QuestResource, TaskResource
 
 admin.autodiscover()
 v1_api = Api(api_name="v1")
@@ -15,6 +16,10 @@ v1_api.register(BranchResource())
 v1_api.register(SimpleBranchResource())
 v1_api.register(StoryResource())
 v1_api.register(UserResource())
+v1_api.register(FeaturedQuestSetResource())
+v1_api.register(ActiveQuestSetResource())
+v1_api.register(QuestResource())
+v1_api.register(TaskResource())
 
 urlpatterns = patterns('',
     url(r'^account/login/centennial', login_user),
