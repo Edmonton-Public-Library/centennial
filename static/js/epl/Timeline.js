@@ -11,6 +11,10 @@ return (function () {
 		$(document).ready(function () {
 			self.showBranchTimeline();
 		});
+
+		$(window).bind('resize', function () {
+			self.onResize();
+		});
 	};
 
 	Timeline.prototype.showStoryTimeline = function(branchID) {

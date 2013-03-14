@@ -20,6 +20,7 @@ main : new View('timemap', 'Home',
 				//Persist the map and timeline between navigations
 				epl.storage.map = epl.storage.map || null;
 				epl.storage.timeline = epl.storage.timeline || null;
+				Environment.chrome.timeline.height(80);
 
 				//Load the Google Maps API if not already loaded
 				if (epl.storage.map == null) {
@@ -84,7 +85,8 @@ createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess',
 *************************************/
 branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
-			require(['epl/Branch'], function (Branch) { 
+			require(['epl/Branch', 'epl'], function (Branch, Nav) { 
+				console.log(epl.nav.params.id);
 				var brch = new Branch($('#BranchView'), "/static/sample.gif");
 				brch.showPin(new StoryPin("video", "1", "a Video")); 
 				brch.showPin(new StoryPin("audio", "2", "some audio")); 
@@ -144,6 +146,7 @@ viewStory : new View('viewStory', 'View Story',
                 // Obtain the story id from the URL param
                 var story = new StoryViewModel(epl.nav.params['id']);
                 ko.applyBindings(story, $('#tm-content-panel')[0]);
+                Environment.chrome.timeline.height(0);
                 
                 if (story.content_type() == "audio") {
                     $("#audio").addClass('visible');

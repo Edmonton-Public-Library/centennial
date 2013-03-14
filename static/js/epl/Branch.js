@@ -35,7 +35,7 @@ return (function () {
 	 */
 	Branch.prototype.setBackground = function (floorPlan) {
 	$('#BranchView').css('background-image', 'url(\'' + floorPlan + '\')');
-	$('#BranchView').css('position', 'reletive').css('width', this.width + 'px').css('height', this.height + 'px')
+	$('#BranchView').css('position', 'reletive');
 	};
 	Branch.prototype.showPin = function (pin) { 
 	 for (var i = 0; i<this.object.length; i++) { 
@@ -49,7 +49,6 @@ return (function () {
 	} 
 	this.object[this.object.length] = pin
 	this.displayed[this.displayed.length] = "true" 
-	console.log(this.object.length); 
 	this.update();
 	};
 	Branch.prototype.hidePin = function (pin) { 
@@ -65,7 +64,6 @@ return (function () {
 	}; 
 	Branch.prototype.update = function () {
 	var count = this.count("video") 
-	console.log("Video " + count); 
 	if(count ==0) {
 	  $('#video').css('background-image', 'url(\'/static/images/video_icon_disabled.png\')') 
 	}
@@ -142,7 +140,6 @@ $('#audio').css('background-image', 'url(\'/static/images/audio_icon.png\')')
           $('#link').html("Link" + count) 
         }
 	count = this.count("pdf")
-	console.log("count pdf " + count); 
         if(count ==0) {
           $('#pdf').css('background-image', 'url(\'/static/images/pdf_icon_disabled.png\')')
 	}

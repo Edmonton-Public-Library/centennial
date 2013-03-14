@@ -57,9 +57,10 @@ return {
 		});
 
     		//branch view 
-		this.get('#branch', function () {
+		this.get('#branch/:id', function () {
+			var self = this;
 			require(['epl', 'views'], function (epl, views) {
-				epl.nav.transition(views.branch);
+				epl.nav.transition(views.branch, self.params);
 			});
 		});
 		
