@@ -123,7 +123,10 @@ define(['lib/knockout', 'lib/csc/Utils', 'epl/Environment', 'lib/epl/Input'], fu
 			});
 
 			$('input[type=text], textarea, input[type=password]').live('focus', function () {
-				catchKey = false;
+				//Simile steals focus; prevent this from happening
+				if(!$(this).parent().hasClass('timeline-band-input')) {
+					catchKey = false;
+				}
 			}).live('blur', function () {
 				catchKey = true;
 			});

@@ -17,12 +17,12 @@ v1_api.register(StoryResource())
 v1_api.register(UserResource())
 
 urlpatterns = patterns('',
+    url(r'^account/login/centennial', login_user),
     url(r'account/', include('social_auth.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(v1_api.urls)),
     url(r'^timemap/', timemap),
-    url(r'^account/login/centennial', login_user),
     url(r'^account/logout', logout_user),
     url(r'^account/activate', accountActivate),
     url(r'^account/create', create_user),

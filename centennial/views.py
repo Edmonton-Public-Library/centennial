@@ -52,11 +52,14 @@ def login_user(request):
     """
         View used to create a user cookie to maintain a session.
     """
+    print "w00t"
     if request.method == "POST":
         data = None
         try:
             data = json.loads(request.raw_post_data)
-        except ValueError:
+            print data
+        except ValueError, e:
+            print e
             return HttpResponse(status='400')
         if 'username' in data and 'password' in data:
             username = data['username']
