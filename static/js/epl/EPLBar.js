@@ -46,13 +46,17 @@ return (function () {
 						password : loginForm.find('[data-role=password]').val()}),
 
 					success : function (data) {
-						console.log(data);
-						console.log('logged in!');
+						//TODO: Make more elegant after demo
+						var username = $(element).find('[data-role=username]').val();
+						var accountButton = $(element).parents().find('[data-role=account]').find('[data-role=name]').html(username);
+						$(element).parents().find('.menu').html('Logged in!');
+						window.setTimeout(function () {
+							$(document).click();
+						}, 2000);
 					},
 
 					error : function (data) {
-						console.log(data);
-						console.log('NOT logged in!');
+
 					}
 				});
 				e.stopPropagation();
