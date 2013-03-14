@@ -5,8 +5,12 @@ define(['lib/knockout'], function (ko) {
 		var self = this;
 
 		this.chrome = new (function () {
+			var chrome = this;
 			this.timeline = {
-				height: ko.observable(0)
+				displayHeight: 80,
+				height: ko.observable(0),
+				disable: function () { chrome.timeline.height(0); },
+				enable: function () { chrome.timeline.height(chrome.timeline.displayHeight); }
 			};
 		})();
 
@@ -44,6 +48,7 @@ define(['lib/knockout'], function (ko) {
 
 	//Keep the display values up to date
 	$(window).resize(function () {
+		console.log('resize');
 		Environment.display.width($(window).width());
 		Environment.display.height($(window).height());
 	});

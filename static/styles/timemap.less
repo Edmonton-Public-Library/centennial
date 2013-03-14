@@ -483,6 +483,8 @@ body {
 	background-color: white;
 	border: solid 1px #969696;
 	cursor: default;
+	position: relative;
+
 	.x-border-radius(@infoRadius);
 	.x-box-shadow(0,0,15px,0,rgba(0,0,0,0.7), false);
 	p {
@@ -528,6 +530,30 @@ body {
 		padding: 5px;
 		color: #969696;
 		font-size: 14px;
+	}
+
+	.open-button {
+		@background: #B5B5B5;
+		@text: #424242;
+		@border: #8A8A8A;
+		width: 100%;
+		height: 20px;
+		padding: 7px 0;
+		color: @text;
+		border-top: solid 1px @border;
+		text-decoration: none;
+		text-align: center;
+		background-color: @background;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+
+		&:hover {
+			@darkenAmount: 7%;
+			background-color: darken(@background, @darkenAmount);
+			color: darken(@text, @darkenAmount);
+			border-top-color: darken(@border, @darkenAmount);
+		}
 	}
 }
 

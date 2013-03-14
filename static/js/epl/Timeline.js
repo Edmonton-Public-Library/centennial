@@ -312,7 +312,7 @@ return (function () {
 	    if (resizeTimerID == null) {
 	        resizeTimerID = window.setTimeout(function () {
 	            resizeTimerID = null;
-	            tl.layout();
+	            // tl.layout();
 	        }, 500);
 	    }
 	};

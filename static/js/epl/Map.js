@@ -73,13 +73,15 @@ return (function () {
 		//Render the map into the viewport
 		viewport.replaceWith(this.mapElement);
 
+		//Allow any InfoBoxes that are open when the map loads to be closed
+		if(this.mapData.infoBox != null) {
+			ko.applyBindings(self.mapData, this.mapElement.find('.tm-branch-info')[0]);
+		}
+
 		//Preserve viewport attributes that were overwritten by google.maps.Map()
 		$.each(viewport.prop('attributes'), function () {
 		    self.mapElement.attr(this.name, this.value);
 		});
-
-		//Keep the map viewport in sync with the window properties
-		ko.applyBindings({Environment: Environment}, this.mapElement[0]);
 	};
 
 	/**
@@ -217,6 +219,19 @@ return (function () {
 		} else {
 			callback(self.mapData.branchInfo[id]);
 		}
+	};
+
+	/**
+	 * Invokes the provided callback with a single argument containing branch data
+	 * matching the provided ID; doesn't provide caching
+	 * @param	id			String		The Branch ID to gather data from
+	 * @param	callback	Function	The callback function to invoke
+	 */
+	Map.withBranchInfo = function(id, callback) {
+		//TODO: Do we need to have a persistent cache (i.e. localStorage) here?
+		$.get(branchEndpoint + '/' + id + formatString, {}, function (data) {
+			callback(data);
+		});
 	};
 
 	Map.prototype.registerBindingHandlers = function () {

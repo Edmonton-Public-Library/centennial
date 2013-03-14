@@ -1,33 +1,43 @@
 ;
-define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'epl/Environment', 'epl/map/StoryPin'], function (epl, Settings, Error, ko, Environment, StoryPin) {
+define(['epl', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'epl/Environment', 'epl/map/StoryPin', 'epl/Map'], function (epl, Settings, Error, ko, Environment, StoryPin, Map) {
 
 return (function () {
+
+	var elementSize = 200;
 
 	/**
 	 * This is the class object. Put private things in here.
 	 */
-	var Branch = function (viewport, url) {
-	  this.videoIcon = "\<img src=\"/static/Video.png\" width=\"60\" alt=\"Click to view Videos\"\>"; 
-	//more coming
-	  this.object = new Array(); 
-	  this.displayed = new Array();
-	  this.width = 888;
-          this.height = 800;
-	  this.setBackground(url)
-	  var elementSize = 292;
-	  var spaceWidth = (this.width -elementSize*3)/4;
-	  var spaceHeight = (this.height-elementSize*2)/3
-	  $('#video').css('background-image', 'url(\'/static/images/video_icon_disabled.png\')').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'fixed').css('top', spaceHeight + 'px').css('left', spaceWidth + 'px');  
-	$('#audio').css('background-image', 'url(\'/static/images/audio_icon_disabled.png\')').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'fixed').css('top', spaceHeight + 'px').css('left', spaceWidth*2+elementSize + 'px');
+	var Branch = function (viewport, branchID) {
+		var self = this;
+		this.videoIcon = "\<img src=\"/static/Video.png\" width=\"60\" alt=\"Click to view Videos\"\>"; 
+		//more coming
+		this.object = new Array(); 
+		this.displayed = new Array();
+		this.width = 888;
+		this.height = 800;
 
-	$('#image').css('background-image', 'url(\'/static/images/image_icon_disabled.png\')').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'fixed').css('top', spaceHeight + 'px').css('left', spaceWidth*3+elementSize*2 + 'px');
+		Map.withBranchInfo(branchID, function (data) {
+			self.setBackground(data.floor_plan);
+		});
 
-	$('#text').css('background-image', 'url(\'/static/images/text_icon_disabled.png\')').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'fixed').css('top', spaceHeight*2+elementSize + 'px').css('left', spaceWidth + 'px');
+		Environment.display.viewportWidth.subscribe(this.computeLayout);
+		Environment.display.viewportHeight.subscribe(this.computeLayout);
+		this.computeLayout();
+	};
 
-	$('#link').css('background-image', 'url(\'/static/images/link_icon_disabled.png\')').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'fixed').css('top', spaceHeight*2+elementSize + 'px').css('left', spaceWidth*2+elementSize + 'px');
-
-	$('#pdf').css('background-image', 'url(\'/static/images/pdf_icon_disabled.png\')').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'fixed').css('top', spaceHeight*2+elementSize + 'px').css('left', spaceWidth*3+elementSize*2 + 'px');	  
-
+	/**
+	 * Compute a new layout, given the current viewport dimensions
+	 */
+	Branch.prototype.computeLayout = function () {
+		var spaceWidth = (Environment.display.viewportWidth() - elementSize*3)/4,
+			spaceHeight = (Environment.display.viewportHeight() - elementSize*2)/3;
+		$('#video').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight + 'px').css('left', spaceWidth + 'px');  
+		$('#audio').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight + 'px').css('left', spaceWidth*2+elementSize + 'px');
+		$('#image').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight + 'px').css('left', spaceWidth*3+elementSize*2 + 'px');
+		$('#text').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight*2+elementSize + 'px').css('left', spaceWidth + 'px');
+		$('#link').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight*2+elementSize + 'px').css('left', spaceWidth*2+elementSize + 'px');
+		$('#pdf').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight*2+elementSize + 'px').css('left', spaceWidth*3+elementSize*2 + 'px');	  
 	};
 
 	/**

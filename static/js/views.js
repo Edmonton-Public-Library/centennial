@@ -20,14 +20,14 @@ main : new View('timemap', 'Home',
 				//Persist the map and timeline between navigations
 				epl.storage.map = epl.storage.map || null;
 				epl.storage.timeline = epl.storage.timeline || null;
-				Environment.chrome.timeline.height(80);
+				Environment.chrome.timeline.enable();
 
 				//Load the Google Maps API if not already loaded
 				if (epl.storage.map == null) {
 					epl.storage.map = new Map(function () {
 						epl.storage.map.render(mapCanvas);
 						epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
-						Environment.chrome.timeline.height(80);
+						Environment.chrome.timeline.enable();
 					});
 					ko.applyBindings({
 						Environment : Environment
@@ -85,15 +85,16 @@ createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess',
 *************************************/
 branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
-			require(['epl/Branch', 'epl'], function (Branch, Nav) { 
-				console.log(epl.nav.params.id);
-				var brch = new Branch($('#BranchView'), "/static/sample.gif");
+			require(['epl/Branch', 'epl'], function (Branch, epl) { 
+				var brch = new Branch($('#BranchView'), epl.nav.params.id);
 				brch.showPin(new StoryPin("video", "1", "a Video")); 
 				brch.showPin(new StoryPin("audio", "2", "some audio")); 
 			  	brch.showPin(new StoryPin("text", "3", "Fred's story")); 
 				brch.showPin(new StoryPin("video", "4", "second video")); 
 				brch.showPin(new StoryPin("link", "5", "link to somewhere")); 
-				brch.showPin(new StoryPin("pdf", "7", "a pdf")); 
+				brch.showPin(new StoryPin("pdf", "7", "a pdf"));
+
+				ko.applyBindings({Environment: Environment}, $('#BranchView')[0]); 
 			});
 			callback();
 		},
@@ -146,7 +147,7 @@ viewStory : new View('viewStory', 'View Story',
                 // Obtain the story id from the URL param
                 var story = new StoryViewModel(epl.nav.params['id']);
                 ko.applyBindings(story, $('#tm-content-panel')[0]);
-                Environment.chrome.timeline.height(0);
+                Environment.chrome.timeline.disable();
                 
                 if (story.content_type() == "audio") {
                     $("#audio").addClass('visible');
