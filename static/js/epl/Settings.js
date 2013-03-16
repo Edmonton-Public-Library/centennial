@@ -41,7 +41,21 @@ return {
 				epl.nav.transition(views.createAccountSuccess);
 			});
 		});
-		
+
+		//Route to My Account view
+		this.get('#myAccount', function () {
+			require(['epl', 'views'], function (epl, views) {
+				epl.nav.transition(views.myAccount);
+			});
+		});
+
+		//Route to Update Account Success view
+		this.get('#updateAccountSuccess', function () {
+			require(['epl', 'views'], function (epl, views) {
+				epl.nav.transition(views.updateAccountSuccess);
+			});
+		});
+
 		//Route to Upload Story view
 		this.get('#uploadStory', function () {
 			require(['epl', 'views'], function (epl, views) {

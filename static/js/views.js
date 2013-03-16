@@ -48,6 +48,34 @@ main : new View('timemap', 'Home',
 		}),
 
 /**************************************
+ * My Account View *
+ *************************************/
+myAccount : new View('myAccount', 'myAccount', 
+		function (fromView, viewport, callback) {
+			require(['epl/MyAccountViewModel'], function (MyAccountViewModel) {
+				var myAccountViewModel = new MyAccountViewModel();
+				ko.applyBindings(myAccountViewModel, $('#tm-content-panel')[0]);
+			});
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+/**************************************
+ * Update Account Success View *
+ *************************************/
+updateAccountSuccess : new View('updateAccountSuccess', 'updateAccountSuccess', 
+		function (fromView, viewport, callback) {
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+/**************************************
  * Create Account View *
  *************************************/
 createAccount : new View('createAccount', 'createAccount', 
