@@ -168,8 +168,8 @@ def update_user(request):
     if 'lastname' in data:
         request.user.last_name = data['lastname']
     if 'oldpassword' in data:
-        if authenticate(request.user.username, data['oldpassword']):
-            if email in data:
+        if authenticate(username=request.user.username, password=data['oldpassword']):
+            if 'email' in data:
                 request.user.email = data['email']
             if 'newpassword' in data:
                 request.user.set_password(data['newpassword'])
