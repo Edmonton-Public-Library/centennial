@@ -55,6 +55,7 @@ myAccount : new View('myAccount', 'myAccount',
 			require(['timemap/MyAccountViewModel'], function (MyAccountViewModel) {
 				var myAccountViewModel = new MyAccountViewModel();
 				ko.applyBindings(myAccountViewModel, $('#tm-content-panel')[0]);
+				Environment.chrome.timeline.disable();
 			});
 		}, 
 
@@ -68,6 +69,8 @@ myAccount : new View('myAccount', 'myAccount',
  *************************************/
 updateAccountSuccess : new View('updateAccountSuccess', 'updateAccountSuccess', 
 		function (fromView, viewport, callback) {
+			Environment.chrome.timeline.disable();
+			callback();
 		}, 
 
 		//out
@@ -83,6 +86,7 @@ createAccount : new View('createAccount', 'createAccount',
 			require(['timemap/CreateAccountViewModel'], function (CreateAccountViewModel) {
 				var createAccountViewModel = new CreateAccountViewModel();
 				ko.applyBindings(createAccountViewModel, $('#tm-content-panel')[0]);
+				Environment.chrome.timeline.disable();
 			});
 
 			// Set the URL for the Terms and Conditions link
@@ -101,6 +105,7 @@ createAccount : new View('createAccount', 'createAccount',
  *************************************/
 createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess', 
 		function (fromView, viewport, callback) {
+			Environment.chrome.timeline.disable();
 			callback();
 		}, 
 
@@ -141,6 +146,7 @@ uploadStory : new View('uploadStory', 'Upload Story',
 			require(['timemap/UploadStoryViewModel', 'lib/epl/Input'], function (UploadStoryViewModel) {
 				var uploadStoryViewModel = new UploadStoryViewModel();
 				ko.applyBindings(uploadStoryViewModel, $('#tm-content-panel')[0]);
+				Environment.chrome.timeline.disable();
 			});
 			callback();
 		}, 
@@ -157,6 +163,7 @@ uploadStory : new View('uploadStory', 'Upload Story',
 uploadStorySuccess : new View('uploadStorySuccess', 'Upload Story Success', 
 		//in
 		function (fromView, viewport, callback) {
+			Environment.chrome.timeline.disable();
 			callback();
 		}, 
 
@@ -175,8 +182,8 @@ viewStory : new View('viewStory', 'View Story',
                 // Obtain the story id from the URL param
                 var story = new StoryViewModel(epl.nav.params['id']);
                 ko.applyBindings(story, $('#tm-content-panel')[0]);
+
                 Environment.chrome.timeline.disable();
-                
                 if (story.content_type() == "audio") {
                     $("#audio").addClass('visible');
                     $("#audio_jplayer").jPlayer({
@@ -185,6 +192,7 @@ viewStory : new View('viewStory', 'View Story',
                                 mp3: story.media_file()
                             });
                         },
+                        solution: 'flash',
                         supplied: "mp3", 
                         swfPath: "/static/swf/Jplayer.swf"
                     });
