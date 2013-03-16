@@ -11,16 +11,32 @@ class QuestSetResource(ModelResource):
     class Meta:
         queryset = QuestSet.objects.all()
         resource_name = 'questset'
-        fields = ['id', 'title', 'description', 'points']
-
+        fields = ['featured', 'id', 'title', 'description', 'points']
+        filtering = {'featured': ALL}
+    user = None
     def get_object_list(self, request):
+        self.user = request.user
         return QuestSet.objects.filter(Q(userquestsetaction__user=request.user, active=True) |
                                        Q(userquestsetaction__user=request.user, userquestsetaction__complete=True) |
                                        Q(featured=True, active=True))
+    def build_filters(self, filters=None):
+       if filters is None:
+           filters = {}
+       orm_filters = super(QuestSetResource, self).build_filters(filters)
+       if 'featured' in filters:
+           orm_filters['featured__exact'] = True
+       if 'active' in filters:
+           orm_filters['featured__exact'] = False
+           orm_filters['userquestsetaction__user'] = self.user
+           orm_filters['userquestsetaction__complete'] = False
+       if 'complete' in filters:
+           orm_filters['userquestsetaction__user'] = self.user
+           orm_filters['userquestsetaction__complete'] = True
+       return orm_filters
 
     def dehydrate(self, bundle):
         try:
-            ua = UserQuestSetAction.objects.get(questset=bundle.obj)
+            ua = UserQuestSetAction.objects.get(questset=bundle.obj, user=bundle.request.user)
             bundle.data['complete'] = ua.complete
         except Exception:
             bundle.data['complete'] = False
@@ -35,7 +51,7 @@ class QuestResource(ModelResource):
         fields = ['id', 'title', 'points']
     def dehydrate(self, bundle):
         try:
-            ua = UserQuestAction.objects.get(quest=bundle.obj)
+            ua = UserQuestAction.objects.get(quest=bundle.obj, user=bundle.request.user)
             bundle.data['complete'] = ua.complete
         except Exception:
             bundle.data['complete'] = False
@@ -51,7 +67,7 @@ class TaskResource(ModelResource):
 
     def dehydrate(self, bundle):
         try:
-            ua = UserTaskAction.objects.get(task=bundle.obj)
+            ua = UserTaskAction.objects.get(task=bundle.obj, user=bundle.request.user)
             bundle.data['complete'] = ua.complete
         except Exception:
             bundle.data['complete'] = False
