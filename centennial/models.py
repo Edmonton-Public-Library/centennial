@@ -65,7 +65,7 @@ def send_activation_email(sender, **kwargs):
             time = str(datetime.datetime.now())
             notification_email = email_template.getRegistrationNotification(name, "http://localhost:8000", email, time, "html")
             try:
-                emailer.do_send(notification_email, "noorez@debian-cs.nooni.inc", email)
+                emailer.do_send(notification_email, "bpetruk@serve.ctrlshiftcreate.com", email)
                 instance.email_sent = True
             except Exception:
                 instance.email_sent = False
