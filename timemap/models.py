@@ -1,3 +1,4 @@
+import uuid
 import datetime
 from django.db import models
 from django.core.exceptions import ValidationError
@@ -37,7 +38,8 @@ class Branch(models.Model):
         return self.name
 
 def media_upload_to(instance, filename):
-    filename = filename.split('/')[-1]
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
     return instance.CONTENT_TYPE_DICT[instance.content_type]+ "/" + filename
 
 class Story(models.Model):
