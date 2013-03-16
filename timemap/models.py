@@ -115,6 +115,15 @@ class Map(models.Model):
     def __unicode__(self):
         return self.title
 
+class FeaturedStory(models.Model):
+    class Meta:
+        verbose_name_plural = "Featured Stories"
+
+    story = models.ForeignKey('Story')
+
+    def __unicode__(self):
+        return self.story.title
+
 class TimemapPreferences(Preferences):
 
     class Meta:
