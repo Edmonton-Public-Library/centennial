@@ -33,7 +33,7 @@ class CompleteQuestSetResource(ModelResource):
 
 class QuestResource(ModelResource):
     class Meta:
-        queryset = Quest.objects.all()
+        queryset = Quest.objects.filter(quest_set__active=True)
 	resource_name = 'quest'
         filtering = {"quest_set": ALL}
         fields = ['title', 'points']
@@ -47,7 +47,7 @@ class QuestResource(ModelResource):
 
 class TaskResource(ModelResource):
     class Meta:
-        queryset = Task.objects.all()
+        queryset = Task.objects.filter(quest__quest_set__active=True)
 	resource_name = 'task'
         filtering = {"quest": ALL}
         fields = ['title', 'type', 'points']
