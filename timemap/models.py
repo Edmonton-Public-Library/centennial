@@ -1,8 +1,9 @@
-from datetime import datetime
+import datetime
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
+from preferences.models import Preferences
 
 from epl.custommodels import IntegerRangeField, FloatRangeField
 from util.file_validator import FileValidator
@@ -85,7 +86,7 @@ class Story(models.Model):
             day = self.day if self.day else 1
             month = self.month if self.month else 1
             date = "%s/%s/%s" % (day, month, self.year)
-            datetime.strptime(date, "%d/%m/%Y")
+            datetime.datetime.strptime(date, "%d/%m/%Y")
         except ValueError:
             #TODO: Should make the resulting error clearer
             raise ValidationError("Please enter a valid date.")
@@ -112,8 +113,15 @@ class Map(models.Model):
     def __unicode__(self):
         return self.title
 
-# Signal setup
+class TimemapPreferences(Preferences):
 
+    class Meta:
+        verbose_name_plural = "Timemap Preferences"
+
+    __module__ = 'preferences.models'
+    initial_timemap_date = models.DateField(default=datetime.date(2013, 1, 1))
+
+# Signal setup
 from django.dispatch.dispatcher import receiver
 from django.db.models.signals import pre_save, pre_delete
 

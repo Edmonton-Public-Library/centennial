@@ -6,7 +6,7 @@ from django.contrib import admin
 from tastypie.api import Api
 
 from timemap.api import BranchResource, StoryResource, UserResource, SimpleBranchResource
-from timemap.views import timemap, upload
+from timemap.views import timemap, upload, preference
 from centennial.views import accountActivate, login_user, logout_user, create_user, current_user, link_bibliocommons, update_user
 from hyquest.api import QuestSetResource, QuestResource, TaskResource
 
@@ -34,4 +34,5 @@ urlpatterns = patterns('',
     url(r'^account/update', update_user),
     url(r'^account/link/bibliocommons', link_bibliocommons),
     url(r'^upload/(\d+)/$', upload),
+    url(r'^preferences/(?P<pref>\w+)/$', preference),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

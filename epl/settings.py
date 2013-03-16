@@ -117,6 +117,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'preferences',
     'south',
     'fts',
     'timemap',
