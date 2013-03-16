@@ -52,7 +52,7 @@ main : new View('timemap', 'Home',
  *************************************/
 myAccount : new View('myAccount', 'myAccount', 
 		function (fromView, viewport, callback) {
-			require(['epl/MyAccountViewModel'], function (MyAccountViewModel) {
+			require(['timemap/MyAccountViewModel'], function (MyAccountViewModel) {
 				var myAccountViewModel = new MyAccountViewModel();
 				ko.applyBindings(myAccountViewModel, $('#tm-content-panel')[0]);
 			});

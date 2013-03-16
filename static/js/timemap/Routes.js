@@ -23,6 +23,20 @@ return {
 				epl.nav.transition(views.createAccountSuccess);
 			});
 		});
+
+		//Route to My Account view
+		this.get('#myAccount', function () {
+			require(['timemap', 'views'], function (epl, views) {
+				epl.nav.transition(views.myAccount);
+			});
+		});
+
+		//Route to Update Account Success view
+		this.get('#updateAccountSuccess', function () {
+			require(['timemap', 'views'], function (epl, views) {
+				epl.nav.transition(views.updateAccountSuccess);
+			});
+		}); 
 		
 		//Route to Upload Story view
 		this.get('#uploadStory', function () {
@@ -38,7 +52,7 @@ return {
 			});
 		});
 
-    		//branch view 
+		//Route to Branch view 
 		this.get('#branch/:id', function () {
 			var self = this;
 			require(['timemap', 'views'], function (epl, views) {
