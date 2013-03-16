@@ -8,7 +8,7 @@ class FeaturedQuestSetResource(ModelResource):
     class Meta:
         queryset = QuestSet.objects.filter(featured=True, active=True)
 	resource_name = 'featured'
-        # filtering = {"name": ALL}
+        fields = ['title', 'description', 'points']
     def dehydrate(self, bundle):
         try:
             ua = UserQuestSetAction.objects.get(questset=bundle.obj)
@@ -20,14 +20,14 @@ class FeaturedQuestSetResource(ModelResource):
 class ActiveQuestSetResource(ModelResource):
     class Meta:
         resource_name = 'active'
-
+        fields = ['title', 'description', 'points']
     def get_object_list(self, request):
         return QuestSet.objects.filter(userquestsetaction__user=request.user, userquestsetaction__complete=False, active=True)
 
 class CompleteQuestSetResource(ModelResource):
     class Meta:
         resource_name = 'complete'
-            
+        fields = ['title', 'description', 'points']
     def get_object_list(self, request):
         return QuestSet.objects.filter(userquestsetaction__user=request.user, userquestsetaction__complete=True, active=True)
 
@@ -36,6 +36,7 @@ class QuestResource(ModelResource):
         queryset = Quest.objects.all()
 	resource_name = 'quest'
         filtering = {"quest_set": ALL}
+        fields = ['title', 'points']
     def dehydrate(self, bundle):
         try:
             ua = UserQuestAction.objects.get(quest=bundle.obj)
