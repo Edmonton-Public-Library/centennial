@@ -108,6 +108,7 @@ def create_user(request):
                 user = User.objects.create_user(username = data['username'],
                                                 password = data['password'],
                                                 email = data['email'])
+                user.is_active = False
                 user.first_name = data['firstname']
                 user.last_name = data['lastname']
                 user.save()
