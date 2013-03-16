@@ -6,7 +6,7 @@ from taggit.models import Tag
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-from timemap.models import Branch, Story
+from timemap.models import Branch, Story, Map, FeaturedStory
 from timemap.constants import STORY_RESOURCE_LIMIT
 from util.story_validation import StoryValidation
 
@@ -61,6 +61,14 @@ class UserResource(ModelResource):
         queryset = User.objects.all()
         resource_name = 'user'
         fields = ["id"]
+
+class MapResource(ModelResource):
+    class Meta:
+        queryset = Map.objects.all()
+        resource_name = 'maps'
+        allowed_methods = ['get']
+        fields = ['published', 'base_folder']
+        ordering = ['published']
 
 class StoryResource(ModelResource):
     """
@@ -173,3 +181,16 @@ def get_grouped_filters(filters):
         grouped_filters |= reduce(pipe_map, story_filters)
 
     return grouped_filters
+
+class FeaturedStoryResource(ModelResource):
+    story = fields.ForeignKey(StoryResource, 'story', full=True)
+
+    class Meta:
+        queryset = FeaturedStory.objects.filter(story__public_approved=True)
+        resource_name = "featured"
+        max_limit = STORY_RESOURCE_LIMIT
+        allowed_methods = ['get']
+        filtering = {"story": ALL_WITH_RELATIONS,
+                    }
+        ordering = ['story']
+
