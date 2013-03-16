@@ -30,6 +30,7 @@ def validate_media_upload(request, story_id):
         mimetype = util.file_validator.FileValidator(allowed_extensions=API_EXTENSIONS,
                                                      allowed_mimetypes=API_MIME_TYPES)(story.media_file)
     except ValidationError, e:
+        story.delete()
         return HttpResponseBadRequest(json.dumps(e.messages), content_type='application/json')
 
     if mimetype in ['image/png', 'image/jpeg', 'image/pjpeg']:
