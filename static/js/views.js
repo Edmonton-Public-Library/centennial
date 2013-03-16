@@ -1,6 +1,6 @@
 ;
 //Create a module to contain client-side views
-define(['epl', 'lib/csc/View', 'lib/knockout', 'epl/Environment', 'epl/map/StoryPin', 'lib/epl/Input', 'epl/EPLBar'], function(epl, View, ko, Environment, StoryPin, Input, EPLBar) {
+define(['timemap', 'lib/csc/View', 'lib/knockout', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/epl/Input', 'timemap/EPLBar'], function(epl, View, ko, Environment, StoryPin, Input, EPLBar) {
 
 return {
 
@@ -15,7 +15,7 @@ main : new View('timemap', 'Home',
 				sidebar = null,
 				catchKey = true;
 
-			require(['epl/Map', 'lib/epl/Input', 'epl/map/BranchPin', 'epl/Timeline'], function(Map, Input, BranchPin, Timeline) {
+			require(['timemap/Map', 'lib/epl/Input', 'timemap/map/BranchPin', 'timemap/Timeline'], function(Map, Input, BranchPin, Timeline) {
 
 				//Persist the map and timeline between navigations
 				epl.storage.map = epl.storage.map || null;
@@ -80,7 +80,7 @@ updateAccountSuccess : new View('updateAccountSuccess', 'updateAccountSuccess',
  *************************************/
 createAccount : new View('createAccount', 'createAccount', 
 		function (fromView, viewport, callback) {
-			require(['epl/CreateAccountViewModel'], function (CreateAccountViewModel) {
+			require(['timemap/CreateAccountViewModel'], function (CreateAccountViewModel) {
 				var createAccountViewModel = new CreateAccountViewModel();
 				ko.applyBindings(createAccountViewModel, $('#tm-content-panel')[0]);
 			});
@@ -113,7 +113,7 @@ createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess',
 *************************************/
 branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
-			require(['epl/Branch', 'epl'], function (Branch, epl) { 
+			require(['timemap', 'timemap/Branch'], function (epl, Branch) { 
 				var brch = new Branch($('#BranchView'), epl.nav.params.id);
 				brch.showPin(new StoryPin("video", "1", "a Video")); 
 				brch.showPin(new StoryPin("audio", "2", "some audio")); 
@@ -138,7 +138,7 @@ branch : new View('branch', 'Branch',
 uploadStory : new View('uploadStory', 'Upload Story', 
 		//in
 		function (fromView, viewport, callback) {
-			require(['epl/UploadStoryViewModel', 'lib/epl/Input'], function (UploadStoryViewModel) {
+			require(['timemap/UploadStoryViewModel', 'lib/epl/Input'], function (UploadStoryViewModel) {
 				var uploadStoryViewModel = new UploadStoryViewModel();
 				ko.applyBindings(uploadStoryViewModel, $('#tm-content-panel')[0]);
 			});
@@ -171,7 +171,7 @@ uploadStorySuccess : new View('uploadStorySuccess', 'Upload Story Success',
 viewStory : new View('viewStory', 'View Story', 
         //in
         function (fromView, viewport, callback) {
-            require(['epl/StoryViewModel', 'lib/jquery.jplayer', 'lib/pdfobject'], function (StoryViewModel) {
+            require(['timemap/StoryViewModel', 'lib/jquery.jplayer', 'lib/pdfobject'], function (StoryViewModel) {
                 // Obtain the story id from the URL param
                 var story = new StoryViewModel(epl.nav.params['id']);
                 ko.applyBindings(story, $('#tm-content-panel')[0]);

@@ -8,7 +8,7 @@
  *		- 	Removed references to Timeline.urlPrefix and replaced them with 
  *			Environment.imageDirectory references
  */;
-define(['epl/Environment'], function (Environment) {
+define(['timemap/Environment'], function (Environment) {
 	(function () {
 		var Timeline, SimileAjax;
 		var loadMe = function () {
