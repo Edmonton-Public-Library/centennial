@@ -8,7 +8,7 @@ admin.site.unregister(Site)
 class StoryAdmin(admin.ModelAdmin):
     list_display = ('title', 'branch', 'content_type', 'year',)
     list_filter = ['year', 'public_approved']
-    search_fields = ['title', 'keywords']
+    search_fields = ['title']
 
 admin.site.register(Branch)
 admin.site.register(Story, StoryAdmin)
