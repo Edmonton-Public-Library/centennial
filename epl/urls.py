@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib import admin
 from tastypie.api import Api
 
-from timemap.api import BranchResource, StoryResource, UserResource, SimpleBranchResource
+from timemap.api import BranchResource, StoryResource, UserResource, SimpleBranchResource, MapResource
 from timemap.views import timemap, hyq, upload, preference
 from centennial.views import accountActivate, login_user, logout_user, create_user, current_user, link_bibliocommons, update_user
 from hyquest.api import QuestSetResource, QuestResource, TaskResource
@@ -20,6 +20,7 @@ v1_api.register(UserResource())
 v1_api.register(QuestSetResource())
 v1_api.register(QuestResource())
 v1_api.register(TaskResource())
+v1_api.register(MapResource())
 
 urlpatterns = patterns('',
     url(r'^account/login/centennial', login_user),
