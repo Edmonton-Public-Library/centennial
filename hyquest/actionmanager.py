@@ -9,7 +9,7 @@ def beginQuestSet(user, questset):
     uqsa=UserQuestSetAction.objects.create(user=user, questset=questset, beginTime=datetime.now())
     uqsa.save()
     #Delegate for all Quests in QuestSet
-    for quest in Quest.objects.filter(questset=questset):
+    for quest in Quest.objects.filter(quest_set=questset):
         beginQuest(user, quest)
 
 def beginQuest(user, quest):

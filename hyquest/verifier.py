@@ -1,14 +1,16 @@
 from django.contrib.auth.models import User
-from hyquest.models import Task, UserAction, TaskCode
+from hyquest.models import Task, UserTaskAction, TaskCode
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 
 def completeCodeTask(user, code):
+    print("Code: "+code)
     task = getTaskForCode(code)
+    print task
     if task == None:
         return None
     action = getUserAction(user, task)
-    if action == None:
+    if action == None or action.complete:
         return None
     burnCode(code)
     finishAction(action)
@@ -19,7 +21,7 @@ def completeSocialTask(user, social):
     if task == None:
         return None
     action = getUserAction(user, task)
-    if action == None:
+    if action == None or action.complete:
         return None
     finishAction(action)
     return Task
@@ -27,7 +29,12 @@ def completeSocialTask(user, social):
 def getTaskForCode(code):
     #This should include verification that the quest-set it comes from is open
     try:
-        task = TaskCode.objects.get(code=code).task
+        tcode = TaskCode.objects.get(code=code)
+        print tcode
+        if tcode.uses_remaining<1:
+            return None
+        task = tcode.task
+        print task
         if task.quest.quest_set.active:
             return task
         return None
@@ -49,18 +56,7 @@ def getTaskForSocial(social):
 
 def getUserAction(user, task):
     try:
-        action = UserAction.objects.get(user=user, task=task)
+        action = UserTaskAction.objects.get(user=user, task=task)
         return action
     except ObjectDoesNotExist:
         return None
-
-def beginAction(user, task):
-    action = UserAction.objects.create(user=user, task=task, beginTime=datetime.now())
-    action.save()
-    return action
-    
-def finishAction(action):
-    action.complete=True
-    action.completionTime=datetime.now()
-    action.save()
-    return action

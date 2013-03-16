@@ -57,7 +57,7 @@ class TaskCode(models.Model):
     uses_remaining = models.IntegerField(default=1)
 
     def __unicode__(self):
-        return self.task.title+" ("+str(uses_remaining)+" remaining)"
+        return self.task.title+" ("+str(self.uses_remaining)+" remaining)"
 
 class UserTaskAction(models.Model):
     
