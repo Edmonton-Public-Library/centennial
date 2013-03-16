@@ -15,11 +15,12 @@ return (function () {
         self.media_file = ko.observable();
         self.branch = ko.observable();
         self.branch_name = ko.observable();
+        self.branch_id = ko.observable();
         self.year = ko.observable();
         self.month = ko.observable();
         self.day = ko.observable();
         self.keywords = ko.observableArray();
-        self.keywordsCommaSeparated = ko.dependentObservable(function() {
+        self.keywordsCommaSeparated = ko.computed(function() {
             return self.keywords().join(", ");
         });
         self.content_type = ko.observable();
@@ -50,6 +51,7 @@ return (function () {
             self.content_type(data.content_type);
             $.getJSON(self.branch(), function(branchData) {
                 self.branch_name(branchData.name);
+                self.branch_id(branchData.id);
             });
         });
 
