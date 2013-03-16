@@ -7,6 +7,8 @@ return (function () {
 	var formatString = '?format=json';
 	var branchInfoSelector = '#tm-branch-info-pane'; //Selector for the element containing the popup template
 	var branchInfoClass = 'tm-branch-info'; //The class used to style the popup box
+	var tileDirectory = Settings.mediaDirectory + '/MapTiles';
+	var overlayOpacity = 1;
 
 	/**
 	 * Creates an epl-wrapped Google Map
@@ -25,6 +27,8 @@ return (function () {
 			branchInfo : {},
 			infoBox : null,
 			selectedBranch : ko.observable({}),
+			selectedYear : 1924,
+			mapTiler : {},
 			range : {
 				startDate : new Date(), 
 				endDate : new Date()
@@ -36,16 +40,6 @@ return (function () {
 		window.eplMapsInit = function () {
 			//Run the Map loader
 			self.map = new google.maps.Map(self.mapElement[0], {}); //Defer setting options until rendering
-
-			var maptiler = new google.maps.ImageMapType({ 
-				getTileUrl: function(coord, zoom) {
-					return Settings.media + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg';
-				},
-				tileSize: new google.maps.Size(256, 256),
-				isPng: false
-			});
-
-			self.map.overlayMapTypes.insertAt(0, maptiler);
 
 			callback();
 		};
@@ -93,6 +87,8 @@ return (function () {
 		$.each(viewport.prop('attributes'), function () {
 		    self.mapElement.attr(this.name, this.value);
 		});
+
+		this.overlayYear(1913);
 	};
 
 	/**
@@ -158,6 +154,22 @@ return (function () {
 			endDate: endDate
 		};
 		//TODO: Trigger any required handlers
+	};
+
+	Map.prototype.overlayYear = function (year) {
+		var self = this;
+		this.mapData.selectedYear = year;
+
+		self.mapData.mapTiler = new google.maps.ImageMapType({ 
+			getTileUrl: function(coord, zoom) {
+				return tileDirectory + '/' + self.mapData.selectedYear + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg';
+			},
+			tileSize: new google.maps.Size(256, 256),
+			opacity: overlayOpacity,
+			isPng: false
+		});
+
+		self.map.overlayMapTypes.setAt(0, self.mapData.mapTiler);
 	};
 
 	/**
