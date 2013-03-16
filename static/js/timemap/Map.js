@@ -36,6 +36,17 @@ return (function () {
 		window.eplMapsInit = function () {
 			//Run the Map loader
 			self.map = new google.maps.Map(self.mapElement[0], {}); //Defer setting options until rendering
+
+			var maptiler = new google.maps.ImageMapType({ 
+				getTileUrl: function(coord, zoom) {
+					return Settings.media + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg';
+				},
+				tileSize: new google.maps.Size(256, 256),
+				isPng: false
+			});
+
+			self.map.overlayMapTypes.insertAt(0, maptiler);
+
 			callback();
 		};
 	};

@@ -12,6 +12,7 @@ return {
 	apiAccountUrl : '/account/',
 	viewDirectory : function () { return '/static/views'; },
 	imageDirectory : '/static/images',
+	mediaDirectory : '/media',
 
 	//API Keys
 	apiKeys : {
