@@ -59,7 +59,7 @@
     			</div>
     			<div class="tab-contents" data-tab="search">
     				<input type="text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
-    				<div class="results">
+    				<div class="results" data-bind="style: {height: searchHeight() + 'px'}">
     					<!-- ko ifnot: searchResults().length > 0 -->
     					<div class="search-result">
     						<p class="title">No results.</p>
