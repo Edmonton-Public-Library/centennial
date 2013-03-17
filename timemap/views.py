@@ -30,18 +30,27 @@ def upload(request, story_id):
         return HttpResponse(status="501")
     return HttpResponse(status="500")
 
-def preference(request, pref):
+def preference(request):
     """
     Exposes timemap preferences
     """
-    print pref
     if request.method == 'POST':
         return HttpResponse(status="403")
-    if pref == "initial_timemap_date":
-        d = preferences.TimemapPreferences.initial_timemap_date
-        return HttpResponse(json.dumps({'year': d.year, 'month': d.month, 'day': d.day}), content_type='application/json')
-    if hasattr(preferences.TimemapPreferences, pref):
-        p = getattr(preferences.TimemapPreferences, pref)
-        return HttpResponse(json.dumps({pref: str(p)}), content_type='application/json')
-    else:
-        return HttpResponse(status="200")
+
+    timeline_init_date = preferences.TimemapPreferences.timeline_init_date
+    timeline_start_date = preferences.TimemapPreferences.timeline_start_date
+    timeline_end_date = preferences.TimemapPreferences.timeline_end_date
+    prefs = {"timeline_init_date" : {"year": timeline_init_date.year,
+                                     "month": timeline_init_date.month,
+                                     "day": timeline_init_date.day
+                                    },
+            "timeline_start_date" : {"year": timeline_start_date.year,
+                                    "month": timeline_start_date.month,
+                                    "day": timeline_start_date.day
+                                   },
+            "timeline_end_date" : {"year": timeline_end_date.year,
+                                    "month": timeline_end_date.month,
+                                    "day": timeline_end_date.day
+                                   }
+            }
+    return HttpResponse(json.dumps(prefs), content_type='application/json')

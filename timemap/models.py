@@ -130,7 +130,9 @@ class TimemapPreferences(Preferences):
         verbose_name_plural = "Timemap Preferences"
 
     __module__ = 'preferences.models'
-    initial_timemap_date = models.DateField(default=datetime.date(2013, 1, 1))
+    timeline_init_date = models.DateField(default=datetime.date(2013, 1, 1))
+    timeline_start_date = models.DateField(default=datetime.date(1900, 1, 1))
+    timeline_end_date = models.DateField(default=datetime.date(2014, 1, 1))
 
 # Signal setup
 from django.dispatch.dispatcher import receiver

@@ -9,7 +9,7 @@ from timemap.api import BranchResource, StoryResource, UserResource, SimpleBranc
 from timemap.views import timemap, hyq, upload, preference
 from centennial.views import accountActivate, login_user, logout_user, create_user, current_user, link_bibliocommons, update_user
 from hyquest.api import QuestSetResource, QuestResource, TaskResource
-from hyquest.views import submit_code_task 
+from hyquest.views import submit_code_task
 from hyquest.adminforms import generate_codes
 
 admin.autodiscover()
@@ -40,6 +40,6 @@ urlpatterns = patterns('',
     url(r'^account/update', update_user),
     url(r'^account/link/bibliocommons', link_bibliocommons),
     url(r'^upload/(\d+)/$', upload),
-    url(r'^preferences/(?P<pref>\w+)/$', preference),
+    url(r'^preferences/$', preference),
     url(r'^game/submit_code', submit_code_task)
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
