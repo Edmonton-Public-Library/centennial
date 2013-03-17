@@ -41,6 +41,5 @@ class TaskCodeAdmin(admin.ModelAdmin):
         
     list_display = ['task', 'code', 'uses_remaining']
     list_filter = ['uses_remaining']
-    search_fields = ['task']
 
 admin.site.register(TaskCode, TaskCodeAdmin)
