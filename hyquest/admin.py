@@ -1,8 +1,7 @@
 from django.contrib import admin
-from hyquest.models import QuestSet, Quest, Task
+from hyquest.models import QuestSet, Quest, Task, TaskCode
 from django import forms
 from hyquest.constants import TASK_CHOICES
-admin.site.register(Task)
 
 class QuestForm(forms.ModelForm):
     class Meta:
@@ -35,3 +34,13 @@ class QuestAdmin(admin.ModelAdmin):
 
 admin.site.register(QuestSet, QuestSetAdmin)
 admin.site.register(Quest, QuestAdmin)
+
+class TaskCodeAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+        
+    list_display = ['task', 'code', 'uses_remaining']
+    list_filter = ['uses_remaining']
+    search_fields = ['task']
+
+admin.site.register(TaskCode, TaskCodeAdmin)

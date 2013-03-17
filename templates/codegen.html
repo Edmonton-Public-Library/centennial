@@ -1,5 +1,14 @@
-<h2>Generating Codes for {{ task }}</h2>
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+{% load url from future %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />{% endblock %}
+{% block bodyclass %}Generate Codes for {{ task }} {% endblock %}
+{% block nav-global %}{% endblock %}
+{% block content_title %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+{% block content %}
 <form action="/admin/hyquest/codes" method="post">
 {{ form.as_p }}
 <input type="submit" value="Submit" />
 </form>
+{% endblock %}

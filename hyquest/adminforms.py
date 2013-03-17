@@ -25,7 +25,8 @@ def generate_codes(request):
                                      form.cleaned_data['code_count'], 
                                      form.cleaned_data['uses_per_code']))
     else:
-        form = CodeGenForm(request.GET)
+        arguments = {'task_id': request.GET['task_id'], 'code_count': '1', 'uses_per_code':'1'}
+        form = CodeGenForm(arguments)
         taskid = request.GET['task_id']
     return render(request, 'codegen.html', {'form': form, 'task': Task.objects.get(id=taskid)})
 
