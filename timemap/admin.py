@@ -1,5 +1,5 @@
 from django.contrib import admin
-from timemap.models import Branch, Story, Map, TimemapPreferences
+from timemap.models import Branch, Story, Map, TimemapPreferences, FeaturedStory
 from preferences.admin import PreferencesAdmin
 from django.contrib.sites.models import Site
 
@@ -10,7 +10,11 @@ class StoryAdmin(admin.ModelAdmin):
     list_filter = ['year', 'public_approved']
     search_fields = ['title']
 
+class FeaturedStoryAdmin(admin.ModelAdmin):
+    raw_id_fields = ("story",)
+
 admin.site.register(Branch)
 admin.site.register(Story, StoryAdmin)
 admin.site.register(Map)
 admin.site.register(TimemapPreferences, PreferencesAdmin)
+admin.site.register(FeaturedStory, FeaturedStoryAdmin)
