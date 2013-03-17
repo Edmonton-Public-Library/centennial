@@ -10,6 +10,7 @@ from timemap.views import timemap, hyq, upload, preference
 from centennial.views import accountActivate, login_user, logout_user, create_user, current_user, link_bibliocommons, update_user
 from hyquest.api import QuestSetResource, QuestResource, TaskResource
 from hyquest.views import submit_code_task 
+from hyquest.adminforms import generate_codes
 
 admin.autodiscover()
 v1_api = Api(api_name="v1")
@@ -25,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^account/login/centennial', login_user),
     url(r'account/', include('social_auth.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/hyquest/codes', generate_codes),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(v1_api.urls)),
     url(r'^timemap/', timemap),
