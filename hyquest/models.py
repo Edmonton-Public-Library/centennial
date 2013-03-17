@@ -51,7 +51,7 @@ class Task(models.Model):
     
     title = models.CharField(max_length=TASK_TITLE_LEN)
     points = IntegerRangeField(min_value=0, max_value=6000)
-    quest = models.ForeignKey('Quest', db_index)
+    quest = models.ForeignKey('Quest', db_index=True)
     type = IntegerRangeField(min_value=0, max_value=3)
     taskinfo = models.CharField(max_length=TASK_CODE_LEN)
 
@@ -85,10 +85,9 @@ class UserTaskAction(models.Model):
         verbose_name = "User Task Action"
         verbose_name_plural = "User Task Actions"
         unique_together = ("user", "task")
-        index_together = ("user", "task")
     
-    user = models.ForeignKey(User)
-    task = models.ForeignKey('Task')
+    user = models.ForeignKey(User, db_index=True)
+    task = models.ForeignKey('Task', db_index=True)
     complete = models.BooleanField(default=False)
     beginTime = models.DateField()
     completionTime = models.DateField(null=True)
@@ -102,10 +101,9 @@ class UserQuestAction(models.Model):
         verbose_name = "User Quest Action"
         verbose_name_plural = "User Quest Actions"
         unique_together = ("user", "quest")
-        index_together = ("user", "quest")
     
-    user = models.ForeignKey(User)
-    quest = models.ForeignKey('Quest')
+    user = models.ForeignKey(User, db_index=True)
+    quest = models.ForeignKey('Quest', db_index=True)
     complete = models.BooleanField(default=False)
     beginTime = models.DateField()
     completionTime = models.DateField(null=True)
@@ -119,10 +117,9 @@ class UserQuestSetAction(models.Model):
         verbose_name = "User Quest Set Action"
         verbose_name_plural = "User Quest Set Actions"
         unique_together = ("user", "questset")
-        index_together = ("user", "questset")
 
-    user = models.ForeignKey(User)
-    questset = models.ForeignKey('QuestSet')
+    user = models.ForeignKey(User, db_index=True)
+    questset = models.ForeignKey('QuestSet', db_index=True)
     complete = models.BooleanField(default=False)
     beginTime = models.DateField()
     completionTime = models.DateField(null=True)
