@@ -90,8 +90,8 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			this.data = {
 				searchResults : ko.observable([]),
 				searchHeight : ko.computed = function () {
-					//-80 for search stuff on top
-					return Environment.display.height() - Environment.display.topBarHeight() - 80;
+					//-114 for search stuff on top
+					return Environment.display.height() - Environment.display.topBarHeight() - 114;
 				},
 				resultClick : function (data) {
 					document.location = '#viewStory/' + data.id;
