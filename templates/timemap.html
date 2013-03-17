@@ -13,7 +13,7 @@
 	<!-- General Libraries -->
 	<script type="text/javascript" src="{{ STATIC_URL }}/js/lib/require-jquery.js" data-main="/static/js/init-timemap.js"></script>
 
-    </head>
+</head>
 <body>
     <div id="fb-root"></div>
     <div id="epl-bar">
@@ -23,13 +23,23 @@
     				<img class="icon"/>
     				<span data-role="name">Account</span>
     				<div class="menu" data-bind="authenticateSubmit: {username: 'auth-username', password: 'auth-password'}">
-    					<p class="section-title">Authenticate</p>
-                        <form method="post" action="#" data-bind="loginForm: true">
-        					<input id="auth-username" data-role="username" type="text" class="epl-input text" data-default-text="Username" />
-        					<input id="auth-password" data-role="password" type="password" class="epl-input text" data-default-text="Password" />
-        					<input type="submit" class="save-button" value="Log In" />
-                        </form>
-    					<div class="save-button-space"></div>
+                        <div data-bind="if: !loggedIn">
+                            <p class="section-title">Authenticate</p>
+                            <form method="post" action="#" data-bind="loginForm: true">
+                                <input id="auth-username" data-role="username" type="text" class="epl-input text" data-default-text="Username" />
+                                <input id="auth-password" data-role="password" type="password" class="epl-input text" data-default-text="Password" />
+                                <input type="submit" class="save-button" value="Log In" />
+                            </form>
+                            <div class="save-button-space"></div>
+                            <p class="section-title" onclick="navigateToAccountPage()">Create Account</p>
+                        </div>
+                        <div data-bind="if: loggedIn">
+                            <p class="section-title">Account Mangement</p>
+                            <form method="post" action="#" data-bind="logoutForm: true">
+                                <input id="email" data-role="email" type="text" class="epl-input text" data-default-text="email" />
+                                <input type="submit" class="save-button" value="Save" />
+                            </form>
+                        </div>
     				</div>
     			</li>
     	    </ul>

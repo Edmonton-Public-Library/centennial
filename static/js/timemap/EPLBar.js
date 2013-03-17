@@ -13,7 +13,7 @@ return (function () {
 			self.element = $(selector);
 			self.initButtons();
 
-			ko.applyBindings({Environment: Environment}, self.element[0]);
+			ko.applyBindings({Environment: Environment, loggedIn : false}, self.element[0]);
 		});
 	};
 
