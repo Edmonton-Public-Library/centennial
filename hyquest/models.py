@@ -11,7 +11,8 @@ from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE
 class QuestSet(models.Model):
     
     class Meta:
-        verbose_name_plural = "QuestSets"
+        verbose_name = "Quest Set"
+        verbose_name_plural = "Quest Sets"
     
     title = models.CharField(max_length=QUESTSET_TITLE_LEN)
     description = models.CharField(max_length=QUESTSET_DESC_LEN)
@@ -24,11 +25,12 @@ class QuestSet(models.Model):
 class Quest(models.Model):
 
     class Meta:
+        verbose_name = "Quest"
         verbose_name_plural = "Quests"
 
     title = models.CharField(max_length=QUEST_TITLE_LEN)
     points = IntegerRangeField(min_value=0, max_value=6000)
-    quest_set = models.ForeignKey('QuestSet')
+    quest_set = models.ForeignKey('QuestSet', db_index=True)
 
     def __unicode__(self):
         return self.title
@@ -44,11 +46,12 @@ class Quest(models.Model):
 class Task(models.Model):
     
     class Meta:
+        verbose_name = "Task"
         verbose_name_plural = "Tasks"
     
     title = models.CharField(max_length=TASK_TITLE_LEN)
     points = IntegerRangeField(min_value=0, max_value=6000)
-    quest = models.ForeignKey('Quest')
+    quest = models.ForeignKey('Quest', db_index)
     type = IntegerRangeField(min_value=0, max_value=3)
     taskinfo = models.CharField(max_length=TASK_CODE_LEN)
 
@@ -66,10 +69,11 @@ class Task(models.Model):
 class TaskCode(models.Model):
 
     class Meta:
-        verbose_name_plural = "TaskCodes"
+        verbose_name = "Task Completion Code"
+        verbose_name_plural = "Task Completion Codes"
 
     task = models.ForeignKey('Task')
-    code = models.CharField(max_length=20)
+    code = models.CharField(max_length=20, db_index=True)
     uses_remaining = models.IntegerField(default=1)
 
     def __unicode__(self):
@@ -78,7 +82,10 @@ class TaskCode(models.Model):
 class UserTaskAction(models.Model):
     
     class Meta:
-        verbose_name_plural = "UserTaskActions"
+        verbose_name = "User Task Action"
+        verbose_name_plural = "User Task Actions"
+        unique_together = ("user", "task")
+        index_together = ("user", "task")
     
     user = models.ForeignKey(User)
     task = models.ForeignKey('Task')
@@ -92,7 +99,10 @@ class UserTaskAction(models.Model):
 class UserQuestAction(models.Model):
     
     class Meta:
-        verbose_name_plural = "UserQuestActions"
+        verbose_name = "User Quest Action"
+        verbose_name_plural = "User Quest Actions"
+        unique_together = ("user", "quest")
+        index_together = ("user", "quest")
     
     user = models.ForeignKey(User)
     quest = models.ForeignKey('Quest')
@@ -106,8 +116,11 @@ class UserQuestAction(models.Model):
 class UserQuestSetAction(models.Model):
     
     class Meta:
-        verbose_name_plural = "UserQuestSetActions"
-    
+        verbose_name = "User Quest Set Action"
+        verbose_name_plural = "User Quest Set Actions"
+        unique_together = ("user", "questset")
+        index_together = ("user", "questset")
+
     user = models.ForeignKey(User)
     questset = models.ForeignKey('QuestSet')
     complete = models.BooleanField(default=False)
