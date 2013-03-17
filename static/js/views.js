@@ -211,7 +211,7 @@ viewStory : new View('viewStory', 'View Story',
                     $("#pdf").addClass('visible');
                     var pdf = new PDFObject({
                         url: story.media_file(),
-                        width: "700px",
+                        width: "690px",
                         height: "500px"
                     }).embed("pdf");
                 } else if (story.content_type() == "image") {
