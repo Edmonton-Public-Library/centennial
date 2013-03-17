@@ -4,9 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 
 def completeCodeTask(user, code):
-    print("Code: "+code)
     task = getTaskForCode(code)
-    print task
     if task == None:
         return None
     action = getUserAction(user, task)
@@ -30,11 +28,9 @@ def getTaskForCode(code):
     #This should include verification that the quest-set it comes from is open
     try:
         tcode = TaskCode.objects.get(code=code)
-        print tcode
         if tcode.uses_remaining<1:
             return None
         task = tcode.task
-        print task
         if task.quest.quest_set.active:
             return task
         return None

@@ -2,10 +2,11 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.db import models
 from django.core.exceptions import ValidationError
+from django import forms
 
 from epl.custommodels import IntegerRangeField, FloatRangeField
 from util.file_validator import FileValidator
-from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE_LEN, TASK_TITLE_LEN, TASK_DESC_LEN, TASK_CODE_LEN, TASK_TYPES
+from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE_LEN, TASK_TITLE_LEN, TASK_DESC_LEN, TASK_CODE_LEN, TASK_CHOICES
 
 class QuestSet(models.Model):
     
@@ -32,6 +33,14 @@ class Quest(models.Model):
     def __unicode__(self):
         return self.title
 
+    def selflink(self):
+        if self.id:
+            return "<a href='/admin/hyquest/quest/%s/' target='_blank'>Edit</a>" % str(self.id)
+        else:
+            return "Not present"
+
+    selflink.allow_tags = True
+
 class Task(models.Model):
     
     class Meta:
@@ -40,12 +49,19 @@ class Task(models.Model):
     title = models.CharField(max_length=TASK_TITLE_LEN)
     points = IntegerRangeField(min_value=0, max_value=6000)
     quest = models.ForeignKey('Quest')
-    type = IntegerRangeField(min_value=0, max_value=len(TASK_TYPES))
-    description = models.CharField(max_length=TASK_DESC_LEN)
+    type = IntegerRangeField(min_value=0, max_value=3)
     taskinfo = models.CharField(max_length=TASK_CODE_LEN)
 
     def __unicode__(self):
         return self.title
+
+    def links(self):
+        if self.id and self.type == 3:
+            return "<a href='/admin/hyquest/generatecodes/%s' target='_blank'>Generate Codes</a>" % str(self.id)
+        else:
+            return "Save Before Continuing"
+    links.allow_tags = True
+
 
 class TaskCode(models.Model):
 
