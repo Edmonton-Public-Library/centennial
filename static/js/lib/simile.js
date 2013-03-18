@@ -628,6 +628,7 @@ define(['timemap/Environment'], function (Environment) {
 		SimileAjax.DateTime.MILLENNIUM = 10;
 		SimileAjax.DateTime.EPOCH = -1;
 		SimileAjax.DateTime.ERA = -2;
+		SimileAjax.DateTime.FIVEYEAR = 11;
 		SimileAjax.DateTime.gregorianUnitLengths = [];
 		(function () {
 			var B = SimileAjax.DateTime;
@@ -642,7 +643,8 @@ define(['timemap/Environment'], function (Environment) {
 			A[B.YEAR] = A[B.DAY] * 365;
 			A[B.DECADE] = A[B.YEAR] * 10;
 			A[B.CENTURY] = A[B.YEAR] * 100;
-			A[B.MILLENNIUM] = A[B.YEAR] * 1000
+			A[B.MILLENNIUM] = A[B.YEAR] * 1000;
+			A[B.FIVEYEAR] = A[B.YEAR] * 5
 		})();
 		SimileAjax.DateTime._dateRegexp = new RegExp("^(-?)([0-9]{4})(" + ["(-?([0-9]{2})(-?([0-9]{2}))?)", "(-?([0-9]{3}))", "(-?W([0-9]{2})(-?([1-7]))?)"].join("|") + ")?$");
 		SimileAjax.DateTime._timezoneRegexp = new RegExp("Z|(([-+])([0-9]{2})(:?([0-9]{2}))?)$");
@@ -824,6 +826,10 @@ define(['timemap/Environment'], function (Environment) {
 					D(J);
 					J.setUTCFullYear(Math.floor(J.getUTCFullYear() / 10) * 10);
 					break;
+				case SimileAjax.DateTime.FIVEYEAR:
+					D(J);
+					J.setUTCFullYear(Math.floor(J.getUTCFullYear() / 5) * 5);
+					break;
 				case SimileAjax.DateTime.CENTURY:
 					D(J);
 					J.setUTCFullYear(Math.floor(J.getUTCFullYear() / 100) * 100);
@@ -873,6 +879,9 @@ define(['timemap/Environment'], function (Environment) {
 					break;
 				case SimileAjax.DateTime.DECADE:
 					C.setUTCFullYear(C.getUTCFullYear() + 10);
+					break;
+				case SimileAjax.DateTime.FIVEYEAR:
+					C.setUTCFullYear(C.getUTCFullYear() + 5);
 					break;
 				case SimileAjax.DateTime.CENTURY:
 					C.setUTCFullYear(C.getUTCFullYear() + 100);
@@ -5393,6 +5402,7 @@ define(['timemap/Environment'], function (Environment) {
 					}
 				case SimileAjax.DateTime.YEAR:
 				case SimileAjax.DateTime.DECADE:
+				case SimileAjax.DateTime.FIVEYEAR:
 				case SimileAjax.DateTime.CENTURY:
 				case SimileAjax.DateTime.MILLENNIUM:
 					var E = B.getUTCFullYear();
