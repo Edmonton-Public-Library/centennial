@@ -75,9 +75,11 @@
 /*.timeline-date-label-em {color: #000;}*/
 
 /* horizontal */
-.timeline-horizontal .timeline-date-label{padding-left:10px;}
+.timeline-horizontal .timeline-date-label{padding-left:20px;}
 .timeline-horizontal .timeline-date-label{border-width:0 0 0 1px;}
 /*.timeline-horizontal .timeline-date-label-em{height:2em}*/
+
+.timeline-horizontal .timeline-date-label{font-size:45px;}
 
 /* vertical */
 .timeline-vertical .timeline-date-label{padding-top:2px;}
