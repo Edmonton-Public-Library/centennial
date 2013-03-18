@@ -7,10 +7,14 @@ return (function () {
 		var self = this;
 		this.viewport = $(viewport);
 		this.map = map;
+		this.branchViewer = null;
+
+		this.leftNumber = $('<div>').addClass('timelineBound').addClass('left');
+		this.rightNumber = $('<div>').addClass('timelineBound').addClass('right');
 
 		//When the document is ready, initialize the timeline's DOM element
 		$(document).ready(function () {
-			self.initTimeline();
+			$.get('/preferences/', function(json) {self.initTimeline(json);});
 		});
 
 		$(window).bind('resize', function () {
@@ -33,6 +37,8 @@ return (function () {
 		}
 		this.stories.byStart = newJson;
 		this.stories.byEnd = newJson;
+
+		this.hideShowOnScroll();
 	};
 
 	Timeline.prototype.processBranches = function(json) {
@@ -46,7 +52,7 @@ return (function () {
 				lat: json[i].latitude,
 				lng: json[i].longitude,
 				start: json[i].start_year.toString(),
-				end: json[i].end_year ? json[i].end_year : currYear,
+				end: json[i].end_year ? json[i].end_year.toString() : currYear.toString(),
 				id: json[i].id
 			});
 		}
@@ -54,8 +60,9 @@ return (function () {
 	};
 
 	Timeline.prototype.processBranchesByStart = function(json) {
-		console.log(this);
 		this.branches.byStart = this.processBranches(json.objects);
+
+		this.hideShowOnScroll();
 	};
 
 	Timeline.prototype.processBranchesByEnd = function(json) {
@@ -74,25 +81,170 @@ return (function () {
 			endNotNulls.push(endNulls[i]);
 		}
 		this.branches.byEnd = this.processBranches(endNotNulls);
+
+		this.hideShowOnScroll();
 	};
 
-	Timeline.prototype.processTilesBy = function(json) {
-		json = json.object;
+	Timeline.prototype.processTiles = function(json) {
+		json = json.objects;
 		var newJson = [];
 		for(i in json) {
 			newJson.push({
-				start : json.published,
-				end : json.published
+				start : json[i].published.toString(),
+				end : json[i].published.toString()
 			});
 		}
 
+		var currYear = new Date().getFullYear();
+
+		newJson.push({
+			start : currYear.toString(),
+			end : currYear.toString()
+		})
+
 		this.tiles.byStart = newJson;
 		this.tiles.byEnd = newJson;
+
+		this.hideShowOnScroll();
 	};
 
-	Timeline.prototype.initTimeline = function() {
+	Timeline.prototype.setNumbers = function() {
+		var maxVisDate = this.tl._bands[0].getMaxVisibleDate();
+		var minVisDate = this.tl._bands[0].getMinVisibleDate();
+
+		var maxVisYear = maxVisDate.getFullYear();
+		var minVisYear = minVisDate.getFullYear();
+
+		if(this.maxVisYear != maxVisYear) {
+			this.maxVisYear = maxVisYear;
+			this.rightNumber.html(maxVisYear.toString());
+		}
+		if(this.minVisYear != minVisYear) {
+			this.minVisYear = minVisYear;
+			this.leftNumber.html(minVisYear.toString());
+		}
+	}
+
+	Timeline.prototype.newMouseUp = function(mVal) {
+		this.tl._bands[1]._onMouseUp2(mVal);
+
+		this.recenterTimeWindow();
+	};
+
+	Timeline.prototype.recenterTimeWindow = function() {
+		var maxVisDate = this.tl._bands[0].getMaxVisibleDate().getTime();
+		var minVisDate = this.tl._bands[0].getMinVisibleDate().getTime();
+
+		if( maxVisDate > this.endYear.getTime() && Math.abs((maxVisDate - this.endYear.getTime()) / maxVisDate) > 0.01) {
+			this.tl._bands[0].setMaxVisibleDate(this.endYear);
+			return false;
+		}
+		else if( minVisDate < this.startYear.getTime() && Math.abs((this.startYear.getTime() - minVisDate) / minVisDate) > 0.01)  {
+			this.tl._bands[0].setMinVisibleDate(this.startYear);
+			return false;
+		}
+		else {
+			return true;
+		}
+	};
+
+	Timeline.prototype.hideShowOnScroll = function (scrollVal){
+
 		var self = this;
-		var tl;
+
+    	self.recenterTimeWindow();
+
+		var rightVisibleDate = self.tl._bands[0].getMaxVisibleDate().getTime();
+		var leftVisibleDate = self.tl._bands[0].getMinVisibleDate().getTime();
+
+		var currDate;
+		var hasChangedSomething;
+
+		var doHideShow = function(obj) {
+
+			try{
+
+			if(!obj.byStart.length) {
+				return;
+			}
+
+			//compare rightVisibleDate with the next start date and show if needed
+			do {
+				hasChangedSomething = false;
+				if(obj.rightVisible + 1 < obj.byStart.length) {
+					currDate = new Date(obj.byStart[obj.rightVisible + 1].start.toString()).getTime();
+					if(currDate < rightVisibleDate) {
+						hasChangedSomething = true;
+						obj.rightVisible++;
+						obj.showFunction(obj.byStart[obj.rightVisible]);
+					}
+				}
+			}
+			while(hasChangedSomething)
+
+			//compare leftVisibleDate with the next end date and show if needed
+			do {
+				hasChangedSomething = false;
+				if(obj.leftVisible > 0) {
+					currDate = new Date(obj.byEnd[obj.leftVisible - 1].end.toString()).getTime();
+					if(currDate > leftVisibleDate) {
+						hasChangedSomething = true;
+						obj.leftVisible--;
+						obj.showFunction(obj.byEnd[obj.leftVisible]);
+					}
+				}
+			}
+			while(hasChangedSomething) 
+
+			//compare rightVisibleDate with the next end date and hide if needed
+			do {
+				hasChangedSomething = false;
+				if(obj.rightVisible >= 0) {
+					currDate = new Date(obj.byStart[obj.rightVisible].start.toString()).getTime();
+					if(currDate > rightVisibleDate) {
+						hasChangedSomething = true;
+						obj.hideFunction(obj.byStart[obj.rightVisible]);
+						obj.rightVisible--;
+					}
+				}
+			}
+			while(hasChangedSomething) 
+
+			//compare leftVisibleDate with the next start date and hide if needed
+			do {
+				hasChangedSomething = false;
+				if (obj.leftVisible < obj.byEnd.length) {
+					currDate = new Date(obj.byEnd[obj.leftVisible].end.toString()).getTime();
+					if(currDate < leftVisibleDate) {
+						hasChangedSomething = true;
+						obj.hideFunction(obj.byEnd[obj.leftVisible]);
+						obj.leftVisible++;
+					}
+				}
+			}
+			while(hasChangedSomething) 
+
+			}catch(e) {
+				
+			}
+
+		}
+
+		doHideShow(self.branches);
+		doHideShow(self.stories);
+		doHideShow(self.tiles);
+	}
+
+	Timeline.prototype.enterBranchView = function(branchID, viewer) {
+		var self = this;
+
+		self.branchViewer = viewer;
+
+		$.get(Environment.routes.apiBase + '/story/branch=' + branchID, function(json) {self.processStories(json);});
+	}
+
+	Timeline.prototype.initTimeline = function(prefs) {
+		var self = this;
 
 		self.branches = {
 			byStart : [],
@@ -103,7 +255,7 @@ return (function () {
 			showFunction : function(data) {
 				self.map.showPin(new BranchPin(data));
 			},
-			rightVisible : 0,
+			rightVisible : -1,
 			leftVisible : 0
 		}
 
@@ -116,7 +268,7 @@ return (function () {
 			showFunction : function(data) {
 
 			},
-			rightVisible : 0,
+			rightVisible : -1,
 			leftVisible : 0
 		}
 
@@ -129,7 +281,7 @@ return (function () {
 			showFunction : function(data) {
 				self.map.overlayYear(data.end);
 			},
-			rightVisible : 0,
+			rightVisible : -1,
 			leftVisible : 0
 		}
 
@@ -137,17 +289,18 @@ return (function () {
 
 		var timelineTheme = Simile.ClassicTheme.create();
 
-		var startYear = new Date(Date.UTC(1900, 0, 1));
-	    var endYear = new Date();
+		self.startYear = new Date(Date.UTC(prefs.timeline_start_date.year, prefs.timeline_start_date.month - 1, prefs.timeline_start_date.day));
+	    self.endYear = new Date(Date.UTC(prefs.timeline_end_date.year, prefs.timeline_end_date.month - 1, prefs.timeline_end_date.day));
 
-	    var endHighLight = new Date(endYear.toString());
+	    var endHighLight = new Date(self.endYear.toString());
 	    endHighLight.setFullYear(endHighLight.getFullYear() + 1000);
 
-	    var beginHighLight = new Date(startYear.toString());
+	    var beginHighLight = new Date(self.startYear.toString());
 	    beginHighLight.setFullYear(beginHighLight.getFullYear() - 1000);
 
-		timelineTheme.timeline_start = startYear;
-		timelineTheme.timeline_stop = endYear;
+		timelineTheme.timeline_start = self.startYear;
+		timelineTheme.timeline_stop = self.endYear;
+		//timelineTheme.mouseWheel = 'zoom';
 
 		var bandInfos = [
 			Simile.createBandInfo({
@@ -162,7 +315,18 @@ return (function () {
 				intervalPixels : decadePixels,
 				showEventText : false,
 				overview : true,
-				theme : timelineTheme
+				theme : timelineTheme,
+				/*zoomIndex : 1,
+				zoomSteps : [
+					{
+						pixelsPerInterval : (decadePixels),
+						unit : Simile.DateTime.FIVEYEAR
+					},
+					{
+						pixelsPerInterval : decadePixels,
+						unit : Simile.DateTime.DECADE
+					}
+				]*/
 			})
 		];
 
@@ -170,14 +334,14 @@ return (function () {
 
 		bandInfos[1].decorators = [
 			new Simile.SpanHighlightDecorator({
-				startDate : endYear,
+				startDate : self.endYear,
 				endDate : endHighLight,
 				color : outOfBoundsColor,
 				opacity : 80
 			}),
 			new Simile.SpanHighlightDecorator({
 				startDate : beginHighLight,
-				endDate : startYear,
+				endDate : self.startYear,
 				color : outOfBoundsColor,
 				opacity : 80
 			})
@@ -185,365 +349,43 @@ return (function () {
 	    
 	    bandInfos[1].syncWith = 0;
 	    bandInfos[1].highlight = true;
-	    tl = Simile.create(self.viewport[0], bandInfos);
+	    self.tl = Simile.create(self.viewport[0], bandInfos);
 
-	    var hideShowOnScroll = function (scrollVal){
+		var startingDate = new Date(Date.UTC(prefs.timeline_init_date, prefs.timeline_init_date.month - 1, prefs.timeline_init_date.day));
 
-	    	recenterTimeWindow()
+		self.tl._bands[0].addOnScrollListener(function(scrollVal) {self.hideShowOnScroll(scrollVal);});
+		self.tl._bands[0].addOnScrollListener(function() {self.setNumbers();});
 
-			var rightVisibleDate = tl._bands[0].getMaxVisibleDate().getTime();
-			var leftVisibleDate = tl._bands[0].getMinVisibleDate().getTime();
+		self.tl._bands[1]._onMouseUp2 = self.tl._bands[1]._onMouseUp;
+		self.tl._bands[1]._onMouseUp = function() {self.newMouseUp();};
 
-			var currDate;
-			var hasChangedSomething;
+		self.hideShowOnScroll();
+		self.setNumbers();
 
-			var doHideShow = function(obj) {
+		self.tl._bands[0].setCenterVisibleDate(startingDate);
 
-				if(!obj.byStart.length) {
-					return;
-				}
-
-				var byStart = obj.byStart,
-					byEnd = obj.byEnd,
-					showFunc = obj.showFunction,
-					hideFunc = obj.hideFunction,
-					rightVisible = obj.rightVisible,
-					leftVisible = obj.leftVisible;
-
-				//compare rightVisibleDate with the next start date and show if needed
-				do {
-					hasChangedSomething = false;
-					if(obj.rightVisible + 1 < obj.byStart.length) {
-						currDate = new Date(obj.byStart[obj.rightVisible + 1].start.toString()).getTime();
-						if(currDate < rightVisibleDate) {
-							hasChangedSomething = true;
-							obj.rightVisible++;
-							obj.showFunction(obj.byStart[obj.rightVisible]);
-						}
-					}
-				}
-				while(hasChangedSomething)
-
-				//compare leftVisibleDate with the next end date and show if needed
-				do {
-					hasChangedSomething = false;
-					if(obj.leftVisible > 0) {
-						currDate = new Date(obj.byEnd[obj.leftVisible - 1].end.toString()).getTime();
-						if(currDate > leftVisibleDate) {
-							hasChangedSomething = true;
-							obj.leftVisible--;
-							obj.showFunction(obj.byEnd[obj.leftVisible]);
-						}
-					}
-				}
-				while(hasChangedSomething) 
-
-				//compare rightVisibleDate with the next end date and hide if needed
-				do {
-					hasChangedSomething = false;
-					if(obj.rightVisible >= 0) {
-						currDate = new Date(obj.byStart[obj.rightVisible].start.toString()).getTime();
-						if(currDate > rightVisibleDate) {
-							hasChangedSomething = true;
-							obj.hideFunction(obj.byStart[obj.rightVisible]);
-							obj.rightVisible--;
-						}
-					}
-				}
-				while(hasChangedSomething) 
-
-				//compare leftVisibleDate with the next start date and hide if needed
-				do {
-					hasChangedSomething = false;
-					if (obj.leftVisible < obj.byEnd.length) {
-						currDate = new Date(obj.byEnd[obj.leftVisible].end.toString()).getTime();
-						if(currDate < leftVisibleDate) {
-							hasChangedSomething = true;
-							obj.hideFunction(obj.byEnd[obj.leftVisible]);
-							obj.leftVisible++;
-						}
-					}
-				}
-				while(hasChangedSomething) 
-
-			}
-
-			doHideShow(self.branches);
-			doHideShow(self.stories);
-			doHideShow(self.tiles);
-		}
-
-		var newMouseUp = function(mVal) {
-			tl._bands[1]._onMouseUp2(mVal);
-
-			recenterTimeWindow();
-		}
-
-		var recenterTimeWindow = function() {
-			var maxVisDate = tl._bands[0].getMaxVisibleDate().getTime();
-			var minVisDate = tl._bands[0].getMinVisibleDate().getTime();
-
-			if( maxVisDate > endYear.getTime() && ((maxVisDate - endYear.getTime()) / maxVisDate) > 0.01) {
-				tl._bands[0].setMaxVisibleDate(endYear);
-				return false;
-			}
-			else if( minVisDate < startYear.getTime() && ((startYear.getTime() - minVisDate) / minVisDate) > 0.01)  {
-				tl._bands[0].setMinVisibleDate(startYear);
-				return false;
-			}
-			else {
-				return true;
-			}
-		}
-
-		var initStartingPosition = function(json) {
-
-			var startingDate = new Date(Date.UTC(json.year, json.month - 1, json.day));
-
-			tl._bands[0].addOnScrollListener(hideShowOnScroll);
-
-			tl._bands[1]._onMouseUp2 = tl._bands[1]._onMouseUp;
-			tl._bands[1]._onMouseUp = newMouseUp;
-
-			hideShowOnScroll();
-
-			tl._bands[0].setCenterVisibleDate(startingDate);
-
-			recenterTimeWindow();
-
-		}
+		self.recenterTimeWindow();
 
 		$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=start_year', function(json) {self.processBranchesByStart(json);});
 		$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=end_year', function(json) {self.processBranchesByEnd(json);});
-		//$.get(Environment.routes.apiBase + '/story/?format=json&branch=' + branchID, self.processStories);
-		$.get('/preferences/initial_timemap_date/', initStartingPosition);
-
-
-	}
-
-	Timeline.prototype.showStoryTimeline = function(branchID) {
-		var self = this,
-			yearPixels = 150,
-			eventSource = new Simile.DefaultEventSource(),
-			storiesByStart,
-			storiesbyEnd;
-
-		var timelineTheme = Simile.ClassicTheme.create();
-
-		//set start date here
-		//set end date here
-
-		var inputBandInfo = [
-			{
-				width : "0%",
-				intervalUnit : Simile.DateTime.YEAR,
-				intervalPixels : self.viewport.width(),
-				eventSource : eventSource,
-				theme : timelineTheme
-			},
-			{
-				width : "100%",
-				intervalUnit : Simile.DateTime.YEAR,
-				intervalPixels : yearPixels,
-				showEventText : true,
-				theme : timelineTheme,
-				eventSource: eventSource
-			}
-		];
-
-		var doShowStory = function(storyData) {
-			//put code to show the story here
-		};
-
-		var doHideStory = function(storyData) {
-			//put code to hide the story here
-		};
-
-		var processStories = function(json) {
-			json = json.objects;
-			var newJson = [];
-			for (i in json) {
-				newJson.push({
-					title: json[i].title,
-					description: json[i].description,
-					start: json[i].year.toString(),
-					end: json[i].year.toString(),
-					id: json[i].id,
-					instant : "true"
-				});
-			}
-			self.load(newJson, newJson, "start", "end", inputBandInfo, timelineTheme, eventSource, doShowStory, doHideStory);
-		}
-
-		$.get(Environment.routes.apiBase + '/story/?format=json&branch=' + branchID, processStories);
-	}
-
-	Timeline.prototype.showBranchTimeline = function () {
-
-		var self = this,
-			decadePixels = 150,
-			eventSource = new Simile.DefaultEventSource(),
-			pinsByStart,
-			pinsByEnd;
-
-		var timelineTheme = Simile.ClassicTheme.create();
-
-		timelineTheme.timeline_start = new Date(Date.UTC(1900, 0, 1));
-		timelineTheme.timeline_stop = new Date();
-
-		var inputBandInfo = [
-			{
-				width : "0%",
-				intervalUnit : Simile.DateTime.YEAR,
-				intervalPixels : self.viewport.width()/10,
-				eventSource : eventSource,
-				theme : timelineTheme
-			},
-			{
-				width : "100%",
-				intervalUnit : Simile.DateTime.DECADE,
-				intervalPixels : decadePixels,
-				showEventText : false,
-				overview : true,
-				theme : timelineTheme,
-				//eventSource: eventSource
-			}
-		];
-
-		var doShowPin = function (branchData) {
-			self.map.showPin(new BranchPin(branchData));
-		};
-
-		var doHidePin = function (branchData) {
-			self.map.hidePin(new BranchPin(branchData));
-		};
-
-		var processBranches = function (json) {
-			var newJson = [];
-			var currYear = new Date().getFullYear().toString();
-			for (i in json) {
-				newJson.push({
-					name: json[i].name,
-					description: json[i].description,
-					title: json[i].name,
-					lat: json[i].latitude,
-					lng: json[i].longitude,
-					start: json[i].start_year.toString(),
-					end: json[i].end_year ? json[i].end_year : currYear,
-					id: json[i].id
-				});
-			}
-			return newJson;
-		};
-
-		var processPinsByStart = function (json) {
-			pinsByStart = processBranches(json.objects);
-			checkIfReadyToLoad();
-		};
-
-		var processPinsByEnd = function (json) {
-			json = json.objects;
-			var endNotNulls = [];
-			var endNulls = [];
-			for (i in json) {
-				if(json[i].end_year) {
-					endNotNulls.push(json[i]);
-				}
-				else {
-					endNulls.push(json[i]);
-				}
-			}
-			for (i in endNulls) {
-				endNotNulls.push(endNulls[i]);
-			}
-			pinsByEnd = processBranches(endNotNulls);
-			checkIfReadyToLoad();
-		};
-
-		var checkIfReadyToLoad = function () {
-			if(pinsByStart != undefined && pinsByEnd != undefined) {
-				self.load(pinsByStart, pinsByEnd, "start", "end", inputBandInfo, timelineTheme, eventSource, doShowPin, doHidePin);
-			}
-		};
-
-		$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=start_year', processPinsByStart);
-		$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=end_year', processPinsByEnd);
-	};
-
-	Timeline.prototype.load = function (pinsByStart, pinsByEnd, startTag, endTag, inputBandInfo, inputTheme, eventSource, showPin, hidePin) {
-		var self = this;
-	    var tl;
-	    var rightVisiblePin = -1;
-	    var leftVisiblePin = 0;
-
-	    var startYear = inputTheme.timeline_start;
-	    var endYear = inputTheme.timeline_stop;
-
-	    var endHighLight = new Date(endYear.toString());
-	    endHighLight.setFullYear(endHighLight.getFullYear() + 1000);
-
-	    var beginHighLight = new Date(startYear.toString());
-	    beginHighLight.setFullYear(beginHighLight.getFullYear() - 1000);
-
-	    var decadePixels = 150;
-
-	    var bandInfos = [];
-
-	    for(i in inputBandInfo) {
-	    	bandInfos.push(Simile.createBandInfo(inputBandInfo[i]));
-	    }
-
-		var outOfBoundsColor = "#000000";
-
-		bandInfos[1].decorators = [
-			new Simile.SpanHighlightDecorator({
-				startDate : endYear,
-				endDate : endHighLight,
-				color : outOfBoundsColor,
-				opacity : 80
-			}),
-			new Simile.SpanHighlightDecorator({
-				startDate : beginHighLight,
-				endDate : startYear,
-				color : outOfBoundsColor,
-				opacity : 80
-			})
-		];
-	    
-	    bandInfos[1].syncWith = 0;
-	    bandInfos[1].highlight = true;
-	    tl = Simile.create(self.viewport[0], bandInfos);
-	    eventSource.loadJSON({events: pinsByStart}, "");
-
-	    var scrollByDecade = function (clickedSpot){
-			var newSpot = clickedSpot;
-			var intmod = clickedSpot % decadePixels;
-			newSpot -= intmod;
-			if(Math.abs(intmod) > (decadePixels / 2)) {
-				if(clickedSpot < 0) {
-					newSpot -= decadePixels;
-				}
-				else {
-					newSpot += decadePixels;
-				}
-			}
-			this._autoScroll2(newSpot);
-	    };
-
-	    
-
 		
+		$.get(Environment.routes.apiBase + '/maps/?format=json', function(json) {self.processTiles(json);});
+
+		self.viewport.find('.timeline-ether-highlight').append(self.leftNumber).append(self.rightNumber);
+
 
 	};
+	
 
 	var resizeTimerID = null;
-	//TODO: Hook up. But is this really needed? It seems to be working fine without running this.
 	Timeline.prototype.onResize = function () {
+		var self = this;
 	    if (resizeTimerID == null) {
 	        resizeTimerID = window.setTimeout(function () {
 	            resizeTimerID = null;
-	            // tl.layout();
-	        }, 500);
+	             self.tl.layout();
+	             self.recenterTimeWindow();
+	        }, 300);
 	    }
 	};
 
