@@ -1,191 +1,157 @@
 ;
-define(['timemap', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'timemap/Environment', 'timemap/map/StoryPin', 'timemap/Map'], function (epl, Settings, Error, ko, Environment, StoryPin, Map) {
+define(['lib/knockout', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom'], function (ko, Environment, StoryPin) {
 
 return (function () {
 
-	var elementSize = 200;
+	var contentTypes = {
+		text : 0,
+		link : 1,
+		image : 2,
+		pdf : 3,
+		audio : 4,
+		video : 5
+	};
 
-	/**
-	 * This is the class object. Put private things in here.
-	 */
-	var Branch = function (viewport, branchID) {
+	var contentTypesList = ['text', 'link', 'image', 'pdf', 'audio', 'video'];
+
+	var Branch = function (viewport) {
 		var self = this;
-		this.videoIcon = "\<img src=\"/static/Video.png\" width=\"60\" alt=\"Click to view Videos\"\>"; 
-		//more coming
-		this.object = new Array(); 
-		this.displayed = new Array();
-		this.width = 888;
-		this.height = 800;
+		this.viewport = $(viewport);
+		this.floorplanUrl = ko.observable('');
+		this.floorplanElement = this.viewport.find('[data-role=floorplan]');
+		this.branchID = '';
+		this.branchName = '';
+		this.dimensions = new (function () {
+			var dimensions = this;
 
-		Map.withBranchInfo(branchID, function (data) {
-			self.setBackground(data.floor_plan);
+			this.numCols = 3;
+			this.numRows = 2; //TODO: Make an automated way of calculating this: contentTypes as an array, and compute using .length?
+			this.viewerWidth = ko.observable(Environment.display.viewportWidth());
+			this.viewerHeight = ko.observable(Environment.display.viewportHeight());
+			this.cellDimensions = ko.computed(function () {
+				return {
+					width: Math.floor(dimensions.viewerWidth() / dimensions.numCols),
+					height: Math.floor(dimensions.viewerHeight() / dimensions.numRows)
+				};
+			});
+		})();
+
+		this.typeCoordinates = {};
+
+		//Create and dynamically update the positions of the icons based on the viewport dimensions
+		for(type in contentTypes) {
+			this.typeCoordinates[type] = ko.observable(
+				this.pinCoordinates({
+					type: type,
+					id : self.branchID,
+					title : self.branchName
+				})
+			);
+		}
+
+		this.dimensions.cellDimensions.subscribe(function (dimensions) {
+			for(type in contentTypes) {
+				self.typeCoordinates[type](
+					self.pinCoordinates({
+						type: type,
+						id : self.branchID,
+						title : self.branchName
+					})
+				);
+			}
 		});
 
-		Environment.display.viewportWidth.subscribe(this.computeLayout);
-		Environment.display.viewportHeight.subscribe(this.computeLayout);
-		this.computeLayout();
+		ko.applyBindings({
+			Environment: Environment,
+			dimensions: this.dimensions,
+			typeCoordinates: this.typeCoordinates,
+			contentTypes: contentTypesList,
+			floorplanUrl: this.floorplanUrl
+		}, viewport[0]);
+
+		//React to the changed floorplan when its image is properly loaded
+		this.floorplanElement.load(function () {
+			self.configureFloorplan();
+		});
+
+		this.pinCoordinates(new StoryPin('text', '11', 'coll'));
 	};
 
-	/**
-	 * Compute a new layout, given the current viewport dimensions
-	 */
-	Branch.prototype.computeLayout = function () {
-		var spaceWidth = (Environment.display.viewportWidth() - elementSize*3)/4,
-			spaceHeight = (Environment.display.viewportHeight() - elementSize*2)/3;
-		$('#video').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight + 'px').css('left', spaceWidth + 'px');  
-		$('#audio').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight + 'px').css('left', spaceWidth*2+elementSize + 'px');
-		$('#image').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight + 'px').css('left', spaceWidth*3+elementSize*2 + 'px');
-		$('#text').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight*2+elementSize + 'px').css('left', spaceWidth + 'px');
-		$('#link').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight*2+elementSize + 'px').css('left', spaceWidth*2+elementSize + 'px');
-		$('#pdf').css('width', elementSize + 'px').css('height', elementSize + 'px').css('position', 'absolute').css('top', spaceHeight*2+elementSize + 'px').css('left', spaceWidth*3+elementSize*2 + 'px');	  
+	Branch.prototype.pinCoordinates = function (pin) {
+		var self = this,
+			col = contentTypes[pin.type] % this.dimensions.numCols,
+			row = Math.floor(contentTypes[pin.type] / this.dimensions.numCols);
+
+		return {
+			root : cellRoot(col, row),
+			random : cellRandom(col, row),
+			center : cellCenter(col, row)
+		}
+
+		//Compute the cell's top-left root coordinates
+		function cellRoot (col, row) {
+			return {
+				x : self.dimensions.cellDimensions().width * col,
+				y : self.dimensions.cellDimensions().height * row
+			};
+		}
+
+		//Compute the random location for the cell
+		function cellRandom (col, row) {
+			var centFactor = 0.6;
+			Math.seedrandom(pin.title + 'horizontal-direction' + pin.type);
+			var xRandom = Math.random() * centFactor;
+			Math.seedrandom(pin.title + 'vertical-direction' + pin.type);
+			var yRandom = Math.random() * centFactor;
+
+			var cellRootValue = cellRoot(col, row);
+
+			return {
+				x : cellRootValue.x +(xRandom * self.dimensions.cellDimensions().width) + (1 - centFactor)/2 * self.dimensions.cellDimensions().width,
+				y : cellRootValue.y +(yRandom * self.dimensions.cellDimensions().height) + (1 - centFactor)/2 * self.dimensions.cellDimensions().height,
+			};
+		}
+
+		//Compute the center of the cell
+		function cellCenter (col, row) {
+			return {
+				x : self.dimensions.cellDimensions().width * col + self.dimensions.cellDimensions().width/2,
+				y : self.dimensions.cellDimensions().height * row + self.dimensions.cellDimensions().height/2
+			};
+		}
 	};
 
-	/**
-	 * Make instance methods like this
-	 */
-	Branch.prototype.setBackground = function (floorPlan) {
-	$('#BranchView').css('background-image', 'url(\'' + floorPlan + '\')');
-	$('#BranchView').css('position', 'reletive');
-	};
-	Branch.prototype.showPin = function (pin) { 
-	 for (var i = 0; i<this.object.length; i++) { 
-           if(this.object[i].id == pin.id) {
-	     if(this.displayed[i] == "false") {
-	       this.displayed[i] = "true"
-	       this.update();
-	       return; 
-	       }
-	    }
-	} 
-	this.object[this.object.length] = pin
-	this.displayed[this.displayed.length] = "true" 
-	this.update();
-	};
-	Branch.prototype.hidePin = function (pin) { 
-	// hide the given element
-	for (var i = 0; i<this.object.length;i++) {
-	  if(this.object[i].id == pin.id) { 
-	    if(displayed[i] == "true") { 
-	      displayed[i] = "false"; 
-	      this.update() 
-	    }
-	  }
-	}
-	}; 
-	Branch.prototype.update = function () {
-	var count = this.count("video") 
-	if(count ==0) {
-	  $('#video').css('background-image', 'url(\'/static/images/video_icon_disabled.png\')') 
-	}
-	if(count ==1) {
-	  $('#video').css('background-image', 'url(\'/static/images/video_icon.png\')')
-          $('#video').css("visibility", "visible")
-          var index = this.find("video"); 
-          $('#video').html(this.object[index].title)
-        }
-	if(count >=2) {
-	    $('#video').css('background-image', 'url(\'/static/images/video_icon_stacked.png\')')
-	    $('#video').css("visibility", "visible")
-	    $('#video').html("Video " + count) 
-	}
-	count = this.count("audio") 
-	if(count ==0) {  
- 	  $('#audio').css('background-image', 'url(\'/static/images/audio_icon_disabled.png\')')
-	}
-        if(count ==1) {
-$('#audio').css('background-image', 'url(\'/static/images/audio_icon.png\')')
-          $('#audio').css("visibility", "visible")
-          var index = this.find("audio");
-          $('#audio').html(this.object[index].title)
-        }	
-	if (count >=2) {
-	  $('#audio').css('background-image', 'url(\'/static/images/audio_icon_stacked.png\')')
-          $('#audio').css("visibility", "visible")
-          $('#audio').html("Audio " + count) 
-	}
-	
-	count = this.count("image");
-	if(count ==0) {
-          $('#image').css('background-image', 'url(\'/static/images/image_icon_disabled.png\')')
-	}
-        if(count ==1) {
-	  $('#image').css('background-image', 'url(\'/static/images/image_icon.png\')')
-          $('#image').css("visibility", "visible")
-          var index = this.find("image");
-          $('#image').html(this.object[index].title)
-        }        
-	if(count >=2) {
-	  $('#image').css('background-image', 'url(\'/static/images/image_icon_stacked.png\')')
-          $('#image').css("visibility", "visible")
-          $('#image').html("Image " + count) 
-        }
-	count = this.count("text")
-        if(count ==0) {
-          $('#text').css('background-image', 'url(\'/static/images/text_icon_disabled.png\')')
-	}
-        if(count ==1) {
-	  $('#text').css('background-image', 'url(\'/static/images/text_icon.png\')')
-          $('#text').css("visibility", "visible")
-          var index = this.find("text");
-          $('#text').html(this.object[index].title)
-        }
-        if(count >=2) {
-	  $('#text').css('background-image', 'url(\'/static/images/text_icon_stacked.png\')')
-          $('#text').css("visibility", "visible")
-          $('#text').html("Text " + count) 
-        }	
-	count = this.count("link")
-        if(count ==0) {
-          $('#link').css('background-image', 'url(\'/static/images/link_icon_disabled.png\')')
-	}
-        if(count ==1) {
-	  $('#link').css('background-image', 'url(\'/static/images/link_icon.png\')')
-          $('#link').css("visibility", "visible")
-          var index = this.find("link");
-          $('#link').html(this.object[index].title)
-        }
-        if(count >= 2) {
-          $('#link').css('background-image', 'url(\'/static/images/link_icon_stacked.png\')')
-	  $('#link').css("visibility", "visible")
-          $('#link').html("Link" + count) 
-        }
-	count = this.count("pdf")
-        if(count ==0) {
-          $('#pdf').css('background-image', 'url(\'/static/images/pdf_icon_disabled.png\')')
-	}
-        if(count ==1) {
-	  $('#pdf').css('background-image', 'url(\'/static/images/pdf_icon.png\')')
-          $('#pdf').css("visibility", "visible")
-          var index = this.find("pdf");
-          $('#pdf').html(this.object[index].title)
-        }
-        if(count >=2) {
-	  $('#pdf').css('background-image', 'url(\'/static/images/pdf_icon_stacked.png\')')
-          $('#pdf').css("visibility", "visible")
-          $('#pdf').html("PDF " + count) 
-        }
+	Branch.prototype.configureFloorplan = function() {
+		var width = this.floorplanElement.width(),
+			height = this.floorplanElement.height();
+
+		if(width > height) {
+			this.floorplanElement.width(Environment.display.viewportWidth());
+		} else {
+			this.floorplanElement.height(Environment.display.viewportHeight());
+		}
+
+		this.dimensions.viewerWidth(this.floorplanElement.width());
+		this.dimensions.viewerHeight(this.floorplanElement.height());
 	};
 
-	Branch.prototype.find = function(value) { 
-	for(var i =0; i<this.object.length; i++) { 
-	  if(this.object[i].type == value) { 
-	    return i; 
-	    }
-	  }
-	}
-
-	Branch.prototype.count = function(value) { 
-	var count = 0;
-	for(var i = 0; i<this.object.length; i++) {
-	  if((this.object[i].type == value) && (this.displayed[i]=="true")) {
-	    count++; 
-	  }
-	}
-	return count; 
+	Branch.prototype.setData = function (branchData) {
+		var self = this;
+		this.branchID = branchData.id;
+		this.branchName = branchData.name;
+		this.floorplanUrl(branchData.floor_plan);
 	};
+
+	Branch.prototype.showPin = function (pin) {
+		
+	};
+
+	Branch.prototype.hidePin = function (pin) {
+
+	};
+
 	return Branch;
 
 })();
 
-//End module
 });
