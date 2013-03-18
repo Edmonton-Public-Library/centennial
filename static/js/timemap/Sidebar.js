@@ -94,11 +94,16 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 					//-114 for search stuff on top
 					return Environment.display.height() - Environment.display.topBarHeight() - 114;
 				}),
+				featuredHeight : ko.computed(function () {
+					//-114 for search stuff on top
+					return Environment.display.height() - Environment.display.topBarHeight() - 53;
+				}),
+				//React to clicking on a featured story
 				featuredClick : function (data) {
-					console.log(data);
 					document.location = '#viewStory/' + data.story.id;
 				},
-				resultClick : function (data) {
+				//React to clicking on a search resultClick
+				result : function (data) {
 					document.location = '#viewStory/' + data.id;
 				},
 				Environment: Environment
@@ -153,7 +158,6 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			if (type == 'branch' && typeof branch != 'undefined') {
 				endpointURL += '&story__branch=' + branch;
 			}
-			console.log(endpointURL);
 			$.ajax(endpointURL, {
 				type : 'get',
 				contentType : 'json',
