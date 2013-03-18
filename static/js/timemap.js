@@ -28,9 +28,11 @@ var AppClass = (function () {
 			var eplBar = new EPLBar('#epl-bar');
 
 			//Initialize the sidebar
-			sidebar = new Sidebar($('#tm-sidebar'));
+			Environment.sidebar = new Sidebar($('#tm-sidebar'));
 			//Select the first available tab by default
-			sidebar.tab($($('#tm-sidebar').find('.tab')[0]).attr('data-tab'));
+			Environment.sidebar.tab($($('#tm-sidebar').find('.tab')[0]).attr('data-tab'));
+
+			Environment.sidebar.setFeaturedStoriesSource('all');
 
 			self.initFacebook();
 

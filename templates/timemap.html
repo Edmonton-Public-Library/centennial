@@ -51,11 +51,19 @@
     		<div class="tab-containers">
     			<div class="tab-contents" data-tab="features">
     				<div class="results">
-    					<div class="search-result">
-    						<p class="title">No Stories</p>
-    						<p class="description">No featured stories have been set.</p>
-    					</div>
-    				</div>
+                        <!-- ko ifnot: featuredStories().length > 0 -->
+                            <div class="search-result">
+                                <p class="title">No Stories</p>
+                                <p class="description">No featured stories have been set.</p>
+                            </div>
+                        <!-- /ko -->
+                        <!-- ko foreach: {data: featuredStories(), as: 'result'} -->
+                        <div class="search-result linked" data-bind="click: $root.featuredClick">
+                            <p class="title" data-bind="text: result.story.title"></p>
+                            <p class="description" data-bind="text: result.story.description"></p>
+                        </div>
+                        <!-- /ko -->
+                    </div>
     			</div>
     			<div class="tab-contents" data-tab="search">
     				<input type="text" class="epl-input text search-box" data-default-text="Start typing to search..."/>

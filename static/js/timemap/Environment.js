@@ -4,6 +4,10 @@ define(['lib/knockout'], function (ko) {
 	var Environment = new(function () {
 		var self = this;
 
+		this.components = new (function () {
+			this.sidebar = {};
+		});
+
 		this.chrome = new (function () {
 			var chrome = this;
 			this.timeline = {

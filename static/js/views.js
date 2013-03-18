@@ -122,6 +122,8 @@ branch : new View('branch', 'Branch',
 				Map.withBranchInfo(epl.nav.params.id, function (branchData) {
 					var branch = new Branch($('#BranchView'));
 					branch.setData(branchData);
+
+					Environment.sidebar.setFeaturedStoriesSource('branch', epl.nav.params.id);
 				});
 				// brch.showPin(new StoryPin("video", "1", "a Video")); 
 				// brch.showPin(new StoryPin("audio", "2", "some audio")); 
@@ -137,6 +139,8 @@ branch : new View('branch', 'Branch',
 
 		//out
 		function (toView, viewport, callback) {
+			//Reset the displayed Featured Stories set to 'all stories'
+			Environment.sidebar.setFeaturedStoriesSource('all');
 			callback();
 		}),
 

@@ -88,11 +88,16 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			this.viewport = $(viewport);
 
 			this.data = {
+				featuredStories : ko.observable([]),
 				searchResults : ko.observable([]),
 				searchHeight : ko.computed(function () {
 					//-114 for search stuff on top
 					return Environment.display.height() - Environment.display.topBarHeight() - 114;
 				}),
+				featuredClick : function (data) {
+					console.log(data);
+					document.location = '#viewStory/' + data.story.id;
+				},
 				resultClick : function (data) {
 					document.location = '#viewStory/' + data.id;
 				},
@@ -140,6 +145,22 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			});
 
 			ko.applyBindings(this.data, viewport[0]);
+		};
+
+		Sidebar.prototype.setFeaturedStoriesSource = function (type, branch) {
+			var self = this,
+				endpointURL = Environment.routes.apiBase + '/featured/?format=json';
+			if (type == 'branch' && typeof branch != 'undefined') {
+				endpointURL += '&story__branch=' + branch;
+			}
+			console.log(endpointURL);
+			$.ajax(endpointURL, {
+				type : 'get',
+				contentType : 'json',
+				success : function (data) {
+					self.data.featuredStories(data.objects);
+				}
+			})
 		};
 
 		/**
