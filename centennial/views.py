@@ -96,9 +96,10 @@ def create_user(request):
            'password' in data and
            'firstname' in data and
            'lastname' in data and
-           'email' in data and 
-           'recaptcha_challenge' in data and
-           'recaptcha_response' in data):
+           'email' in data):
+            #'email' in data and 
+            #'recaptcha_challenge' in data and
+            #'recaptcha_response' in data):
             #Perform ReCaptcha Verification
             #captchaValid = verifyReCaptcha(request, data['recaptcha_challenge'], data['recaptcha_response'])
             #if not captchaValid[0]:
