@@ -1,27 +1,11 @@
 <div id="BranchView" data-bind="
     style: {
         width: Environment.display.viewportWidth() + 'px',
-        height: Environment.display.viewportHeight() + 'px'
+        height: Environment.display.viewportHeight() + 'px',
+        overflow: 'hidden'
     }">
-<!--The BranchView div-->
-<!--<div data-bind="css: {backgroundImage: image}"></div>-->
-<div id="video"> 
+    <img data-bind="attr: {src: floorplanUrl()}" data-role="floorplan" />
+	<div data-bind="foreach: contentTypes">
+		<div data-bind="text: $data, style: {backgroundColor: 'black', color: 'white', padding: '10px', position: 'absolute', top: $root.typeCoordinates[$data]().random.y + 'px', left: $root.typeCoordinates[$data]().random.x + 'px'}"></div>
+	</div>
 </div> 
-<div id="audio">
-<!--	<img src="TheSource" alt="Click to listen to audio stories">-->
-</div> 
-<div id="image">
-<!--	<img src="TheSource" alt="Click to view Images">-->
-</div>
-<div id="text">
-<!--	<img src="TheSource" alt="Read stories">--> 
-</div>
-<div id="pdf">
-<!--	<img src="TheSource" alt="View Stories in PDF">-->
-</div>
-<div id="link"> 
-<!--	(img src="TheSource" alt="View links that have been posted">-->
-</div>
-
-</div> 
-

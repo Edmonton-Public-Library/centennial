@@ -48,7 +48,6 @@ define(['lib/knockout'], function (ko) {
 
 	//Keep the display values up to date
 	$(window).resize(function () {
-		console.log('resize');
 		Environment.display.width($(window).width());
 		Environment.display.height($(window).height());
 	});
