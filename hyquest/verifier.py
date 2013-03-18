@@ -68,7 +68,7 @@ def completeTimeMapTask(user, timeMapState):
     return None
 
 def timeMapMatches(task, timeMapState):
-    reqs = getTimeMapReqs(task)
+    reqs = task.getTimeMapReqs()
     if 'minYear' in reqs and ('year' not in timeMapState or int(timeMapState['year']) < int(reqs['minYear'])):
         print "year before minYear"
         return False
@@ -86,11 +86,3 @@ def timeMapMatches(task, timeMapState):
         return False
     return True
 
-def getTimeMapReqs(task):
-    taskReqs = task.taskinfo.split(';')
-    requirements = {}
-    for req in taskReqs:
-        if '=' in req:
-            reqSplit = req.split('=')
-            requirements[reqSplit[0]] = reqSplit[1]
-    return requirements

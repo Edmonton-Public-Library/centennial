@@ -7,7 +7,7 @@ from django import forms
 from epl.custommodels import IntegerRangeField, FloatRangeField
 from util.file_validator import FileValidator
 from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE_LEN, TASK_TITLE_LEN, TASK_DESC_LEN, TASK_CODE_LEN, TASK_CHOICES
-
+from timemap.models import Branch, Story
 class QuestSet(models.Model):
     
     class Meta:
@@ -58,13 +58,45 @@ class Task(models.Model):
     def __unicode__(self):
         return self.title
 
+    def interpretTMInfo(self):
+        reqs = self.getTimeMapReqs()
+        infostr = "Visit "
+        if 'story' in reqs:
+            try:
+                infostr += Story.objects.get(id=int(reqs['story'])).title + " in "
+            except Exception:
+                infostr += "Unknown Story in "
+        if 'branch' in reqs:
+            try:
+                infostr += Branch.objects.get(id=int(reqs['branch'])).name + " Branch "
+            except Exception:
+                infostr += "Unknown Branch "
+        if 'onMap' in reqs:
+            infostr += ("on " if bool(reqs['onMap']) else "off ") + "the map "
+        if 'maxYear' in reqs:
+            infostr += "before " + reqs['maxYear'] + " "
+        if 'minYear' in reqs:
+            infostr += "after " +reqs['minYear']
+        return infostr
+        
     def links(self):
         if self.id and self.type == 3:
-            return "<a href='/admin/hyquest/generatecodes/%s' target='_blank'>Generate Codes</a>" % str(self.id)
+            return "<a href='/admin/hyquest/taskcode/?task="+str(self.id)+"' target='_blank'>"+str(TaskCode.objects.filter(task=self, uses_remaining__gt=0).count())+" Codes</a><br><a href='/admin/hyquest/generatecodes?task_id=%s' target='_blank'><img src='/static/admin/img/icon_addlink.gif' width='10' height='10'/> Generate More Codes</a>" % str(self.id)
+        elif self.id and self.type == 4:
+            return self.interpretTMInfo() + "<br><a href='/admin/hyquest/modifytimemap?task_id="+str(self.id)+"'>Change</a>"
         else:
             return "Save Before Continuing"
     links.allow_tags = True
 
+
+    def getTimeMapReqs(self):
+        taskReqs = self.taskinfo.split(';')
+        requirements = {}
+        for req in taskReqs:
+            if '=' in req:
+                reqSplit = req.split('=')
+                requirements[reqSplit[0]] = reqSplit[1]
+        return requirements
 
 class TaskCode(models.Model):
 

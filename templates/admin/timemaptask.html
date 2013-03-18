@@ -1,0 +1,30 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+{% load url from future %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />{% endblock %}
+{% block bodyclass %} modify {{ task }} {% endblock %}
+{% block nav-global %}{% endblock %}
+{% block content_title %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+{% block content %}
+<h1>Change Task TimeMap Requirements - "{{ task.title }}"</h1> 
+<div id="content-main">
+{% block field_sets %}
+
+<form action="/admin/hyquest/modifytimemap" method="post">
+<fieldset class="module aligned">
+<div class="form-row field-title">
+{{ tmform.as_p }}
+</div>
+</fieldset>
+{% endblock %}
+
+{% block after_field_sets %}{% endblock %}
+{% block submit_buttons_bottom %}
+<div class="submit-row">
+<input type="button" onclick="window.location='/admin/hyquest/quest/{{ task.quest.id }}/'" value="Cancel"><input type="submit" class="default" value="Save" />
+</div>
+{% endblock %}
+</form>
+</div>
+{% endblock %}
