@@ -42,4 +42,6 @@ class TaskCodeAdmin(admin.ModelAdmin):
     list_display = ['task', 'code', 'uses_remaining']
     list_filter = ['uses_remaining']
 
+    def print_selected_codes(modeladmin, request, queryset):
+        pass    
 admin.site.register(TaskCode, TaskCodeAdmin)

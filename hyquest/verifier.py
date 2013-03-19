@@ -6,6 +6,9 @@ from hyquest.actionmanager import completeTask
 
 import centennial.bibliocommons
 
+##
+##  CODE COMPLETION TASKS
+##
 def completeCodeTask(user, code):
     task = getTaskForCode(code)
     if task == None:
@@ -17,16 +20,6 @@ def completeCodeTask(user, code):
     completeTask(user, task)
     return Task
         
-def completeSocialTask(user, social):
-    task = getTaskForSocial(social)
-    if task == None:
-        return None
-    action = getUserAction(user, task)
-    if action == None or action.complete:
-        return None
-    completeTask(user, task)
-    return Task
-
 def getTaskForCode(code):
     #This should include verification that the quest-set it comes from is open
     try:
@@ -49,6 +42,19 @@ def burnCode(code):
         pass
     return
 
+##
+##  SOCIAL MEDIA TASKS
+##
+def completeSocialTask(user, social):
+    task = getTaskForSocial(social)
+    if task == None:
+        return None
+    action = getUserAction(user, task)
+    if action == None or action.complete:
+        return None
+    completeTask(user, task)
+    return Task
+
 def getTaskForSocial(social):
     #This should include verification that the quest-set it comes from is open
     return None
@@ -59,7 +65,9 @@ def getUserAction(user, task):
         return action
     except ObjectDoesNotExist:
         return None
-
+## 
+##  TIMEMAP Tasks
+##
 def completeTimeMapTask(user, timeMapState):
     userTasks = UserTaskAction.objects.filter(user=user, task__type=4)
     print "User "+str(user)+" has "+str(userTasks.count())+" TimeMap tasks open"
@@ -70,7 +78,7 @@ def completeTimeMapTask(user, timeMapState):
     return None
 
 def timeMapMatches(task, timeMapState):
-    reqs = getTimeMapReqs(task)
+    reqs = task.getTimeMapReqs()
     if 'minYear' in reqs and ('year' not in timeMapState or int(timeMapState['year']) < int(reqs['minYear'])):
         print "year before minYear"
         return False
@@ -96,6 +104,10 @@ def getTimeMapReqs(task):
             reqSplit = req.split('=')
             requirements[reqSplit[0]] = reqSplit[1]
     return requirements
+
+##
+## BIBLIOCOMMONS TASKS
+##
 
 def verifyBibliocommonsAccount(user):
     try:
@@ -125,3 +137,4 @@ def completeBibliocommonsTask(user):
         print "Error: Unable to communicate with the Bibliocommons API"
     userTasks = UserTaskAction.objects.filter(user=user, task__type=0)
     return None
+>>>>>>> 5b6aceb922d054ccf126f76d20855a2452f77930
