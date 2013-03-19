@@ -137,4 +137,3 @@ def completeBibliocommonsTask(user):
         print "Error: Unable to communicate with the Bibliocommons API"
     userTasks = UserTaskAction.objects.filter(user=user, task__type=0)
     return None
->>>>>>> 5b6aceb922d054ccf126f76d20855a2452f77930
