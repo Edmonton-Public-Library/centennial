@@ -4,12 +4,12 @@ define(['lib/knockout', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seed
 return (function () {
 
 	var contentTypes = {
-		text : 0,
-		link : 1,
-		image : 2,
-		pdf : 3,
-		audio : 4,
-		video : 5
+		text : {index: 0, color: 'yellow'},
+		link : {index: 1, color: 'green'},
+		image : {index: 2, color: 'pink'},
+		pdf : {index: 3, color: 'purple'},
+		audio : {index: 4, color: 'blue'},
+		video : {index: 5, color: 'gray'}
 	};
 
 	var contentTypesList = ['text', 'link', 'image', 'pdf', 'audio', 'video'];
@@ -37,8 +37,10 @@ return (function () {
 		})();
 
 		this.typeCoordinates = {};
+		this.storyData = {};
 
-		//Create and dynamically update the positions of the icons based on the viewport dimensions
+		//Create and dynamically update the positions of the icons based on the viewport dimensions,
+		//and initialize story data for each type
 		for(type in contentTypes) {
 			this.typeCoordinates[type] = ko.observable(
 				this.pinCoordinates({
@@ -47,6 +49,8 @@ return (function () {
 					title : self.branchName
 				})
 			);
+
+			this.storyData[type] = ko.observableArray([]);
 		}
 
 		this.dimensions.cellDimensions.subscribe(function (dimensions) {
@@ -62,12 +66,20 @@ return (function () {
 		});
 
 		ko.applyBindings({
-			Environment: Environment,
-			dimensions: this.dimensions,
-			typeCoordinates: this.typeCoordinates,
-			contentTypes: contentTypesList,
-			floorplanUrl: this.floorplanUrl
+			Environment : Environment,
+			dimensions : this.dimensions,
+			typeCoordinates : this.typeCoordinates,
+			storyData : this.storyData,
+			contentTypesList : contentTypesList,
+			contentTypes : contentTypes,
+			floorplanUrl : this.floorplanUrl
 		}, viewport[0]);
+
+		this.showPin({type: 'text'});
+		this.showPin({type: 'pdf'});
+		this.showPin({type: 'pdf'});
+		this.showPin({type: 'pdf'});
+		this.showPin({type: 'pdf'});
 
 		//React to the changed floorplan when its image is properly loaded
 		this.floorplanElement.load(function () {
@@ -79,8 +91,8 @@ return (function () {
 
 	Branch.prototype.pinCoordinates = function (pin) {
 		var self = this,
-			col = contentTypes[pin.type] % this.dimensions.numCols,
-			row = Math.floor(contentTypes[pin.type] / this.dimensions.numCols);
+			col = contentTypes[pin.type].index % this.dimensions.numCols,
+			row = Math.floor(contentTypes[pin.type].index / this.dimensions.numCols);
 
 		return {
 			root : cellRoot(col, row),
@@ -143,7 +155,7 @@ return (function () {
 	};
 
 	Branch.prototype.showPin = function (pin) {
-		
+		this.storyData[pin.type].push(pin);
 	};
 
 	Branch.prototype.hidePin = function (pin) {

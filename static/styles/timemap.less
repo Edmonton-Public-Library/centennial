@@ -484,6 +484,50 @@ body {
    	}
 }
 
+#branch-viewer {
+	.pin {
+		&.yellow {
+			.pin-colors(#F2D633);
+		}
+
+		&.green {
+			.pin-colors(#7DD145);
+		}
+
+		&.pink {
+			.pin-colors(#DB1A5B);
+		}
+
+		&.purple {
+			.pin-colors(#633280);
+		}
+
+		&.blue {
+			.pin-colors(#34A9E3);
+		}
+
+		&.gray {
+			.pin-colors(gray);
+		}
+	}
+
+	//Set all of the pin's colors, computed using the input base color
+	.pin-colors(@baseColor) {
+		background-color: @baseColor;
+		border: solid 1px darken(@baseColor, 10%);
+		.pin-text-color(@baseColor)
+	}
+
+	//Calculate whether the text should be light or dark, based on the background color
+	.pin-text-color(@baseColor) when (lightness(@baseColor) >= 50%) {
+		color: darken(@baseColor, 40%);
+	}
+
+	.pin-text-color(@baseColor) when (lightness(@baseColor) < 50%) {
+		color: lighten(@baseColor, 40%);
+	}
+}
+
 #tm-branch-info-pane {
 	display: none;
 }

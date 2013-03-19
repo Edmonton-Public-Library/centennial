@@ -120,7 +120,7 @@ branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
 			require(['timemap', 'timemap/Branch', 'timemap/Map'], function (epl, Branch, Map) { 
 				Map.withBranchInfo(epl.nav.params.id, function (branchData) {
-					var branch = new Branch($('#BranchView'));
+					var branch = new Branch($('#branch-viewer'));
 					branch.setData(branchData);
 
 					Environment.sidebar.setFeaturedStoriesSource('branch', epl.nav.params.id);
