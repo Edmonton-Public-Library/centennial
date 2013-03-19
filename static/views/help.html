@@ -38,6 +38,7 @@
 		<ol type="a">
 			<li><a href="#create_account">Creating a New Account</a></li>
 			<li><a href="#verify_email">Verifying Your Email Address</a></li>
+			<li><a href="#login">Logging Into Your Account</a></li>
 			<li><a href="#manage_account">Managing Your Account</a></li>
 		</ol>
 	</li>
@@ -77,7 +78,7 @@
 
 <h2><a id="accounts"></a></a>2. Accounts</h2>
 
-<p>An account is <i>not</i> required to view content on the TimeMap website. An account is required only if a user wants to upload their own content to the TimeMap website.</p>
+<p>An account is <i>not</i> required to view content on the TimeMap website. An account is required only if a user wants to upload their own content to the TimeMap website. Accounts are free.</p>
 
 <h3><a id="create_account"></a></a>Creating a New Account</h3>
 <p><span style="color: red">TO DO - add steps to navigate to create account screen when complete.</span>
@@ -107,6 +108,10 @@ Once a user has created and verified their account, they can upload their own st
 <p>A user must verify their email address before they can login to their account for the first time. When a new account is created, an email is sent to the email address that the user provided on the <a href="#create_account">Create Account</a> screen. This email contains a link that the user must follow to validate their account. The user will only be able to login to the TimeMap website once they have verified their email address.
 </p>
 
+<h3><a id="login"></a>Logging Into Your Account</h3>
+<p>A user can login to their account by clicking on the "Account" button in the top right corner of any screen. A dialog box appears, allowing the user to enter their username and password. <span style="color: red">TO DO - Fill in the rest once the login is done!</span>
+</p>
+
 <h3><a id="manage_account"></a>Managing Your Account</h3>
 <p><span style="color: red">TO DO - add steps to navigate to My Account screen when complete.</span>
 <br><br>
@@ -129,12 +134,39 @@ Once the user has updated their information, clicking on the "Save Changes" butt
 <hr>
 
 <h2><a id="uploads"></a></a>3. Uploading Stories</h2>
-<h3><a id="uploading_new_story"></a>Uploading New Story</h3>
-<p>TO DO
+<h3><a id="uploading_new_story"></a>Uploading a New Story</h3>
+<p><span style="color: red">TO DO - add steps to navigate to Upload Story screen when complete.</span><br><br>
+The user can use the Upload Your Story screen to add their own stories to the TimeMap.
+<br><br>
+A user must be logged into their account before they can upload a story. If the user does not have an account, they must first create an account using the <a href="#create_account">Create Account</a> screen.<br><br>
+Once logged in, the user can submit their content by completing the form on the Upload Your Story screen. The user can specify the following information about their story:
+<ul>
+	<li><b>Title</b> (required): A short title for the story.</li>
+	<li><b>Description</b> (required): A description of the story's content.</li>
+	<li><b>Story Content</b> (required): There are three different types of stories. The user must select one of the story types:
+		<ul>
+			<li><b>Text</b>: The story has text-based content. The text will be displayed when the story is viewed on the TimeMap.</li>
+			<li><b>Link</b>: The story is a reference to an external website. A link to this external website will be displayed when the story is viewed on the TimeMap.<br> Note that the link URL must be a valid URL (for example: http://www.example.com).</li>	<li><b>File</b>: The story contains a media file, such as an image or a pdf. Please see the <a href="#supported_content">supported content types</a> for more details.</li>
+		</ul>
+	</li>
+	<li><b>Branch</b> (required): All stories must be associated to a library branch. The story will be displayed under this branch on the TimeMap. </li>
+	<li><b>Date</b> (Year is required): The date in <i>dd MM yyyy</i> format. All stories must have a year so that they can be displayed on the TimeMap based on the timeline date range. The Day and Month are optional (simply leave the Day and Month fields blank if you do not want them). </li>
+	<li><b>Keywords</b>: Keywords are words that are associated with your story. Adding relevant keywords will help users find your story using the search functionality on the TimeMap. A user can either select from the pre-defined keywords or enter their own (separated by commas).</li>
+</ul>
+Once the user has completed the form, clicking on the "Upload" button will submit the story.
+<ul>
+	<li>If there are any errors with the user's input (such as leaving a required field blank), error messages are displayed. The user can fix the errors and click "Upload" again to resubmit the form.</li>
+	<li>If there are no errors with the user's input, the story is created. The user is shown a message indicating that the story was uploaded successfully.</li>	
+</ul>
+<b>Note:</b> A user-uploaded story is not displayed publicly on the TimeMap until it has been approved by an EPL administrator. EPL will endeavour to approve user-submitted content as quickly as possible, but there may be some delay. 
 </p>
 
 <h3><a id="supported_content"></a>Supported Content Types</h3>
-<p>TO DO
+<p>The following files types are supported for uploaded files:
+<ul>
+	<li><b>Images:</b> .jpg or .png</li>
+	<li><b>Text:</b> .pdf</li>
+</ul>
 </p>
 </div>
 
