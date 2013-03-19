@@ -4,6 +4,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from hyquest.actionmanager import completeTask
 
+##
+##  CODE COMPLETION TASKS
+##
 def completeCodeTask(user, code):
     task = getTaskForCode(code)
     if task == None:
@@ -15,16 +18,6 @@ def completeCodeTask(user, code):
     completeTask(user, task)
     return Task
         
-def completeSocialTask(user, social):
-    task = getTaskForSocial(social)
-    if task == None:
-        return None
-    action = getUserAction(user, task)
-    if action == None or action.complete:
-        return None
-    completeTask(user, task)
-    return Task
-
 def getTaskForCode(code):
     #This should include verification that the quest-set it comes from is open
     try:
@@ -47,6 +40,19 @@ def burnCode(code):
         pass
     return
 
+##
+##  SOCIAL MEDIA TASKS
+##
+def completeSocialTask(user, social):
+    task = getTaskForSocial(social)
+    if task == None:
+        return None
+    action = getUserAction(user, task)
+    if action == None or action.complete:
+        return None
+    completeTask(user, task)
+    return Task
+
 def getTaskForSocial(social):
     #This should include verification that the quest-set it comes from is open
     return None
@@ -57,7 +63,9 @@ def getUserAction(user, task):
         return action
     except ObjectDoesNotExist:
         return None
-
+## 
+##  TIMEMAP Tasks
+##
 def completeTimeMapTask(user, timeMapState):
     userTasks = UserTaskAction.objects.filter(user=user, task__type=4)
     print "User "+str(user)+" has "+str(userTasks.count())+" TimeMap tasks open"
@@ -85,4 +93,6 @@ def timeMapMatches(task, timeMapState):
         print "On Map does not match"
         return False
     return True
-
+##
+## BIBLIOCOMMONS TASKS
+##
