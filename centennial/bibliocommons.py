@@ -2,7 +2,7 @@ import requests
 
 # Publicly available Bibliocommons API
 APIRoot = "https://api.bibliocommons.com/v1/"
-APIKey = "5rre95xsrxv75tvekpzv5a5x"
+APIKey = "d7b4x2enac7yg8aesbu6dvck"
 
 # Library information
 LibraryIndex = 5

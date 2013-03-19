@@ -4,6 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from hyquest.actionmanager import completeTask
 
+import centennial.bibliocommons
+
 def completeCodeTask(user, code):
     task = getTaskForCode(code)
     if task == None:
@@ -94,3 +96,32 @@ def getTimeMapReqs(task):
             reqSplit = req.split('=')
             requirements[reqSplit[0]] = reqSplit[1]
     return requirements
+
+def verifyBibliocommonsAccount(user):
+    try:
+        bibliolink = BibliocommonsLink.objects.get(user=user)
+        if bibliolink.biblioid == -1:
+            print "Doing Bibliocommons User ID Lookup for "+bibliolink.biblioname+"..."
+            bibliolink.biblioid = int(centennial.bibliocommons.userID(bibliolink.biblioname))
+            print bibliolink.biblioname+" --> "+str(bibliolink.biblioid)
+            bibliolink.save()
+        return True
+    except ObjectDoesNotExist:
+        print "Warning: User account "+str(user)+" does not have linked Bibliocommons Account."
+        return False
+
+def completeBibliocommonsTask(user): 
+    try:
+        bibliolink = BibliocommonsLink.objects.get(user=user)
+        if bibliolink.biblioid == -1:
+            print "Error: cannot look up Bibliocommons content without defined Bibliocommons ID"
+            return None
+    except ObjectDoesNotExist:
+        print "Error: user "+str(user)+" does not have linked Bibliocommons Account."
+        return None
+    try:
+        content = centennial.bibliocommons.userContent(bibliolink.biblioid)
+    except Exception:
+        print "Error: Unable to communicate with the Bibliocommons API"
+    userTasks = UserTaskAction.objects.filter(user=user, task__type=0)
+    return None
