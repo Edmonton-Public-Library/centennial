@@ -103,7 +103,8 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 					document.location = '#viewStory/' + data.story.id;
 				},
 				//React to clicking on a search resultClick
-				result : function (data) {
+				resultClick : function (data) {
+					console.log(data);
 					document.location = '#viewStory/' + data.id;
 				},
 				Environment: Environment
