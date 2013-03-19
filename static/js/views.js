@@ -18,14 +18,13 @@ main : new View('timemap', 'Home',
 			require(['timemap/Map', 'lib/epl/Input', 'timemap/map/BranchPin', 'timemap/Timeline'], function(Map, Input, BranchPin, Timeline) {
 
 				//Persist the map and timeline between navigations
-				Environment.chrome.timeline.enable();
 
 				//Load the Google Maps API if not already loaded
 				if (epl.storage.map == null) {
 					epl.storage.map = new Map(function () {
 						epl.storage.map.render(mapCanvas);
-						epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
 						Environment.chrome.timeline.enable();
+						epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
 					});
 					ko.applyBindings({
 						Environment : Environment
@@ -33,6 +32,8 @@ main : new View('timemap', 'Home',
 				//Otherwise display the loaded map
 				} else {
 					epl.storage.map.render(mapCanvas);
+					Environment.chrome.timeline.enable();
+					epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
 				}
 
 				$('.buttons').find('#auth-username').eplInput();
