@@ -1,5 +1,5 @@
 ;
-define(['lib/simile', 'timemap/Environment', 'timemap/map/BranchPin', 'timemap/map/StoryPin'], function (Simile, Environment, BranchPin, StoryPin) {
+define(['lib/simile', 'timemap/Environment', 'timemap/map/BranchPin', 'timemap/map/StoryPin', 'lib/jquery-ui'], function (Simile, Environment, BranchPin, StoryPin) {
 
 return (function () {
 
@@ -14,12 +14,15 @@ return (function () {
 
 		//When the document is ready, initialize the timeline's DOM element
 		$(document).ready(function () {
-			$.get('/preferences/', function(json) {self.initTimeline(json);});
+			$.get('/preferences/', function(json) {
+				self.initTimeline(json);
+			});
 		});
 
 		$(window).bind('resize', function () {
 			self.onResize();
 		});
+
 	};
 
 	Timeline.prototype.processStories = function(json) {
