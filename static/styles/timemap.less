@@ -486,6 +486,7 @@ body {
 
 #branch-viewer {
 	.pin {
+		cursor: pointer;
 		&.yellow {
 			.pin-colors(#F2D633);
 		}
@@ -525,6 +526,25 @@ body {
 
 	.pin-text-color(@baseColor) when (lightness(@baseColor) < 50%) {
 		color: lighten(@baseColor, 40%);
+	}
+}
+
+#story-selector {
+	@selectorBackground: #C8E0E0;
+	position: fixed;
+	background-color: @selectorBackground;
+	border: solid 1px darken(@selectorBackground, 10%);
+	z-index: 1000;
+	display: none;
+	.x-box-shadow(0, 0, 20px, 0, rgba(0,0,0,0.3), false);
+
+	.story-selector-element {
+		padding: 10px;
+		cursor: pointer;
+
+		&:hover {
+			background-color: lighten(@selectorBackground, 10%);
+		}
 	}
 }
 

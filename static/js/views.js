@@ -18,8 +18,6 @@ main : new View('timemap', 'Home',
 			require(['timemap/Map', 'lib/epl/Input', 'timemap/map/BranchPin', 'timemap/Timeline'], function(Map, Input, BranchPin, Timeline) {
 
 				//Persist the map and timeline between navigations
-				epl.storage.map = epl.storage.map || null;
-				epl.storage.timeline = epl.storage.timeline || null;
 				Environment.chrome.timeline.enable();
 
 				//Load the Google Maps API if not already loaded
@@ -118,10 +116,14 @@ createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess',
 *************************************/
 branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
-			require(['timemap', 'timemap/Branch', 'timemap/Map'], function (epl, Branch, Map) { 
+			require(['timemap', 'timemap/Branch', 'timemap/Map', 'timemap/Timeline'], function (epl, Branch, Map, Timeline) { 
+				Environment.chrome.timeline.enable();
 				Map.withBranchInfo(epl.nav.params.id, function (branchData) {
 					var branch = new Branch($('#branch-viewer'));
 					branch.setData(branchData);
+					
+					epl.storage.timeline = new Timeline('#timeline', {});
+					epl.storage.timeline.enterBranchView(epl.nav.params.id, branch);
 
 					Environment.sidebar.setFeaturedStoriesSource('branch', epl.nav.params.id);
 				});

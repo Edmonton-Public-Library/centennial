@@ -17,6 +17,7 @@ return (function () {
 	var Branch = function (viewport) {
 		var self = this;
 		this.viewport = $(viewport);
+		this.storySelector = viewport.find('#story-selector');
 		this.floorplanUrl = ko.observable('');
 		this.floorplanElement = this.viewport.find('[data-role=floorplan]');
 		this.branchID = '';
@@ -38,6 +39,7 @@ return (function () {
 
 		this.typeCoordinates = {};
 		this.storyData = {};
+		this.selectedStoryType = ko.observable();
 
 		//Create and dynamically update the positions of the icons based on the viewport dimensions,
 		//and initialize story data for each type
@@ -72,14 +74,13 @@ return (function () {
 			storyData : this.storyData,
 			contentTypesList : contentTypesList,
 			contentTypes : contentTypes,
-			floorplanUrl : this.floorplanUrl
+			floorplanUrl : this.floorplanUrl,
+			selectedStoryType : this.selectedStoryType,
+			openStorySelector : function (type, event) {
+				self.showStorySelector(type);
+				event.stopPropagation(); //Otherwise the story selector will hide as soon as it's displayed
+			}
 		}, viewport[0]);
-
-		this.showPin({type: 'text'});
-		this.showPin({type: 'pdf'});
-		this.showPin({type: 'pdf'});
-		this.showPin({type: 'pdf'});
-		this.showPin({type: 'pdf'});
 
 		//React to the changed floorplan when its image is properly loaded
 		this.floorplanElement.load(function () {
@@ -87,6 +88,19 @@ return (function () {
 		});
 
 		this.pinCoordinates(new StoryPin('text', '11', 'coll'));
+
+		$(window).click(function () {
+			self.hideStorySelector();
+		});
+	};
+
+	Branch.prototype.showStorySelector = function (type) {
+		this.selectedStoryType(type);
+		this.storySelector.show().css('left', Environment.display.mouseX()).css('top', Environment.display.mouseY());
+	};
+
+	Branch.prototype.hideStorySelector = function () {
+		this.storySelector.hide();
 	};
 
 	Branch.prototype.pinCoordinates = function (pin) {
@@ -155,11 +169,22 @@ return (function () {
 	};
 
 	Branch.prototype.showPin = function (pin) {
-		this.storyData[pin.type].push(pin);
+		var typePins = this.storyData[pin.type](),
+			exists = false;
+		for(i in typePins) {
+			if(typePins[i].id == pin.id) {
+				exists = true;
+			}
+		}
+		if(!exists) {
+			this.storyData[pin.type].push(pin);
+		}
 	};
 
 	Branch.prototype.hidePin = function (pin) {
-
+		this.storyData[pin.type].remove(function (item) {
+			return item.id == pin.id;
+		});
 	};
 
 	return Branch;

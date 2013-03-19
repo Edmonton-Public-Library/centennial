@@ -1,5 +1,5 @@
 ;
-define(['lib/simile', 'timemap/Environment', 'timemap/map/BranchPin'], function (Simile, Environment, BranchPin) {
+define(['lib/simile', 'timemap/Environment', 'timemap/map/BranchPin', 'timemap/map/StoryPin'], function (Simile, Environment, BranchPin, StoryPin) {
 
 return (function () {
 
@@ -29,6 +29,7 @@ return (function () {
 			newJson.push({
 				title: json[i].title,
 				description: json[i].description,
+				content_type : json[i].content_type,
 				start: json[i].year.toString(),
 				end: json[i].year.toString(),
 				id: json[i].id,
@@ -240,7 +241,7 @@ return (function () {
 
 		self.branchViewer = viewer;
 
-		$.get(Environment.routes.apiBase + '/story/branch=' + branchID, function(json) {self.processStories(json);});
+		$.get(Environment.routes.apiBase + '/story/?format=json&branch=' + branchID, function(json) {self.processStories(json);});
 	}
 
 	Timeline.prototype.initTimeline = function(prefs) {
@@ -263,10 +264,10 @@ return (function () {
 			byStart : [],
 			byEnd : [],
 			hideFunction : function(data) {
-
+				self.branchViewer.showPin(new StoryPin(data.content_type, data.id, data.title));
 			},
 			showFunction : function(data) {
-
+				self.branchViewer.showPin(new StoryPin(data.content_type, data.id, data.title));
 			},
 			rightVisible : -1,
 			leftVisible : 0
