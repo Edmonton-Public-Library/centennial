@@ -4,6 +4,10 @@ define(['lib/knockout'], function (ko) {
 	var Environment = new(function () {
 		var self = this;
 
+		this.components = new (function () {
+			this.sidebar = {};
+		});
+
 		this.chrome = new (function () {
 			var chrome = this;
 			this.timeline = {
@@ -20,6 +24,9 @@ define(['lib/knockout'], function (ko) {
 
 			this.width = ko.observable($(window).width());
 			this.height = ko.observable($(window).height());
+
+			this.mouseX = ko.observable(0);
+			this.mouseY = ko.observable(0);
 
 			this.sideBarWidth = ko.observable(350); //in pixels
 			this.topBarHeight = ko.computed(function () {
@@ -50,6 +57,15 @@ define(['lib/knockout'], function (ko) {
 	$(window).resize(function () {
 		Environment.display.width($(window).width());
 		Environment.display.height($(window).height());
+	});
+
+	//Keep mouse movements up to date
+	$(window).mousemove(function (e) {
+		Environment.display.mouseX(e.pageX);
+		Environment.display.mouseY(e.pageY);
+	}).click(function (e) {
+		Environment.display.mouseX(e.pageX);
+		Environment.display.mouseY(e.pageY);
 	});
 
 	return Environment;

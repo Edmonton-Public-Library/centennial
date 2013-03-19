@@ -4,12 +4,12 @@ define(['lib/knockout', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seed
 return (function () {
 
 	var contentTypes = {
-		text : 0,
-		link : 1,
-		image : 2,
-		pdf : 3,
-		audio : 4,
-		video : 5
+		text : {index: 0, color: 'yellow'},
+		link : {index: 1, color: 'green'},
+		image : {index: 2, color: 'pink'},
+		pdf : {index: 3, color: 'purple'},
+		audio : {index: 4, color: 'blue'},
+		video : {index: 5, color: 'gray'}
 	};
 
 	var contentTypesList = ['text', 'link', 'image', 'pdf', 'audio', 'video'];
@@ -17,6 +17,7 @@ return (function () {
 	var Branch = function (viewport) {
 		var self = this;
 		this.viewport = $(viewport);
+		this.storySelector = viewport.find('#story-selector');
 		this.floorplanUrl = ko.observable('');
 		this.floorplanElement = this.viewport.find('[data-role=floorplan]');
 		this.branchID = '';
@@ -37,8 +38,11 @@ return (function () {
 		})();
 
 		this.typeCoordinates = {};
+		this.storyData = {};
+		this.selectedStoryType = ko.observable();
 
-		//Create and dynamically update the positions of the icons based on the viewport dimensions
+		//Create and dynamically update the positions of the icons based on the viewport dimensions,
+		//and initialize story data for each type
 		for(type in contentTypes) {
 			this.typeCoordinates[type] = ko.observable(
 				this.pinCoordinates({
@@ -47,6 +51,8 @@ return (function () {
 					title : self.branchName
 				})
 			);
+
+			this.storyData[type] = ko.observableArray([]);
 		}
 
 		this.dimensions.cellDimensions.subscribe(function (dimensions) {
@@ -62,11 +68,18 @@ return (function () {
 		});
 
 		ko.applyBindings({
-			Environment: Environment,
-			dimensions: this.dimensions,
-			typeCoordinates: this.typeCoordinates,
-			contentTypes: contentTypesList,
-			floorplanUrl: this.floorplanUrl
+			Environment : Environment,
+			dimensions : this.dimensions,
+			typeCoordinates : this.typeCoordinates,
+			storyData : this.storyData,
+			contentTypesList : contentTypesList,
+			contentTypes : contentTypes,
+			floorplanUrl : this.floorplanUrl,
+			selectedStoryType : this.selectedStoryType,
+			openStorySelector : function (type, event) {
+				self.showStorySelector(type);
+				event.stopPropagation(); //Otherwise the story selector will hide as soon as it's displayed
+			}
 		}, viewport[0]);
 
 		//React to the changed floorplan when its image is properly loaded
@@ -75,12 +88,25 @@ return (function () {
 		});
 
 		this.pinCoordinates(new StoryPin('text', '11', 'coll'));
+
+		$(window).click(function () {
+			self.hideStorySelector();
+		});
+	};
+
+	Branch.prototype.showStorySelector = function (type) {
+		this.selectedStoryType(type);
+		this.storySelector.show().css('left', Environment.display.mouseX()).css('top', Environment.display.mouseY());
+	};
+
+	Branch.prototype.hideStorySelector = function () {
+		this.storySelector.hide();
 	};
 
 	Branch.prototype.pinCoordinates = function (pin) {
 		var self = this,
-			col = contentTypes[pin.type] % this.dimensions.numCols,
-			row = Math.floor(contentTypes[pin.type] / this.dimensions.numCols);
+			col = contentTypes[pin.type].index % this.dimensions.numCols,
+			row = Math.floor(contentTypes[pin.type].index / this.dimensions.numCols);
 
 		return {
 			root : cellRoot(col, row),
@@ -143,11 +169,22 @@ return (function () {
 	};
 
 	Branch.prototype.showPin = function (pin) {
-		
+		var typePins = this.storyData[pin.type](),
+			exists = false;
+		for(i in typePins) {
+			if(typePins[i].id == pin.id) {
+				exists = true;
+			}
+		}
+		if(!exists) {
+			this.storyData[pin.type].push(pin);
+		}
 	};
 
 	Branch.prototype.hidePin = function (pin) {
-
+		this.storyData[pin.type].remove(function (item) {
+			return item.id == pin.id;
+		});
 	};
 
 	return Branch;

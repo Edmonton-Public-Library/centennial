@@ -18,16 +18,13 @@ main : new View('timemap', 'Home',
 			require(['timemap/Map', 'lib/epl/Input', 'timemap/map/BranchPin', 'timemap/Timeline'], function(Map, Input, BranchPin, Timeline) {
 
 				//Persist the map and timeline between navigations
-				epl.storage.map = epl.storage.map || null;
-				epl.storage.timeline = epl.storage.timeline || null;
-				Environment.chrome.timeline.enable();
 
 				//Load the Google Maps API if not already loaded
 				if (epl.storage.map == null) {
 					epl.storage.map = new Map(function () {
 						epl.storage.map.render(mapCanvas);
-						epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
 						Environment.chrome.timeline.enable();
+						epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
 					});
 					ko.applyBindings({
 						Environment : Environment
@@ -35,6 +32,8 @@ main : new View('timemap', 'Home',
 				//Otherwise display the loaded map
 				} else {
 					epl.storage.map.render(mapCanvas);
+					Environment.chrome.timeline.enable();
+					epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
 				}
 
 				$('.buttons').find('#auth-username').eplInput();
@@ -118,10 +117,16 @@ createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess',
 *************************************/
 branch : new View('branch', 'Branch',
 		function (fromView, viewport, callback) {
-			require(['timemap', 'timemap/Branch', 'timemap/Map'], function (epl, Branch, Map) { 
+			require(['timemap', 'timemap/Branch', 'timemap/Map', 'timemap/Timeline'], function (epl, Branch, Map, Timeline) { 
+				Environment.chrome.timeline.enable();
 				Map.withBranchInfo(epl.nav.params.id, function (branchData) {
-					var branch = new Branch($('#BranchView'));
+					var branch = new Branch($('#branch-viewer'));
 					branch.setData(branchData);
+					
+					epl.storage.timeline = new Timeline('#timeline', {});
+					epl.storage.timeline.enterBranchView(epl.nav.params.id, branch);
+
+					Environment.sidebar.setFeaturedStoriesSource('branch', epl.nav.params.id);
 				});
 				// brch.showPin(new StoryPin("video", "1", "a Video")); 
 				// brch.showPin(new StoryPin("audio", "2", "some audio")); 
@@ -137,6 +142,8 @@ branch : new View('branch', 'Branch',
 
 		//out
 		function (toView, viewport, callback) {
+			//Reset the displayed Featured Stories set to 'all stories'
+			Environment.sidebar.setFeaturedStoriesSource('all');
 			callback();
 		}),
 

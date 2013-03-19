@@ -1,11 +1,14 @@
-<div id="BranchView" data-bind="
+<div id="branch-viewer" data-bind="
     style: {
         width: Environment.display.viewportWidth() + 'px',
         height: Environment.display.viewportHeight() + 'px',
         overflow: 'hidden'
     }">
     <img data-bind="attr: {src: floorplanUrl()}" data-role="floorplan" />
-	<div data-bind="foreach: contentTypes">
-		<div data-bind="text: $data, style: {backgroundColor: 'black', color: 'white', padding: '10px', position: 'absolute', top: $root.typeCoordinates[$data]().random.y + 'px', left: $root.typeCoordinates[$data]().random.x + 'px'}"></div>
+	<div data-bind="foreach: contentTypesList">
+		<div data-bind="text: $data + ': ' + $root.storyData[$data]().length, visible: $root.storyData[$data]().length > 0, click: $root.openStorySelector, attr: {class: 'pin ' + $root.contentTypes[$data].color}, style: {padding: '10px', position: 'absolute', top: $root.typeCoordinates[$data]().random.y + 'px', left: $root.typeCoordinates[$data]().random.x + 'px'}"></div>
 	</div>
-</div> 
+	<div id="story-selector" data-bind="foreach: storyData[selectedStoryType()]">
+		<div class="story-selector-element" data-bind="html: $data.title, click: function () { window.location.hash = '#viewStory/' + $data.id }"></div>
+	</div>
+</div>
