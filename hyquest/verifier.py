@@ -136,4 +136,38 @@ def completeBibliocommonsTask(user):
     except Exception:
         print "Error: Unable to communicate with the Bibliocommons API"
     userTasks = UserTaskAction.objects.filter(user=user, task__type=0)
-    return None
+    completedTasks = []
+    for userTask in userTasks:
+        if bibliocommonsMatches(content,userTask.task):
+            completeTask(user, userTask.task)
+            completedTasks.append(userTask.task)
+    return completedTasks
+
+def bibliocommonsMatches(contentSet, task):
+    reqs = task.getInfoReqs()
+    for content in contentSet:
+        if 'action' in reqs and reqs['action'] != content['content']['content_type']['id']:
+            continue
+        if 'format' in reqs and reqs['format'] != content['title']['format']['id']:
+            continue
+        if 'title' in reqs and reqs['title'] != content['title']['title']:
+            continue
+        if 'author' in reqs:
+            reqAuthors = reqs['author'].split(':')
+            containsAuthor = False
+            for author in content['title']['authors']:
+                for reqAuthor in reqAuthors:
+                    if author['name'] == reqAuthor:
+                        containsAuthor = True
+            if not containsAuthor:
+                continue
+        if 'isbn' in reqs:
+            reqISBNs = req['isbn'].split(':')
+            containsISBN = False
+            for reqISBN in reqISBNs:
+                if reqISBN in content['title']['isbns']:
+                    containsISBN = True
+            if not containsISBN:
+                continue
+        return True
+    return False
