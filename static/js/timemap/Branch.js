@@ -40,11 +40,7 @@ return (function () {
 		this.typeCoordinates = {};
 		this.storyData = {};
 		this.selectedStoryType = ko.observable();
-
 		this.allBranches = ko.observableArray([]);
-		$.getJSON (Settings.apiBranchUrl, function(data) {
-			self.allBranches(data.objects);
-		});
 
 		//Create and dynamically update the positions of the icons based on the viewport dimensions,
 		//and initialize story data for each type
@@ -172,6 +168,14 @@ return (function () {
 		this.branchID = branchData.id;
 		this.branchName = branchData.name;
 		this.floorplanUrl(branchData.floor_plan);
+		// Obtain all the branches for the 'Jump to Branch' drop down
+		$.getJSON (Settings.apiBranchUrl, function(data) {
+			self.allBranches(data.objects);
+			// Remove the current branch from the drop down options
+			self.allBranches.remove(function(branch) {
+				return branch.id == self.branchID;
+			});
+		});
 	};
 
 	Branch.prototype.showPin = function (pin) {
