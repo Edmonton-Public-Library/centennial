@@ -532,6 +532,13 @@ body {
 	.pin-text-color(@baseColor) when (lightness(@baseColor) < 50%) {
 		color: lighten(@baseColor, 40%);
 	}
+
+	#jump-to-branch {
+		position: absolute;
+		bottom: 20px;
+		right: 20px;
+		font-size: 20px;
+	}
 }
 
 #story-selector {
