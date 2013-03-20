@@ -1,5 +1,5 @@
 ;
-define(['lib/knockout', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom'], function (ko, Environment, StoryPin) {
+define(['lib/knockout', 'epl/Settings', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom'], function (ko, Settings, Environment, StoryPin) {
 
 return (function () {
 
@@ -41,6 +41,11 @@ return (function () {
 		this.storyData = {};
 		this.selectedStoryType = ko.observable();
 
+		this.allBranches = ko.observableArray([]);
+		$.getJSON (Settings.apiBranchUrl, function(data) {
+			self.allBranches(data.objects);
+		});
+
 		//Create and dynamically update the positions of the icons based on the viewport dimensions,
 		//and initialize story data for each type
 		for(type in contentTypes) {
@@ -76,6 +81,7 @@ return (function () {
 			contentTypes : contentTypes,
 			floorplanUrl : this.floorplanUrl,
 			selectedStoryType : this.selectedStoryType,
+			allBranches : this.allBranches,
 			openStorySelector : function (type, event) {
 				self.showStorySelector(type);
 				event.stopPropagation(); //Otherwise the story selector will hide as soon as it's displayed
