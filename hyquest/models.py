@@ -8,6 +8,9 @@ from epl.custommodels import IntegerRangeField, FloatRangeField
 from util.file_validator import FileValidator
 from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE_LEN, TASK_TITLE_LEN, TASK_DESC_LEN, TASK_CODE_LEN, TASK_CHOICES
 from timemap.models import Branch, Story
+
+biblioFormats = {'BK': 'Book', 'CD':'CD', 'DVD': 'DVD', 'BOOK_CD': 'Audiobook'}
+
 class QuestSet(models.Model):
     
     class Meta:
@@ -59,7 +62,7 @@ class Task(models.Model):
         return self.title
 
     def interpretTMInfo(self):
-        reqs = self.getTimeMapReqs()
+        reqs = self.getInfoReqs()
         infostr = "Visit "
         if 'story' in reqs:
             try:
@@ -78,8 +81,28 @@ class Task(models.Model):
         if 'minYear' in reqs:
             infostr += "after " +reqs['minYear']
         return infostr
-        
+
+    def interpretBiblioInfo(self):
+        reqs = self.getInfoReqs()
+        infostr = "Specifics Not Set"
+        if 'action' in reqs:
+            infostr = ("Comment on a " if (reqs['action'] == 'comment') else "Rate a ")
+        if 'format' in reqs:
+            infostr += biblioFormats[reqs['format']]
+        else:
+            infostr += "Resource "
+        infostr += "with "
+        if 'title' in reqs:
+            infostr += "Title: '"+reqs['title']+"', "
+        if 'author' in reqs:
+            infostr += "Author: '"+ ("' or '".join(reqs['author'].split(':')))+"', "
+        if 'isbn' in reqs:
+            infostr += "ISBN: "+ (" or ".join(reqs['isbn'].split(':')))+", "
+        return infostr
+
     def links(self):
+        if self.id and self.type == 0:
+            return self.interpretBiblioInfo() + "<br><a href='/admin/hyquest/modifybibliotask?task_id="+str(self.id)+"'>Change</a>"
         if self.id and self.type == 3:
             return "<a href='/admin/hyquest/taskcode/?task="+str(self.id)+"' target='_blank'>"+str(TaskCode.objects.filter(task=self, uses_remaining__gt=0).count())+" Codes</a><br><a href='/admin/hyquest/generatecodes?task_id=%s' target='_blank'><img src='/static/admin/img/icon_addlink.gif' width='10' height='10'/> Generate More Codes</a>" % str(self.id)
         elif self.id and self.type == 4:
@@ -89,7 +112,7 @@ class Task(models.Model):
     links.allow_tags = True
 
 
-    def getTimeMapReqs(self):
+    def getInfoReqs(self):
         taskReqs = self.taskinfo.split(';')
         requirements = {}
         for req in taskReqs:
