@@ -14,6 +14,12 @@ framework.
 
 """
 import os
+import sys
+
+path = '/home/ben/EPL'
+if path not in sys.path:
+    sys.path.append(path)
+
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "epl.settings")
 
