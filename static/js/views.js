@@ -232,12 +232,15 @@ viewStory : new View('viewStory', 'View Story',
                 } else if (story.content_type() == "text") {
                     $("#text").addClass('visible');
                 }
+
+                // Set the icon image - relies on correct file names!
+                $('#iconImage').attr('src', Environment.routes.staticDirectory + '/images/' + story.content_type() + '_icon_disabled_crop.png');
             });
             var commentsDiv = $('#fb-comments')[0];
             commentsDiv.innerHTML = "<fb:comments href='" +
                 "http://eplcentennial.epl.ca" + "/timemap/#viewStory/" + storyId +
                 "' num_posts=5 width='600'></fb:comments>";  
-            FB.XFBML.parse(commentsDiv);  
+            FB.XFBML.parse(commentsDiv);
             callback();
         }, 
 
