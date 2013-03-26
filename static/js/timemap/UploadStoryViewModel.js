@@ -23,6 +23,14 @@ return (function () {
                 Error.throw(new Error('UploadStory.branchesAjax'));
             }
         });
+
+        // Obtain the current user who is logged in
+        self.user = ko.observable();
+        $.getJSON (Settings.apiAccountUrl + "current", function(data) {
+            if (data.username != null) {
+                self.user(data.username);
+            }
+        });
         
         // Set up empty story and form validation
         self.story = new Story();

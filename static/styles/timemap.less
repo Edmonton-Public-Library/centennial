@@ -77,6 +77,12 @@ body {
   			// overflow: hidden;
   			z-index: 1000;
 
+  			&.help {
+  				width: 30px;
+  				margin-left: (@eplBarHeight / 4);
+  				padding-left: @padding;
+  			}
+
   			.icon {
   				float: left;
   				height: (2 * @padding) + @fontSize - (2 * @buttonBorderWidth);
@@ -373,7 +379,7 @@ body {
 	overflow: auto;
 
 	#content-container {
-		width: 700px;
+		width: 840px;
 		padding: 10px 0px 60px 10px;
 		margin-left: auto;
 		margin-right: auto;
@@ -437,12 +443,14 @@ body {
 	
 		label.form-label {
 			display: inline-block;
+			text-align: right;
 			width: 160px;
 		}
 
 		label.storyRadioLabel {
 			display: inline-block;
-			width: 120px;
+			text-align: right;
+			width: 110px;
 		}
 
 		.indent {
@@ -455,6 +463,11 @@ body {
 
 		.keywords {
 			font-style: italic;
+		}
+
+		.icon-column {
+			vertical-align: top;
+			padding: 20px;
 		}
 
 		div.highlight-box {
@@ -485,6 +498,18 @@ body {
 					}
 				}
 			}
+		}
+
+		div.fb-comments-container {
+			background-color: white;
+			margin-top: 20px;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 20px;
+			width: 650px;
+			text-align: center;
+			.x-border-radius(15px);
+			.x-box-shadow(0, 10px, 10px, 0px, rgba(0,0,0,0.1), false);
 		}
    	}
 }
@@ -531,6 +556,13 @@ body {
 
 	.pin-text-color(@baseColor) when (lightness(@baseColor) < 50%) {
 		color: lighten(@baseColor, 40%);
+	}
+
+	#jump-to-branch {
+		position: absolute;
+		bottom: 20px;
+		right: 20px;
+		font-size: 20px;
 	}
 }
 

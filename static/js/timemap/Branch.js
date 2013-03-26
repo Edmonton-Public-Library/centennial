@@ -1,5 +1,5 @@
 ;
-define(['lib/knockout', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom'], function (ko, Environment, StoryPin) {
+define(['lib/knockout', 'epl/Settings', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom'], function (ko, Settings, Environment, StoryPin) {
 
 return (function () {
 
@@ -40,6 +40,7 @@ return (function () {
 		this.typeCoordinates = {};
 		this.storyData = {};
 		this.selectedStoryType = ko.observable();
+		this.allBranches = ko.observableArray([]);
 
 		//Create and dynamically update the positions of the icons based on the viewport dimensions,
 		//and initialize story data for each type
@@ -76,6 +77,7 @@ return (function () {
 			contentTypes : contentTypes,
 			floorplanUrl : this.floorplanUrl,
 			selectedStoryType : this.selectedStoryType,
+			allBranches : this.allBranches,
 			openStorySelector : function (type, event) {
 				self.showStorySelector(type);
 				event.stopPropagation(); //Otherwise the story selector will hide as soon as it's displayed
@@ -166,6 +168,14 @@ return (function () {
 		this.branchID = branchData.id;
 		this.branchName = branchData.name;
 		this.floorplanUrl(branchData.floor_plan);
+		// Obtain all the branches for the 'Jump to Branch' drop down
+		$.getJSON (Settings.apiBranchUrl, function(data) {
+			self.allBranches(data.objects);
+			// Remove the current branch from the drop down options
+			self.allBranches.remove(function(branch) {
+				return branch.id == self.branchID;
+			});
+		});
 	};
 
 	Branch.prototype.showPin = function (pin) {
