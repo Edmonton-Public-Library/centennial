@@ -8,7 +8,10 @@ return (function () {
 	var branchInfoSelector = '#tm-branch-info-pane'; //Selector for the element containing the popup template
 	var branchInfoClass = 'tm-branch-info'; //The class used to style the popup box
 	var tileDirectory = Settings.mediaDirectory + '/MapTiles';
-	var overlayOpacity = 1;
+	var eplMapId = 'epl-map';
+	var currentYear = new Date().getFullYear();
+	//Placeholder for EPLMapType, which is defined when the Maps API loads from Google
+	var EPLMapType = {};
 
 	/**
 	 * Creates an epl-wrapped Google Map
@@ -40,6 +43,32 @@ return (function () {
 		window.eplMapsInit = function () {
 			//Run the Map loader
 			self.map = new google.maps.Map(self.mapElement[0], {}); //Defer setting options until rendering
+
+			//Create a custom map type for displaying historical maps from different years
+			EPLMapType = (function () {
+					var Type = function (year) {
+						this.tileBase = tileDirectory + '/' + year;
+					};
+
+					Type.prototype.maxZoom = 16;
+					Type.prototype.minZoom = 7;
+					Type.prototype.tileSize = new google.maps.Size(256, 256);
+					Type.prototype.opacity = overlayOpacity;
+					Type.prototype.isPng = false;
+					Type.prototype.name = '';
+					Type.prototype.alt = '';
+
+					Type.prototype.getTile = function(coord, zoom, ownerDocument) {
+					  var div = ownerDocument.createElement('div');
+					  div.style.width = 256 + 'px';
+					  div.style.height = 256 + 'px';
+					  div.style.backgroundImage = 'url(' + tileDirectory + '/' + self.mapData.selectedYear + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg)';
+					  div.style.backgroundColor = '#FFFFFF';
+					  return div;
+					};
+
+					return Type;
+				})();
 
 			callback();
 		};
@@ -156,20 +185,33 @@ return (function () {
 		//TODO: Trigger any required handlers
 	};
 
+	/**
+	 * Change the current map overlay year
+	 * @param	year	int		The year to display
+	 */
 	Map.prototype.overlayYear = function (year) {
 		var self = this;
 		this.mapData.selectedYear = year;
 
-		self.mapData.mapTiler = new google.maps.ImageMapType({ 
-			getTileUrl: function(coord, zoom) {
-				return tileDirectory + '/' + self.mapData.selectedYear + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg';
-			},
-			tileSize: new google.maps.Size(256, 256),
-			opacity: overlayOpacity,
-			isPng: false
-		});
+		//Load custom maps for anything before the current year		
+		if(year < currentYear) {
+			self.mapData.mapTiler = new google.maps.ImageMapType({ 
+				getTileUrl: function(coord, zoom) {
+					return tileDirectory + '/' + self.mapData.selectedYear + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg';
+				},
+				tileSize: new google.maps.Size(256, 256),
+				opacity: overlayOpacity,
+				isPng: false,
+				maxZoom: 16,
+				minZoom: 7
+			});
 
-		self.map.overlayMapTypes.setAt(0, self.mapData.mapTiler);
+			self.map.mapTypes.set(year.toString(), new EPLMapType(year));
+			self.map.setMapTypeId(year.toString());
+		//Otherwise, load the default map
+		} else {
+			self.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+		}
 	};
 
 	/**
@@ -257,6 +299,9 @@ return (function () {
 		});
 	};
 
+	/**
+	 * Add Knockout bindings that pertain to Map functions
+	 */
 	Map.prototype.registerBindingHandlers = function () {
 		var self = this;
 		ko.bindingHandlers.closeBranchInfo = {
