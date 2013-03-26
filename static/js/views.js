@@ -112,6 +112,21 @@ createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess',
 			callback();
 		}),
 
+/**************************************
+ * Login Success view *
+ *************************************/
+loginSuccess : new View('loginSuccess', 'Login Success', 
+		//in
+		function (fromView, viewport, callback) {
+			Environment.chrome.timeline.disable();
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
 /*************************************
 * Branch View 
 *************************************/
@@ -203,7 +218,6 @@ viewStory : new View('viewStory', 'View Story',
                                 mp3: story.media_file()
                             });
                         },
-                        solution: 'flash',
                         supplied: "mp3", 
                         swfPath: "/static/swf/Jplayer.swf"
                     });
