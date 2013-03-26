@@ -53,7 +53,6 @@ return (function () {
 					Type.prototype.maxZoom = 16;
 					Type.prototype.minZoom = 7;
 					Type.prototype.tileSize = new google.maps.Size(256, 256);
-					Type.prototype.opacity = overlayOpacity;
 					Type.prototype.isPng = false;
 					Type.prototype.name = '';
 					Type.prototype.alt = '';
@@ -200,7 +199,6 @@ return (function () {
 					return tileDirectory + '/' + self.mapData.selectedYear + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg';
 				},
 				tileSize: new google.maps.Size(256, 256),
-				opacity: overlayOpacity,
 				isPng: false,
 				maxZoom: 16,
 				minZoom: 7
