@@ -218,7 +218,6 @@ viewStory : new View('viewStory', 'View Story',
                                 mp3: story.media_file()
                             });
                         },
-                        solution: 'flash',
                         supplied: "mp3", 
                         swfPath: "/static/swf/Jplayer.swf"
                     });
