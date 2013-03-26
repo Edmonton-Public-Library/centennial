@@ -84,25 +84,26 @@ class Task(models.Model):
 
     def interpretBiblioInfo(self):
         reqs = self.getInfoReqs()
-        infostr = "Specifics Not Set"
+        infostr = ""
         if 'action' in reqs:
             infostr = ("Comment on a " if (reqs['action'] == 'comment') else "Rate a ")
+        else:
+            return "Specifics Not Set"
         if 'format' in reqs:
             infostr += biblioFormats[reqs['format']]
         else:
-            infostr += "Resource "
-        infostr += "with "
+            infostr += " Resource"
         if 'title' in reqs:
-            infostr += "Title: '"+reqs['title']+"', "
+            infostr += " with Title: '"+reqs['title']+"', "
         if 'author' in reqs:
-            infostr += "Author: '"+ ("' or '".join(reqs['author'].split(':')))+"', "
+            infostr += " with Author: '"+ ("' or '".join(reqs['author'].split(':')))+"', "
         if 'isbn' in reqs:
-            infostr += "ISBN: "+ (" or ".join(reqs['isbn'].split(':')))+", "
+            infostr += " with ISBN: "+ (" or ".join(reqs['isbn'].split(':')))+", "
         return infostr
 
     def links(self):
         if self.id and self.type == 0:
-            return self.interpretBiblioInfo() + "<br><a href='/admin/hyquest/modifybibliotask?task_id="+str(self.id)+"'>Change</a>"
+            return self.interpretBiblioInfo() + "<br><a href='/admin/hyquest/modifybibliocommons?task_id="+str(self.id)+"'>Change</a>"
         if self.id and self.type == 3:
             return "<a href='/admin/hyquest/taskcode/?task="+str(self.id)+"' target='_blank'>"+str(TaskCode.objects.filter(task=self, uses_remaining__gt=0).count())+" Codes</a><br><a href='/admin/hyquest/generatecodes?task_id=%s' target='_blank'><img src='/static/admin/img/icon_addlink.gif' width='10' height='10'/> Generate More Codes</a>" % str(self.id)
         elif self.id and self.type == 4:

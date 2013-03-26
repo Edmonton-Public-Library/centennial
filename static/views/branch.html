@@ -11,4 +11,9 @@
 	<div id="story-selector" data-bind="foreach: storyData[selectedStoryType()]">
 		<div class="story-selector-element" data-bind="html: $data.title, click: function () { window.location.hash = '#viewStory/' + $data.id }"></div>
 	</div>
+	<div id="jump-to-branch">
+		<select data-bind="options: allBranches, optionsText: 'name', optionsValue: 'id',
+			optionsCaption: 'Jump to Branch...'" onChange="top.location='#branch/' + this.value;">
+		</select>
+	</div>
 </div>

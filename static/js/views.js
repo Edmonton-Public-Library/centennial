@@ -188,9 +188,10 @@ uploadStorySuccess : new View('uploadStorySuccess', 'Upload Story Success',
 viewStory : new View('viewStory', 'View Story', 
         //in
         function (fromView, viewport, callback) {
+            var storyId = epl.nav.params['id'];
             require(['timemap/StoryViewModel', 'lib/jquery.jplayer', 'lib/pdfobject'], function (StoryViewModel) {
                 // Obtain the story id from the URL param
-                var story = new StoryViewModel(epl.nav.params['id']);
+                var story = new StoryViewModel(storyId);
                 ko.applyBindings(story, $('#tm-content-panel')[0]);
 
                 Environment.chrome.timeline.disable();
@@ -232,6 +233,11 @@ viewStory : new View('viewStory', 'View Story',
                     $("#text").addClass('visible');
                 }
             });
+            var commentsDiv = $('#fb-comments')[0];
+            commentsDiv.innerHTML = "<fb:comments href='" +
+                "http://eplcentennial.epl.ca" + "/timemap/#viewStory/" + storyId +
+                "' num_posts=5 width='600'></fb:comments>";  
+            FB.XFBML.parse(commentsDiv);  
             callback();
         }, 
 
