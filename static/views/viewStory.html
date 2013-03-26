@@ -1,6 +1,14 @@
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+  {parsetags: 'explicit'}
+</script>
+
 <div id="tm-content-panel">
     <div id="content-container">
+      <table><tr>
+        <td class="icon-column"><img id="iconImage" src="" width="100px"/></td>
+        <td>
         <h1 data-bind="text: title"> </h1>
+        
         <a data-bind="attr: {href: '#branch/' + branch_id()}">
             <h2 data-bind="text: branch_name"> </h2>
         </a>
@@ -140,5 +148,12 @@
         <div class="fb-comments-container">
           <div id="fb-comments" class="fb-comments"></div>
         </div>
+        <div class="social-box-share-container">
+            <div id="my-facebook-share-button"></div>
+            <div id="my-twitter-share-button"></div>
+            <div id="my-googleplus-share-button"><div>
+        </div>
+        </td></tr>
+      </table>
     </div>
 </div>

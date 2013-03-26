@@ -24,6 +24,13 @@ return {
 			});
 		});
 
+		//Route to Login Succcess view
+		this.get('#loginSuccess', function () {
+			require(['timemap', 'views'], function (epl, views) {
+				epl.nav.transition(views.loginSuccess);
+			});
+		});
+
 		//Route to My Account view
 		this.get('#myAccount', function () {
 			require(['timemap', 'views'], function (epl, views) {

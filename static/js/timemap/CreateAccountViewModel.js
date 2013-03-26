@@ -19,21 +19,23 @@ return (function () {
     var CreateAccountViewModel = function () {
         var self = this;
         
-        // Set up an empty account
+        // Set up an empty account and login
         self.account = new Account();
+        self.login = new Login();
         // Add knockout validation to the account
         ko.validation.configure({ insertMessages: false });
         self.account.errors = ko.validation.group(self.account);
+        self.login.errors = ko.validation.group(self.login);
 
         // On submit, validate and save the account
-        self.submit = function () {
+        self.createAccountSubmit = function () {
             if (!self.account.isValid()) {
                 self.account.errors.showAllMessages();
                 return false;
             }
             // Append the ReCaptcha Information
             self.account.recaptcha_challenge = $("#recaptcha-section #recaptcha_challenge_field").val();
-            // Create the account - untested!
+            // Create the account
             $.ajax(Settings.apiAccountUrl + "create", {
                 data: ko.toJSON(self.account),
                 type: "POST",
@@ -45,15 +47,43 @@ return (function () {
                 error: function (xhr) {
                     // Response code 409 indicates duplicate user.
                     if (xhr.status == 409) {
-                        $("#ajaxError").text("Username is already taken. Please choose another username.");
+                        $("#ajaxErrorCreateAccount").text("Username is already taken. Please choose another username.");
                     } else {
-                        $("#ajaxError").text("An error occurred while creating a new user." +
+                        $("#ajaxErrorCreateAccount").text("An error occurred while creating a new user." +
                            " Please try again or contact a system administrator if the problem persists.");
                     }
                 }
             });
-            
         };
+
+        self.loginSubmit = function () {
+            if (!self.login.isValid()) {
+                self.login.errors.showAllMessages();
+                return false;
+            }
+            // Login
+            $.ajax('/account/login/centennial/', {
+                type : 'post',
+                contentType : 'application/json',
+                processData : false,
+                data : ko.toJSON(self.login),
+                success : function (data) {
+                    top.location="#loginSuccess";
+                },
+                error : function (data) {
+                    $("#ajaxErrorLogin").text("Invalid username or password. Please try again.");
+                }
+            });
+        };
+    };
+
+    function Login() {
+        this.username = ko.observable().extend({
+            required: { message: 'Username is required.' }
+        });
+        this.password = ko.observable().extend({
+            required: { message: 'Password is required.' }
+        });
     };
     
     function Account() {

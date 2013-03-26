@@ -112,6 +112,21 @@ createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess',
 			callback();
 		}),
 
+/**************************************
+ * Login Success view *
+ *************************************/
+loginSuccess : new View('loginSuccess', 'Login Success', 
+		//in
+		function (fromView, viewport, callback) {
+			Environment.chrome.timeline.disable();
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
 /*************************************
 * Branch View 
 *************************************/
@@ -203,7 +218,6 @@ viewStory : new View('viewStory', 'View Story',
                                 mp3: story.media_file()
                             });
                         },
-                        solution: 'flash',
                         supplied: "mp3", 
                         swfPath: "/static/swf/Jplayer.swf"
                     });
@@ -232,12 +246,38 @@ viewStory : new View('viewStory', 'View Story',
                 } else if (story.content_type() == "text") {
                     $("#text").addClass('visible');
                 }
+
+                var commentsDiv = $('#fb-comments')[0];
+                commentsDiv.innerHTML = "<fb:comments href='" +
+                    "http://eplcentennial.epl.ca" + "/timemap/#viewStory/" + storyId +
+                    "' num_posts=5 width='600'></fb:comments>";  
+                FB.XFBML.parse(commentsDiv);  
+
+                //load the facebook buttons here
+                var facebookDiv = $('#my-facebook-share-button')[0];
+                facebookDiv.innerHTML = 
+                    '<div class="fb-like" data-send="false" data-width="450"\
+                        data-show-faces="false" data-font="arial"\
+                        data-colorscheme="dark" data-action="recommend"></div>'
+                FB.XFBML.parse(facebookDiv);
+
+                //load the twitter button here
+                var twitterDiv = $('#my-twitter-share-button')[0];
+                twitterDiv.innerHTML = 
+                    '<a href="https://twitter.com/share" class="twitter-share-button" data-text="'+ story.title() + '" data-lang="en" data-hashtags="epl"></a>';
+                $.getScript('http://platform.twitter.com/widgets.js', function() {
+                    twttr.widgets.load(twitterDiv);
+                });
+
+                //load the googlePlus share button here
+                var googlePlusDiv = $('#my-googleplus-share-button')[0];
+                var pageCannonicalHref = "http://eplcentennial.epl.ca/timemap/#viewStory/" + storyId;
+                googlePlusDiv.innerHTML = '<div class="g-plus" data-action="share" data-annotation="bubble" href="'+pageCannonicalHref+'"></div>'
+                $.getScript("https://apis.google.com/js/plusone.js" , function() {
+                        gapi.plusone.go(googlePlusDiv);
+                        });
             });
-            var commentsDiv = $('#fb-comments')[0];
-            commentsDiv.innerHTML = "<fb:comments href='" +
-                "http://eplcentennial.epl.ca" + "/timemap/#viewStory/" + storyId +
-                "' num_posts=5 width='600'></fb:comments>";  
-            FB.XFBML.parse(commentsDiv);  
+
             callback();
         }, 
 
