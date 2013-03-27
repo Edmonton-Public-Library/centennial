@@ -3089,10 +3089,12 @@ define(['timemap/Environment'], function (Environment) {
 						this.setCenterVisibleDate(this._eventSource.getEarliestDate());
 						break;
 					case 33:
-						this._autoScroll(this._timeline.getPixelLength());
+						/** EDITED BY BRAEDEN PETRUK TO DISABLE PAGE UP/PAGE DOWN NAVIGATION */
+						// this._autoScroll(this._timeline.getPixelLength());
 						break;
 					case 34:
-						this._autoScroll(-this._timeline.getPixelLength());
+						/** EDITED BY BRAEDEN PETRUK TO DISABLE PAGE UP/PAGE DOWN NAVIGATION */
+						// this._autoScroll(-this._timeline.getPixelLength());
 						break;
 					default:
 						return true
