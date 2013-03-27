@@ -31,7 +31,7 @@
                 <table border="1">
                     <tr>
                         <td>#</td>
-                        <td>TM.1</td>
+                        <td>TM-Test.1.1</td>
                     </tr>
                     <tr>
                         <td>Test Name</td>
@@ -88,7 +88,7 @@
                 <table border="1">
                     <tr>
                         <td>#</td>
-                        <td>TM.2</td>
+                        <td>TM-Test.1.2</td>
                     </tr>
                     <tr>
                         <td>Test Name</td>
@@ -145,6 +145,7 @@
                             </table>
                         </td>
                 </table>
+                <br>
 
                 <h2>User Experience</h2>
                 <br>
@@ -152,27 +153,27 @@
                 <table border="1">
                     <tr>
                         <td>#</td>
-                        <td></td>
+                        <td>TM-Test-2.1</td>
                     </tr>
                     <tr>
                         <td>Test Name</td>
-                        <td></td>
+                        <td>Account Creation Successful</td>
                     </tr>
                     <tr>
                         <td>Purpose</td>
-                        <td></td>
+                        <td>Ensure that user can create an account properly</td>
                     </tr>
                     <tr>
                         <td>User Requirement Reference</td>
-                        <td></td>
+                        <td>TM.2.1</td>
                     </tr>
                     <tr>
                         <td>Pre Conditions</td>
-                        <td></td>
+                        <td>No user must be logged in to system</td>
                     </tr>
                     <tr>
                         <td>Post Conditions</td>
-                        <td></td>
+                        <td>New account should exist and be activated.</td>
                     </tr>
                     <tr>
                         <td>Test Steps</td>
@@ -182,15 +183,136 @@
                                 <th>Description</th>
                                 <th>Expected Result</th>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>1</td>
+                                    <td>Navigate to create account view</td>
+                                    <td>Pass</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Fill in required fields with correct values</td>
+                                    <td>Pass</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Press submit button</td>
+                                    <td>Validation should not return any errors</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Go to registration e-mail add click on the activate account link.</td>
+                                    <td>Email should be available. Link should naviagte to account activation view with success message</td>
                                 </tr>
                             </table>
+                            <br>
                         </td>
                 </table>
                 <br>
-
+                
+                <table border="1">
+                    <tr>
+                        <td>#</td>
+                        <td>TM-Test-2.2</td>
+                    </tr>
+                    <tr>
+                        <td>Test Name</td>
+                        <td>Account Creation Failure</td>
+                    </tr>
+                    <tr>
+                        <td>Purpose</td>
+                        <td>Ensure account creation form validation reports errors correctly</td>
+                    </tr>
+                    <tr>
+                        <td>User Requirement Reference</td>
+                        <td>TM.2.1</td>
+                    </tr>
+                    <tr>
+                        <td>Pre Conditions</td>
+                        <td>No user must be logged in to system</td>
+                    </tr>
+                    <tr>
+                        <td>Post Conditions</td>
+                        <td>No new account must be created</td>
+                    </tr>
+                    <tr>
+                        <td>Test Steps</td>
+                        <td>
+                            <table border="1">
+                                <th>Step #</th>
+                                <th>Description</th>
+                                <th>Expected Result</th>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Navigate to create account view.</td>
+                                    <td>Pass.</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Fill in required fields. Random pick two fields and provide invalid input values.</td>
+                                    <td>Pass.</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Press submit button.</td>
+                                    <td>Validation should return the appropriate errors.</td>
+                                </tr>
+                            </table>
+                            <br>
+                        </td>
+                </table>
+                <br>
+                
+                <table border="1">
+                    <tr>
+                        <td>#</td>
+                        <td>TM-Test-2.3</td>
+                    </tr>
+                    <tr>
+                        <td>Test Name</td>
+                        <td>Login Test</td>
+                    </tr>
+                    <tr>
+                        <td>Purpose</td>
+                        <td>Ensure that user can login with account created in TM-Test-2.1</td>
+                    </tr>
+                    <tr>
+                        <td>User Requirement Reference</td>
+                        <td>TM.2.3</td>
+                    </tr>
+                    <tr>
+                        <td>Pre Conditions</td>
+                        <td>An account created from TM-Test-2.1 must exist.</td>
+                    </tr>
+                    <tr>
+                        <td>Post Conditions</td>
+                        <td>User must be logged in</td>
+                    </tr>
+                    <tr>
+                        <td>Test Steps</td>
+                        <td>
+                            <table border="1">
+                                <th>Step #</th>
+                                <th>Description</th>
+                                <th>Expected Result</th>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Click the button for login</td>
+                                    <td>Pass.</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Fill in the required credentials.</td>
+                                    <td>Pass.</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Press submit button.</td>
+                                    <td>Pass.</td>
+                                </tr>
+                            </table>
+                            <br>
+                        </td>
+                </table>
+                
                 <h2>Navigation</h2>
                 <br>
 
