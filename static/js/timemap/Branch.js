@@ -20,6 +20,7 @@ return (function () {
 		this.storySelector = viewport.find('#story-selector');
 		this.floorplanUrl = ko.observable('');
 		this.floorplanElement = this.viewport.find('[data-role=floorplan]');
+		this.branchHeaderElement = this.viewport.find('[data-role=branch-header]');
 		this.branchID = '';
 		this.branchName = ko.observable('');
 		this.branchDesc = ko.observable();
@@ -157,13 +158,18 @@ return (function () {
 	};
 
 	Branch.prototype.configureFloorplan = function() {
-		var width = this.floorplanElement.width(),
-			height = this.floorplanElement.height();
+		var floorplanWidth = this.floorplanElement.width(),
+			floorplanHeight = this.floorplanElement.height(),
+			headerHeight = this.branchHeaderElement.height(), 
+			effectiveViewportHeight = Environment.display.viewportHeight() - headerHeight,
+			viewportWidth = Environment.display.viewportWidth();
 
-		if(width > height) {
-			this.floorplanElement.width(Environment.display.viewportWidth());
+		// Stretch to the full height unless it would cause the width to overflow...
+		if ((effectiveViewportHeight / floorplanHeight * floorplanWidth) <= viewportWidth) {
+			this.floorplanElement.height(effectiveViewportHeight);
+		// ...in which case, stretch to the full width
 		} else {
-			this.floorplanElement.height(Environment.display.viewportHeight());
+			this.floorplanElement.width(viewportWidth);
 		}
 
 		this.dimensions.viewerWidth(this.floorplanElement.width());

@@ -4,12 +4,14 @@
 		height: Environment.display.viewportHeight() + 'px',
 		overflow: 'hidden'
 	}">
-	<div id="branch-header">
-		<div class="branch-title">
-			<span data-bind="text: branchName()"></span>
-			(<span data-bind="text: branchStartDate()"></span> - <span data-bind="text: branchEndDate()"></span>)
+	<div id="branch-header" data-role="branch-header">
+		<div id="brach-header-content">
+			<div class="branch-title">
+				<span data-bind="text: branchName()"></span>
+				(<span data-bind="text: branchStartDate()"></span> - <span data-bind="text: branchEndDate()"></span>)
+			</div>
+			<span data-bind="text: branchDesc()"></span>
 		</div>
-		<span data-bind="text: branchDesc()"></span>
 	</div>
 	<img data-bind="attr: {src: floorplanUrl()}" data-role="floorplan" />
 	<div data-bind="foreach: contentTypesList">
