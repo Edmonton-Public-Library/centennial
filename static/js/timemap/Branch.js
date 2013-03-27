@@ -21,7 +21,10 @@ return (function () {
 		this.floorplanUrl = ko.observable('');
 		this.floorplanElement = this.viewport.find('[data-role=floorplan]');
 		this.branchID = '';
-		this.branchName = '';
+		this.branchName = ko.observable('');
+		this.branchDesc = ko.observable();
+		this.branchStartDate = ko.observable();
+		this.branchEndDate = ko.observable();
 		this.dimensions = new (function () {
 			var dimensions = this;
 
@@ -49,7 +52,7 @@ return (function () {
 				this.pinCoordinates({
 					type: type,
 					id : self.branchID,
-					title : self.branchName
+					title : self.branchName()
 				})
 			);
 
@@ -62,7 +65,7 @@ return (function () {
 					self.pinCoordinates({
 						type: type,
 						id : self.branchID,
-						title : self.branchName
+						title : self.branchName()
 					})
 				);
 			}
@@ -77,6 +80,10 @@ return (function () {
 			contentTypes : contentTypes,
 			floorplanUrl : this.floorplanUrl,
 			selectedStoryType : this.selectedStoryType,
+			branchName : this.branchName,
+			branchDesc : this.branchDesc,
+			branchStartDate : this.branchStartDate,
+			branchEndDate : this.branchEndDate,
 			allBranches : this.allBranches,
 			openStorySelector : function (type, event) {
 				self.showStorySelector(type);
@@ -166,7 +173,11 @@ return (function () {
 	Branch.prototype.setData = function (branchData) {
 		var self = this;
 		this.branchID = branchData.id;
-		this.branchName = branchData.name;
+		this.branchName(branchData.name);
+		this.branchDesc(branchData.description);
+		this.branchStartDate(branchData.start_year);
+		var endYear = branchData.end_year != null ? branchData.end_year : "Present";
+		this.branchEndDate(endYear);
 		this.floorplanUrl(branchData.floor_plan);
 		// Obtain all the branches for the 'Jump to Branch' drop down
 		$.getJSON (Settings.apiBranchUrl, function(data) {
