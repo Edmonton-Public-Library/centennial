@@ -11,27 +11,27 @@
         <table border="1">
             <tr>
                 <td>#</td>
-                <td></td>
+                <td>TM.1</td>
             </tr>
             <tr>
                 <td>Test Name</td>
-                <td></td>
+                <td>Approve story</td>
             </tr>
             <tr>
                 <td>Purpose</td>
-                <td></td>
+                <td>The purpose of this test is to ensure content is not displayed until approved by an administrator</td>
             </tr>
             <tr>
                 <td>User Requirement Reference</td>
-                <td></td>
+                <td>TM.1.1</td>
             </tr>
             <tr>
                 <td>Pre Conditions</td>
-                <td></td>
+                <td>Story must be uploaded but unapproved</td>
             </tr>
             <tr>
                 <td>Post Conditions</td>
-                <td></td>
+                <td>Story must be visible on public page</td>
             </tr>
             <tr>
                 <td>Test Steps</td>
@@ -41,14 +41,90 @@
                         <th>Description</th>
                         <th>Expected Result</th>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>1</td>
+                            <td>Navigate to administrator page</td>
+                            <td>Content should be available on page</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Verify Content is appropriate for display</td>
+                            <td>Pass</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Approve content</td>
+                            <td>Pass</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Verify that content is now visible on public webpage</td>
+                            <td>Content should be visible</td>
                         </tr>
                     </table>
                 </td>
         </table>
         <br>
+
+        <table border="1">
+            <tr>
+                <td>#</td>
+                <td>TM.2</td>
+            </tr>
+            <tr>
+                <td>Test Name</td>
+                <td>Reject Story</td>
+            </tr>
+            <tr>
+                <td>Purpose</td>
+                <td>Ensure that unapproved content is never displayed on the public webpage and is deleted.</td>
+            </tr>
+            <tr>
+                <td>User Requirement Reference</td>
+                <td>TM.1.1</td>
+            </tr>
+            <tr>
+                <td>Pre Conditions</td>
+                <td>Story must be uploaded but unapproved.</td>
+            </tr>
+            <tr>
+                <td>Post Conditions</td>
+                <td>Story must be deleted and not visible to public.</td>
+            </tr>
+            <tr>
+                <td>Test Steps</td>
+                <td>
+                    <table border="1">
+                        <th>Step #</th>
+                        <th>Description</th>
+                        <th>Expected Result</th>
+                        <tr>
+                            <td>1</td>
+                            <td>Navigate to administrator page</td>
+                            <td>Content should be available on page</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Verify Content is inappropriate for display</td>
+                            <td>Pass</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Reject the uploaded content.</td>
+                            <td>Pass</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Verify that the content was deleted.</td>
+                            <td>Pass</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Verify that the content is not visible on the public webpage</td>
+                            <td>Pass</td>
+                        </tr>
+                    </table>
+                </td>
+        </table>
 
         <h2>User Experience</h2>
         <br>
@@ -153,7 +229,7 @@
 
 
 
-
+        <!--Template Table-->
         <table border="1">
             <tr>
                 <td>#</td>
