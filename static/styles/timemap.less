@@ -379,7 +379,7 @@ body {
 	overflow: auto;
 
 	#content-container {
-		width: 700px;
+		width: 840px;
 		padding: 10px 0px 60px 10px;
 		margin-left: auto;
 		margin-right: auto;
@@ -443,12 +443,14 @@ body {
 	
 		label.form-label {
 			display: inline-block;
+			text-align: right;
 			width: 160px;
 		}
 
 		label.storyRadioLabel {
 			display: inline-block;
-			width: 120px;
+			text-align: right;
+			width: 110px;
 		}
 
 		.indent {
@@ -461,6 +463,11 @@ body {
 
 		.keywords {
 			font-style: italic;
+		}
+
+		.icon-column {
+			vertical-align: top;
+			padding: 20px;
 		}
 
 		div.highlight-box {
@@ -549,6 +556,17 @@ body {
 
 	.pin-text-color(@baseColor) when (lightness(@baseColor) < 50%) {
 		color: lighten(@baseColor, 40%);
+	}
+
+	#branch-header-content {
+		padding: 15px;
+		color: white;
+		background-color: #3c4c5d;
+		.branch-title {
+			font-weight: bold;
+			font-size: 30px;
+			margin-bottom: 8px;
+		}
 	}
 
 	#jump-to-branch {
