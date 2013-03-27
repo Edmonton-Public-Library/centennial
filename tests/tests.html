@@ -1,37 +1,275 @@
 <html>
-    <head></head>
-        <title>Acceptance Test Docs</title>
-        <head></head>
+    <head>
+      <meta charset="utf-8" />
+      <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+      <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+      <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+      <script>
+      $(function() {
+        $( "#content" ).tabs();
+      });
+      </script>
+      <style>
+          .scroll
+          {
+              min-height:550px;
+              max-height:550px;
+              overflow-y:scroll;
+          }
+      </style>
+    </head>
     <body>
-        <h1>Time Map Tests</h1>
-        <br>
-        <h2>Administrative</h2>
-        <br>
-        
-        <table border="1">
+        <div id='content'>
+            <ul>
+                <li><a href="#tmtest">TM Tests</a></li>
+                <li><a href="#hyqtest">HYQ Tests</a></li>
+            </ul>
+            <div class='scroll' id='tmtest' style='max-height:10px overflow-y:scroll'>
+                <h2>Administrative</h2>
+                <br>
+                
+                <table border="1">
+                    <tr>
+                        <td>#</td>
+                        <td>TM.1</td>
+                    </tr>
+                    <tr>
+                        <td>Test Name</td>
+                        <td>Approve story</td>
+                    </tr>
+                    <tr>
+                        <td>Purpose</td>
+                        <td>The purpose of this test is to ensure content is not displayed until approved by an administrator</td>
+                    </tr>
+                    <tr>
+                        <td>User Requirement Reference</td>
+                        <td>TM.1.1</td>
+                    </tr>
+                    <tr>
+                        <td>Pre Conditions</td>
+                        <td>Story must be uploaded but unapproved</td>
+                    </tr>
+                    <tr>
+                        <td>Post Conditions</td>
+                        <td>Story must be visible on public page</td>
+                    </tr>
+                    <tr>
+                        <td>Test Steps</td>
+                        <td>
+                            <table border="1">
+                                <th>Step #</th>
+                                <th>Description</th>
+                                <th>Expected Result</th>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Navigate to administrator page</td>
+                                    <td>Content should be available on page</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Verify Content is appropriate for display</td>
+                                    <td>Pass</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Approve content</td>
+                                    <td>Pass</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Verify that content is now visible on public webpage</td>
+                                    <td>Content should be visible</td>
+                                </tr>
+                            </table>
+                        </td>
+                </table>
+                <br>
+
+                <table border="1">
+                    <tr>
+                        <td>#</td>
+                        <td>TM.2</td>
+                    </tr>
+                    <tr>
+                        <td>Test Name</td>
+                        <td>Reject Story</td>
+                    </tr>
+                    <tr>
+                        <td>Purpose</td>
+                        <td>Ensure that unapproved content is never displayed on the public webpage and is deleted.</td>
+                    </tr>
+                    <tr>
+                        <td>User Requirement Reference</td>
+                        <td>TM.1.1</td>
+                    </tr>
+                    <tr>
+                        <td>Pre Conditions</td>
+                        <td>Story must be uploaded but unapproved.</td>
+                    </tr>
+                    <tr>
+                        <td>Post Conditions</td>
+                        <td>Story must be deleted and not visible to public.</td>
+                    </tr>
+                    <tr>
+                        <td>Test Steps</td>
+                        <td>
+                            <table border="1">
+                                <th>Step #</th>
+                                <th>Description</th>
+                                <th>Expected Result</th>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Navigate to administrator page</td>
+                                    <td>Content should be available on page</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Verify Content is inappropriate for display</td>
+                                    <td>Pass</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Reject the uploaded content.</td>
+                                    <td>Pass</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Verify that the content was deleted.</td>
+                                    <td>Pass</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Verify that the content is not visible on the public webpage</td>
+                                    <td>Pass</td>
+                                </tr>
+                            </table>
+                        </td>
+                </table>
+
+                <h2>User Experience</h2>
+                <br>
+
+                <table border="1">
+                    <tr>
+                        <td>#</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Test Name</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Purpose</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>User Requirement Reference</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Pre Conditions</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Post Conditions</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Test Steps</td>
+                        <td>
+                            <table border="1">
+                                <th>Step #</th>
+                                <th>Description</th>
+                                <th>Expected Result</th>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                </table>
+                <br>
+
+                <h2>Navigation</h2>
+                <br>
+
+                <table border="1">
+                    <tr>
+                        <td>#</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Test Name</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Purpose</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>User Requirement Reference</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Pre Conditions</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Post Conditions</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Test Steps</td>
+                        <td>
+                            <table border="1">
+                                <th>Step #</th>
+                                <th>Description</th>
+                                <th>Expected Result</th>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                </table>
+                <br>
+            </div>
+            <div class='scroll' id='hyqtest'>
+                <h2>Administrative Requirements</h2>
+                <br>
+                <h2>User Experience</h2>
+                <br>
+                <h2>Quests</h2>
+                <br>
+            </div>
+        </div>
+
+        <!--table border="1">
             <tr>
                 <td>#</td>
-                <td>TM.1</td>
+                <td></td>
             </tr>
             <tr>
                 <td>Test Name</td>
-                <td>Approve story</td>
+                <td></td>
             </tr>
             <tr>
                 <td>Purpose</td>
-                <td>The purpose of this test is to ensure content is not displayed until approved by an administrator</td>
+                <td></td>
             </tr>
             <tr>
                 <td>User Requirement Reference</td>
-                <td>TM.1.1</td>
+                <td></td>
             </tr>
             <tr>
                 <td>Pre Conditions</td>
-                <td>Story must be uploaded but unapproved</td>
+                <td></td>
             </tr>
             <tr>
                 <td>Post Conditions</td>
-                <td>Story must be visible on public page</td>
+                <td></td>
             </tr>
             <tr>
                 <td>Test Steps</td>
@@ -41,234 +279,12 @@
                         <th>Description</th>
                         <th>Expected Result</th>
                         <tr>
-                            <td>1</td>
-                            <td>Navigate to administrator page</td>
-                            <td>Content should be available on page</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Verify Content is appropriate for display</td>
-                            <td>Pass</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Approve content</td>
-                            <td>Pass</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Verify that content is now visible on public webpage</td>
-                            <td>Content should be visible</td>
-                        </tr>
-                    </table>
-                </td>
-        </table>
-        <br>
-
-        <table border="1">
-            <tr>
-                <td>#</td>
-                <td>TM.2</td>
-            </tr>
-            <tr>
-                <td>Test Name</td>
-                <td>Reject Story</td>
-            </tr>
-            <tr>
-                <td>Purpose</td>
-                <td>Ensure that unapproved content is never displayed on the public webpage and is deleted.</td>
-            </tr>
-            <tr>
-                <td>User Requirement Reference</td>
-                <td>TM.1.1</td>
-            </tr>
-            <tr>
-                <td>Pre Conditions</td>
-                <td>Story must be uploaded but unapproved.</td>
-            </tr>
-            <tr>
-                <td>Post Conditions</td>
-                <td>Story must be deleted and not visible to public.</td>
-            </tr>
-            <tr>
-                <td>Test Steps</td>
-                <td>
-                    <table border="1">
-                        <th>Step #</th>
-                        <th>Description</th>
-                        <th>Expected Result</th>
-                        <tr>
-                            <td>1</td>
-                            <td>Navigate to administrator page</td>
-                            <td>Content should be available on page</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Verify Content is inappropriate for display</td>
-                            <td>Pass</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Reject the uploaded content.</td>
-                            <td>Pass</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Verify that the content was deleted.</td>
-                            <td>Pass</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Verify that the content is not visible on the public webpage</td>
-                            <td>Pass</td>
-                        </tr>
-                    </table>
-                </td>
-        </table>
-
-        <h2>User Experience</h2>
-        <br>
-
-        <table border="1">
-            <tr>
-                <td>#</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Test Name</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Purpose</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>User Requirement Reference</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Pre Conditions</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Post Conditions</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Test Steps</td>
-                <td>
-                    <table border="1">
-                        <th>Step #</th>
-                        <th>Description</th>
-                        <th>Expected Result</th>
-                        <tr>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                     </table>
                 </td>
-        </table>
-        <br>
-
-        <h2>Navigation</h2>
-        <br>
-
-        <table border="1">
-            <tr>
-                <td>#</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Test Name</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Purpose</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>User Requirement Reference</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Pre Conditions</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Post Conditions</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Test Steps</td>
-                <td>
-                    <table border="1">
-                        <th>Step #</th>
-                        <th>Description</th>
-                        <th>Expected Result</th>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </td>
-        </table>
-        <br>
-
-        <h1>HYQ Tests</h1>
-        <br>
-        <h2>Administrative Requirements</h2>
-        <br>
-        <h2>User Experience</h2>
-        <br>
-        <h2>Quests</h2>
-        <br>
-
-
-
-
-
-        <!--Template Table-->
-        <table border="1">
-            <tr>
-                <td>#</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Test Name</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Purpose</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>User Requirement Reference</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Pre Conditions</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Post Conditions</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Test Steps</td>
-                <td>
-                    <table border="1">
-                        <th>Step #</th>
-                        <th>Description</th>
-                        <th>Expected Result</th>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </td>
-        </table>
+        </table-->
     </body>
 </html>
