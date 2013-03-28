@@ -12,8 +12,6 @@
       <style>
           .scroll
           {
-              min-height:550px;
-              max-height:550px;
               overflow-y:scroll;
           }
       </style>
@@ -28,7 +26,7 @@
                 <h2>Administrative</h2>
                 <br>
                 
-                <table border="1" id='tm-test-1.1'>
+                <table border="1" class="test-case" id='tm-test-1.1'>
                     <tr>
                         <td>#</td>
                         <td>TM-Test.1.1</td>
@@ -57,7 +55,7 @@
                         <td>Test Steps</td>
                         <td>
                         	<br>
-                            <table border="1">
+                            <table border="1" class="test-case-steps">
                                 <th>Step #</th>
                                 <th>Description</th>
                                 <th>Expected Result</th>
@@ -87,7 +85,7 @@
                 </table>
                 <br>
 
-                <table border="1" id='tm-test-1.2'>
+                <table border="1" class="test-case" id='tm-test-1.2'>
                     <tr>
                         <td>#</td>
                         <td>TM-Test.1.2</td>
@@ -116,7 +114,7 @@
                         <td>Test Steps</td>
                         <td>
                         	<br>
-                            <table border="1">
+                            <table border="1" class="test-case-steps">
                                 <th>Step #</th>
                                 <th>Description</th>
                                 <th>Expected Result</th>
@@ -151,10 +149,76 @@
                 </table>
                 <br>
 
+                <table border="1" class="test-case" id="tm-test-1.3">
+                    <tr>
+                        <td>#</td>
+                        <td>TM-Test.1.3</td>
+                    </tr>
+                    <tr>
+                        <td>Test Name</td>
+                        <td>Ban User</td>
+                    </tr>
+                    <tr>
+                        <td>Purpose</td>
+                        <td>Test to see if banning a user prevents them from logging on</td>
+                    </tr>
+                    <tr>
+                        <td>User Requirement Reference</td>
+                        <td>TM.1.4</td>
+                    </tr>
+                    <tr>
+                        <td>Pre Conditions</td>
+                        <td>User account must already exist</td>
+                    </tr>
+                    <tr>
+                        <td>Post Conditions</td>
+                        <td>User should no longer exist and should not be able to logon or recreate his account</td>
+                    </tr>
+                    <tr>
+                        <td>Test Steps</td>
+                        <td>
+                            <table border="1" class="test-case-steps">
+                                <th>Step #</th>
+                                <th>Description</th>
+                                <th>Expected Result</th>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Navigate to account mangagement administrator page.</td>
+                                    <td>Pass.</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Locate the user to delete and click delete button.</td>
+                                    <td>Confirmation to delete should appear</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Delete the user</td>
+                                    <td>Confirmation of user deletion.</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Navigate to main TimeMap page</td>
+                                    <td>Pass</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Attempt to login with deleted user</td>
+                                    <td>Login should fail</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Attempt to re-create account with same credentials</td>
+                                    <td>Attempt should fail</td>
+                                </tr>
+                            </table>
+                        </td>
+                </table>
+
                 <h2>User Experience</h2>
                 <br>
 
-                <table border="1" id='tm-test-2.1'>
+                <table border="1" class="test-case" id='tm-test-2.1'>
                     <tr>
                         <td>#</td>
                         <td>TM-Test-2.1</td>
@@ -183,7 +247,7 @@
                         <td>Test Steps</td>
                         <td>
                         	<br>
-                            <table border="1">
+                            <table border="1" class="test-case-steps">
                                 <th>Step #</th>
                                 <th>Description</th>
                                 <th>Expected Result</th>
@@ -213,7 +277,7 @@
                 </table>
                 <br>
                 
-                <table border="1" id='tm-test-2.2'>
+                <table border="1" class="test-case" id='tm-test-2.2'>
                     <tr>
                         <td>#</td>
                         <td>TM-Test-2.2</td>
@@ -242,7 +306,7 @@
                         <td>Test Steps</td>
                         <td>
                         	<br>
-                            <table border="1">
+                            <table border="1" class="test-case-steps">
                                 <th>Step #</th>
                                 <th>Description</th>
                                 <th>Expected Result</th>
@@ -267,7 +331,7 @@
                 </table>
                 <br>
                 
-                <table border="1" id='tm-test-2.3'>
+                <table border="1" class="test-case" id='tm-test-2.3'>
                     <tr>
                         <td>#</td>
                         <td>TM-Test-2.3</td>
@@ -296,7 +360,7 @@
                         <td>Test Steps</td>
                         <td>
                         	<br>
-                            <table border="1">
+                            <table border="1" class="test-case-steps">
                                 <th>Step #</th>
                                 <th>Description</th>
                                 <th>Expected Result</th>
@@ -321,7 +385,7 @@
                 </table>
                 <br>
                 
-                <table border="1" id='tm-test-2.4'>
+                <table border="1" class="test-case" id='tm-test-2.4'>
                     <tr>
                         <td>#</td>
                         <td>TM-Test-2.4</td>
@@ -350,7 +414,7 @@
                         <td>Test Steps</td>
                         <td>
                         	<br>
-                            <table border="1">
+                            <table border="1" class="test-case-steps">
                                 <th>Step #</th>
                                 <th>Description</th>
                                 <th>Expected Result</th>
@@ -360,7 +424,7 @@
                 </table>
                 <br>
                 
-                <table border="1" id='tm-test-2.5'>
+                <table border="1" class="test-case" id='tm-test-2.5'>
                     <tr>
                         <td>#</td>
                         <td>TM-Test-2.5</td>
@@ -389,7 +453,7 @@
                         <td>Test Steps</td>
                         <td>
                         	<br>
-                            <table border="1">
+                            <table border="1" class="test-case-steps">
                                 <th>Step #</th>
                                 <th>Description</th>
                                 <th>Expected Result</th>
@@ -399,7 +463,7 @@
                 </table>
                 <br>
                 
-                <table border="1" id='tm-test-2.6'>
+                <table border="1" class="test-case" id='tm-test-2.6'>
                     <tr>
                         <td>#</td>
                         <td>TM-Test-2.6</td>
@@ -428,7 +492,7 @@
                         <td>Test Steps</td>
                         <td>
                         	<br>
-                            <table border="1">
+                            <table border="1" class="test-case-steps">
                                 <th>Step #</th>
                                 <th>Description</th>
                                 <th>Expected Result</th>
@@ -458,7 +522,7 @@
                 </table>
                 <br>
                 
-                <table border="1" id='tm-test-2.7'>
+                <table border="1" class="test-case" id='tm-test-2.7'>
                     <tr>
                         <td>#</td>
                         <td>TM-Test-2.7</td>
@@ -487,7 +551,7 @@
                         <td>Test Steps</td>
                         <td>
                         	<br>
-                            <table border="1">
+                            <table border="1" class="test-case-steps">
                                 <th>Step #</th>
                                 <th>Description</th>
                                 <th>Expected Result</th>
