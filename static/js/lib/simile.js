@@ -3034,7 +3034,7 @@ define(['timemap/Environment'], function (Environment) {
 		/** END OF CODE ADDED BY BRAEDEN PETRUK */
 		Timeline._Band.prototype._onMouseUp = function (B, A, C) {
 			this._dragging = false;
-			this._keyboardInput.focus()
+			//this._keyboardInput.focus()
 		};
 		Timeline._Band.prototype._onMouseOut = function (C, B, D) {
 			var A = SimileAjax.DOM.getEventRelativeCoordinates(B, C);
