@@ -1,10 +1,19 @@
 <div id="branch-viewer" data-bind="
-    style: {
-        width: Environment.display.viewportWidth() + 'px',
-        height: Environment.display.viewportHeight() + 'px',
-        overflow: 'hidden'
-    }">
-    <img data-bind="attr: {src: floorplanUrl()}" data-role="floorplan" />
+	style: {
+		width: Environment.display.viewportWidth() + 'px',
+		height: Environment.display.viewportHeight() + 'px',
+		overflow: 'hidden'
+	}">
+	<div id="branch-header" data-role="branch-header">
+		<div id="branch-header-content">
+			<div class="branch-title">
+				<span data-bind="text: branchName()"></span>
+				(<span data-bind="text: branchStartDate()"></span> - <span data-bind="text: branchEndDate()"></span>)
+			</div>
+			<span data-bind="text: branchDesc()"></span>
+		</div>
+	</div>
+	<img data-bind="attr: {src: floorplanUrl()}" data-role="floorplan" />
 	<div data-bind="foreach: contentTypesList">
 		<div data-bind="text: $data + ': ' + $root.storyData[$data]().length, visible: $root.storyData[$data]().length > 0, click: $root.openStorySelector, attr: {class: 'pin ' + $root.contentTypes[$data].color}, style: {padding: '10px', position: 'absolute', top: $root.typeCoordinates[$data]().random.y + 'px', left: $root.typeCoordinates[$data]().random.x + 'px'}"></div>
 	</div>

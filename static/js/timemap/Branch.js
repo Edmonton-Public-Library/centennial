@@ -1,8 +1,9 @@
 ;
-define(['lib/knockout', 'epl/Settings', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom'], function (ko, Settings, Environment, StoryPin) {
+define(['lib/knockout', 'epl/Settings', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom', 'lib/jquery.hammer'], function (ko, Settings, Environment, StoryPin) {
 
 return (function () {
 
+	//The list of displayed content types
 	var contentTypes = {
 		text : {index: 0, color: 'yellow'},
 		link : {index: 1, color: 'green'},
@@ -12,7 +13,19 @@ return (function () {
 		video : {index: 5, color: 'gray'}
 	};
 
-	var contentTypesList = ['text', 'link', 'image', 'pdf', 'audio', 'video'];
+	var numCols = 3; //The number of columns to display icons within
+
+	//Generate an enumerable list of the above content types, of the form:
+	// ['text', 'link', ... ]
+	var contentTypesList = (function () {
+		var i = 0;
+		var types = [];
+		for(type in contentTypes) {
+			types[i] = type;
+			i++;
+		}
+		return types;
+	})();
 
 	var Branch = function (viewport) {
 		var self = this;
@@ -20,13 +33,17 @@ return (function () {
 		this.storySelector = viewport.find('#story-selector');
 		this.floorplanUrl = ko.observable('');
 		this.floorplanElement = this.viewport.find('[data-role=floorplan]');
+		this.branchHeaderElement = this.viewport.find('[data-role=branch-header]');
 		this.branchID = '';
-		this.branchName = '';
+		this.branchName = ko.observable('');
+		this.branchDesc = ko.observable();
+		this.branchStartDate = ko.observable();
+		this.branchEndDate = ko.observable();
 		this.dimensions = new (function () {
 			var dimensions = this;
 
-			this.numCols = 3;
-			this.numRows = 2; //TODO: Make an automated way of calculating this: contentTypes as an array, and compute using .length?
+			this.numCols = numCols;
+			this.numRows = Math.ceil(contentTypesList.length / this.numCols);
 			this.viewerWidth = ko.observable(Environment.display.viewportWidth());
 			this.viewerHeight = ko.observable(Environment.display.viewportHeight());
 			this.cellDimensions = ko.computed(function () {
@@ -49,7 +66,7 @@ return (function () {
 				this.pinCoordinates({
 					type: type,
 					id : self.branchID,
-					title : self.branchName
+					title : self.branchName()
 				})
 			);
 
@@ -62,7 +79,7 @@ return (function () {
 					self.pinCoordinates({
 						type: type,
 						id : self.branchID,
-						title : self.branchName
+						title : self.branchName()
 					})
 				);
 			}
@@ -77,6 +94,10 @@ return (function () {
 			contentTypes : contentTypes,
 			floorplanUrl : this.floorplanUrl,
 			selectedStoryType : this.selectedStoryType,
+			branchName : this.branchName,
+			branchDesc : this.branchDesc,
+			branchStartDate : this.branchStartDate,
+			branchEndDate : this.branchEndDate,
 			allBranches : this.allBranches,
 			openStorySelector : function (type, event) {
 				self.showStorySelector(type);
@@ -91,7 +112,8 @@ return (function () {
 
 		this.pinCoordinates(new StoryPin('text', '11', 'coll'));
 
-		$(window).click(function () {
+		//Hide story lists when clicking outside of them
+		$(window).bind('click tap touchstart', function () {
 			self.hideStorySelector();
 		});
 	};
@@ -150,13 +172,18 @@ return (function () {
 	};
 
 	Branch.prototype.configureFloorplan = function() {
-		var width = this.floorplanElement.width(),
-			height = this.floorplanElement.height();
+		var floorplanWidth = this.floorplanElement.width(),
+			floorplanHeight = this.floorplanElement.height(),
+			headerHeight = this.branchHeaderElement.height(), 
+			effectiveViewportHeight = Environment.display.viewportHeight() - headerHeight,
+			viewportWidth = Environment.display.viewportWidth();
 
-		if(width > height) {
-			this.floorplanElement.width(Environment.display.viewportWidth());
+		// Stretch to the full height unless it would cause the width to overflow...
+		if ((effectiveViewportHeight / floorplanHeight * floorplanWidth) <= viewportWidth) {
+			this.floorplanElement.height(effectiveViewportHeight);
+		// ...in which case, stretch to the full width
 		} else {
-			this.floorplanElement.height(Environment.display.viewportHeight());
+			this.floorplanElement.width(viewportWidth);
 		}
 
 		this.dimensions.viewerWidth(this.floorplanElement.width());
@@ -166,7 +193,11 @@ return (function () {
 	Branch.prototype.setData = function (branchData) {
 		var self = this;
 		this.branchID = branchData.id;
-		this.branchName = branchData.name;
+		this.branchName(branchData.name);
+		this.branchDesc(branchData.description);
+		this.branchStartDate(branchData.start_year);
+		var endYear = branchData.end_year != null ? branchData.end_year : "Present";
+		this.branchEndDate(endYear);
 		this.floorplanUrl(branchData.floor_plan);
 		// Obtain all the branches for the 'Jump to Branch' drop down
 		$.getJSON (Settings.apiBranchUrl, function(data) {

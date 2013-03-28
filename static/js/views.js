@@ -215,7 +215,7 @@ viewStory : new View('viewStory', 'View Story',
                     $("#audio_jplayer").jPlayer({
                         ready: function () {
                             $(this).jPlayer("setMedia", {
-                                mp3: story.media_file()
+                                mp3: story.media_file() + "?nocache=" + new Date().getTime()
                             });
                         },
                         supplied: "mp3", 
@@ -226,7 +226,7 @@ viewStory : new View('viewStory', 'View Story',
                     $("#jquery_jplayer_1").jPlayer({
                         ready: function () {
                             $(this).jPlayer("setMedia", {
-                                m4v: story.media_file()
+                                m4v: story.media_file() + "?nocache=" + new Date().getTime()
                             });
                         },
                         supplied: "m4v",
@@ -246,6 +246,9 @@ viewStory : new View('viewStory', 'View Story',
                 } else if (story.content_type() == "text") {
                     $("#text").addClass('visible');
                 }
+
+                // Set the icon image - relies on correct file names!
+                $('#iconImage').attr('src', Environment.routes.staticDirectory + '/images/' + story.content_type() + '_icon_disabled_crop.png'); 
 
                 var commentsDiv = $('#fb-comments')[0];
                 commentsDiv.innerHTML = "<fb:comments href='" +
