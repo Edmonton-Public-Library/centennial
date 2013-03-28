@@ -169,7 +169,7 @@ return (function () {
 
 		//If the pin that is being removed corresponds to a 
 		//currently-displayed infoBox, hide the infoBox.
-		if(pin.id == this.mapData.infoBox.branchID) {
+		if(this.mapData.infoBox != null && pin.id == this.mapData.infoBox.branchID) {
 			this.hideInfo();
 		}
 	};
