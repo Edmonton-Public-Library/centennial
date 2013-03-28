@@ -39,7 +39,9 @@ def generateTaskCodes(task, code_count, uses_per_code):
     TaskCode.objects.bulk_create(codes)
 
 def genRandomCode():
-    code = ''.join(random.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(16))
+    code = ''.join(random.choice('0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ') for i in range(5))
+    code  += "-"
+    code += ''.join(random.choice('0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ') for i in range(5))
     if TaskCode.objects.filter(code=code).count() > 0:
         return genRandomCode()
     return code
@@ -238,3 +240,4 @@ def edit_bibliocommons_task(request):
         form = BibliocommonsTaskForm(arguments)
         print form.as_p()
     return render(request, 'admin/bibliotask.html', {'tmform': form, 'task': task})
+
