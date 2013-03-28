@@ -1,5 +1,5 @@
 ;
-define(['lib/knockout', 'epl/Settings', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom'], function (ko, Settings, Environment, StoryPin) {
+define(['lib/knockout', 'epl/Settings', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom', 'lib/jquery.hammer'], function (ko, Settings, Environment, StoryPin) {
 
 return (function () {
 
@@ -99,7 +99,8 @@ return (function () {
 
 		this.pinCoordinates(new StoryPin('text', '11', 'coll'));
 
-		$(window).click(function () {
+		//Hide story lists when clicking outside of them
+		$(window).bind('click tap touchstart', function () {
 			self.hideStorySelector();
 		});
 	};
