@@ -25,6 +25,11 @@ return (function () {
 
 	};
 
+	Timeline.prototype.getCurrentDate = function() {
+		var self = this;
+		return self.tl._bands[0].getCenterVisibleDate();
+	}
+
 	Timeline.prototype.processStories = function(json) {
 		json = json.objects;
 		var newJson = [];
