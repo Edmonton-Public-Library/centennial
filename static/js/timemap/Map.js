@@ -30,7 +30,7 @@ return (function () {
 			branchInfo : {},
 			infoBox : null,
 			selectedBranch : ko.observable({}),
-			selectedYear : 1924,
+			selectedYear : currentYear,
 			mapTiler : {},
 			range : {
 				startDate : new Date(), 
@@ -201,15 +201,14 @@ return (function () {
 	 * Change the current map overlay year
 	 * @param	year	int		The year to display
 	 */
-	Map.prototype.overlayYear = function (year) {
+	Map.prototype.setMap = function (mapDirectory) {
 		var self = this;
-		this.mapData.selectedYear = year;
 
 		//Load custom maps for anything before the current year		
 		if(year < currentYear) {
 			self.mapData.mapTiler = new google.maps.ImageMapType({ 
 				getTileUrl: function(coord, zoom) {
-					return tileDirectory + '/' + self.mapData.selectedYear + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg';
+					return mapDirectory + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg';
 				},
 				tileSize: new google.maps.Size(256, 256),
 				isPng: false,
@@ -217,7 +216,7 @@ return (function () {
 				minZoom: 7
 			});
 
-			self.map.mapTypes.set(year.toString(), new EPLMapType(year));
+			self.map.mapTypes.set(year.toString(), new EPLMapType(mapDirectory));
 			self.map.setMapTypeId(year.toString());
 		//Otherwise, load the default map
 		} else {
@@ -256,6 +255,8 @@ return (function () {
 					zIndex: 1,
 					closeBoxURL: ''
 				});
+
+
 
 				//Track the ID so we can remove this infoBox if the corresponding pin is removed
 				self.mapData.infoBox.branchID = pin.id;
