@@ -37,10 +37,16 @@ var AppClass = (function () {
 
 			Environment.sidebar.setFeaturedStoriesSource('all');
 
+			baseURL = ko.observable();
+			$.get('/preferences/', function(json) {
+				baseURL(json.base_url);
+			});
+
 			//self.initFacebook();
 
 			ko.applyBindings({
-				Environment: Environment
+				Environment: Environment,
+				baseURL: baseURL
 			}, $('[data-role=viewport]')[0]);
 		});
 

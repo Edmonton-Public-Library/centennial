@@ -279,7 +279,7 @@ return (function () {
 
 		self.branchViewer = viewer;
 
-		$.get(Environment.routes.apiBase + '/story/?format=json&branch=' + branchID, function(json) {self.processStories(json);});
+		$.get(Environment.routes.apiBase + '/story/?format=json&branch=' + branchID + '&order_by=year', function(json) {self.processStories(json);});
 	}
 
 	Timeline.prototype.initTimeline = function(prefs) {

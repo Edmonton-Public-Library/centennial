@@ -28,7 +28,7 @@ def beginTask(user, task):
 def completeQuestSet(user, questset):
     #Check that all tasks for this questset are complete
     complete=True
-    for uqa in UserQuestAction.objects.filter(quest__questset=questset):
+    for uqa in UserQuestAction.objects.filter(quest__quest_set=questset):
         if not uqa.complete:
             complete=False
     
@@ -56,7 +56,7 @@ def completeQuest(user, quest):
             uqa.complete=True
             uqa.completionTime=datetime.now()
             uqa.save()
-            completeQuestSet(user=user, questset=uqa.quest.questset)
+            completeQuestSet(user=user, questset=uqa.quest.quest_set)
         except ObjectDoesNotExist:
             pass
 
