@@ -122,6 +122,20 @@ createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess',
 		}),
 
 /**************************************
+ * Email Confirmation View *
+ *************************************/
+emailConfirmation : new View('emailConfirmation', 'emailConfirmation', 
+		function (fromView, viewport, callback) {
+			Environment.chrome.timeline.disable();
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+/**************************************
  * Login Success view *
  *************************************/
 loginSuccess : new View('loginSuccess', 'Login Success', 
