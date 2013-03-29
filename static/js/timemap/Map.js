@@ -174,6 +174,14 @@ return (function () {
 		}
 	};
 
+	Map.prototype.resetPins = function () {
+		for(id in this.mapData.markers) {
+			this.hidePin(new BranchPin({
+				id : id
+			}));
+		}
+	}
+
 	/**
 	 * Set the current date range for the map and trigger any subscribed listeners
 	 * like the tile overlay service

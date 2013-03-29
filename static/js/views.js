@@ -18,13 +18,20 @@ main : new View('timemap', 'Home',
 			require(['timemap/Map', 'lib/epl/Input', 'timemap/map/BranchPin', 'timemap/Timeline'], function(Map, Input, BranchPin, Timeline) {
 
 				//Persist the map and timeline between navigations
+				if(epl.nav.params) {
+					var date = new Date();
+					date.setYear(epl.nav.params.year);
+				} else {
+					date = epl.storage.selectedDate;
+				}
 
 				//Load the Google Maps API if not already loaded
 				if (epl.storage.map == null) {
 					epl.storage.map = new Map(function () {
+						epl.storage.map.resetPins();
 						epl.storage.map.render(mapCanvas);
 						Environment.chrome.timeline.enable();
-						epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
+						epl.storage.timeline = new Timeline('#timeline', epl.storage.map, date);
 					});
 					ko.applyBindings({
 						Environment : Environment
@@ -33,7 +40,8 @@ main : new View('timemap', 'Home',
 				} else {
 					epl.storage.map.render(mapCanvas);
 					Environment.chrome.timeline.enable();
-					epl.storage.timeline = new Timeline('#timeline', epl.storage.map, epl.storage.selectedDate);
+					epl.storage.map.resetPins();
+					epl.storage.timeline = new Timeline('#timeline', epl.storage.map, date);
 				}
 
 				$('.buttons').find('#auth-username').eplInput();
@@ -43,6 +51,7 @@ main : new View('timemap', 'Home',
 
 		//out
 		function (toView, viewport, callback) {
+			epl.storage.selectedDate = epl.storage.timeline.getCurrentDate();
 			callback();
 		}),
 
@@ -159,6 +168,7 @@ branch : new View('branch', 'Branch',
 		function (toView, viewport, callback) {
 			//Reset the displayed Featured Stories set to 'all stories'
 			Environment.sidebar.setFeaturedStoriesSource('all');
+			epl.storage.selectedDate = epl.storage.timeline.getCurrentDate();
 			callback();
 		}),
 

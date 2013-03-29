@@ -26,7 +26,7 @@ return (function () {
 
 	};
 
-	Timeline.prototype.setCurrentDate = function() {
+	Timeline.prototype.getCurrentDate = function() {
 		var self = this;
 		return self.tl._bands[0].getCenterVisibleDate();
 	}
@@ -279,7 +279,6 @@ return (function () {
 
 	Timeline.prototype.initTimeline = function(prefs) {
 		var self = this;
-
 		self.branches = {
 			byStart : [],
 			byEnd : [],
@@ -412,10 +411,10 @@ return (function () {
 		self.tl._bands[1]._onMouseUp2 = self.tl._bands[1]._onMouseUp;
 		self.tl._bands[1]._onMouseUp = function() {self.newMouseUp();};
 
+		self.tl._bands[0].setCenterVisibleDate(startingDate);
+
 		self.hideShowOnScroll();
 		self.setNumbers();
-
-		self.tl._bands[0].setCenterVisibleDate(startingDate);
 
 		self.recenterTimeWindow();
 
