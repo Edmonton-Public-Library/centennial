@@ -32,7 +32,7 @@ class TaskInline(admin.TabularInline):
 class QuestAdmin(admin.ModelAdmin):
     model = Quest
     inlines = [ TaskInline ]
-
+    readonly_fields = ['quest_set']
 admin.site.register(QuestSet, QuestSetAdmin)
 admin.site.register(Quest, QuestAdmin)
 
