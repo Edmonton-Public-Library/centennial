@@ -5,12 +5,18 @@ return (function () {
 
 	//The list of displayed content types
 	var contentTypes = {
-		text : {index: 0, color: 'yellow'},
-		link : {index: 1, color: 'green'},
-		image : {index: 2, color: 'pink'},
-		pdf : {index: 3, color: 'purple'},
-		audio : {index: 4, color: 'blue'},
-		video : {index: 5, color: 'gray'}
+		text : {index: 0, color: 'yellow', displayTitle: "Text",
+			iconURL: Environment.routes.staticDirectory + '/images/text_icon_disabled_crop.png'},
+		link : {index: 1, color: 'green', displayTitle: "Link",
+			iconURL: Environment.routes.staticDirectory + '/images/link_icon_disabled_crop.png'},
+		image : {index: 2, color: 'pink', displayTitle: "Image",
+			iconURL: Environment.routes.staticDirectory + '/images/image_icon_disabled_crop.png'},
+		pdf : {index: 3, color: 'purple', displayTitle: "PDF",
+			iconURL: Environment.routes.staticDirectory + '/images/pdf_icon_disabled_crop.png'},
+		audio : {index: 4, color: 'blue', displayTitle: "Audio",
+			iconURL: Environment.routes.staticDirectory + '/images/audio_icon_disabled_crop.png'},
+		video : {index: 5, color: 'gray', displayTitle: "Video",
+			iconURL: Environment.routes.staticDirectory + '/images/video_icon_disabled_crop.png'}
 	};
 
 	var numCols = 3; //The number of columns to display icons within
@@ -102,6 +108,9 @@ return (function () {
 			openStorySelector : function (type, event) {
 				self.showStorySelector(type);
 				event.stopPropagation(); //Otherwise the story selector will hide as soon as it's displayed
+			},
+			closeBranchView : function () {
+				window.top.location = "#";
 			}
 		}, viewport[0]);
 

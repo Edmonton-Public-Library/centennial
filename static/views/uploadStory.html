@@ -3,22 +3,22 @@
         <!-- ko if: user() != null -->
         <form action="" id="uploadStoryForm" method="POST" enctype="multipart/form-data">
             <h1>Upload Your Story</h1>
-            
+
             <p class="inputError" id="ajaxError"></p>
-            
+
             <p>
                 <label for="title" class="form-label">Title: <span class="required">*</span></label>
                 <input type="text" class="form-input text" id="title" name="title" maxLength="100" data-bind="value: story.title"/>
             </p>
             <p class="inputError indent" data-bind="validationMessage: story.title"></p>
-            
+
             <p>
                 <label for="description" class="form-label">Description: <span class="required">*</span></label>
-                <textarea id="description" name="description" rows="4" 
+                <textarea id="description" name="description" rows="4"
                     class="top form-input textarea" data-bind="value: story.description"></textarea>
             </p>
             <p class="inputError indent" data-bind="validationMessage: story.description"></p>
-            
+
             <p>
                 Story Content: <span class="required">*</span>
                     <p>
@@ -27,7 +27,7 @@
                         <label for="textRadio" class="storyRadioLabel">Add text:
                             <span class="required" data-bind="css: { hidden: story.content_type() != 'text' }">*</span>
                         </label>
-                        <textarea id="textInput" name="textInput" style="height: 150px;" class="top form-input textarea" 
+                        <textarea id="textInput" name="textInput" style="height: 150px;" class="top form-input textarea"
                             data-bind="value: story.story_text, enable: story.content_type() == 'text'"></textarea>
                     </p>
                     <p class="inputError indent" data-bind="validationMessage: story.story_text"></p>
@@ -52,7 +52,7 @@
                     </p>
             </p>
             <p class="inputError" data-bind="validationMessage: story.content_type"></p>
-               
+
             <p>
                 <label for="branch" class="form-label">Branch: <span class="required">*</span></label>
                 <select data-bind= "options: branchOptions, optionsText: 'name', optionsValue: 'id',
@@ -60,7 +60,7 @@
                 </select>
             </p>
             <p class="inputError indent" data-bind="validationMessage: story.branch"></p>
-            
+
             <p>
                 <label for="dayDate" class="form-label">Date:</label>
                 <input type="text" id="dayDate" name="day" maxLength="2" class="form-input date"
@@ -75,7 +75,7 @@
             <p class="inputError indent" data-bind="validationMessage: story.day"></p>
             <p class="inputError indent" data-bind="validationMessage: story.month"></p>
             <p class="inputError indent" data-bind="validationMessage: story.year"></p>
-        
+
             <p>
                 Keywords:
                 <div class="indent">
@@ -112,16 +112,16 @@
                         </tr>
                         <tr>
                             <td class="keywordCell">
-                                <input type="checkbox" id="librariansKeyword" value="Librarians" 
-                                    data-bind="checked: story.preset_keywords"> 
+                                <input type="checkbox" id="librariansKeyword" value="Librarians"
+                                    data-bind="checked: story.preset_keywords">
                                 <label for="librariansKeyword">Librarians</label></td>
                             <td class="keywordCell">
-                                <input type="checkbox" id="readingKeyword" value="Reading" 
-                                    data-bind="checked: story.preset_keywords"> 
+                                <input type="checkbox" id="readingKeyword" value="Reading"
+                                    data-bind="checked: story.preset_keywords">
                                 <label for="readingKeyword">Reading</label></td>
                         </tr>
                     </table>
-                    
+
                     <p><label for="customKeywords">Enter your own:</label></p>
                     <input class="form-input text" type="text" id="custom_keywords" name="custom_keywords" size="50"
                         data-bind="value: story.custom_keywords" ><br>
@@ -130,14 +130,14 @@
             </p>
 
             <p>
-                <input type="checkbox" id="anonymousInd" data-bind="checked: story.anonymous_ind">
+                <input type="checkbox" id="anonymousInd" data-bind="checked: story.anonymous">
                 <label for="anonymousInd">Check if you wish to remain anonymous.</label>
             </p>
-            
+
             <button data-bind="click: submitStory">Upload</button><br>
 
             <p class="hintText"><a href="/timemap/">(Click here to cancel and return to the TimeMap)</a></p>
-            
+
         </form>
         <!-- /ko -->
         <!-- ko if: user() == null -->

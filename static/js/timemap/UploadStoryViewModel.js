@@ -141,7 +141,7 @@ return (function () {
             min: { value: 1, message: 'Day must be greater than or equal to 1.' }
         });
         this.public_approved = ko.observable(false);
-        this.anonymous_ind = ko.observable(false);
+        this.anonymous = ko.observable(false);
         this.custom_keywords = ko.observable();
         this.preset_keywords = ko.observableArray([]);
         this.keywords = ko.computed(function() {

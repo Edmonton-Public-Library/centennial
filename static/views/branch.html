@@ -12,10 +12,17 @@
 			</div>
 			<span data-bind="text: branchDesc()"></span>
 		</div>
+		<div id="branch-close-icon" data-bind="click: closeBranchView">
+			<img data-bind="attr: {src: Environment.routes.staticDirectory + '/images/x.png'}">
+		</div>
 	</div>
-	<img data-bind="attr: {src: floorplanUrl()}" data-role="floorplan" />
+	<img class="floorplan" data-bind="attr: {src: floorplanUrl()}" data-role="floorplan" />
 	<div data-bind="foreach: contentTypesList">
-		<div data-bind="text: $data + ': ' + $root.storyData[$data]().length, visible: $root.storyData[$data]().length > 0, click: $root.openStorySelector, attr: {class: 'pin ' + $root.contentTypes[$data].color}, style: {padding: '10px', position: 'absolute', top: $root.typeCoordinates[$data]().random.y + 'px', left: $root.typeCoordinates[$data]().random.x + 'px'}"></div>
+		<div data-bind="visible: $root.storyData[$data]().length > 0, click: $root.openStorySelector, attr: {class: 'pin ' + $root.contentTypes[$data].color}, style: {width: '100px', height: '100px', backgroundColor: $root.contentTypes[$data].iconURL, padding: '8px', position: 'absolute', top: $root.typeCoordinates[$data]().random.y + 'px', left: $root.typeCoordinates[$data]().random.x + 'px'}">
+			<img class="content-icon" style="display: block; margin-left: auto; margin-right: auto;"
+			    data-bind="attr: {src: $root.contentTypes[$data].iconURL}">
+			<div class="content-text" data-bind="text: $root.contentTypes[$data].displayTitle + ': ' + $root.storyData[$data]().length">Test</div>
+		</div>
 	</div>
 	<div id="story-selector" data-bind="foreach: storyData[selectedStoryType()]">
 		<div class="story-selector-element" data-bind="html: $data.title, click: function () { window.location.hash = '#viewStory/' + $data.id }"></div>
@@ -25,4 +32,4 @@
 			optionsCaption: 'Jump to Branch...'" onChange="top.location='#branch/' + this.value;">
 		</select>
 	</div>
-</div>
+</div> 
