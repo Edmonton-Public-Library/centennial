@@ -10,6 +10,10 @@
          });
       </script>
       <style>
+          body
+          {
+              font-family: Arial;
+          }
           .scroll
           {
               min-height:550px;
@@ -22,12 +26,26 @@
               border-style:solid;
               border-width:1px;
               border-collapse:collapse;
-          }                                    
+          }          
           table.test-case-steps
-          {
+          { 
+              width:100%;
               border-style:dotted;
               border-width:2px;
               border-collapse:collapse;
+          }
+          th
+          {
+              text-align: left;
+              padding: 5px;
+          }
+          td
+          {
+              padding: 5px;
+          }
+          .left-column 
+          {
+              width: 300px;
           }
       </style>
     </head>
@@ -55,27 +73,27 @@
                     
                     <table border="1" class="test-case" id='tm-test-1.1'>
                         <tr>
-                            <td>#</td>
-                            <td>TM-Test.1.1</td>
+                            <th class="left-column">#</td>
+                            <th>TM-Test.1.1</td>
                         </tr>
                         <tr>
-                            <td>Test Name</td>
+                            <td class="left-column">Test Name</td>
                             <td>Approve story</td>
                         </tr>
                         <tr>
-                            <td>Purpose</td>
+                            <td class="left-column">Purpose</td>
                             <td>The purpose of this test is to ensure content is not displayed until approved by an administrator</td>
                         </tr>
                         <tr>
-                            <td>User Requirement Reference</td>
+                            <td class="left-column">User Requirement Reference</td>
                             <td>TM.1.1</td>
                         </tr>
                         <tr>
-                            <td>Pre Conditions</td>
+                            <td class="left-column">Pre Conditions</td>
                             <td>Story must be uploaded but unapproved</td>
                         </tr>
                         <tr>
-                            <td>Post Conditions</td>
+                            <td class="left-column">Post Conditions</td>
                             <td>Story must be visible on public page</td>
                         </tr>
                         <tr>
@@ -124,27 +142,27 @@
 
                     <table border="1" class="test-case" id='tm-test-1.2'>
                         <tr>
-                            <td>#</td>
-                            <td>TM-Test.1.2</td>
+                            <th class="left-column">#</td>
+                            <th>TM-Test.1.2</td>
                         </tr>
                         <tr>
-                            <td>Test Name</td>
+                            <td class="left-column">Test Name</td>
                             <td>Reject Story</td>
                         </tr>
                         <tr>
-                            <td>Purpose</td>
+                            <td class="left-column">Purpose</td>
                             <td>Ensure that unapproved content is never displayed on the public webpage and is deleted.</td>
                         </tr>
                         <tr>
-                            <td>User Requirement Reference</td>
+                            <td class="left-column">User Requirement Reference</td>
                             <td>TM.1.1</td>
                         </tr>
                         <tr>
-                            <td>Pre Conditions</td>
+                            <td class="left-column">Pre Conditions</td>
                             <td>Story must be uploaded but unapproved.</td>
                         </tr>
                         <tr>
-                            <td>Post Conditions</td>
+                            <td class="left-column">Post Conditions</td>
                             <td>Story must be deleted and not visible to public.</td>
                         </tr>
                         <tr>
@@ -188,31 +206,31 @@
 
                     <table border="1" class="test-case" id="tm-test-1.3">
                         <tr>
-                            <td>#</td>
-                            <td>TM-Test.1.3</td>
+                            <th class="left-column">#</td>
+                            <th>TM-Test.1.3</td>
                         </tr>
                         <tr>
-                            <td>Test Name</td>
+                            <td class="left-column">Test Name</td>
                             <td>Ban User</td>
                         </tr>
                         <tr>
-                            <td>Purpose</td>
+                            <td class="left-column">Purpose</td>
                             <td>Test to see if banning a user prevents them from logging on</td>
                         </tr>
                         <tr>
-                            <td>User Requirement Reference</td>
+                            <td class="left-column">User Requirement Reference</td>
                             <td>TM.1.4</td>
                         </tr>
                         <tr>
-                            <td>Pre Conditions</td>
+                            <td class="left-column">Pre Conditions</td>
                             <td>User account must already exist</td>
                         </tr>
                         <tr>
-                            <td>Post Conditions</td>
+                            <td class="left-column">Post Conditions</td>
                             <td>User should no longer exist and should not be able to logon or recreate his account</td>
                         </tr>
                         <tr>
-                            <td>Test Steps</td>
+                            <td class="left-column">Test Steps</td>
                             <td>
                                 <table border="1" class="test-case-steps">
                                     <th>Step #</th>
@@ -257,31 +275,31 @@
 
                     <table border="1" class="test-case" id='tm-test-2.1'>
                         <tr>
-                            <td>#</td>
-                            <td>TM-Test-2.1</td>
+                            <th class="left-column">#</td>
+                            <th>TM-Test-2.1</td>
                         </tr>
                         <tr>
-                            <td>Test Name</td>
+                            <td class="left-column">Test Name</td>
                             <td>Account Creation Successful</td>
                         </tr>
                         <tr>
-                            <td>Purpose</td>
+                            <td class="left-column">Purpose</td>
                             <td>Ensure that user can create an account properly</td>
                         </tr>
                         <tr>
-                            <td>User Requirement Reference</td>
+                            <td class="left-column">User Requirement Reference</td>
                             <td>TM.2.1</td>
                         </tr>
                         <tr>
-                            <td>Pre Conditions</td>
+                            <td class="left-column">Pre Conditions</td>
                             <td>No user must be logged in to system</td>
                         </tr>
                         <tr>
-                            <td>Post Conditions</td>
+                            <td class="left-column">Post Conditions</td>
                             <td>New account should exist and be activated.</td>
                         </tr>
                         <tr>
-                            <td>Test Steps</td>
+                            <td class="left-column">Test Steps</td>
                             <td>
                                 <br>
                                 <table border="1" class="test-case-steps">
@@ -316,31 +334,31 @@
                     
                     <table border="1" class="test-case" id='tm-test-2.2'>
                         <tr>
-                            <td>#</td>
-                            <td>TM-Test-2.2</td>
+                            <th class="left-column">#</td>
+                            <th>TM-Test-2.2</td>
                         </tr>
                         <tr>
-                            <td>Test Name</td>
+                            <td class="left-column">Test Name</td>
                             <td>Account Creation Failure</td>
                         </tr>
                         <tr>
-                            <td>Purpose</td>
+                            <td class="left-column">Purpose</td>
                             <td>Ensure account creation form validation reports errors correctly</td>
                         </tr>
                         <tr>
-                            <td>User Requirement Reference</td>
+                            <td class="left-column">User Requirement Reference</td>
                             <td>TM.2.1</td>
                         </tr>
                         <tr>
-                            <td>Pre Conditions</td>
+                            <td class="left-column">Pre Conditions</td>
                             <td>No user must be logged in to system</td>
                         </tr>
                         <tr>
-                            <td>Post Conditions</td>
+                            <td class="left-column">Post Conditions</td>
                             <td>No new account must be created</td>
                         </tr>
                         <tr>
-                            <td>Test Steps</td>
+                            <td class="left-column">Test Steps</td>
                             <td>
                                 <br>
                                 <table border="1" class="test-case-steps">
@@ -370,31 +388,31 @@
                     
                     <table border="1" class="test-case" id='tm-test-2.3'>
                         <tr>
-                            <td>#</td>
-                            <td>TM-Test-2.3</td>
+                            <th class="left-column">#</td>
+                            <th>TM-Test-2.3</td>
                         </tr>
                         <tr>
-                            <td>Test Name</td>
+                            <td class="left-column">Test Name</td>
                             <td>Login Test Type 1</td>
                         </tr>
                         <tr>
-                            <td>Purpose</td>
+                            <td class="left-column">Purpose</td>
                             <td>Ensure that user can login with account created in TM-Test-2.1</td>
                         </tr>
                         <tr>
-                            <td>User Requirement Reference</td>
+                            <td class="left-column">User Requirement Reference</td>
                             <td>TM.2.3</td>
                         </tr>
                         <tr>
-                            <td>Pre Conditions</td>
+                            <td class="left-column">Pre Conditions</td>
                             <td>An account created from TM-Test-2.1 must exist.</td>
                         </tr>
                         <tr>
-                            <td>Post Conditions</td>
+                            <td class="left-column">Post Conditions</td>
                             <td>User must be logged in</td>
                         </tr>
                         <tr>
-                            <td>Test Steps</td>
+                            <td class="left-column">Test Steps</td>
                             <td>
                                 <br>
                                 <table border="1" class="test-case-steps">
@@ -424,31 +442,31 @@
                     
                     <table border="1" class="test-case" id='tm-test-2.4'>
                         <tr>
-                            <td>#</td>
-                            <td>TM-Test-2.4</td>
+                            <th class="left-column">#</td>
+                            <th>TM-Test-2.4</td>
                         </tr>
                         <tr>
-                            <td>Test Name</td>
+                            <td class="left-column">Test Name</td>
                             <td>Login Test Type 2</td>
                         </tr>
                         <tr>
-                            <td>Purpose</td>
+                            <td class="left-column">Purpose</td>
                             <td>Ensure that user can login with a Facebook account</td>
                         </tr>
                         <tr>
-                            <td>User Requirement Reference</td>
+                            <td class="left-column">User Requirement Reference</td>
                             <td>TM.2.3</td>
                         </tr>
                         <tr>
-                            <td>Pre Conditions</td>
+                            <td class="left-column">Pre Conditions</td>
                             <td>No user logged in. Facebook account available for use.</td>
                         </tr>
                         <tr>
-                            <td>Post Conditions</td>
+                            <td class="left-column">Post Conditions</td>
                             <td>User must be logged in</td>
                         </tr>
                         <tr>
-                            <td>Test Steps</td>
+                            <td class="left-column">Test Steps</td>
                             <td>
                                 <br>
                                 <table border="1" class="test-case-steps">
@@ -463,31 +481,31 @@
                     
                     <table border="1" class="test-case" id='tm-test-2.5'>
                         <tr>
-                            <td>#</td>
-                            <td>TM-Test-2.5</td>
+                            <th class="left-column">#</td>
+                            <th>TM-Test-2.5</td>
                         </tr>
                         <tr>
-                            <td>Test Name</td>
+                            <td class="left-column">Test Name</td>
                             <td>Login Test Type 3</td>
                         </tr>
                         <tr>
-                            <td>Purpose</td>
+                            <td class="left-column">Purpose</td>
                             <td>Ensure that user can login with an EPL account.</td>
                         </tr>
                         <tr>
-                            <td>User Requirement Reference</td>
+                            <td class="left-column">User Requirement Reference</td>
                             <td>TM.2.3</td>
                         </tr>
                         <tr>
-                            <td>Pre Conditions</td>
+                            <td class="left-column">Pre Conditions</td>
                             <td>No user logged in. EPL account available for use.</td>
                         </tr>
                         <tr>
-                            <td>Post Conditions</td>
+                            <td class="left-column">Post Conditions</td>
                             <td>User must be logged in</td>
                         </tr>
                         <tr>
-                            <td>Test Steps</td>
+                            <td class="left-column">Test Steps</td>
                             <td>
                                 <br>
                                 <table border="1" class="test-case-steps">
@@ -502,31 +520,31 @@
                     
                     <table border="1" class="test-case" id='tm-test-2.6'>
                         <tr>
-                            <td>#</td>
+                            <td class="left-column">#</td>
                             <td>TM-Test-2.6</td>
                         </tr>
                         <tr>
-                            <td>Test Name</td>
+                            <td class="left-column">Test Name</td>
                             <td>Share content via social media</td>
                         </tr>
                         <tr>
-                            <td>Purpose</td>
+                            <td class="left-column">Purpose</td>
                             <td>Users are able to share content via social media links.</td>
                         </tr>
                         <tr>
-                            <td>User Requirement Reference</td>
+                            <td class="left-column">User Requirement Reference</td>
                             <td>TM.2.4</td>
                         </tr>
                         <tr>
-                            <td>Pre Conditions</td>
+                            <td class="left-column">Pre Conditions</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>Post Conditions</td>
+                            <td class="left-column">Post Conditions</td>
                             <td>Content must appear in a social media feed.</td>
                         </tr>
                         <tr>
-                            <td>Test Steps</td>
+                            <td class="left-column">Test Steps</td>
                             <td>
                                 <br>
                                 <table border="1" class="test-case-steps">
@@ -561,31 +579,31 @@
                     
                     <table border="1" class="test-case" id='tm-test-2.7'>
                         <tr>
-                            <td>#</td>
-                            <td>TM-Test-2.7</td>
+                            <th class="left-column">#</td>
+                            <th>TM-Test-2.7</td>
                         </tr>
                         <tr>
-                            <td>Test Name</td>
+                            <td class="left-column">Test Name</td>
                             <td>Upload content</td>
                         </tr>
                         <tr>
-                            <td>Purpose</td>
+                            <td class="left-column">Purpose</td>
                             <td>Ensure that users are able to upload multiple types of content.</td>
                         </tr>
                         <tr>
-                            <td>User Requirement Reference</td>
+                            <td class="left-column">User Requirement Reference</td>
                             <td>TM.2.5</td>
                         </tr>
                         <tr>
-                            <td>Pre Conditions</td>
+                            <td class="left-column">Pre Conditions</td>
                             <td>Content to upload must already exist.</td>
                         </tr>
                         <tr>
-                            <td>Post Conditions</td>
+                            <td class="left-column">Post Conditions</td>
                             <td>Upload successful</td>
                         </tr>
                         <tr>
-                            <td>Test Steps</td>
+                            <td class="left-column">Test Steps</td>
                             <td>
                                 <br>
                                 <table border="1" class="test-case-steps">
@@ -634,31 +652,31 @@
 
                     <table border="1" class="test-case">
                         <tr>
-                            <td>#</td>
+                            <th class="left-column">#</td>
+                            <th></td>
+                        </tr>
+                        <tr>
+                            <td class="left-column">Test Name</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>Test Name</td>
+                            <td class="left-column">Purpose</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>Purpose</td>
+                            <td class="left-column">User Requirement Reference</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>User Requirement Reference</td>
+                            <td class="left-column">Pre Conditions</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>Pre Conditions</td>
+                            <td class="left-column">Post Conditions</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>Post Conditions</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Test Steps</td>
+                            <td class="left-column">Test Steps</td>
                             <td>
                                 <table border="1">
                                     <th>Step #</th>
@@ -690,31 +708,31 @@
 
         <!--table border="1">
             <tr>
-                <td>#</td>
+                <th class="left-column">#</td>
+                <th></td>
+            </tr>
+            <tr>
+                <td class="left-column">Test Name</td>
                 <td></td>
             </tr>
             <tr>
-                <td>Test Name</td>
+                <td class="left-column">Purpose</td>
                 <td></td>
             </tr>
             <tr>
-                <td>Purpose</td>
+                <td class="left-column">User Requirement Reference</td>
                 <td></td>
             </tr>
             <tr>
-                <td>User Requirement Reference</td>
+                <td class="left-column">Pre Conditions</td>
                 <td></td>
             </tr>
             <tr>
-                <td>Pre Conditions</td>
+                <td class="left-column">Post Conditions</td>
                 <td></td>
             </tr>
             <tr>
-                <td>Post Conditions</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Test Steps</td>
+                <td class="left-column">Test Steps</td>
                 <td>
                     <table border="1">
                         <th>Step #</th>
