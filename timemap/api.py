@@ -67,8 +67,8 @@ class MapResource(ModelResource):
         queryset = Map.objects.all()
         resource_name = 'maps'
         allowed_methods = ['get']
-        fields = ['published', 'base_folder']
-        ordering = ['published']
+        fields = ['published', 'base_folder', 'start_year', 'end_year']
+        ordering = ['published', 'start_year', 'end_year']
 
 class StoryResource(ModelResource):
     """
