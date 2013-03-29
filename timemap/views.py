@@ -51,6 +51,7 @@ def preference(request):
             "timeline_end_date" : {"year": timeline_end_date.year,
                                     "month": timeline_end_date.month,
                                     "day": timeline_end_date.day
-                                   }
+                                   },
+            "base_url" : preferences.TimemapPreferences.base_url
             }
     return HttpResponse(json.dumps(prefs), content_type='application/json')
