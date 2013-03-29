@@ -26,7 +26,7 @@ return (function () {
 
 	};
 
-	Timeline.prototype.getCurrentDate = function() {
+	Timeline.prototype.setCurrentDate = function() {
 		var self = this;
 		return self.tl._bands[0].getCenterVisibleDate();
 	}
@@ -363,7 +363,6 @@ return (function () {
 
 		var startingDate = new Date(Date.UTC(prefs.timeline_init_date, prefs.timeline_init_date.month - 1, prefs.timeline_init_date.day));
 		//If an alternate start date was specified, use that instead
-		console.log(this.startDate);
 	    if(typeof this.startDate != 'undefined' && this.startDate != null) {
 	    	startingDate = this.startDate;
 		}
