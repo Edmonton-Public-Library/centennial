@@ -32,6 +32,27 @@ def submit_timemap_task(request):
         completeTask(request.user, task)
     return completedTasksHttpResponse(request.user, activeTasks, otherTasks)
 
+def submit_social_task(request):
+    if not request.user.is_authenticated():
+        return HttpResponse(json.dumps({'Response':'Error: Must be logged in'}), status=403, content_type='application/json')
+    task = None
+    if request.method != 'POST':
+        return HttpResponse(json.dumps({'Response':'Error: Bad state object'}), status=400)
+    social = None
+    try:
+        social = json.loads(request.raw_post_data)
+    except ValueError, e:
+        print e
+        return HttpResponse(json.dumps({'Response':'Error: Bad state object'}), status=400)
+    
+    activeTasks, otherTasks = matchingSocialTasks(request.user, social)
+    beginDiscoveredTasks(request.user, otherTasks)
+     
+    for task in activeTasks:
+        completeTask(request.user, task)
+    for task in otherTasks:
+        completeTask(request.user, task)
+    return completedTasksHttpResponse(request.user, activeTasks, otherTasks)
 def submit_code_task(request):
     if not request.user.is_authenticated():
         return HttpResponse(json.dumps({'Response':'Error: Must be logged in'}), status=403, content_type='application/json')

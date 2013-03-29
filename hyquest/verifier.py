@@ -72,7 +72,10 @@ def matchingSocialTasks(user, social):
 
 
 def socialMatches(task, social):
-    return task.taskinfo == social
+    reqs = task.getInfoReqs()
+    if 'story' in reqs and ('story' not in social or reqs['story'] != str(social['story'])):
+        return False
+
 
 ## 
 ##  TIMEMAP Tasks

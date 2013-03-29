@@ -76,7 +76,7 @@ class Task(models.Model):
             except Exception:
                 infostr += "Unknown Branch "
         if 'onMap' in reqs:
-            infostr += ("on " if bool(reqs['onMap']) else "off ") + "the map "
+            infostr += ("on " if (reqs['onMap'] == "True") else "off ") + "the map "
         if 'maxYear' in reqs:
             infostr += "before " + reqs['maxYear'] + " "
         if 'minYear' in reqs:
@@ -101,14 +101,18 @@ class Task(models.Model):
         if 'isbn' in reqs:
             infostr += " with ISBN: "+ (" or ".join(reqs['isbn'].split(':')))+", "
         return infostr
-
+    def interpretSocialInfo(self):
+        reqs = self.getInfoReqs()
+        if 'story' in reqs:
+            return "Share the story: "+str(Story.objects.get(id=reqs['story']))
+        return "Not Set"
     def links(self):
         if self.id and self.type == TASK_BIBLIOCOMMONS:
             return self.interpretBiblioInfo() + "<br><a href='/admin/hyquest/modifybibliocommons?task_id="+str(self.id)+"'>Change</a>"
         if self.id and self.type == TASK_CODE:
             return "<a href='/admin/hyquest/taskcode/?task="+str(self.id)+"' target='_blank'>"+str(TaskCode.objects.filter(task=self, uses_remaining__gt=0).count())+" Codes</a><br><a href='/admin/hyquest/generatecodes?task_id=%s' target='_blank'><img src='/static/admin/img/icon_addlink.gif' width='10' height='10'/> Generate More Codes</a>" % str(self.id)
         elif self.id and self.type == TASK_SOCIAL:
-            return "Share "+self.taskinfo+"<br><a href='/admin/hyquest/modifysocial?task_id="+str(self.id)+"'>Change</a>"
+            return self.interpretSocialInfo()+"<br><a href='/admin/hyquest/modifysocial?task_id="+str(self.id)+"'>Change</a>"
         elif self.id and self.type == TASK_TIMEMAP:
             return self.interpretTMInfo() + "<br><a href='/admin/hyquest/modifytimemap?task_id="+str(self.id)+"'>Change</a>"
         else:
