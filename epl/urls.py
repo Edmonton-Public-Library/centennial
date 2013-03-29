@@ -9,7 +9,7 @@ from timemap.api import BranchResource, StoryResource, UserResource, SimpleBranc
 from timemap.views import timemap, hyq, upload, preference
 from centennial.views import accountActivate, login_user, logout_user, create_user, current_user, link_bibliocommons, update_user
 from hyquest.api import QuestSetResource, QuestResource, TaskResource
-from hyquest.views import submit_code_task, submit_timemap_task, get_featured_quests, get_active_quests
+from hyquest.views import submit_code_task, submit_timemap_task, submit_social_task, check_biblio_tasks, get_featured_quests, get_active_quests
 from hyquest.adminforms import generate_codes, edit_timemap_task, edit_bibliocommons_task, edit_social_task
 
 admin.autodiscover()
@@ -47,6 +47,8 @@ urlpatterns = patterns('',
     url(r'^preferences/initial_timemap_date', preference),
     url(r'^game/complete/code', submit_code_task),
     url(r'^game/complete/timemap', submit_timemap_task),
+    url(r'^game/complete/social', submit_social_task),
+    url(r'^game/complete/bibliocommons', check_biblio_tasks),
     url(r'^game/questsets/featured', get_featured_quests),
     url(r'^game/questsets/active', get_active_quests)
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

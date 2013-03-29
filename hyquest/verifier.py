@@ -9,7 +9,7 @@ import centennial.bibliocommons
 
 # Common Task Completion Code
 def getTaskResultSet(user):
-    return Task.objects.filter(quest__quest_set__active=False)
+    return Task.objects.filter(quest__quest_set__active=True)
 
 def getUserAction(user, task):
     try:

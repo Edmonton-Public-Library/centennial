@@ -22,7 +22,7 @@ class QuestSet(models.Model):
     points = IntegerRangeField(min_value=0, max_value=6000)
     active = models.BooleanField(default=False)
     featured = models.BooleanField(default=False, db_index=True)
-    depends_on = models.ForeignKey('QuestSet', null=True)
+    depends_on = models.ForeignKey('QuestSet', blank=True, null=True)
     def __unicode__(self):
         return self.title
 
