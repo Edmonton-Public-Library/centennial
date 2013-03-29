@@ -122,6 +122,35 @@ createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess',
 		}),
 
 /**************************************
+ * Email Confirmation View *
+ *************************************/
+emailConfirmation : new View('emailConfirmation', 'emailConfirmation', 
+		function (fromView, viewport, callback) {
+			Environment.chrome.timeline.disable();
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+/**************************************
+ * Email Reconfirm View *
+ *************************************/
+emailReconfirm : new View('emailReconfirm', 'emailReconfirm', 
+		function (fromView, viewport, callback) {
+			Environment.chrome.timeline.disable();
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+
+/**************************************
  * Login Success view *
  *************************************/
 loginSuccess : new View('loginSuccess', 'Login Success', 
@@ -258,14 +287,15 @@ viewStory : new View('viewStory', 'View Story',
                     $("#text").addClass('visible');
                 }
 
-                // Set the icon image - relies on correct file names!
-                $('#iconImage').attr('src', Environment.routes.staticDirectory + '/images/' + story.content_type() + '_icon_disabled_crop.png'); 
+                $.get('/preferences/', function(json) {
+                    baseURL = json.base_url;
+                });
 
                 var commentsDiv = $('#fb-comments')[0];
                 commentsDiv.innerHTML = "<fb:comments href='" +
-                    "http://eplcentennial.epl.ca" + "/timemap/#viewStory/" + storyId +
+                    baseURL + "/timemap/#viewStory/" + storyId +
                     "' num_posts=5 width='600'></fb:comments>";  
-                FB.XFBML.parse(commentsDiv);  
+                FB.XFBML.parse(commentsDiv);
 
                 //load the facebook buttons here
                 var facebookDiv = $('#my-facebook-share-button')[0];
@@ -285,11 +315,11 @@ viewStory : new View('viewStory', 'View Story',
 
                 //load the googlePlus share button here
                 var googlePlusDiv = $('#my-googleplus-share-button')[0];
-                var pageCannonicalHref = "http://eplcentennial.epl.ca/timemap/#viewStory/" + storyId;
+                var pageCannonicalHref = baseURL + "/timemap/#viewStory/" + storyId;
                 googlePlusDiv.innerHTML = '<div class="g-plus" data-action="share" data-annotation="bubble" href="'+pageCannonicalHref+'"></div>'
                 $.getScript("https://apis.google.com/js/plusone.js" , function() {
                         gapi.plusone.go(googlePlusDiv);
-                        });
+                });
             });
 
             callback();

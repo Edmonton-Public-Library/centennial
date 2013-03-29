@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response
 from django.template.loader import get_template
 from django.template import Context
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from centennial.models import BibliocommonsLink
@@ -18,12 +18,12 @@ def accountActivate(request):
         # i should only have one parameter
         if len(request.GET) != 1:
             return HttpResponse(stats='501')
-        
+
         activationKey = request.GET.get('key', None)
         # make sure that  i had the correct parameter
         if activationKey is None:
             return HttpResponse(status='501')
-        
+
         #need to connect to backed to verify the key and activate the account if
         #successful
         parseResult = urlparse.parse_qs(request.META['QUERY_STRING'])
@@ -32,7 +32,7 @@ def accountActivate(request):
         split = emailAndTime.partition('=')
         email = split[0]
         time = split[2]
-        
+
         user = None
         try:
             user = User.objects.get(email=email)
@@ -41,10 +41,10 @@ def accountActivate(request):
         if not user.is_active:
             user.is_active = True
             user.save()
-            return HttpResponse("Your account %s created at %s has been successfully activated" % (email, time))
+            return HttpResponseRedirect('/timemap/#emailConfirmation')
         else:
-            return HttpResponse("Your account was already activated")
-    
+            return HttpResponseRedirect("/timemap/#emailReconfirm")
+
     else:
         return HttpResponse(status='501')
 
@@ -97,7 +97,7 @@ def create_user(request):
            'firstname' in data and
            'lastname' in data and
            'email' in data):
-            #'email' in data and 
+            #'email' in data and
             #'recaptcha_challenge' in data and
             #'recaptcha_response' in data):
             #Perform ReCaptcha Verification
@@ -140,7 +140,7 @@ def link_bibliocommons(request):
             data = json.loads(request.raw_post_data)
         except ValueError:
             return HttpResponse(status='400')
-            
+
         if request.user.is_authenticated():
             if ('username' in data and 'password' in data):
                 if validUser(data['username'], data['password']):
@@ -166,7 +166,7 @@ def update_user(request):
     try:
         data = json.loads(request.raw_post_data)
     except ValueError:
-        return HttpResponse(status='400')        
+        return HttpResponse(status='400')
     if 'firstname' in data:
         request.user.first_name = data['firstname']
     if 'lastname' in data:

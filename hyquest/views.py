@@ -5,7 +5,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 import json
 import epl.settings
-from hyquest.verifier import matchingCodeTasks, matchingTimeMapTasks, matchingBibliocommonsTasks
+from hyquest.verifiers.code import matchingCodeTasks
+from hyquest.verifiers.timemap import matchingTimeMapTasks
+from hyquest.verifiers.bibliocommons import matchingBibliocommonsTasks
 from hyquest.actionmanager import completeTask, beginQuestSet
 from hyquest.questmanager import replenishQuestSets, activateFeaturedQuestSets
 from hyquest.models import UserTaskAction, UserQuestAction
