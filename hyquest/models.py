@@ -6,7 +6,7 @@ from django import forms
 
 from epl.custommodels import IntegerRangeField, FloatRangeField
 from util.file_validator import FileValidator
-from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE_LEN, TASK_TITLE_LEN, TASK_DESC_LEN, TASK_CODE_LEN, TASK_CHOICES
+from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE_LEN, TASK_TITLE_LEN, TASK_DESC_LEN, TASK_CODE_LEN, TASK_CHOICES, TASK_BIBLIOCOMMONS, TASK_CODE, TASK_SOCIAL, TASK_TIMEMAP
 from timemap.models import Branch, Story
 
 biblioFormats = {'BK': 'Book', 'CD':'CD', 'DVD': 'DVD', 'BOOK_CD': 'Audiobook'}
@@ -103,11 +103,13 @@ class Task(models.Model):
         return infostr
 
     def links(self):
-        if self.id and self.type == 0:
+        if self.id and self.type == TASK_BIBLIOCOMMONS:
             return self.interpretBiblioInfo() + "<br><a href='/admin/hyquest/modifybibliocommons?task_id="+str(self.id)+"'>Change</a>"
-        if self.id and self.type == 3:
+        if self.id and self.type == TASK_CODE:
             return "<a href='/admin/hyquest/taskcode/?task="+str(self.id)+"' target='_blank'>"+str(TaskCode.objects.filter(task=self, uses_remaining__gt=0).count())+" Codes</a><br><a href='/admin/hyquest/generatecodes?task_id=%s' target='_blank'><img src='/static/admin/img/icon_addlink.gif' width='10' height='10'/> Generate More Codes</a>" % str(self.id)
-        elif self.id and self.type == 4:
+        elif self.id and self.type == TASK_SOCIAL:
+            return "Share "+self.taskinfo+"<br><a href='/admin/hyquest/modifysocial?task_id="+str(self.id)+"'>Change</a>"
+        elif self.id and self.type == TASK_TIMEMAP:
             return self.interpretTMInfo() + "<br><a href='/admin/hyquest/modifytimemap?task_id="+str(self.id)+"'>Change</a>"
         else:
             return "Save Before Continuing"

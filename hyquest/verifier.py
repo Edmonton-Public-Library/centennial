@@ -3,12 +3,13 @@ from hyquest.models import Task, UserTaskAction, TaskCode
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from hyquest.actionmanager import completeTask
+from hyquest.constants import TASK_BIBLIOCOMMONS, TASK_SOCIAL, TASK_CODE, TASK_TIMEMAP
 
 import centennial.bibliocommons
 
 # Common Task Completion Code
 def getTaskResultSet(user):
-    return Task.objects.all()
+    return Task.objects.filter(quest__quest_set__active=False)
 
 def getUserAction(user, task):
     try:
@@ -57,25 +58,27 @@ def burnCode(code):
 ##  SOCIAL MEDIA TASKS
 ##
 def matchingSocialTasks(user, social):
-    task = getTaskForSocial(social)
-    if task is None:
-        return None
-    action = getUserAction(user, task)
-    if action is None:
-        return ([],[task,])
-    if action.complete:
-        return ([],[])
-    return ([task,], [])
+    tasks = getTaskResultSet(user).filter(type=TASK_SOCIAL)
+    activeTasks = []
+    otherTasks = []
+    for task in tasks:
+        if socialMatches(task, social):
+            action=getUserAction(user, task)
+            if action is None:
+                otherTasks.append(task)
+            elif action.complete != True:
+                activeTasks.append(task)
+    return (activeTasks, otherTasks)
 
-def getTaskForSocial(social):
-    #This should include verification that the quest-set it comes from is open
-    return None
+
+def socialMatches(task, social):
+    return task.taskinfo == social
 
 ## 
 ##  TIMEMAP Tasks
 ##
 def matchingTimeMapTasks(user, timeMapState):
-    tasks = getTaskResultSet(user).filter(type=4)
+    tasks = getTaskResultSet(user).filter(type=TASK_TIMEMAP)
     activeTasks = []
     otherTasks = []
     for task in tasks:
@@ -145,7 +148,7 @@ def matchingBibliocommonsTasks(user):
         content = centennial.bibliocommons.userContent(bibliolink.biblioid)
     except Exception:
         print "Error: Unable to communicate with the Bibliocommons API"
-    tasks = getTaskResultSet().filter(type=0)
+    tasks = getTaskResultSet().filter(type=TASK_BIBLIOCOMMONS)
     activeTasks = []
     otherTasks = []
     for task in tasks:

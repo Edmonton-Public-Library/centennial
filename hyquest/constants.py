@@ -8,5 +8,11 @@ QUEST_TITLE_LEN = 200
 TASK_TITLE_LEN = 200
 TASK_DESC_LEN = 400
 TASK_CODE_LEN = 400
-TASK_TYPES = ('BiblioCommons Content Creation', 'BiblioCommons List Creation', 'Social Media Sharing', 'Submittable Codes', 'TimeMap Exploration')
-TASK_CHOICES = ((0,TASK_TYPES[0]), (1,TASK_TYPES[1]), (2,TASK_TYPES[2]), (3,TASK_TYPES[3]), (4,TASK_TYPES[4]))
+TASK_TYPES = ('BiblioCommons Content Creation', 'Social Media Sharing', 'Submittable Codes', 'TimeMap Exploration')
+TASK_CHOICES = ((0,TASK_TYPES[0]), (1,TASK_TYPES[1]), (2,TASK_TYPES[2]), (3,TASK_TYPES[3]))
+TASK_BIBLIOCOMMONS = 0
+TASK_SOCIAL = 1
+TASK_CODE = 2
+TASK_TIMEMAP = 3
+
+MAX_ACTIVE_QUESTS = 5
