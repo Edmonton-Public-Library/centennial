@@ -75,7 +75,7 @@ class StoryResource(ModelResource):
     Modifications to allow tag support taken and modified from:
     https://gist.github.com/joshbohde/1702293
     """
-    branch = fields.ForeignKey(BranchResource, 'branch')
+    branch = fields.ForeignKey(BranchResource, 'branch', full=True)
     user = fields.ForeignKey(UserResource, 'user')
     keywords = fields.ListField()
 
