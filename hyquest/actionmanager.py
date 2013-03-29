@@ -28,14 +28,14 @@ def beginTask(user, task):
 def completeQuestSet(user, questset):
     #Check that all tasks for this questset are complete
     complete=True
-    for uqa in UserQuestAction.objects.filter(quest__questset=questset):
+    for uqa in UserQuestAction.objects.filter(quest__quest_set=questset):
         if not uqa.complete:
             complete=False
     
     if complete:
         #If so, Load and Complete the UserQuestSetAction
         try:
-            uqa=UserQuestSetAction.get(user=user, questset=questset)
+            uqa=UserQuestSetAction.objects.get(user=user, questset=questset)
             uqa.complete=True
             uqa.completionTime=datetime.now()
             uqa.save()
@@ -52,11 +52,11 @@ def completeQuest(user, quest):
     if complete:
         #If so, Load and Complete the UserQuestAction
         try:
-            uqa=UserQuestAction.get(user=user, quest=quest)
+            uqa=UserQuestAction.objects.get(user=user, quest=quest)
             uqa.complete=True
             uqa.completionTime=datetime.now()
             uqa.save()
-            completeQuestSet(user=user, questset=uqa.quest.questset)
+            completeQuestSet(user=user, questset=uqa.quest.quest_set)
         except ObjectDoesNotExist:
             pass
 
