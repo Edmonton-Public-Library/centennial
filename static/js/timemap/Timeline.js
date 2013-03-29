@@ -167,11 +167,6 @@ return (function () {
 
 		var doHideShow = function(obj) {
 
-			//Update the global selectedDate
-			if(obj.byEnd.length > 0) {
-				Timemap.storage.selectedDate = new Date(obj.byEnd[obj.leftVisible].end.toString()).getTime();
-			}
-
 			try{
 
 			if(!obj.byStart.length) {
