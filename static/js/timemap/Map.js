@@ -202,7 +202,6 @@ return (function () {
 	 */
 	Map.prototype.setMap = function (mapDirectory) {
 		var self = this;
-		console.log(mapDirectory);
 		//Load custom maps for anything before the current year		
 		if(mapDirectory != null) {
 			self.map.mapTypes.set(mapDirectory, new EPLMapType(mapDirectory));
@@ -245,7 +244,10 @@ return (function () {
 					closeBoxURL: ''
 				});
 
-
+				epl.updateQuest({
+					branch : pin.id,
+					onMap : true
+				});
 
 				//Track the ID so we can remove this infoBox if the corresponding pin is removed
 				self.mapData.infoBox.branchID = pin.id;
