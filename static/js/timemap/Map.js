@@ -7,7 +7,6 @@ return (function () {
 	var formatString = '?format=json';
 	var branchInfoSelector = '#tm-branch-info-pane'; //Selector for the element containing the popup template
 	var branchInfoClass = 'tm-branch-info'; //The class used to style the popup box
-	var tileDirectory = Settings.mediaDirectory + '/MapTiles';
 	var eplMapId = 'epl-map';
 	var currentYear = new Date().getFullYear();
 	//Placeholder for EPLMapType, which is defined when the Maps API loads from Google
@@ -46,8 +45,8 @@ return (function () {
 
 			//Create a custom map type for displaying historical maps from different years
 			EPLMapType = (function () {
-					var Type = function (year) {
-						this.tileBase = tileDirectory + '/' + year;
+					var Type = function (mapDirectory) {
+						this.tileBase = mapDirectory;
 					};
 
 					Type.prototype.maxZoom = 16;
@@ -58,12 +57,13 @@ return (function () {
 					Type.prototype.alt = '';
 
 					Type.prototype.getTile = function(coord, zoom, ownerDocument) {
-					  var div = ownerDocument.createElement('div');
-					  div.style.width = 256 + 'px';
-					  div.style.height = 256 + 'px';
-					  div.style.backgroundImage = 'url(' + tileDirectory + '/' + self.mapData.selectedYear + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg)';
-					  div.style.backgroundColor = '#FFFFFF';
-					  return div;
+						var self = this,
+							div = ownerDocument.createElement('div');
+						div.style.width = 256 + 'px';
+						div.style.height = 256 + 'px';
+						div.style.backgroundImage = 'url(' + self.tileBase + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg)';
+						div.style.backgroundColor = '#FFFFFF';
+						return div;
 					};
 
 					return Type;
@@ -116,7 +116,6 @@ return (function () {
 		    self.mapElement.attr(this.name, this.value);
 		});
 
-		this.overlayYear(1913);
 	};
 
 	/**
@@ -203,21 +202,11 @@ return (function () {
 	 */
 	Map.prototype.setMap = function (mapDirectory) {
 		var self = this;
-
+		console.log(mapDirectory);
 		//Load custom maps for anything before the current year		
-		if(year < currentYear) {
-			self.mapData.mapTiler = new google.maps.ImageMapType({ 
-				getTileUrl: function(coord, zoom) {
-					return mapDirectory + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg';
-				},
-				tileSize: new google.maps.Size(256, 256),
-				isPng: false,
-				maxZoom: 16,
-				minZoom: 7
-			});
-
-			self.map.mapTypes.set(year.toString(), new EPLMapType(mapDirectory));
-			self.map.setMapTypeId(year.toString());
+		if(mapDirectory != null) {
+			self.map.mapTypes.set(mapDirectory, new EPLMapType(mapDirectory));
+			self.map.setMapTypeId(mapDirectory);
 		//Otherwise, load the default map
 		} else {
 			self.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
