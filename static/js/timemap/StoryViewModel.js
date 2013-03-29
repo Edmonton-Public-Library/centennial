@@ -64,7 +64,7 @@ return (function () {
         }
 
         self.closeStoryView = function () {
-            top.location = "#branch/" + self.branch_id();
+            history.back();
         };
 
     };
