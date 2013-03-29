@@ -33,7 +33,7 @@ main : new View('timemap', 'Home',
 				} else {
 					epl.storage.map.render(mapCanvas);
 					Environment.chrome.timeline.enable();
-					epl.storage.timeline = new Timeline('#timeline', epl.storage.map);
+					epl.storage.timeline = new Timeline('#timeline', epl.storage.map, epl.storage.selectedDate);
 				}
 
 				$('.buttons').find('#auth-username').eplInput();
@@ -138,7 +138,7 @@ branch : new View('branch', 'Branch',
 					var branch = new Branch($('#branch-viewer'));
 					branch.setData(branchData);
 					
-					epl.storage.timeline = new Timeline('#timeline', {});
+					epl.storage.timeline = new Timeline('#timeline', {}, epl.storage.selectedDate);
 					epl.storage.timeline.enterBranchView(epl.nav.params.id, branch);
 
 					Environment.sidebar.setFeaturedStoriesSource('branch', epl.nav.params.id);
