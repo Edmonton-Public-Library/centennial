@@ -207,7 +207,7 @@ def maintainUserTaskActions(sender, instance, created, **kwargs):
 def maintainUserQuestActions(sender, instance, created, **kwargs):
     if created:
         print "New Task created. Adding User Actions for all current users"
-        userActions = UserQuestSetAction.objects.filter(questset=instance.quest, complete=False)
+        userActions = UserQuestSetAction.objects.filter(questset=instance.quest_set, complete=False)
         for action in userActions:
             print "Adding action for " + str(action.user)
             beginQuest(user=action.user, quest=instance)
