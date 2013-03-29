@@ -179,6 +179,7 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			if(criteria.toString().length > 0) {
 				$.get(Environment.routes.apiBase + '/story/?format=json' + criteria, function (data) {
 					self.data.searchResults(data.objects);
+					console.log(data.objects);
 				});
 			} else {
 				self.data.searchResults([]);

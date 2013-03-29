@@ -90,7 +90,7 @@
                             </div>
                         <!-- /ko -->
                         <!-- ko foreach: {data: featuredStories(), as: 'result'} -->
-                        <div class="search-result linked" data-bind="click: $root.featuredClick">
+                        <div class="search-result linked" data-bind="click: $root.featuredClick, style: {'z-index' : $root.featuredStories().length - $index()}, attr: {class: 'search-result linked ' + result.story.content_type}">
                             <p class="title" data-bind="text: result.story.title"></p>
                             <p class="description" data-bind="text: result.story.description"></p>
                         </div>
@@ -107,9 +107,9 @@
     					</div>
     					<!-- /ko -->
     					<!-- ko foreach: {data: searchResults(), as: 'result'} -->
-    					<div class="search-result linked" data-bind="click: $root.resultClick, style: {'z-index' : $root.searchResults().length - $index()}">
+    					<div class="search-result linked" data-bind="click: $root.resultClick, style: {'z-index' : $root.searchResults().length - $index()}, attr: {class: 'search-result linked ' + result.content_type}">
                             <p class="title" data-bind="text: result.title"></p>
-    						<p class="title" data-bind="text: result.branchName"></p>
+    						<p class="branch-name" data-bind="text: result.branch.name"></p>
                             <!-- ko if: result.description.length > 200 -->
         						<p class="description" data-bind="text: result.description.substring(0, 200) + ' ...'"></p>
                             <!-- /ko -->

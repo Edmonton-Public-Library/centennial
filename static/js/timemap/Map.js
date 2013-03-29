@@ -94,6 +94,7 @@ return (function () {
 			center : new google.maps.LatLng(53.5472, -113.5006),
 			zoom : 11,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
+			mapTypeControl : false
 		});
 
 		if (typeof canvas[0] == 'undefined') Error.throw(new Error('Maps.invalidViewport'));
