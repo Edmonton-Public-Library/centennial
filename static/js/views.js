@@ -136,6 +136,21 @@ emailConfirmation : new View('emailConfirmation', 'emailConfirmation',
 		}),
 
 /**************************************
+ * Email Reconfirm View *
+ *************************************/
+emailReconfirm : new View('emailReconfirm', 'emailReconfirm', 
+		function (fromView, viewport, callback) {
+			Environment.chrome.timeline.disable();
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+
+/**************************************
  * Login Success view *
  *************************************/
 loginSuccess : new View('loginSuccess', 'Login Success', 

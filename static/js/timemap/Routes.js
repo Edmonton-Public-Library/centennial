@@ -83,6 +83,14 @@ return {
 			});
 		});
 
+		//Email Reconfirm
+		this.get('#emailReconfirm', function () {
+			var self = this;
+			require(['timemap', 'views'], function (epl, views) {
+				epl.nav.transition(views.emailReconfirm, self.params);
+			});
+		});
+
 		self.get('#year/:year', function () {
 			var self = this;
 			require(['timemap', 'views'], function (epl, views) {

@@ -73,15 +73,17 @@ return (function () {
                                 var jsonData = jQuery.parseJSON($(data).text());
                                 if (jsonData != null && jsonData.errors) {
                                     $("#ajaxError").text(jsonData.errors);
+                                } else {
+                                    top.location="#uploadStorySuccess";   
                                 }
-                                top.location="#uploadStorySuccess";
                             },
                             error: function (data, status, e) {
                                 $("#ajaxError").text(data);
                             }
                         });
+                    } else {
+                        top.location="#uploadStorySuccess";
                     }
-                    top.location="#uploadStorySuccess";
                 }, 
                 error: function (result) {
                     $("#ajaxError").text(result.responseText);
@@ -132,14 +134,8 @@ return (function () {
         this.year = ko.observable().extend({
             required: { message: 'Year is required.' }
         });
-        this.month = ko.observable().extend({
-            max: { value: 12, message: 'Month must be less than or equal to 12.' },
-            min: { value: 1, message: 'Month must be greater than or equal to 1.' }
-        });
-        this.day = ko.observable().extend({
-            max: { value: 31, message: 'Day must be less than or equal to 31.' },
-            min: { value: 1, message: 'Day must be greater than or equal to 1.' }
-        });
+        this.month = ko.observable();
+        this.day = ko.observable();
         this.public_approved = ko.observable(false);
         this.anonymous = ko.observable(false);
         this.custom_keywords = ko.observable();
