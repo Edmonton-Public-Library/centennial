@@ -164,7 +164,7 @@ class StoryResource(ModelResource):
         else:
             u_pk = bundle.data['user'].split("/")[-2]
             user = User.objects.get(pk=u_pk)
-            bundle.data['user'] = user.get_full_name()
+            bundle.data['user'] = user.username
         return bundle
 
     def dehydrate_content_type(self, bundle):
