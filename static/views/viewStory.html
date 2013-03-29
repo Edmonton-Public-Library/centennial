@@ -4,8 +4,14 @@
 
 <div id="tm-content-panel">
     <div id="content-container">
+      <div id="story-close-icon" data-bind="click: closeStoryView">
+        <img data-bind="attr: {src: imagesDirectiory() + 'x.png'}">
+      </div>
+
       <table><tr>
-        <td class="icon-column"><img id="iconImage" src="" width="100px"/></td>
+        <td class="icon-column">
+          <img id="iconImage" data-bind="attr: {src: imagesDirectiory() + content_type() + '_icon_disabled_crop.png'}" width="100px"/>
+        </td>
         <td>
         <h1 data-bind="text: title"> </h1>
         

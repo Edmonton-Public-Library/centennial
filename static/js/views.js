@@ -257,9 +257,6 @@ viewStory : new View('viewStory', 'View Story',
                     $("#text").addClass('visible');
                 }
 
-                // Set the icon image - relies on correct file names!
-                $('#iconImage').attr('src', Environment.routes.staticDirectory + '/images/' + story.content_type() + '_icon_disabled_crop.png'); 
-
                 var commentsDiv = $('#fb-comments')[0];
                 commentsDiv.innerHTML = "<fb:comments href='" +
                     "http://eplcentennial.epl.ca" + "/timemap/#viewStory/" + storyId +

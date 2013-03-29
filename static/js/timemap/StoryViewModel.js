@@ -1,5 +1,5 @@
 ;
-define(['timemap', 'epl/Settings', 'lib/knockout'], function (epl, Settings, ko) {
+define(['timemap', 'epl/Settings', 'timemap/Environment', 'lib/knockout'], function (epl, Settings, Environment, ko) {
 
 return (function () {
     /**
@@ -8,6 +8,7 @@ return (function () {
     */
     var StoryViewModel = function (storyId) {
         var self = this;
+        self.imagesDirectiory = ko.observable(Environment.routes.staticDirectory + "/images/")
         self.title = ko.observable();
         self.description = ko.observable();
         self.story_text = ko.observable();
@@ -59,8 +60,12 @@ return (function () {
 
         // If a story does not exist for the ID parameter, redirect to the main view
         if (self.title() == null) {
-            top.location="#";
+            top.location = "#";
         }
+
+        self.closeStoryView = function () {
+            top.location = "#branch/" + self.branch_id();
+        };
 
     };
     return StoryViewModel;
