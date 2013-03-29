@@ -26,7 +26,7 @@ return (function () {
 
 	};
 
-	Timeline.prototype.setCurrentDate = function() {
+	Timeline.prototype.getCurrentDate = function() {
 		var self = this;
 		return self.tl._bands[0].getCenterVisibleDate();
 	}
@@ -95,13 +95,14 @@ return (function () {
 		this.hideShowOnScroll();
 	};
 
-	Timeline.prototype.processTiles = function(json) {
+	Timeline.prototype.processTilesByStart = function(json) {
 		json = json.objects;
 		var newJson = [];
 		for(i in json) {
 			newJson.push({
-				start : json[i].published.toString(),
-				end : json[i].published.toString()
+				start : json[i].start_year.toString(),
+				end : json[i].end_year.toString(),
+				folder : json[i].base_folder.toString()
 			});
 		}
 
@@ -113,6 +114,29 @@ return (function () {
 		})
 
 		this.tiles.byStart = newJson;
+
+		this.hideShowOnScroll();
+	};
+
+	Timeline.prototype.processTilesByEnd = function(json) {
+		json = json.objects;
+		var newJson = [];
+		for(i in json) {
+			newJson.push({
+				start : json[i].start_year.toString(),
+				end : json[i].end_year.toString(),
+				folder : json[i].base_folder.toString()
+			});
+		}
+
+		var currYear = new Date().getFullYear();
+
+		newJson.push({
+			start : currYear.toString(),
+			end : currYear.toString(),
+			folder : null
+		})
+
 		this.tiles.byEnd = newJson;
 
 		this.hideShowOnScroll();
@@ -255,7 +279,6 @@ return (function () {
 
 	Timeline.prototype.initTimeline = function(prefs) {
 		var self = this;
-
 		self.branches = {
 			byStart : [],
 			byEnd : [],
@@ -289,7 +312,7 @@ return (function () {
 
 			},
 			showFunction : function(data) {
-				self.map.overlayYear(data.end);
+				self.map.setMap(data.folder);
 			},
 			rightVisible : -1,
 			leftVisible : 0
@@ -301,6 +324,13 @@ return (function () {
 
 		self.startYear = new Date(Date.UTC(prefs.timeline_start_date.year, prefs.timeline_start_date.month - 1, prefs.timeline_start_date.day));
 	    self.endYear = new Date(Date.UTC(prefs.timeline_end_date.year, prefs.timeline_end_date.month - 1, prefs.timeline_end_date.day));
+
+	    var bsDate = prefs.timeline_start_date.year - (prefs.timeline_start_date.year % 10);
+	    var beDate = (prefs.timeline_end_date.year + 10) - (prefs.timeline_end_date.year % 10);
+
+	    self.blockedStartYear = new Date(Date.UTC(bsDate, prefs.timeline_start_date.month - 1, prefs.timeline_start_date.day));
+	    self.blockedEndYear = new Date(Date.UTC(beDate, prefs.timeline_end_date.month - 1, prefs.timeline_end_date.day));
+
 
 	    var endHighLight = new Date(self.endYear.toString());
 	    endHighLight.setFullYear(endHighLight.getFullYear() + 1000);
@@ -340,20 +370,28 @@ return (function () {
 			})
 		];
 
-		var outOfBoundsColor = "#000000";
-
 		bandInfos[1].decorators = [
 			new Simile.SpanHighlightDecorator({
 				startDate : self.endYear,
+				endDate : self.blockedEndYear,
+				opacity : 100
+			}),
+			new Simile.SpanHighlightDecorator({
+				startDate : self.blockedEndYear,
 				endDate : endHighLight,
-				color : outOfBoundsColor,
-				opacity : 80
+				opacity : 100,
+				inFront : true
 			}),
 			new Simile.SpanHighlightDecorator({
 				startDate : beginHighLight,
+				endDate : self.blockedStartYear,
+				opacity : 100,
+				inFront : true
+			}),
+			new Simile.SpanHighlightDecorator({
+				startDate : self.blockedStartYear,
 				endDate : self.startYear,
-				color : outOfBoundsColor,
-				opacity : 80
+				opacity : 100
 			})
 		];
 	    
@@ -373,17 +411,18 @@ return (function () {
 		self.tl._bands[1]._onMouseUp2 = self.tl._bands[1]._onMouseUp;
 		self.tl._bands[1]._onMouseUp = function() {self.newMouseUp();};
 
+		self.tl._bands[0].setCenterVisibleDate(startingDate);
+
 		self.hideShowOnScroll();
 		self.setNumbers();
-
-		self.tl._bands[0].setCenterVisibleDate(startingDate);
 
 		self.recenterTimeWindow();
 
 		$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=start_year', function(json) {self.processBranchesByStart(json);});
 		$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=end_year', function(json) {self.processBranchesByEnd(json);});
 		
-		$.get(Environment.routes.apiBase + '/maps/?format=json', function(json) {self.processTiles(json);});
+		$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=start_year', function(json) {self.processTilesByStart(json);});
+		$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=end_year', function(json) {self.processTilesByEnd(json);});
 
 		self.viewport.find('.timeline-ether-highlight').append(self.leftNumber).append(self.rightNumber);
 

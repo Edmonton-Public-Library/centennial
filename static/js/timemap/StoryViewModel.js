@@ -19,6 +19,7 @@ return (function () {
         self.year = ko.observable();
         self.month = ko.observable();
         self.day = ko.observable();
+        self.username = ko.observable();
         self.keywords = ko.observableArray();
         self.keywordsCommaSeparated = ko.computed(function() {
             return self.keywords().join(", ");
@@ -47,6 +48,7 @@ return (function () {
             self.year(data.year);
             self.month(data.month);
             self.day(data.day);
+            self.username(data.user);
             self.keywords(data.keywords);
             self.content_type(data.content_type);
             $.getJSON(self.branch(), function(branchData) {

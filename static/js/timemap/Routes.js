@@ -74,6 +74,13 @@ return {
 				epl.nav.transition(views.viewStory, self.params);
 			});
 		});
+
+		self.get('#year/:year', function () {
+			var self = this;
+			require(['timemap', 'views'], function (epl, views) {
+				epl.nav.transition(views.main, self.params);
+			});
+		});
 		
 		self.get('', function () {
 			require(['timemap', 'views'], function (epl, views) {

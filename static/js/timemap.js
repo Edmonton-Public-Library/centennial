@@ -50,6 +50,17 @@ var AppClass = (function () {
 
 	};
 
+	// AppClass.prototype.updateQuest = function (data) {
+	// 	$.ajax({
+	// 		data : data,
+	// 		dataType : 'json',
+	// 		type : 'post',
+	// 		success : function(data) {
+	// 			console.log(data);
+	// 		}
+	// 	});
+	// };
+
 	return AppClass;
 
 })();

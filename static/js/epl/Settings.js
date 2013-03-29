@@ -10,6 +10,7 @@ return {
 	apiBranchUrl : '/api/v1/branch/',
 	apiStoryUrl : '/api/v1/story/',
 	apiAccountUrl : '/account/',
+	apiQuestUrl : '/game/complete/timemap',
 	viewDirectory : function () { return '/static/views'; },
 	imageDirectory : '/static/images',
 	mediaDirectory : '/media',
