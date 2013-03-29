@@ -75,6 +75,14 @@ return {
 			});
 		});
 
+		//Email Confirmation
+		this.get('#emailConfirmation', function () {
+			var self = this;
+			require(['timemap', 'views'], function (epl, views) {
+				epl.nav.transition(views.emailConfirmation, self.params);
+			});
+		});
+
 		self.get('#year/:year', function () {
 			var self = this;
 			require(['timemap', 'views'], function (epl, views) {
