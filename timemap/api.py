@@ -158,6 +158,15 @@ class StoryResource(ModelResource):
         bundle.data['content_type'] = CONTENT_HYDRATE[bundle.data['content_type']]
         return bundle
 
+    def dehydrate(self, bundle):
+        if bundle.data['anonymous']:
+            bundle.data['user'] = "Anonymous"
+        else:
+            u_pk = bundle.data['user'].split("/")[-2]
+            user = User.objects.get(pk=u_pk)
+            bundle.data['user'] = user.get_full_name()
+        return bundle
+
     def dehydrate_content_type(self, bundle):
         return dict(Story.CONTENT_TYPE_CHOICES)[bundle.data['content_type']]
 

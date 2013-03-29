@@ -78,6 +78,7 @@ class Story(models.Model):
                                help_text=("A comma-separated list of keywords"),
                                blank=True)
     user = models.ForeignKey(User)
+    anonymous = models.BooleanField(default=False)
     public_approved = models.BooleanField(default=False)
     content_type = models.CharField(db_index=True,
                                     max_length=1,
