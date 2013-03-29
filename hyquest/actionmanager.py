@@ -35,7 +35,7 @@ def completeQuestSet(user, questset):
     if complete:
         #If so, Load and Complete the UserQuestSetAction
         try:
-            uqa=UserQuestSetAction.get(user=user, questset=questset)
+            uqa=UserQuestSetAction.objects.get(user=user, questset=questset)
             uqa.complete=True
             uqa.completionTime=datetime.now()
             uqa.save()
@@ -52,7 +52,7 @@ def completeQuest(user, quest):
     if complete:
         #If so, Load and Complete the UserQuestAction
         try:
-            uqa=UserQuestAction.get(user=user, quest=quest)
+            uqa=UserQuestAction.objects.get(user=user, quest=quest)
             uqa.complete=True
             uqa.completionTime=datetime.now()
             uqa.save()

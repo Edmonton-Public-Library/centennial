@@ -5,15 +5,27 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 import json
 import epl.settings
-from hyquest.verifier import matchingCodeTasks, matchingTimeMapTasks
+from hyquest.verifier import matchingCodeTasks, matchingTimeMapTasks, matchingBibliocommonsTasks
 from hyquest.actionmanager import completeTask, beginQuestSet
 from hyquest.questmanager import replenishQuestSets, activateFeaturedQuestSets
 from hyquest.models import UserTaskAction, UserQuestAction
 
+def check_biblio_tasks(request):
+    if not request.user.is_authenticated():
+        return HttpResponse(json.dumps({'Response':'Error: Must be logged in'}), status=403, content_type='application/json')
+    if not verifyBibliocommonsAccount(request.user):
+        return HttpResponse(json.dumps({'Response':'Error: Cant associate Bibliocommons user'}), status=400, content_type='application/json') 
+    activeTasks, otherTasks = matchingBibliocommonsTasks(request.user, tlState)
+    beginDiscoveredTasks(request.user, otherTasks)
+     
+    for task in activeTasks:
+        completeTask(request.user, task)
+    for task in otherTasks:
+        completeTask(request.user, task)
+    return completedTasksHttpResponse(request.user, activeTasks, otherTasks)
 def submit_timemap_task(request):
     if not request.user.is_authenticated():
         return HttpResponse(json.dumps({'Response':'Error: Must be logged in'}), status=403, content_type='application/json')
-    task = None
     if request.method != 'POST':
         return HttpResponse(json.dumps({'Response':'Error: Bad state object'}), status=400)
     tlState = None
@@ -32,6 +44,27 @@ def submit_timemap_task(request):
         completeTask(request.user, task)
     return completedTasksHttpResponse(request.user, activeTasks, otherTasks)
 
+def submit_social_task(request):
+    if not request.user.is_authenticated():
+        return HttpResponse(json.dumps({'Response':'Error: Must be logged in'}), status=403, content_type='application/json')
+    if request.method != 'POST':
+        return HttpResponse(json.dumps({'Response':'Error: Bad state object'}), status=400)
+    social = None
+    try:
+        social = json.loads(request.raw_post_data)
+    except ValueError, e:
+        print e
+        return HttpResponse(json.dumps({'Response':'Error: Bad state object'}), status=400)
+    
+    activeTasks, otherTasks = matchingSocialTasks(request.user, social)
+    beginDiscoveredTasks(request.user, otherTasks)
+     
+    for task in activeTasks:
+        completeTask(request.user, task)
+    for task in otherTasks:
+        completeTask(request.user, task)
+    return completedTasksHttpResponse(request.user, activeTasks, otherTasks)
+
 def submit_code_task(request):
     if not request.user.is_authenticated():
         return HttpResponse(json.dumps({'Response':'Error: Must be logged in'}), status=403, content_type='application/json')
@@ -40,7 +73,7 @@ def submit_code_task(request):
         activeTasks, otherTasks = matchingCodeTasks(request.user, request.GET['code'])
     if len(activeTasks)+len(otherTasks) == 0:
         return HttpResponse(json.dumps({'Response':'Error: Expired or invalid code'}), status=400, content_type='application/json')
-    return HttpResponse(genCompletedTasksResponse(request.user, activeTasks, otherTasks), content_type='application/json')
+    return completedTasksResponse(request.user, activeTasks, otherTasks)
 
 def get_featured_quests(request):
     if request.user.is_authenticated():

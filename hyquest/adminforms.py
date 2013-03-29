@@ -61,7 +61,7 @@ def edit_social_task(request):
             #Generate the url from the story
             task = Task.objects.get(id=form.cleaned_data['task_id'])
             if form.cleaned_data['share_story']:
-                task.taskinfo = "/timemap/#viewStory/"+str(form.cleaned_data['share_story'].id)+"/"
+                task.taskinfo = "story="+str(form.cleaned_data['share_story'].id)
             else:
                 task.taskinfo = ""
             task.save()
@@ -159,7 +159,7 @@ def edit_timemap_task(request):
                 arguments['maximum_year_enabled'] = False
             if('onMap' in taskinfo):
                 arguments['on_map_enforced'] = True
-                arguments['on_map'] = bool(taskinfo['onMap'])
+                arguments['on_map'] = taskinfo['onMap'] == "True"
             else:
                 arguments['on_map_enabled'] = False
             print arguments

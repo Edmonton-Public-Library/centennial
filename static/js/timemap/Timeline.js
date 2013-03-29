@@ -101,12 +101,12 @@ return (function () {
 		for(i in json) {
 			newJson.push({
 				start : json[i].start_year.toString(),
-				end : json[i].end_year.toString(),
+				end : json[i].start_year.toString(),
 				folder : json[i].base_folder.toString()
 			});
 		}
 
-		var currYear = new Date().getFullYear();
+		var currYear = new Date().getFullYear() - 6;
 
 		newJson.push({
 			start : currYear.toString(),
@@ -115,6 +115,7 @@ return (function () {
 
 		this.tiles.byStart = newJson;
 
+		this.tiles.showFunction(this.tiles.byStart[0]);
 		this.hideShowOnScroll();
 	};
 
@@ -124,12 +125,12 @@ return (function () {
 		for(i in json) {
 			newJson.push({
 				start : json[i].start_year.toString(),
-				end : json[i].end_year.toString(),
+				end : json[i].start_year.toString(),
 				folder : json[i].base_folder.toString()
 			});
 		}
 
-		var currYear = new Date().getFullYear();
+		var currYear = new Date().getFullYear() - 6;
 
 		newJson.push({
 			start : currYear.toString(),
@@ -266,6 +267,10 @@ return (function () {
 
 		doHideShow(self.branches);
 		doHideShow(self.stories);
+
+		rightVisibleDate = self.tl._bands[0].getCenterVisibleDate().getTime();
+		leftVisibleDate = rightVisibleDate;
+
 		doHideShow(self.tiles);
 	}
 
@@ -422,7 +427,7 @@ return (function () {
 		$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=end_year', function(json) {self.processBranchesByEnd(json);});
 		
 		$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=start_year', function(json) {self.processTilesByStart(json);});
-		$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=end_year', function(json) {self.processTilesByEnd(json);});
+		$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=start_year', function(json) {self.processTilesByEnd(json);});
 
 		self.viewport.find('.timeline-ether-highlight').append(self.leftNumber).append(self.rightNumber);
 
