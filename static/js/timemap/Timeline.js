@@ -394,7 +394,9 @@ return (function () {
 
 			},
 			showFunction : function(data) {
-				self.map.setMap(data.folder);
+				if(self.map.setMap) {
+					self.map.setMap(data.folder);
+				}
 			},
 			rightVisible : -1,
 			leftVisible : 0
