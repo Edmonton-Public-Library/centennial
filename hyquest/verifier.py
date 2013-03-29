@@ -9,7 +9,7 @@ import centennial.bibliocommons
 
 # Common Task Completion Code
 def getTaskResultSet(user):
-    return Task.objects.filter(quest__quest_set__active=False)
+    return Task.objects.filter(quest__quest_set__active=True)
 
 def getUserAction(user, task):
     try:
@@ -72,7 +72,10 @@ def matchingSocialTasks(user, social):
 
 
 def socialMatches(task, social):
-    return task.taskinfo == social
+    reqs = task.getInfoReqs()
+    if 'story' in reqs and ('story' not in social or reqs['story'] != str(social['story'])):
+        return False
+
 
 ## 
 ##  TIMEMAP Tasks
