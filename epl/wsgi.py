@@ -16,7 +16,8 @@ framework.
 import os
 import sys
 
-path = '/home/ben/EPL'
+path = os.path.realpath(__file__)
+path = path.rstrip(path[-3:])
 if path not in sys.path:
     sys.path.append(path)
 

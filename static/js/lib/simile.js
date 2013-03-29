@@ -2710,6 +2710,10 @@ define(['timemap/Environment'], function (Environment) {
 			this._timeline.addDiv(this._div);
 			SimileAjax.DOM.registerEventWithObject(this._div, "mousedown", this, "_onMouseDown");
 			SimileAjax.DOM.registerEventWithObject(this._div, "mousemove", this, "_onMouseMove");
+			/** EDITED BY BRAEDEN PETRUK TO ALLOW TOUCH INPUT **/
+			SimileAjax.DOM.registerEventWithObject(this._div,"touchstart",this,"_onTouchDown");
+			SimileAjax.DOM.registerEventWithObject(this._div,"touchmove",this,"_onTouchMove");
+			/** END OF EDIT BY BRAEDEN PETRUK **/
 			SimileAjax.DOM.registerEventWithObject(this._div, "mouseup", this, "_onMouseUp");
 			SimileAjax.DOM.registerEventWithObject(this._div, "mouseout", this, "_onMouseOut");
 			SimileAjax.DOM.registerEventWithObject(this._div, "dblclick", this, "_onDblClick");
@@ -2750,6 +2754,9 @@ define(['timemap/Environment'], function (Environment) {
 			}
 		};
 		Timeline._Band.SCROLL_MULTIPLES = 5;
+
+
+
 		Timeline._Band.prototype.dispose = function () {
 			this.closeBubble();
 			if (this._eventSource) {
@@ -2996,9 +3003,38 @@ define(['timemap/Environment'], function (Environment) {
 				this._positionHighlight()
 			}
 		};
+		/** CODE ADDED BY BRAEDENPETRUK TO SUPPORT TOUCH DRAGGING OF THE TIMELINE **/
+		Timeline._Band.prototype._onTouchDown=function(D, A, E)
+		{
+			//Only respond if there is a single touch
+		    if (A.touches.length == 1) {
+				var touch = A.changedTouches[0];
+				this._dragX = touch.clientX;
+				this._dragY = touch.clientY;
+		    }
+		};
+		Timeline._Band.prototype._onTouchMove=function(D,A,E)
+		{
+			//Only respond if there is a single touch
+		    if (A.touches.length == 1) {
+		    	//Prevent page drag from happening
+				A.preventDefault();
+		        var touch = A.changedTouches[0];
+				var horizontalDelta = touch.clientX - this._dragX;
+		        var verticalDelta = touch.clientY - this._dragY;
+		        this._dragX = touch.clientX;
+		        this._dragY = touch.clientY;
+		        //With help from Kartik Agarwal:
+		        this._moveEther(this._timeline.isHorizontal() ? horizontalDelta : verticalDelta);
+				this._positionHighlight();
+				this._fireOnScroll();
+				this._setSyncWithBandDate();
+		    } 
+		};
+		/** END OF CODE ADDED BY BRAEDEN PETRUK */
 		Timeline._Band.prototype._onMouseUp = function (B, A, C) {
 			this._dragging = false;
-			this._keyboardInput.focus()
+			//this._keyboardInput.focus()
 		};
 		Timeline._Band.prototype._onMouseOut = function (C, B, D) {
 			var A = SimileAjax.DOM.getEventRelativeCoordinates(B, C);
@@ -3089,10 +3125,12 @@ define(['timemap/Environment'], function (Environment) {
 						this.setCenterVisibleDate(this._eventSource.getEarliestDate());
 						break;
 					case 33:
-						this._autoScroll(this._timeline.getPixelLength());
+						/** EDITED BY BRAEDEN PETRUK TO DISABLE PAGE UP/PAGE DOWN NAVIGATION */
+						// this._autoScroll(this._timeline.getPixelLength());
 						break;
 					case 34:
-						this._autoScroll(-this._timeline.getPixelLength());
+						/** EDITED BY BRAEDEN PETRUK TO DISABLE PAGE UP/PAGE DOWN NAVIGATION */
+						// this._autoScroll(-this._timeline.getPixelLength());
 						break;
 					default:
 						return true

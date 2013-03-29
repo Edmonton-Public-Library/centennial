@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-
+from django.core.exceptions import ObjectDoesNotExist
 from hyquest.models import QuestSet, Quest, Task, UserTaskAction, UserQuestAction, UserQuestSetAction
 
 from datetime import datetime
@@ -63,7 +63,7 @@ def completeQuest(user, quest):
 def completeTask(user, task):
     #Load and Complete the UserTaskAction
     try:
-        uta=UserTaskAction.get(user=user, task=task)
+        uta=UserTaskAction.objects.get(user=user, task=task)
         uta.complete=True
         uta.completionTime=datetime.now()
         uta.save()

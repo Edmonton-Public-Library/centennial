@@ -166,7 +166,12 @@ return (function () {
 		if(typeof self.mapData.markers[pin.id] != 'undefined') {
 			self.mapData.markers[pin.id].marker.setVisible(false);
 		}
-		//TODO: Adjust the map zoom/position to show all of the pins? Or is this intrusive?
+
+		//If the pin that is being removed corresponds to a 
+		//currently-displayed infoBox, hide the infoBox.
+		if(this.mapData.infoBox != null && pin.id == this.mapData.infoBox.branchID) {
+			this.hideInfo();
+		}
 	};
 
 	/**
@@ -243,6 +248,9 @@ return (function () {
 					zIndex: 1,
 					closeBoxURL: ''
 				});
+
+				//Track the ID so we can remove this infoBox if the corresponding pin is removed
+				self.mapData.infoBox.branchID = pin.id;
 
 				//Bind data from the selected branch to the info box
 				google.maps.event.addListener(self.mapData.infoBox, 'domready', function () {

@@ -67,8 +67,8 @@ class MapResource(ModelResource):
         queryset = Map.objects.all()
         resource_name = 'maps'
         allowed_methods = ['get']
-        fields = ['published', 'base_folder']
-        ordering = ['published']
+        fields = ['published', 'base_folder', 'start_year', 'end_year']
+        ordering = ['published', 'start_year', 'end_year']
 
 class StoryResource(ModelResource):
     """
@@ -156,6 +156,15 @@ class StoryResource(ModelResource):
             bundle.data['content_type'] = "T"
             return bundle
         bundle.data['content_type'] = CONTENT_HYDRATE[bundle.data['content_type']]
+        return bundle
+
+    def dehydrate(self, bundle):
+        if bundle.data['anonymous']:
+            bundle.data['user'] = "Anonymous"
+        else:
+            u_pk = bundle.data['user'].split("/")[-2]
+            user = User.objects.get(pk=u_pk)
+            bundle.data['user'] = user.get_full_name()
         return bundle
 
     def dehydrate_content_type(self, bundle):

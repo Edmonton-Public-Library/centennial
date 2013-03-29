@@ -1,18 +1,37 @@
 ;
-define(['lib/knockout', 'epl/Settings', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom'], function (ko, Settings, Environment, StoryPin) {
+define(['lib/knockout', 'epl/Settings', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom', 'lib/jquery.hammer'], function (ko, Settings, Environment, StoryPin) {
 
 return (function () {
 
+	//The list of displayed content types
 	var contentTypes = {
-		text : {index: 0, color: 'yellow'},
-		link : {index: 1, color: 'green'},
-		image : {index: 2, color: 'pink'},
-		pdf : {index: 3, color: 'purple'},
-		audio : {index: 4, color: 'blue'},
-		video : {index: 5, color: 'gray'}
+		text : {index: 0, color: 'yellow', displayTitle: "Text",
+			iconURL: Environment.routes.staticDirectory + '/images/text_icon_disabled_crop.png'},
+		link : {index: 1, color: 'green', displayTitle: "Link",
+			iconURL: Environment.routes.staticDirectory + '/images/link_icon_disabled_crop.png'},
+		image : {index: 2, color: 'pink', displayTitle: "Image",
+			iconURL: Environment.routes.staticDirectory + '/images/image_icon_disabled_crop.png'},
+		pdf : {index: 3, color: 'purple', displayTitle: "PDF",
+			iconURL: Environment.routes.staticDirectory + '/images/pdf_icon_disabled_crop.png'},
+		audio : {index: 4, color: 'blue', displayTitle: "Audio",
+			iconURL: Environment.routes.staticDirectory + '/images/audio_icon_disabled_crop.png'},
+		video : {index: 5, color: 'gray', displayTitle: "Video",
+			iconURL: Environment.routes.staticDirectory + '/images/video_icon_disabled_crop.png'}
 	};
 
-	var contentTypesList = ['text', 'link', 'image', 'pdf', 'audio', 'video'];
+	var numCols = 3; //The number of columns to display icons within
+
+	//Generate an enumerable list of the above content types, of the form:
+	// ['text', 'link', ... ]
+	var contentTypesList = (function () {
+		var i = 0;
+		var types = [];
+		for(type in contentTypes) {
+			types[i] = type;
+			i++;
+		}
+		return types;
+	})();
 
 	var Branch = function (viewport) {
 		var self = this;
@@ -29,8 +48,8 @@ return (function () {
 		this.dimensions = new (function () {
 			var dimensions = this;
 
-			this.numCols = 3;
-			this.numRows = 2; //TODO: Make an automated way of calculating this: contentTypes as an array, and compute using .length?
+			this.numCols = numCols;
+			this.numRows = Math.ceil(contentTypesList.length / this.numCols);
 			this.viewerWidth = ko.observable(Environment.display.viewportWidth());
 			this.viewerHeight = ko.observable(Environment.display.viewportHeight());
 			this.cellDimensions = ko.computed(function () {
@@ -99,7 +118,8 @@ return (function () {
 
 		this.pinCoordinates(new StoryPin('text', '11', 'coll'));
 
-		$(window).click(function () {
+		//Hide story lists when clicking outside of them
+		$(window).bind('click tap touchstart', function () {
 			self.hideStorySelector();
 		});
 	};

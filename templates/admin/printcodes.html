@@ -1,0 +1,5 @@
+<table>
+{% for taskcode in queryset%}
+<tr><td><b>{{ taskcode.task}} </b></td><td><font size='16px'>{{ taskcode.code }}</font></td></tr>
+{% endfor %}
+</table>

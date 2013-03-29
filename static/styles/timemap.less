@@ -327,9 +327,10 @@ body {
 			.search-result {
 				@search-result-background-color: #DBDBDB;
 				background-color: @search-result-background-color;
-				margin: 8px;
 				padding: 8px;
 				cursor: default;
+				border-left: solid 5px @epl-purple;
+				.x-box-shadow(0, 2px, 5px, 0, rgba(0,0,0,0.3), false);
 
 				&.linked {
 					cursor: pointer;
@@ -518,27 +519,27 @@ body {
 	.pin {
 		cursor: pointer;
 		&.yellow {
-			.pin-colors(#F2D633);
+			.pin-colors(@epl-yellow);
 		}
 
 		&.green {
-			.pin-colors(#7DD145);
+			.pin-colors(@epl-green);
 		}
 
 		&.pink {
-			.pin-colors(#DB1A5B);
+			.pin-colors(@epl-pink);
 		}
 
 		&.purple {
-			.pin-colors(#633280);
+			.pin-colors(@epl-purple);
 		}
 
 		&.blue {
-			.pin-colors(#34A9E3);
+			.pin-colors(@epl-blue);
 		}
 
 		&.gray {
-			.pin-colors(gray);
+			.pin-colors(@epl-gray);
 		}
 	}
 
@@ -555,7 +556,7 @@ body {
 	}
 
 	.pin-text-color(@baseColor) when (lightness(@baseColor) < 50%) {
-		color: lighten(@baseColor, 40%);
+		color: lighten(@baseColor, 50%);
 	}
 
 	#branch-header-content {
@@ -567,6 +568,22 @@ body {
 			font-size: 30px;
 			margin-bottom: 8px;
 		}
+	}
+
+	img.floorplan {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	img.content-icon {
+		width: 50px;
+		height: 50px;
+	}
+
+	div.content-text {
+		text-align: center;
+		margin-top: 10px;
 	}
 
 	#jump-to-branch {

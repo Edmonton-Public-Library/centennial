@@ -6,22 +6,33 @@ from hyquest.actionmanager import completeTask
 
 import centennial.bibliocommons
 
+# Common Task Completion Code
+def getTaskResultSet(user):
+    return Task.objects.all()
+
+def getUserAction(user, task):
+    try:
+        action = UserTaskAction.objects.get(user=user, task=task)
+        return action
+    except ObjectDoesNotExist:
+        return None
+
 ##
 ##  CODE COMPLETION TASKS
 ##
-def completeCodeTask(user, code):
+# for symmetry, returns (active tasks, serendipidous tasks)
+def matchingCodeTasks(user, code):
     task = getTaskForCode(code)
-    if task == None:
+    if task is None:
         return None
     action = getUserAction(user, task)
-    if action == None or action.complete:
-        return None
-    burnCode(code)
-    completeTask(user, task)
-    return Task
+    if action is None:
+        return ([], [task,])
+    if action.complete:
+        return ([], [])
+    return ([task,],[])
         
 def getTaskForCode(code):
-    #This should include verification that the quest-set it comes from is open
     try:
         tcode = TaskCode.objects.get(code=code)
         if tcode.uses_remaining<1:
@@ -45,40 +56,39 @@ def burnCode(code):
 ##
 ##  SOCIAL MEDIA TASKS
 ##
-def completeSocialTask(user, social):
+def matchingSocialTasks(user, social):
     task = getTaskForSocial(social)
-    if task == None:
+    if task is None:
         return None
     action = getUserAction(user, task)
-    if action == None or action.complete:
-        return None
-    completeTask(user, task)
-    return Task
+    if action is None:
+        return ([],[task,])
+    if action.complete:
+        return ([],[])
+    return ([task,], [])
 
 def getTaskForSocial(social):
     #This should include verification that the quest-set it comes from is open
     return None
 
-def getUserAction(user, task):
-    try:
-        action = UserTaskAction.objects.get(user=user, task=task)
-        return action
-    except ObjectDoesNotExist:
-        return None
 ## 
 ##  TIMEMAP Tasks
 ##
-def completeTimeMapTask(user, timeMapState):
-    userTasks = UserTaskAction.objects.filter(user=user, task__type=4)
-    print "User "+str(user)+" has "+str(userTasks.count())+" TimeMap tasks open"
-    for userAction in userTasks:
-        if timeMapMatches(userAction.task, timeMapState):
-            completeTask(user, userAction.task)
-            return userAction.task
-    return None
+def matchingTimeMapTasks(user, timeMapState):
+    tasks = getTaskResultSet(user).filter(type=4)
+    activeTasks = []
+    otherTasks = []
+    for task in tasks:
+        if timeMapMatches(task, timeMapState):
+            action=getUserAction(user, task)
+            if action is None:
+                otherTasks.append(task)
+            elif action.complete != True:
+                activeTasks.append(task)
+    return (activeTasks, otherTasks)
 
 def timeMapMatches(task, timeMapState):
-    reqs = task.getTimeMapReqs()
+    reqs = task.getInfoReqs()
     if 'minYear' in reqs and ('year' not in timeMapState or int(timeMapState['year']) < int(reqs['minYear'])):
         print "year before minYear"
         return False
@@ -122,7 +132,7 @@ def verifyBibliocommonsAccount(user):
         print "Warning: User account "+str(user)+" does not have linked Bibliocommons Account."
         return False
 
-def completeBibliocommonsTask(user): 
+def matchingBibliocommonsTasks(user): 
     try:
         bibliolink = BibliocommonsLink.objects.get(user=user)
         if bibliolink.biblioid == -1:
@@ -135,13 +145,17 @@ def completeBibliocommonsTask(user):
         content = centennial.bibliocommons.userContent(bibliolink.biblioid)
     except Exception:
         print "Error: Unable to communicate with the Bibliocommons API"
-    userTasks = UserTaskAction.objects.filter(user=user, task__type=0)
-    completedTasks = []
-    for userTask in userTasks:
+    tasks = getTaskResultSet().filter(type=0)
+    activeTasks = []
+    otherTasks = []
+    for task in tasks:
         if bibliocommonsMatches(content,userTask.task):
-            completeTask(user, userTask.task)
-            completedTasks.append(userTask.task)
-    return completedTasks
+            action = getUserAction(user, task)
+            if action is None:
+                otherTasks.append(task)
+            elif action.complete != True:
+                activeTasks.append(task)
+    return (activeTasks, otherTasks)
 
 def bibliocommonsMatches(contentSet, task):
     reqs = task.getInfoReqs()

@@ -20,10 +20,10 @@ class Branch(models.Model):
     class Meta:
         verbose_name_plural = "Branches"
 
-    name = models.CharField(max_length=BRANCH_NAME_LEN)
+    name = models.CharField(db_index=True, max_length=BRANCH_NAME_LEN)
     description = models.TextField(max_length=BRANCH_DESCRIPTION_LEN)
-    start_year = IntegerRangeField(min_value=1900, max_value=3000)
-    end_year = IntegerRangeField(min_value=1900, max_value=3000, blank=True, null=True)
+    start_year = IntegerRangeField(db_index=True, min_value=1900, max_value=3000)
+    end_year = IntegerRangeField(db_index=True, min_value=1900, max_value=3000, blank=True, null=True)
     floor_plan = models.FileField(upload_to="floor_plans", blank=True, null=True)
     latitude_help = "Latitude range : -90:90"
     latitude = FloatRangeField(min_value=-90, max_value=90, help_text=latitude_help)
@@ -62,15 +62,15 @@ class Story(models.Model):
     class Meta:
         verbose_name_plural = "Stories"
 
-    title = models.CharField(max_length=STORY_TITLE_LEN)
-    description = models.TextField(max_length=STORY_DESCRIPTION_LEN)
+    title = models.CharField(db_index=True, max_length=STORY_TITLE_LEN)
+    description = models.TextField(db_index=True, max_length=STORY_DESCRIPTION_LEN)
     story_text = models.TextField(max_length=STORY_TEXT_LEN, blank=True)
     link_url = models.URLField(blank=True, error_messages={'invalid': "Please input a valid URL (for example: http://www.example.com)."})
     media_file = models.FileField(upload_to=media_upload_to,
                                   blank=True,
                                   validators=[FileValidator(allowed_extensions=UPLOAD_EXTENSIONS,
                                                            allowed_mimetypes=UPLOAD_MIME_TYPES)])
-    year = IntegerRangeField(min_value=1900, max_value=3000)
+    year = IntegerRangeField(db_index=True, min_value=1900, max_value=3000)
     month = IntegerRangeField(min_value=1, max_value=12, blank=True, null=True)
     day = IntegerRangeField(min_value=1, max_value=31, blank=True, null=True)
     branch = models.ForeignKey('Branch')
@@ -78,8 +78,10 @@ class Story(models.Model):
                                help_text=("A comma-separated list of keywords"),
                                blank=True)
     user = models.ForeignKey(User)
+    anonymous = models.BooleanField(default=False)
     public_approved = models.BooleanField(default=False)
-    content_type = models.CharField(max_length=1,
+    content_type = models.CharField(db_index=True,
+                                    max_length=1,
                                     choices=CONTENT_TYPE_CHOICES,
                                     default=TEXT)
 

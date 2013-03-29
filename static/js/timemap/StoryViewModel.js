@@ -55,6 +55,11 @@ return (function () {
             });
         });
 
+        // If a story does not exist for the ID parameter, redirect to the main view
+        if (self.title() == null) {
+            top.location="#";
+        }
+
     };
     return StoryViewModel;
 })();

@@ -1,13 +1,14 @@
 ;
-define(['lib/simile', 'timemap/Environment', 'timemap/map/BranchPin', 'timemap/map/StoryPin', 'lib/jquery-ui'], function (Simile, Environment, BranchPin, StoryPin) {
+define(['lib/simile', 'timemap/Environment', 'timemap/map/BranchPin', 'timemap/map/StoryPin', 'timemap', 'lib/jquery-ui'], function (Simile, Environment, BranchPin, StoryPin, Timemap) {
 
 return (function () {
 
-	var Timeline = function (viewport, map) {
+	var Timeline = function (viewport, map, startDate) {
 		var self = this;
 		this.viewport = $(viewport);
 		this.map = map;
 		this.branchViewer = null;
+		this.startDate = startDate;
 
 		this.leftNumber = $('<div>').addClass('timelineBound').addClass('left');
 		this.rightNumber = $('<div>').addClass('timelineBound').addClass('right');
@@ -24,6 +25,11 @@ return (function () {
 		});
 
 	};
+
+	Timeline.prototype.setCurrentDate = function() {
+		var self = this;
+		return self.tl._bands[0].getCenterVisibleDate();
+	}
 
 	Timeline.prototype.processStories = function(json) {
 		json = json.objects;
@@ -267,7 +273,7 @@ return (function () {
 			byStart : [],
 			byEnd : [],
 			hideFunction : function(data) {
-				self.branchViewer.showPin(new StoryPin(data.content_type, data.id, data.title));
+				self.branchViewer.hidePin(new StoryPin(data.content_type, data.id, data.title));
 			},
 			showFunction : function(data) {
 				self.branchViewer.showPin(new StoryPin(data.content_type, data.id, data.title));
@@ -356,6 +362,10 @@ return (function () {
 	    self.tl = Simile.create(self.viewport[0], bandInfos);
 
 		var startingDate = new Date(Date.UTC(prefs.timeline_init_date, prefs.timeline_init_date.month - 1, prefs.timeline_init_date.day));
+		//If an alternate start date was specified, use that instead
+	    if(typeof this.startDate != 'undefined' && this.startDate != null) {
+	    	startingDate = this.startDate;
+		}
 
 		self.tl._bands[0].addOnScrollListener(function(scrollVal) {self.hideShowOnScroll(scrollVal);});
 		self.tl._bands[0].addOnScrollListener(function() {self.setNumbers();});

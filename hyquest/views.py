@@ -1,11 +1,14 @@
 from django.shortcuts import render_to_response
 from django.template.loader import get_template
 from django.template import Context
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 import json
 import epl.settings
-from hyquest.verifier import completeCodeTask, completeTimeMapTask
+from hyquest.verifier import matchingCodeTasks, matchingTimeMapTasks
+from hyquest.actionmanager import completeTask, beginQuestSet
+from hyquest.questmanager import replenishQuestSets, activateFeaturedQuestSets
+from hyquest.models import UserTaskAction, UserQuestAction
 
 def submit_timemap_task(request):
     if not request.user.is_authenticated():
@@ -20,35 +23,56 @@ def submit_timemap_task(request):
         print e
         return HttpResponse(json.dumps({'Response':'Error: Bad state object'}), status=400)
     
-    task = completeTimeMapTask(request.user, tlState)
-    if task is None:
-        return HttpResponse(json.dumps({'Response':'Error: No associated Tasks'}), status=400, content_type='application/json')
-    return HttpResponse(genCompletedTaskResponse(request.user, task), content_type='application/json')
-
+    activeTasks, otherTasks = matchingTimeMapTasks(request.user, tlState)
+    beginDiscoveredTasks(request.user, otherTasks)
+     
+    for task in activeTasks:
+        completeTask(request.user, task)
+    for task in otherTasks:
+        completeTask(request.user, task)
+    return completedTasksHttpResponse(request.user, activeTasks, otherTasks)
 
 def submit_code_task(request):
     if not request.user.is_authenticated():
         return HttpResponse(json.dumps({'Response':'Error: Must be logged in'}), status=403, content_type='application/json')
     task = None
     if 'code' in request.GET:
-        task = completeCodeTask(request.user, request.GET['code'])
-    if task is None:
+        activeTasks, otherTasks = matchingCodeTasks(request.user, request.GET['code'])
+    if len(activeTasks)+len(otherTasks) == 0:
         return HttpResponse(json.dumps({'Response':'Error: Expired or invalid code'}), status=400, content_type='application/json')
-    return HttpResponse(genCompletedTaskResponse(request.user, task), content_type='application/json')
+    return HttpResponse(genCompletedTasksResponse(request.user, activeTasks, otherTasks), content_type='application/json')
 
-def genCompletedTaskResponse(user, task):
-    jdict = {'Response':'Success'}
-    try:
-        uta = UserTaskAction.objects.get(user=user, task=task)
-        if uta.complete:
-            jdict['CompletedTask'] = task.id
-            uqa = UserQuestAction.objects.get(user=user, quest=task.quest)
-            if uqa.complete:
-                jdict['CompletedQuest'] = task.quest.id
-                uqsa = UserQuestSetAction.objects.get(user=user, questset=task.quest.quest_set)
-                if uqsa.complete:
-                    jdict['CompletedQuestSet'] = task.quest.quest_set.id
-        return json.dumps(jdict)
-    except Exception:
-        pass
-    
+def get_featured_quests(request):
+    if request.user.is_authenticated():
+        activateFeaturedQuestSets(request.user)
+    return HttpResponseRedirect('/api/v1/questset/?featured')
+
+def get_active_quests(request):
+    if request.user.is_authenticated():
+        replenishQuestSets(request.user)
+    return HttpResponseRedirect('/api/v1/questset/?active')
+
+def completedTasksHttpResponse(user, activeTasks, otherTasks):
+    if len(activeTasks)+len(otherTasks) == 0:
+        return HttpResponse(json.dumps({'Response':'No Completed Tasks'}),content_type='application/json')
+
+    jdict = {'Response':'Success', 'completedTaskCount':len(activeTasks), 'discoveredTaskCount':len(otherTasks), 'completedTasks':[], 'discoveredTasks':[]}
+    for task in activeTasks:
+        jdict['completedTasks'].append(getTaskResponseDict(user, task))
+    for task in otherTasks:
+        jdict['discoveredTasks'].append(getTaskResponseDict(user, task))
+    return HttpResponse(json.dumps(jdict), content_type='application/json')
+
+def getTaskResponseDict(user, task):
+    dict = {'title':task.title, 'quest':{'title':task.quest.title, 'completed':0, 'total':0},            'questset':{'title':task.quest.quest_set.title, 'completed':0, 'total':0}}
+    dict['quest']['completed'] = UserTaskAction.objects.filter(task__quest=task.quest, user=user, complete=True).count()
+    dict['quest']['total'] = UserTaskAction.objects.filter(task__quest=task.quest, user=user).count()
+    dict['questset']['completed'] = UserQuestAction.objects.filter(quest__quest_set=task.quest.quest_set, user=user, complete=True).count()
+    dict['questset']['total'] = UserQuestAction.objects.filter(quest__quest_set=task.quest.quest_set, user=user).count()
+    return dict
+
+def beginDiscoveredTasks(user, tasks): 
+    # Begin UserActions for any serendipidously discovered Tasks
+    for task in tasks:
+        if UserTaskAction.objects.filter(user=user, task=task).count() == 0:
+            beginQuestSet(user, task.quest.quest_set)
