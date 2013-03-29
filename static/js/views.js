@@ -147,8 +147,9 @@ branch : new View('branch', 'Branch',
 					var branch = new Branch($('#branch-viewer'));
 					branch.setData(branchData);
 					
-					epl.storage.timeline = new Timeline('#timeline', {}, epl.storage.selectedDate);
-					epl.storage.timeline.enterBranchView(epl.nav.params.id, branch);
+					epl.storage.timeline = new Timeline('#timeline', {}, epl.storage.selectedDate, function() {
+						epl.storage.timeline.enterBranchView(epl.nav.params.id, branch);
+					});
 
 					Environment.sidebar.setFeaturedStoriesSource('branch', epl.nav.params.id);
 				});
