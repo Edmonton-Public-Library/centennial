@@ -6,6 +6,8 @@ from django.http import HttpResponse, HttpResponseBadRequest
 import util.file_validator
 
 def gen_json_badrrequest_response(error):
+    if not isinstance(error, list):
+        error = [error]
     return HttpResponseBadRequest(json.dumps({'errors': error}), content_type='application/json')
 
 def validate_media_upload(request, story_id):
@@ -31,7 +33,7 @@ def validate_media_upload(request, story_id):
                                                      allowed_mimetypes=API_MIME_TYPES)(story.media_file)
     except ValidationError, e:
         story.delete()
-        return HttpResponseBadRequest(json.dumps(e.messages), content_type='application/json')
+        return gen_json_badrrequest_response(e.messages)
 
     if mimetype in ['image/png', 'image/jpeg', 'image/pjpeg']:
         story.content_type = "I"

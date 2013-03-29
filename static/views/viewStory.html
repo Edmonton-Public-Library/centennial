@@ -13,9 +13,15 @@
             <h2 data-bind="text: branch_name"> </h2>
         </a>
         <p data-bind="text: date"> </p>
+
+        <p>
+            Submitted by <span data-bind="text: username"></span>
+        </p>
+
         <p class="keywords" data-bind="if: keywords().length > 0"><b></b>
             <span data-bind="text: keywordsCommaSeparated" ></span>
         </p>
+
         <p>
             <span data-bind="text: description"></span>
         </p>
