@@ -107,9 +107,15 @@
     					</div>
     					<!-- /ko -->
     					<!-- ko foreach: {data: searchResults(), as: 'result'} -->
-    					<div class="search-result linked" data-bind="click: $root.resultClick">
-    						<p class="title" data-bind="text: result.title"></p>
-    						<p class="description" data-bind="text: result.description"></p>
+    					<div class="search-result linked" data-bind="click: $root.resultClick, style: {'z-index' : $root.searchResults().length - $index()}">
+                            <p class="title" data-bind="text: result.title"></p>
+    						<p class="title" data-bind="text: result.branchName"></p>
+                            <!-- ko if: result.description.length > 200 -->
+        						<p class="description" data-bind="text: result.description.substring(0, 200) + ' ...'"></p>
+                            <!-- /ko -->
+                            <!-- ko if: result.description.length <= 200 -->
+                                <p class="description" data-bind="text: result.description"></p>
+                            <!-- /ko -->
     					</div>
     					<!-- /ko -->
     				</div>
