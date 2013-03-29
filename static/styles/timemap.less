@@ -177,6 +177,10 @@ body {
 		border-top: 1px solid #aaa;
 	}
 
+	.timeline-highlight-decorator {
+		background-color:#555555;
+	}
+
 	.timeline-copyright {
 		display: none;
 	}
@@ -559,14 +563,25 @@ body {
 		color: lighten(@baseColor, 50%);
 	}
 
-	#branch-header-content {
-		padding: 15px;
-		color: white;
-		background-color: #3c4c5d;
-		.branch-title {
-			font-weight: bold;
-			font-size: 30px;
-			margin-bottom: 8px;
+	#branch-header {
+		#branch-header-content {
+			padding: 15px;
+			color: white;
+			background-color: #3c4c5d;
+			.branch-title {
+				font-weight: bold;
+				font-size: 30px;
+				margin-bottom: 8px;
+			}
+		}
+		#branch-close-icon {
+			cursor: pointer;
+			img {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				width: 40px;
+			}
 		}
 	}
 
@@ -575,7 +590,7 @@ body {
 		margin-left: auto;
 		margin-right: auto;
 	}
-
+ 
 	img.content-icon {
 		width: 50px;
 		height: 50px;

@@ -108,6 +108,9 @@ return (function () {
 			openStorySelector : function (type, event) {
 				self.showStorySelector(type);
 				event.stopPropagation(); //Otherwise the story selector will hide as soon as it's displayed
+			},
+			closeBranchView : function () {
+				window.top.location = "#";
 			}
 		}, viewport[0]);
 
