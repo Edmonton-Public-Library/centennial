@@ -3,12 +3,12 @@ define(['lib/simile', 'timemap/Environment', 'timemap/map/BranchPin', 'timemap/m
 
 return (function () {
 
-	var Timeline = function (viewport, map, startDate) {
+	var Timeline = function (viewport, map, startingDate, callback) {
 		var self = this;
 		this.viewport = $(viewport);
 		this.map = map;
 		this.branchViewer = null;
-		this.startDate = startDate;
+		this.startingDate = startingDate;
 
 		this.leftNumber = $('<div>').addClass('timelineBound').addClass('left');
 		this.rightNumber = $('<div>').addClass('timelineBound').addClass('right');
@@ -17,6 +17,7 @@ return (function () {
 		$(document).ready(function () {
 			$.get('/preferences/', function(json) {
 				self.initTimeline(json);
+				callback();
 			});
 		});
 
@@ -45,6 +46,10 @@ return (function () {
 				instant : "true"
 			});
 		}
+
+		this.setTimelineStartDate(new Date(Date.UTC(json[0].year - 1, 0, 1)));
+		this.setTimelineEndDate(new Date(Date.UTC(json[json.length - 1].year + 1, 0, 1)));
+
 		this.stories.byStart = newJson;
 		this.stories.byEnd = newJson;
 
@@ -170,11 +175,11 @@ return (function () {
 		var maxVisDate = this.tl._bands[0].getMaxVisibleDate().getTime();
 		var minVisDate = this.tl._bands[0].getMinVisibleDate().getTime();
 
-		if( maxVisDate > this.endYear.getTime() && Math.abs((maxVisDate - this.endYear.getTime()) / maxVisDate) > 0.01) {
+		if(this.endYear != null && maxVisDate > this.endYear.getTime() && Math.abs((maxVisDate - this.endYear.getTime()) / maxVisDate) > 0.01) {
 			this.tl._bands[0].setMaxVisibleDate(this.endYear);
 			return false;
 		}
-		else if( minVisDate < this.startYear.getTime() && Math.abs((this.startYear.getTime() - minVisDate) / minVisDate) > 0.01)  {
+		else if(this.startYear != null && minVisDate < this.startYear.getTime() && Math.abs((this.startYear.getTime() - minVisDate) / minVisDate) > 0.01)  {
 			this.tl._bands[0].setMinVisibleDate(this.startYear);
 			return false;
 		}
@@ -272,15 +277,87 @@ return (function () {
 		leftVisibleDate = rightVisibleDate;
 
 		doHideShow(self.tiles);
-	}
+	};
+
+	Timeline.prototype.setTimelineStartDate = function(startDate) {
+		var self = this;
+
+		if(self.startYear == null || startDate < self.startYear) {
+
+			self.startYear = startDate;
+
+			var bsDate = startDate.getFullYear() - (startDate.getFullYear() % 10);
+
+		    self.blockedStartYear = new Date(startDate.toString());
+		    self.blockedStartYear.setFullYear(bsDate);
+
+			self.tl._bands[1]._decorators[0]._endDate = self.blockedStartYear;
+
+			self.tl._bands[1]._decorators[1]._startDate = self.blockedStartYear;
+			self.tl._bands[1]._decorators[1]._endDate = self.startYear;
+
+			self.tl._bands[1]._decorators[0].paint();
+			self.tl._bands[1]._decorators[1].paint();
+
+			self.tl.timeline_start = startDate;
+
+			this.recenterTimeWindow();
+		}
+	};
+
+	Timeline.prototype.setTimelineEndDate = function(endDate) {
+		var self = this;
+
+		if(self.endYear == null || endDate > self.endYear) {
+
+			self.endYear = endDate;
+
+			var beDate = (endDate.getFullYear() + 10) - (endDate.getFullYear() % 10);
+
+		    self.blockedEndYear = new Date(endDate.toString());
+		    self.blockedEndYear.setFullYear(beDate);
+
+			self.tl._bands[1]._decorators[3]._startDate = self.blockedEndYear;
+
+			self.tl._bands[1]._decorators[2]._startDate = self.endYear;
+			self.tl._bands[1]._decorators[2]._endDate = self.blockedEndYear;
+
+			self.tl._bands[1]._decorators[2].paint();
+			self.tl._bands[1]._decorators[3].paint();
+
+			self.tl.timeline_stop = endDate;
+
+			this.recenterTimeWindow();
+		}
+	};
+
+	Timeline.prototype.setBoundsByBranch = function(branchData) {
+		var self = this;
+
+		var branchStartYear = new Date(Date.UTC(branchData.start_year.toString(), 0, 1));
+		this.setTimelineStartDate(branchStartYear);
+
+		var branchEndYear;
+		if(branchData.end_year == null) {
+			branchEndYear = new Date();
+		}
+		else {
+			branchEndYear = new Date(Date.UTC(branchData.end_year.toString(), 0, 1));
+		}
+		this.setTimelineEndDate(branchEndYear);
+	};
 
 	Timeline.prototype.enterBranchView = function(branchID, viewer) {
 		var self = this;
 
 		self.branchViewer = viewer;
+		self.startYear = null;
+		self.endYear = null;
 
 		$.get(Environment.routes.apiBase + '/story/?format=json&branch=' + branchID + '&order_by=year', function(json) {self.processStories(json);});
-	}
+	
+		$.get(Environment.routes.apiBase + '/branch/' + branchID + '/?format=json', function(json) {self.setBoundsByBranch(json);});
+	};
 
 	Timeline.prototype.initTimeline = function(prefs) {
 		var self = this;
@@ -317,7 +394,9 @@ return (function () {
 
 			},
 			showFunction : function(data) {
-				self.map.setMap(data.folder);
+				if(self.map.setMap) {
+					self.map.setMap(data.folder);
+				}
 			},
 			rightVisible : -1,
 			leftVisible : 0
@@ -377,17 +456,6 @@ return (function () {
 
 		bandInfos[1].decorators = [
 			new Simile.SpanHighlightDecorator({
-				startDate : self.endYear,
-				endDate : self.blockedEndYear,
-				opacity : 100
-			}),
-			new Simile.SpanHighlightDecorator({
-				startDate : self.blockedEndYear,
-				endDate : endHighLight,
-				opacity : 100,
-				inFront : true
-			}),
-			new Simile.SpanHighlightDecorator({
 				startDate : beginHighLight,
 				endDate : self.blockedStartYear,
 				opacity : 100,
@@ -397,6 +465,17 @@ return (function () {
 				startDate : self.blockedStartYear,
 				endDate : self.startYear,
 				opacity : 100
+			}),
+			new Simile.SpanHighlightDecorator({
+				startDate : self.endYear,
+				endDate : self.blockedEndYear,
+				opacity : 100
+			}),
+			new Simile.SpanHighlightDecorator({
+				startDate : self.blockedEndYear,
+				endDate : endHighLight,
+				opacity : 100,
+				inFront : true
 			})
 		];
 	    
@@ -406,8 +485,8 @@ return (function () {
 
 		var startingDate = new Date(Date.UTC(prefs.timeline_init_date, prefs.timeline_init_date.month - 1, prefs.timeline_init_date.day));
 		//If an alternate start date was specified, use that instead
-	    if(typeof this.startDate != 'undefined' && this.startDate != null) {
-	    	startingDate = this.startDate;
+	    if(typeof this.startingDate != 'undefined' && this.startingDate != null) {
+	    	startingDate = this.startingDate;
 		}
 
 		self.tl._bands[0].addOnScrollListener(function(scrollVal) {self.hideShowOnScroll(scrollVal);});

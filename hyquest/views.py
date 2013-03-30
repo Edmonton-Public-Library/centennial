@@ -35,6 +35,7 @@ def submit_timemap_task(request):
         tlState = json.loads(request.raw_post_data)
     except ValueError, e:
         print e
+        print request.raw_post_data
         return HttpResponse(json.dumps({'Response':'Error: Bad state object'}), status=400)
     
     activeTasks, otherTasks = matchingTimeMapTasks(request.user, tlState)

@@ -58,7 +58,12 @@
         </div>
         <div id='installation'>
             <h2>Installation</h2>
-            TODO: write installation instructions<br>
+            <p>
+            	<ol>
+            		<li>Untar the project into the desired directory.</li>
+            		<li>In a terminal run the INSTALL script.</li>
+            	</ol>
+            </p>
         </div>
         <div id='system-tests'>
             <h2>System Tests</h2>
@@ -654,7 +659,7 @@
                     <br>
 
                     <table border="1" class="test-case" id="tm-test.3.1">                        
-								<tr>                        
+						<tr>                        
                         	<th class="left-column">#</th>
                         	<th>TM-Test.3.1</th>
                         </tr>
@@ -682,7 +687,7 @@
                             <td class="left-column">Test Steps</td>
                             <td>
                                 <table border="1" class="test-case-steps">
-                                		<tr>
+                                	<tr>
                                     	<th>Step #</th>
                                     	<th>Description</th>
                                     	<th>Expected Result</th>
@@ -697,13 +702,23 @@
                                     	<td>Click and drag the timeline to the right, 'backwards' in time.</td>
                                     	<td>The map view should transition to a new map image.</td>
                                     </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>On the 'Featured Story' panel, click on one of the options.</td>
+                                        <td>View should transition to that story.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Navigate backwards to the previous page</td>
+                                        <td>Map view should be the same as it was in Step 2</td>
+                                    </tr>
                                 </table>
                             </td>
                     </table>
                     <br>
                     
                     <table border="1" class="test-case" id="tm-test-3.2">                        
-								<tr>                        
+						<tr>                        
                         	<th class="left-column">#</th>
                         	<th>TM-Test.3.2</th>
                         </tr>
@@ -717,7 +732,7 @@
                         </tr>
                         <tr>
                             <td class="left-column">User Requirement Reference</td>
-                            <td>TM.3.4</td>
+                            <td>TM.3.4, TM.3.9</td>
                         </tr>
                         <tr>
                             <td class="left-column">Pre Conditions</td>
@@ -731,7 +746,7 @@
                             <td class="left-column">Test Steps</td>
                             <td>
                                 <table border="1" class="test-case-steps">
-                                		<tr>
+                                	<tr>
                                     	<th>Step #</th>
                                     	<th>Description</th>
                                     	<th>Expected Result</th>
@@ -750,6 +765,11 @@
                                     	<td>3</td>
                                     	<td>Ensure that the media icons are layed out on the floor plan correctly.</td>
                                     	<td>Pass.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Click the "Jump to branch" drop down menu and select a different branch</td>   
+                                        <td>Branch view should transition to the new branch.</td>                            
                                     </tr>
                                 </table>
                             </td>
