@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import F
 from hyquest.models import TaskCode
 from hyquest.verifiers.common import getUserAction
 
@@ -30,7 +31,7 @@ def getTaskForCode(code):
 def burnCode(code):
     try:
         taskcode = TaskCode.objects.get(code=code)
-        taskcode.uses_remaining -= 1
+        taskcode.uses_remaining = F('uses_remaining')-1
         taskcode.save()
     except ObjectDoesNotExist:
         pass
