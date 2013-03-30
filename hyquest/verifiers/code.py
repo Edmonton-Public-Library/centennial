@@ -8,9 +8,11 @@ def matchingCodeTasks(user, code):
         return ([], [])
     action = getUserAction(user, task)
     if action is None:
+        burnCode(code)
         return ([], [task,])
     if action.complete:
         return ([], [])
+    burnCode(code)
     return ([task,],[])
 
 def getTaskForCode(code):
