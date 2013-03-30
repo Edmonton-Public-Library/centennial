@@ -36,30 +36,59 @@
 		    <div class="fb-like" data-send="true" data-bind="attr: {'data-href': Settings.siteUrl}" data-width="250" data-show-faces="false" data-font="arial"></div>
 		<div id="timeline" data-bind="style: {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
 	</div>
-	<h1>Featured Quests</h1>
-	<div class="iosSlider">
-		<div class="slider">
-			<div class="slide featured-quest">Testing!</div>
-			<div class="slide featured-quest">Testing!</div>
-			<div class="slide featured-quest">Testing!</div>
-			<div class="slide featured-quest">Testing!</div>
-			<div class="slide featured-quest">Testing!</div>
-			<div class="slide featured-quest">Testing!</div>
-		</div>
-	</div>
-
-	<h1>Quest Progression</h1>
-	<div class="iosSlider">
-		<div class="slider">
-			<div class="slide current-quest">
-				<div class="title">Title</div>
-				<ul>
-					<li>Test</li>
-					<li>Test</li>
-				</ul>
+	<div id="dashboard">
+		<h1>Featured Quests</h1>
+		<div class="iosSlider">
+			<div class="slider">
+				<div class="slide featured-quest">Testing!</div>
+				<div class="slide featured-quest">Testing!</div>
+				<div class="slide featured-quest">Testing!</div>
+				<div class="slide featured-quest">Testing!</div>
+				<div class="slide featured-quest">Testing!</div>
+				<div class="slide featured-quest">Testing!</div>
 			</div>
 		</div>
+
+		<h1>Quest Progression</h1>
+		<div class="iosSlider">
+			<div class="slider">
+				<!-- ko foreach: featuredQuests -->
+					<div class="slide current-quest">
+						<div class="progress-container">
+							<div class="progress-bar"></div>
+						</div>
+						<div class="title" data-bind="text: title"></div>
+						<ul>
+							<li>
+								<div class="quest-description">
+									<span>Quest one with some tasks inside of it.</span>
+								</div>
+								<div class="completion-count">
+									13/20
+								</div>
+							</li>
+							<li>
+								<div class="quest-description">
+									<span>Another freaking awesome quest. w00t!</span>
+								</div>
+								<div class="completion-count">
+									9/16
+								</div>
+							</li>
+							<li>
+								<div class="quest-description">
+									<span>The last horrible sample quest text.</span>
+								</div>
+								<div class="completion-count">
+									4/18
+								</div>
+							</li>
+						</ul>
+					</div>
+				<!-- /ko -->
+			</div>
+		</div>
+		<div data-role="viewport"></div>   
 	</div>
-	<div data-role="viewport"></div>   
 </body>
 </html>

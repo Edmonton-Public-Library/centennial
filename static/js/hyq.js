@@ -26,11 +26,6 @@ var AppClass = (function () {
 		//Start accepting routes
 		//Bootstrap components that depend on the DOM
 		this.nav = new Nav(this.viewport, Routes.routes);
-
-		$('.iosSlider').iosSlider({
-			desktopClickDrag : true,
-		});
-
 	};
 
 	return AppClass;

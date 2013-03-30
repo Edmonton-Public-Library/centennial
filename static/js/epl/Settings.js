@@ -11,6 +11,8 @@ return {
 	apiStoryUrl : '/api/v1/story/',
 	apiAccountUrl : '/account/',
 	apiQuestUrl : '/game/complete/timemap',
+	apiQuestSetsUrl : '/game/questsets',
+	apiQuestsUrl : '/api/v1/quest',
 	viewDirectory : function () { return '/static/views'; },
 	imageDirectory : '/static/images',
 	mediaDirectory : '/media',
