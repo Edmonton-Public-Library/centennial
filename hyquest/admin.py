@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hyquest.models import QuestSet, Quest, Task, TaskCode
+from hyquest.models import QuestSet, Quest, Task, TaskCode, Level
 from django import forms
 from django.shortcuts import render
 from hyquest.constants import TASK_CHOICES
@@ -50,5 +50,8 @@ class TaskCodeAdmin(admin.ModelAdmin):
     list_filter = ['uses_remaining']
     actions = [print_task_codes]
 
-
 admin.site.register(TaskCode, TaskCodeAdmin)
+
+class LevelAdmin(admin.ModelAdmin):
+    list_display = ['level_name', 'required_exp']
+admin.site.register(Level, LevelAdmin)

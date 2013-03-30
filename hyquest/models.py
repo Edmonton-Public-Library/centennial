@@ -190,6 +190,17 @@ class UserQuestSetAction(models.Model):
     def __unicode__(self):
         return str(self.user) + " - " + str(self.questset)
 
+class Level(models.Model):
+
+    class Meta:
+        verbose_name = "Level"
+        ordering = ["required_exp"]
+
+    level_name = models.CharField(default='1', max_length='40')
+    required_exp = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return self.level_name
 
 # Signal setup
 

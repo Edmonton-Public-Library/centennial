@@ -4,7 +4,7 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 from django.db.models.query_utils import Q
 
-from hyquest.models import QuestSet, Quest, Task, UserTaskAction, UserQuestAction, UserQuestSetAction
+from hyquest.models import QuestSet, Quest, Task, UserTaskAction, UserQuestAction, UserQuestSetAction, Level
 
 
 class QuestSetResource(ModelResource):
@@ -46,7 +46,7 @@ class QuestResource(ModelResource):
     questset = fields.ForeignKey(QuestSetResource, 'quest_set')
     class Meta:
         queryset = Quest.objects.filter(quest_set__active=True)
-	resource_name = 'quest'
+        resource_name = 'quest'
         filtering = {"questset": ALL_WITH_RELATIONS}
         fields = ['id', 'title', 'points']
     def dehydrate(self, bundle):
@@ -61,7 +61,7 @@ class TaskResource(ModelResource):
     quest = fields.ForeignKey(QuestResource, 'quest')
     class Meta:
         queryset = Task.objects.filter(quest__quest_set__active=True)
-	resource_name = 'task'
+        resource_name = 'task'
         filtering = {"quest": ALL_WITH_RELATIONS}
         fields = ['id', 'title', 'type', 'points']
 
@@ -71,4 +71,23 @@ class TaskResource(ModelResource):
             bundle.data['complete'] = ua.complete
         except Exception:
             bundle.data['complete'] = False
+        return bundle
+
+class LevelResource(ModelResource):
+    
+    class Meta:
+        queryset = Level.objects.all()
+        fields = ['level_name', 'required_exp']
+        resource_name = 'level'
+    def dehydrate(self, bundle):
+        required_exp = int(bundle.data['required_exp'])
+        lastexp = 0
+        try:
+            lastexp = Level.objects.filter(required_exp__lt=required_exp).latest('required_exp').required_exp
+        except Level.DoesNotExist:
+            pass
+        bundle.data['exp_total'] = required_exp - lastexp
+        bundle.data['start_exp'] = lastexp
+        bundle.data['end_exp'] = required_exp
+        del bundle.data['required_exp']
         return bundle

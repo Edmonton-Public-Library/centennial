@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from centennial.models import BibliocommonsLink
 from centennial.bibliocommons import validUser
 from centennial.recaptcha import verifyReCaptcha
+from hyquest.models import Level
 import epl.settings
 import util
 import util.email.email_template
@@ -126,7 +127,8 @@ def current_user(request):
     if request.user.is_authenticated():
         bibliolink = BibliocommonsLink.objects.filter(user=request.user).count() != 0
         facebooklink = request.user.social_auth.filter(provider='facebook').count() != 0
-        userinfo = { "username": request.user.username, "firstname": request.user.first_name, "lastname": request.user.last_name, "email": request.user.email, "bibliolink" : bibliolink, "facebooklink" : facebooklink, "points": request.user.profile.points}
+        level = Level.objects.filter(required_exp__lte=request.user.profile.points).latest('required_exp')
+        userinfo = { "username": request.user.username, "firstname": request.user.first_name, "lastname": request.user.last_name, "email": request.user.email, "bibliolink" : bibliolink, "facebooklink" : facebooklink, "points": request.user.profile.points, "level": level.id}
         return HttpResponse(json.dumps(userinfo), content_type='application/json')
     return HttpResponse(status='403')
 

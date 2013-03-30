@@ -20,7 +20,7 @@ def load_manual_fixture():
     local('python manage.py loaddata fts/fixtures/branch_csv.json')
     local('python manage.py loaddata fts/fixtures/map_csv.json')
     local('python manage.py loaddata fts/fixtures/demo.json')
-    local('python manage.py loaddata fts/fixtures/samplequest.json')
+    local('python manage.py loaddata fts/fixtures/game_data.json')
 
 def resetdb():
     with settings(warn_only=True):
