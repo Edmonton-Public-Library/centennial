@@ -59,19 +59,50 @@
 </p>
 
 <h3><a id="navigation"></a>Navigation</h3>
-<p>TO DO
+<p>TimeMap navigation is built to be simple and intuitive. By using the
+timeline, you can navigate backwards and forwards in time. As you do so, the view
+of the map will automatically be updated to represent the branches as they existed 
+in the time range selected by the time selector.
+To navigate backwards or forwards in time:
+<ol>
+    <li>Place your mouse cursor over the timeline widget.</li>
+    <li>Click and drag the timeline to the right or to the left until the desired decade is selected in the time selector.</li>
+</ol>
+As you drag the timeline, the map view will automatically change from the Google 
+maps view to maps of Edmonton for the time period currently selected by the time selector.<br>
 </p>
 
 <h3><a id="viewing_branches"></a>Viewing Branches</h3>
-<p>TO DO
+<p>To view information about a specific branch location:
+<ol>
+    <li>On the map, locate the branch whose information you want to view.</li>
+    <li>Click on the map pin corresponding to the branch.</li>
+    <li>A small popup window will appear with a breif description of that branch.</li>
+    <li>To view detailed branch information, click on the 'View Branch' button.</li>
+</ol>
 </p>
 
 <h3><a id="viewing_stories"></a>Viewing Stories</h3>
-<p>TO DO
+<p>Storys can be accessed in two ways: by selecting a story in a branch view and by searching for specific stories.
+To view a story relavent to a branch:
+<ol>
+    <li>Navigate to a specific branch. See 'Viewing Branches'.</li>
+    <li>On the branch's floor plan, you will see icons of various media formats.</li>
+    <li>Click on anyone of these icons and select a story from the drop down menu.</li>
+</ol>
+To find a story by search: see 'Searching for Stories'.
 </p>
 
 <h3><a id="searching_for_stories"></a>Searching for Stories</h3>
-<p>TO DO
+<p>The TimeMap includes a simple search interface to search for all available
+stories.<br>
+To search for a story:
+<ol>
+    <li>In the side panel, click the Search tab.</li>
+    <li>In the seach text field, enter the the search terms relavent to the branch or story you are searching for.</li>
+    <li>As you type, results relavent to your search will be displayed dynamically in the space below the search text field</li>
+    <li>Click on the desired search result and the story will open in the space over the map.</li>
+</ol>
 </p>
 
 <hr>
@@ -136,28 +167,29 @@ Once the user has updated their information, clicking on the "Save Changes" butt
 <h2><a id="uploads"></a></a>3. Uploading Stories</h2>
 <h3><a id="uploading_new_story"></a>Uploading a New Story</h3>
 <p><span style="color: red">TO DO - add steps to navigate to Upload Story screen when complete.</span><br><br>
-The user can use the Upload Your Story screen to add their own stories to the TimeMap.
+
+To upload a story, you must have an account. If you do not have an account please <a href="#create_account">create one</a>.
 <br><br>
-A user must be logged into their account before they can upload a story. If the user does not have an account, they must first create an account using the <a href="#create_account">Create Account</a> screen.<br><br>
-Once logged in, the user can submit their content by completing the form on the Upload Your Story screen. The user can specify the following information about their story:
-<ul>
-	<li><b>Title</b> (required): A short title for the story.</li>
-	<li><b>Description</b> (required): A description of the story's content.</li>
-	<li><b>Story Content</b> (required): There are three different types of stories. The user must select one of the story types:
-		<ul>
-			<li><b>Text</b>: The story has text-based content. The text will be displayed when the story is viewed on the TimeMap.</li>
-			<li><b>Link</b>: The story is a reference to an external website. A link to this external website will be displayed when the story is viewed on the TimeMap.<br> Note that the link URL must be a valid URL (for example: http://www.example.com).</li>	<li><b>File</b>: The story contains a media file, such as an image or a pdf. Please see the <a href="#supported_content">supported content types</a> for more details.</li>
-		</ul>
-	</li>
-	<li><b>Branch</b> (required): All stories must be associated to a library branch. The story will be displayed under this branch on the TimeMap. </li>
-	<li><b>Date</b> (Year is required): The date in <i>dd MM yyyy</i> format. All stories must have a year so that they can be displayed on the TimeMap based on the timeline date range. The Day and Month are optional (simply leave the Day and Month fields blank if you do not want them). </li>
-	<li><b>Keywords</b>: Keywords are words that are associated with your story. Adding relevant keywords will help users find your story using the search functionality on the TimeMap. A user can either select from the pre-defined keywords or enter their own (separated by commas).</li>
-</ul>
-Once the user has completed the form, clicking on the "Upload" button will submit the story.
-<ul>
-	<li>If there are any errors with the user's input (such as leaving a required field blank), error messages are displayed. The user can fix the errors and click "Upload" again to resubmit the form.</li>
-	<li>If there are no errors with the user's input, the story is created. The user is shown a message indicating that the story was uploaded successfully.</li>	
-</ul>
+<ol>
+    <li><span style="color: red">Navigate to the upload story view</span></li>
+    <li>Fill in the required information:
+        <ul>
+            <li><b>Title</b> (required): A short title for the story.</li>
+            <li><b>Description</b> (required): A description of the story's content.</li>
+            <li><b>Story Content</b> (required): There are three different types of stories. The user must select one of the story types:
+                <ul>
+                    <li><b>Text</b>: The story has text-based content. The text will be displayed when the story is viewed on the TimeMap.</li>
+                    <li><b>Link</b>: The story is a reference to an external website. A link to this external website will be displayed when the story is viewed on the TimeMap.<br> Note that the link URL must be a valid URL (for example: http://www.example.com).</li>	<li><b>File</b>: The story contains a media file, such as an image or a pdf. Please see the <a href="#supported_content">supported content types</a> for more details.</li>
+                </ul>
+            </li>
+            <li><b>Branch</b> (required): All stories must be associated to a library branch. The story will be displayed under this branch on the TimeMap. </li>
+            <li><b>Date</b> (Year is required): The date in <i>dd MM yyyy</i> format. All stories must have a year so that they can be displayed on the TimeMap based on the timeline date range. The Day and Month are optional (simply leave the Day and Month fields blank if you do not want them). </li>
+            <li><b>Keywords</b>: Keywords are words that are associated with your story. Adding relevant keywords will help users find your story using the search functionality on the TimeMap. A user can either select from the pre-defined keywords or enter their own (separated by commas).</li>
+        </ul>
+    </li>
+    <li>Click the Upload button</li>
+    <li>If you have any errors in your inputs, correct them and try again.</li>
+</ol>
 <b>Note:</b> A user-uploaded story is not displayed publicly on the TimeMap until it has been approved by an EPL administrator. EPL will endeavour to approve user-submitted content as quickly as possible, but there may be some delay. 
 </p>
 
