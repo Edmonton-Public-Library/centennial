@@ -8,6 +8,7 @@ from hyquest.models import QuestSet, Quest, Task, UserTaskAction, UserQuestActio
 
 
 class QuestSetResource(ModelResource):
+    quests = fields.ToManyField('hyquest.api.QuestResource', 'quest_set', full=True)
     class Meta:
         queryset = QuestSet.objects.all()
         resource_name = 'questset'
@@ -43,7 +44,8 @@ class QuestSetResource(ModelResource):
         return bundle
 
 class QuestResource(ModelResource):
-    questset = fields.ForeignKey(QuestSetResource, 'quest_set')
+    #questset = fields.ForeignKey(QuestSetResource, 'quest_set', full=True)
+    tasks = fields.ToManyField('hyquest.api.TaskResource', 'task_set', full=True)
     class Meta:
         queryset = Quest.objects.filter(quest_set__active=True)
         resource_name = 'quest'
@@ -58,7 +60,7 @@ class QuestResource(ModelResource):
         return bundle
 
 class TaskResource(ModelResource):
-    quest = fields.ForeignKey(QuestResource, 'quest')
+    #quest = fields.ForeignKey(QuestResource, 'quest')
     class Meta:
         queryset = Task.objects.filter(quest__quest_set__active=True)
         resource_name = 'task'
