@@ -147,7 +147,7 @@ def validate_model(sender, **kwargs):
     Force a clean call when certain models are saved in order to do
     keep model constrains
     """
-    if sender in [Branch, Story] and 'raw' in kwargs and not kwargs['raw']:
+    if sender in [Branch, Story, Map] and 'raw' in kwargs and not kwargs['raw']:
         kwargs['instance'].full_clean()
 
 @receiver(pre_delete)

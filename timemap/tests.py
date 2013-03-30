@@ -1,7 +1,10 @@
+import copy
+import json
 from django.test import TestCase
 from django.contrib.auth.models import User
 from timemap.models import Branch
 from timemap.models import Story
+from timemap.models import Map
 from django.core.exceptions import ValidationError
 from util.tastytest import ResourceTestCase
 
@@ -60,25 +63,22 @@ def save_branch(name, description, start_year, end_year, longitude, latitude):
     branch.save()
     return branch
 
-class EntryResourceTest(ResourceTestCase):
+class MapModelTest(TestCase):
+    def test_map_clean(self):
+        map_object = Map()
+        map_object.start_year = 2013
+        map_object.end_year = 2012
+        with self.assertRaises(ValidationError):
+            map_object.clean()
+
+class BranchResourceTest(ResourceTestCase):
     fixtures = ['branches.json']
 
     def setUp(self):
-        super(EntryResourceTest, self).setUp()
+        super(BranchResourceTest, self).setUp()
         create_test_user()
         self.capilano_branch = Branch.objects.get(name="Capilano")
         self.capilano_url = '/api/v1/branch/{0}/'.format(self.capilano_branch.pk)
-        self.test_story = {"branch": self.capilano_url,
-                     "day": 30,
-                     "description": "For children up to age three",
-                     "month": 1,
-                     "public_approved": True,
-                     "resource_uri": "/api/v1/story/1/",
-                     "story_text": "Location\tInformation\tRegistration",
-                     "title": "Sing, Sign, Laugh and Learn",
-                     "content_type": "text",
-                     "year": 2013
-                    }
 
     def get_credentials(self):
         pass
@@ -98,6 +98,29 @@ class EntryResourceTest(ResourceTestCase):
         self.assertKeys(self.deserialize(resp), keys)
         self.assertEqual(self.deserialize(resp)['name'], "Capilano")
 
+class StoryResourceTest(ResourceTestCase):
+    fixtures = ['branches.json']
+
+    def setUp(self):
+        super(StoryResourceTest, self).setUp()
+        create_test_user()
+        self.capilano_branch = Branch.objects.get(name="Capilano")
+        self.capilano_url = '/api/v1/branch/{0}/'.format(self.capilano_branch.pk)
+        self.test_story = {"branch": self.capilano_url,
+                     "day": 30,
+                     "description": "For children up to age three",
+                     "month": 1,
+                     "public_approved": True,
+                     "resource_uri": "/api/v1/story/1/",
+                     "story_text": "Location\tInformation\tRegistration",
+                     "title": "Sing, Sign, Laugh and Learn",
+                     "content_type": "text",
+                     "year": 2013
+                    }
+
+    def get_credentials(self):
+        pass
+
     def test_add_story(self):
         login = self.api_client.client.login(username='testuser', password='hello')
         self.assertTrue(login)
@@ -108,6 +131,34 @@ class EntryResourceTest(ResourceTestCase):
     def test_add_story_authentication(self):
         resp = self.api_client.post('/api/v1/story/', data=self.test_story)
         self.assertHttpUnauthorized(resp)
+
+    def test_public_approved_hidden(self):
+        login = self.api_client.client.login(username='testuser', password='hello')
+        self.assertTrue(login)
+        resp = self.api_client.post('/api/v1/story/', data=self.test_story)
+        self.assertHttpCreated(resp)
+
+        resp = self.api_client.get('/api/v1/story/', format='json')
+        self.assertEqual(json.loads(resp.content)['meta']['total_count'], 0)
+
+    def test_public_approved_shown(self):
+        login = self.api_client.client.login(username='testuser', password='hello')
+        self.assertTrue(login)
+        resp = self.api_client.post('/api/v1/story/', data=self.test_story)
+        self.assertHttpCreated(resp)
+        s = Story.objects.all()[0]
+        s.public_approved = True
+        s.save()
+
+        resp = self.api_client.get('/api/v1/story/', format='json')
+        self.assertEqual(json.loads(resp.content)['meta']['total_count'], 1)
+
+    def test_created_story_public_approved(self):
+        login = self.api_client.client.login(username='testuser', password='hello')
+        self.assertTrue(login)
+        resp = self.api_client.post('/api/v1/story/', data=self.test_story)
+        self.assertHttpCreated(resp)
+        self.assertFalse(Story.objects.all()[0].public_approved)
 
 def create_test_user():
     user = User.objects.create(username='testuser', password='12345',
