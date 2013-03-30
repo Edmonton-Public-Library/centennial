@@ -47,8 +47,8 @@ return (function () {
 			});
 		}
 
-		this.setTimelineStartDate(new Date(Date.UTC(json[0].year - 1, 0, 1)));
-		this.setTimelineEndDate(new Date(Date.UTC(json[json.length - 1].year + 1, 0, 1)));
+		//this.setTimelineStartDate(new Date(Date.UTC(json[0].year - 1, 0, 1)));
+		//this.setTimelineEndDate(new Date(Date.UTC(json[json.length - 1].year + 1, 0, 1)));
 
 		this.stories.byStart = newJson;
 		this.stories.byEnd = newJson;
@@ -365,10 +365,20 @@ return (function () {
 			byStart : [],
 			byEnd : [],
 			hideFunction : function(data) {
-				self.map.hidePin(new BranchPin(data));
+				try {
+					self.map.hidePin(new BranchPin(data));
+				}
+				catch(e) {
+
+				}
 			},
 			showFunction : function(data) {
-				self.map.showPin(new BranchPin(data));
+				try {
+					self.map.showPin(new BranchPin(data));
+				}
+				catch(e) {
+					
+				}
 			},
 			rightVisible : -1,
 			leftVisible : 0
@@ -378,10 +388,20 @@ return (function () {
 			byStart : [],
 			byEnd : [],
 			hideFunction : function(data) {
-				self.branchViewer.hidePin(new StoryPin(data.content_type, data.id, data.title));
+				try {
+					self.branchViewer.hidePin(new StoryPin(data.content_type, data.id, data.title));
+				}
+				catch(e) {
+					
+				}
 			},
 			showFunction : function(data) {
-				self.branchViewer.showPin(new StoryPin(data.content_type, data.id, data.title));
+				try {
+					self.branchViewer.showPin(new StoryPin(data.content_type, data.id, data.title));
+				}
+				catch(e) {
+					
+				}
 			},
 			rightVisible : -1,
 			leftVisible : 0
@@ -394,8 +414,13 @@ return (function () {
 
 			},
 			showFunction : function(data) {
-				if(self.map.setMap) {
-					self.map.setMap(data.folder);
+				try {
+					if(self.map.setMap) {
+						self.map.setMap(data.folder);
+					}
+				}
+				catch(e) {
+					
 				}
 			},
 			rightVisible : -1,
