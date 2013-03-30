@@ -14,10 +14,10 @@ framework.
 
 """
 import os
-import sys
+import sys 
 
 path = os.path.realpath(__file__)
-path = path.rstrip(path[-3:])
+path = path.rstrip(path[-11:])
 if path not in sys.path:
     sys.path.append(path)
 

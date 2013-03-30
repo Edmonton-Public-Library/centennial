@@ -1,0 +1,34 @@
+#Run this script to install EPL project on Ubuntu based server
+#project will be installed to /bin/EPL
+
+#First thing, make a directory where we want to install 
+mkdir /bin/EPL
+#Now copy source to target
+cp -r * /bin/EPL 
+apt-get update
+echo "Istall python2.7" 
+apt-get -y install python2.7 python-pip python-dev python-mysqldb
+echo "install Mysql"
+apt-get -y install mysql-server
+echo "Install apache"
+apt-get -y install apache2 libapache2-mod-wsgi
+echo "dependancies installed" 
+
+echo "Configure Apache" 
+rm -f /etc/apache2/sites-available/default
+cp default /etc/apache2/sites-available/
+
+echo "Install Time map and 100 year quest project" 
+cd /bin/EPL/ && pip install -r /bin/EPL/requirements.txt
+fab resetdb
+
+
+echo "restarting apache2" 
+apache2ctl restart
+
+echo "setup up complete" 
+echo "to test type "localhost" or 127.0.0.0 into the web browser of this machine"
+
+
+
+echo "done setup" 

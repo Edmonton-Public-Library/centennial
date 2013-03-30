@@ -1,0 +1,42 @@
+<VirtualHost *:80>
+ 	ServerName timeline.epl.com
+	ServerAlias www.timeline.epl.com	
+	ServerAdmin webmaster@localhost
+
+	Alias /media/ /bin/EPL/media/
+        Alias /static/ /bin/EPL/static/
+
+        <Directory /bin/EPL/static>
+        Order deny,allow
+        Allow from all
+        </Directory>
+
+        <Directory /bin/EPL/media>
+        Order deny,allow
+        Allow from all
+        </Directory>
+
+	DocumentRoot /bin/EPL/epl 
+	WSGIScriptAlias / /bin/EPL/epl/wsgi.py
+
+	<Directory /bin/EPL/epl>
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+	<Directory "/usr/lib/cgi-bin">
+		AllowOverride None
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
