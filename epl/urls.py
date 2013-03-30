@@ -10,7 +10,10 @@ from timemap.views import timemap, hyq, upload, preference
 from centennial.views import accountActivate, login_user, logout_user, create_user, current_user, link_bibliocommons, update_user
 from hyquest.api import QuestSetResource, QuestResource, TaskResource
 from hyquest.views import submit_code_task, submit_timemap_task, submit_social_task, check_biblio_tasks, get_featured_quests, get_active_quests
-from hyquest.adminforms import generate_codes, edit_timemap_task, edit_bibliocommons_task, edit_social_task
+from hyquest.taskeditors.codegeneration import generate_codes
+from hyquest.taskeditors.timemaptask import edit_timemap_task
+from hyquest.taskeditors.bibliocommonstask import edit_bibliocommons_task
+from hyquest.taskeditors.socialtask import edit_social_task
 
 admin.autodiscover()
 v1_api = Api(api_name="v1")

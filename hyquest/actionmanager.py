@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import F
 from hyquest.models import QuestSet, Quest, Task, UserTaskAction, UserQuestAction, UserQuestSetAction
 
 from datetime import datetime
@@ -39,6 +40,7 @@ def completeQuestSet(user, questset):
             uqa.complete=True
             uqa.completionTime=datetime.now()
             uqa.save()
+            givePoints(user, questset.points)
         except ObjectDoesNotExist:
             pass
 
@@ -56,6 +58,7 @@ def completeQuest(user, quest):
             uqa.complete=True
             uqa.completionTime=datetime.now()
             uqa.save()
+            givePoints(user, quest.points)
             completeQuestSet(user=user, questset=uqa.quest.quest_set)
         except ObjectDoesNotExist:
             pass
@@ -67,6 +70,11 @@ def completeTask(user, task):
         uta.complete=True
         uta.completionTime=datetime.now()
         uta.save()
+        givePoints(user, task.points)
         completeQuest(user=user, quest=uta.task.quest)
     except ObjectDoesNotExist:
         pass
+
+def givePoints(user, points):
+    user.profile.points = F('points')+points
+    user.profile.save()

@@ -19,7 +19,7 @@ class UserProfile(models.Model):
     facebook = models.CharField(max_length=FACEBOOK_KEY_LEN, default='', blank=True)
     phone_number = models.CharField(max_length=10, default='', blank=True)
     email_sent = models.BooleanField(default=False)
-
+    points = models.IntegerField(default=0)
     def __unicode__(self):
         return str(self.user) + "'s Profile"
 
