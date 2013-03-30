@@ -1,6 +1,6 @@
 ;
 //Create the application module
-define(['hyq/Routes', 'epl/Settings', 'lib/csc/Nav', 'lib/knockout', 'lib/sammy', 'lib/less', 'lib/jquery-ui'], function (Routes, Settings, Nav, ko) {
+define(['hyq/Routes', 'epl/Settings', 'lib/csc/Nav', 'lib/knockout', 'timemap/EPLBar', 'lib/sammy', 'lib/less', 'lib/jquery-ui', 'lib/jquery.iosslider'], function (Routes, Settings, Nav, ko, EPLBar) {
 var hyq = null;
 
 //Only start the app once the page has loaded
@@ -21,9 +21,15 @@ var AppClass = (function () {
 
 		var self = this;
 
+		var eplBar = new EPLBar('#epl-bar');
+
 		//Start accepting routes
 		//Bootstrap components that depend on the DOM
 		this.nav = new Nav(this.viewport, Routes.routes);
+
+		$('.iosSlider').iosSlider({
+			desktopClickDrag : true,
+		});
 
 	};
 

@@ -11,10 +11,7 @@ return {
 		var self = this;
 		
 		self.get('', function () {
-			console.log('test!');
-			// require(['timemap', 'views'], function (epl, views) {
-			// 	epl.nav.transition(views.main);
-			// });
+					
 		});
 
 	})

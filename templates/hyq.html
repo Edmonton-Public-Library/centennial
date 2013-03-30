@@ -6,7 +6,7 @@
 	<!-- Styling -->
 	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}/styles/reset.less" />
 	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}/styles/epl-general.less" />
-	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}/styles/timemap.less" />
+	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}/styles/hyq.less" />
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/styles/timeline.css" />
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/jPlayer-skin/jplayer.blue.monday.css" />
 
@@ -15,6 +15,50 @@
 
     </head>
 <body>
-    
+	<div id="epl-bar">
+		    <a href="#"><img class="logo" src="/static/images/epl-logo.png" alt="EPL Logo"/></a>
+		    <ul class="buttons">
+	            <li class="help" onClick="window.open('{{ STATIC_URL }}views/help.html', '_blank', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700px,height=800px');">Help</li>
+				<li data-role="account">
+					<img class="icon"/>
+					<span data-role="name">Login</span>
+					<div class="menu" data-bind="authenticateSubmit: {username: 'auth-username', password: 'auth-password'}">
+						<p class="section-title">Authenticate</p>
+	                    <form method="post" action="#" data-bind="loginForm: true">
+	    					<input id="auth-username" data-role="username" type="text" class="epl-input text" data-default-text="Username" />
+	    					<input id="auth-password" data-role="password" type="password" class="epl-input text" data-default-text="Password" />
+	    					<input type="submit" class="save-button" value="Log In" />
+	                    </form>
+						<div class="save-button-space"></div>
+					</div>
+				</li>
+		    </ul>
+		    <div class="fb-like" data-send="true" data-bind="attr: {'data-href': Settings.siteUrl}" data-width="250" data-show-faces="false" data-font="arial"></div>
+		<div id="timeline" data-bind="style: {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
+	</div>
+	<h1>Featured Quests</h1>
+	<div class="iosSlider">
+		<div class="slider">
+			<div class="slide featured-quest">Testing!</div>
+			<div class="slide featured-quest">Testing!</div>
+			<div class="slide featured-quest">Testing!</div>
+			<div class="slide featured-quest">Testing!</div>
+			<div class="slide featured-quest">Testing!</div>
+			<div class="slide featured-quest">Testing!</div>
+		</div>
+	</div>
+
+	<h1>Quest Progression</h1>
+	<div class="iosSlider">
+		<div class="slider">
+			<div class="slide current-quest">Testing!</div>
+			<div class="slide current-quest">Testing!</div>
+			<div class="slide current-quest">Testing!</div>
+			<div class="slide current-quest">Testing!</div>
+			<div class="slide current-quest">Testing!</div>
+			<div class="slide current-quest">Testing!</div>
+		</div>
+	</div>
+	<div data-role="viewport"></div>   
 </body>
 </html>

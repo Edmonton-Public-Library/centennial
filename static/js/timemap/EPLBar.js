@@ -1,5 +1,5 @@
 ;
-define(['timemap/Authentication', 'lib/knockout', 'timemap/Environment'], function (Authentication, ko, Environment) {
+define(['timemap/Authentication', 'lib/knockout', 'timemap/Environment', 'epl/Settings'], function (Authentication, ko, Environment, Settings) {
 
 return (function () {
 
@@ -12,8 +12,7 @@ return (function () {
 		$(document).ready(function () {
 			self.element = $(selector);
 			self.initButtons();
-
-			ko.applyBindings({Environment: Environment}, self.element[0]);
+			ko.applyBindings({Environment: Environment, Settings: Settings}, self.element[0]);
 		});
 	};
 
