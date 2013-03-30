@@ -5,7 +5,7 @@ from hyquest.verifiers.common import getUserAction
 def matchingCodeTasks(user, code):
     task = getTaskForCode(code)
     if task is None:
-        return None
+        return ([], [])
     action = getUserAction(user, task)
     if action is None:
         return ([], [task,])
