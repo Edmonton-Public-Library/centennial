@@ -15,8 +15,7 @@ class QuestSet(models.Model):
     
     class Meta:
         verbose_name = "Quest Set"
-        verbose_name_plural = "Quest Sets"
-    
+        verbose_name_plural = "Quest Sets"    
     title = models.CharField(max_length=QUESTSET_TITLE_LEN)
     description = models.CharField(max_length=QUESTSET_DESC_LEN)
     points = IntegerRangeField(min_value=0, max_value=6000)
@@ -25,6 +24,8 @@ class QuestSet(models.Model):
     depends_on = models.ForeignKey('QuestSet', blank=True, null=True)
     def __unicode__(self):
         return self.title
+    def complete_after(self):
+        return str(depends_on)
 
 class Quest(models.Model):
 

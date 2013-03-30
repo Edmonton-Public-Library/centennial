@@ -16,6 +16,8 @@ class QuestInline(admin.TabularInline):
 class QuestSetAdmin(admin.ModelAdmin):
     model = QuestSet
     inlines = [ QuestInline ]
+    list_display = ['title', 'active', 'points', 'depends_on']
+    list_filter = ['active', 'featured']
 
 class TaskForm(forms.ModelForm):
     class Meta:
