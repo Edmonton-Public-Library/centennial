@@ -1,5 +1,5 @@
 ;
-define(['lib/knockout', 'epl/Settings', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom', 'lib/jquery.hammer'], function (ko, Settings, Environment, StoryPin) {
+define(['timemap', 'lib/knockout', 'epl/Settings', 'timemap/Environment', 'timemap/map/StoryPin', 'lib/seedrandom', 'lib/jquery.hammer'], function (timemap, ko, Settings, Environment, StoryPin) {
 
 return (function () {
 
@@ -215,6 +215,11 @@ return (function () {
 			self.allBranches.remove(function(branch) {
 				return branch.id == self.branchID;
 			});
+		});
+
+		timemap.updateQuest({
+			branch : this.branchID,
+			onMap : false
 		});
 	};
 

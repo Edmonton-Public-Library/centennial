@@ -5,7 +5,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 import json
 import epl.settings
-from hyquest.verifier import matchingCodeTasks, matchingTimeMapTasks, matchingBibliocommonsTasks
+from hyquest.verifiers.code import matchingCodeTasks
+from hyquest.verifiers.timemap import matchingTimeMapTasks
+from hyquest.verifiers.bibliocommons import matchingBibliocommonsTasks
 from hyquest.actionmanager import completeTask, beginQuestSet
 from hyquest.questmanager import replenishQuestSets, activateFeaturedQuestSets
 from hyquest.models import UserTaskAction, UserQuestAction
@@ -33,6 +35,7 @@ def submit_timemap_task(request):
         tlState = json.loads(request.raw_post_data)
     except ValueError, e:
         print e
+        print request.raw_post_data
         return HttpResponse(json.dumps({'Response':'Error: Bad state object'}), status=400)
     
     activeTasks, otherTasks = matchingTimeMapTasks(request.user, tlState)

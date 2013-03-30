@@ -193,6 +193,21 @@ class UserQuestSetAction(models.Model):
 # Signal setup
 
 from django.dispatch.dispatcher import receiver
-from django.db.models.signals import pre_save, pre_delete
-
-
+from django.db.models.signals import post_save
+from hyquest.actionmanager import beginTask, beginQuest
+@receiver(post_save, sender=Task)
+def maintainUserTaskActions(sender, instance, created, **kwargs):
+    if created:
+        print "New Task created. Adding User Actions for all current users"
+        userActions = UserQuestAction.objects.filter(quest=instance.quest, complete=False)
+        for action in userActions:
+            print "Adding action for " + str(action.user)
+            beginTask(user=action.user, task=instance)
+@receiver(post_save, sender=Quest)
+def maintainUserQuestActions(sender, instance, created, **kwargs):
+    if created:
+        print "New Task created. Adding User Actions for all current users"
+        userActions = UserQuestSetAction.objects.filter(questset=instance.quest_set, complete=False)
+        for action in userActions:
+            print "Adding action for " + str(action.user)
+            beginQuest(user=action.user, quest=instance)

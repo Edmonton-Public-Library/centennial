@@ -94,6 +94,7 @@ return (function () {
 			center : new google.maps.LatLng(53.5472, -113.5006),
 			zoom : 11,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
+			mapTypeControl : false
 		});
 
 		if (typeof canvas[0] == 'undefined') Error.throw(new Error('Maps.invalidViewport'));
@@ -202,7 +203,6 @@ return (function () {
 	 */
 	Map.prototype.setMap = function (mapDirectory) {
 		var self = this;
-		console.log(mapDirectory);
 		//Load custom maps for anything before the current year		
 		if(mapDirectory != null) {
 			self.map.mapTypes.set(mapDirectory, new EPLMapType(mapDirectory));
@@ -245,7 +245,10 @@ return (function () {
 					closeBoxURL: ''
 				});
 
-
+				epl.updateQuest({
+					branch : pin.id,
+					onMap : true
+				});
 
 				//Track the ID so we can remove this infoBox if the corresponding pin is removed
 				self.mapData.infoBox.branchID = pin.id;

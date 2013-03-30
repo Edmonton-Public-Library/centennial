@@ -122,6 +122,35 @@ createAccountSuccess : new View('createAccountSuccess', 'createAccountSuccess',
 		}),
 
 /**************************************
+ * Email Confirmation View *
+ *************************************/
+emailConfirmation : new View('emailConfirmation', 'emailConfirmation', 
+		function (fromView, viewport, callback) {
+			Environment.chrome.timeline.disable();
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+/**************************************
+ * Email Reconfirm View *
+ *************************************/
+emailReconfirm : new View('emailReconfirm', 'emailReconfirm', 
+		function (fromView, viewport, callback) {
+			Environment.chrome.timeline.disable();
+			callback();
+		}, 
+
+		//out
+		function (toView, viewport, callback) {
+			callback();
+		}),
+
+
+/**************************************
  * Login Success view *
  *************************************/
 loginSuccess : new View('loginSuccess', 'Login Success', 
@@ -147,8 +176,9 @@ branch : new View('branch', 'Branch',
 					var branch = new Branch($('#branch-viewer'));
 					branch.setData(branchData);
 					
-					epl.storage.timeline = new Timeline('#timeline', {}, epl.storage.selectedDate);
-					epl.storage.timeline.enterBranchView(epl.nav.params.id, branch);
+					epl.storage.timeline = new Timeline('#timeline', {}, epl.storage.selectedDate, function() {
+						epl.storage.timeline.enterBranchView(epl.nav.params.id, branch);
+					});
 
 					Environment.sidebar.setFeaturedStoriesSource('branch', epl.nav.params.id);
 				});
