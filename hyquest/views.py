@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 import json
 from hyquest.verifiers.code import matchingCodeTasks
 from hyquest.verifiers.timemap import matchingTimeMapTasks
-from hyquest.verifiers.bibliocommons import matchingBibliocommonsTasks
+from hyquest.verifiers.bibliocommons import verifyBibliocommonsAccount, matchingBibliocommonsTasks
 from hyquest.actionmanager import completeTask, beginQuestSet
 from hyquest.questmanager import replenishQuestSets, activateFeaturedQuestSets
 from hyquest.models import UserTaskAction, UserQuestAction
@@ -12,7 +12,7 @@ def check_biblio_tasks(request):
         return HttpResponse(json.dumps({'Response':'Error: Must be logged in'}), status=403, content_type='application/json')
     if not verifyBibliocommonsAccount(request.user):
         return HttpResponse(json.dumps({'Response':'Error: Cant associate Bibliocommons user'}), status=400, content_type='application/json')
-    activeTasks, otherTasks = matchingBibliocommonsTasks(request.user, tlState)
+    activeTasks, otherTasks = matchingBibliocommonsTasks(request.user)
     beginDiscoveredTasks(request.user, otherTasks)
 
     for task in activeTasks:

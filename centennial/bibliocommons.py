@@ -27,7 +27,7 @@ def userID(username):
     raise Error("No user matches provided Username")
 
 def userContent(userID):
-    req = requests.get(APIRoot+"users/"+userID+"/user_content", params={'api_key': APIKey})
+    req = requests.get(APIRoot+"users/"+str(userID)+"/user_content", params={'api_key': APIKey})
     req.raise_for_status()
     response = req.json()
     
@@ -37,14 +37,14 @@ def userContent(userID):
     while (page < pages):
         #rate limiting will be required here...
         page += 1
-        req = requests.get(APIRoot+"users/"+userID+"/user_content", params={'page': page, 'api_key': APIKey})
+        req = requests.get(APIRoot+"users/"+str(userID)+"/user_content", params={'page': page, 'api_key': APIKey})
         req.raise_for_status()
         response = req.json()
         content.extend(response["user_content"])
     return content
 
 def userLists(userID):
-    req = requests.get(APIRoot+"users/"+userID+"/lists", params={'api_key': APIKey})
+    req = requests.get(APIRoot+"users/"+str(userID)+"/lists", params={'api_key': APIKey})
     req.raise_for_status()
     response = req.json()
     
@@ -54,7 +54,7 @@ def userLists(userID):
     while (page < pages):
         #rate limiting will be required here...
         page += 1
-        req = requests.get(APIRoot+"users/"+userID+"/lists", params={'page': page, 'api_key': APIKey})
+        req = requests.get(APIRoot+"users/"+str(userID)+"/lists", params={'page': page, 'api_key': APIKey})
         req.raise_for_status()
         response = req.json()
         content.extend(response["lists"])
