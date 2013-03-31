@@ -35,23 +35,24 @@ class QuestAdmin(admin.ModelAdmin):
     model = Quest
     inlines = [ TaskInline ]
     readonly_fields = ['quest_set']
-admin.site.register(QuestSet, QuestSetAdmin)
-admin.site.register(Quest, QuestAdmin)
 
 class TaskCodeAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
-        
+
     def print_task_codes(self, request, queryset):
         return render(request, 'admin/printcodes.html', {'queryset':queryset})
     print_task_codes.short_description = "Print Selected Task Completion Codes"
-    
+
     list_display = ['task', 'code', 'uses_remaining']
     list_filter = ['uses_remaining']
     actions = [print_task_codes]
 
-admin.site.register(TaskCode, TaskCodeAdmin)
 
 class LevelAdmin(admin.ModelAdmin):
     list_display = ['level_name', 'required_exp']
+
+admin.site.register(QuestSet, QuestSetAdmin)
+admin.site.register(Quest, QuestAdmin)
+admin.site.register(TaskCode, TaskCodeAdmin)
 admin.site.register(Level, LevelAdmin)

@@ -1,10 +1,5 @@
-from django.shortcuts import render_to_response
-from django.template.loader import get_template
-from django.template import Context
 from django.http import HttpResponse, HttpResponseRedirect
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
 import json
-import epl.settings
 from hyquest.verifiers.code import matchingCodeTasks
 from hyquest.verifiers.timemap import matchingTimeMapTasks
 from hyquest.verifiers.bibliocommons import matchingBibliocommonsTasks
@@ -16,10 +11,10 @@ def check_biblio_tasks(request):
     if not request.user.is_authenticated():
         return HttpResponse(json.dumps({'Response':'Error: Must be logged in'}), status=403, content_type='application/json')
     if not verifyBibliocommonsAccount(request.user):
-        return HttpResponse(json.dumps({'Response':'Error: Cant associate Bibliocommons user'}), status=400, content_type='application/json') 
+        return HttpResponse(json.dumps({'Response':'Error: Cant associate Bibliocommons user'}), status=400, content_type='application/json')
     activeTasks, otherTasks = matchingBibliocommonsTasks(request.user, tlState)
     beginDiscoveredTasks(request.user, otherTasks)
-     
+
     for task in activeTasks:
         completeTask(request.user, task)
     for task in otherTasks:
@@ -37,10 +32,10 @@ def submit_timemap_task(request):
         print e
         print request.raw_post_data
         return HttpResponse(json.dumps({'Response':'Error: Bad state object'}), status=400)
-    
+
     activeTasks, otherTasks = matchingTimeMapTasks(request.user, tlState)
     beginDiscoveredTasks(request.user, otherTasks)
-     
+
     for task in activeTasks:
         completeTask(request.user, task)
     for task in otherTasks:
@@ -58,10 +53,10 @@ def submit_social_task(request):
     except ValueError, e:
         print e
         return HttpResponse(json.dumps({'Response':'Error: Bad state object'}), status=400)
-    
+
     activeTasks, otherTasks = matchingSocialTasks(request.user, social)
     beginDiscoveredTasks(request.user, otherTasks)
-     
+
     for task in activeTasks:
         completeTask(request.user, task)
     for task in otherTasks:
@@ -111,7 +106,7 @@ def getTaskResponseDict(user, task):
     dict['questset']['total'] = UserQuestAction.objects.filter(quest__quest_set=task.quest.quest_set, user=user).count()
     return dict
 
-def beginDiscoveredTasks(user, tasks): 
+def beginDiscoveredTasks(user, tasks):
     # Begin UserActions for any serendipidously discovered Tasks
     for task in tasks:
         if UserTaskAction.objects.filter(user=user, task=task).count() == 0:
