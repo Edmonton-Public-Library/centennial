@@ -11,7 +11,11 @@ from timemap.models import Branch, Story
 biblioFormats = {'BK': 'Book', 'CD':'CD', 'DVD': 'DVD', 'BOOK_CD': 'Audiobook'}
 
 class QuestSet(models.Model):
-
+    """
+    Stores a set of a few related Quests as well as a description.
+    When marked inactive, will not show up to any users. When featured, will show up
+    for all users.
+    """
     class Meta:
         verbose_name = "Quest Set"
         verbose_name_plural = "Quest Sets"
@@ -30,7 +34,9 @@ class QuestSet(models.Model):
         return str(self.depends_on)
 
 class Quest(models.Model):
-
+    """
+    Stores a set of a few related Tasks and belongs to a QuestSet
+    """
     class Meta:
         verbose_name = "Quest"
         verbose_name_plural = "Quests"
@@ -40,7 +46,7 @@ class Quest(models.Model):
     quest_set = models.ForeignKey('QuestSet', db_index=True)
 
     def __unicode__(self):
-        return self.title
+        return str(self.quest_set)+" >> "+self.title
 
     def selflink(self):
         if self.id:
@@ -52,7 +58,21 @@ class Quest(models.Model):
     selflink.short_description = 'Edit Link'
 
 class Task(models.Model):
+    """
+    Belongs to a Quest and encapsulates one of four Task Types.
 
+    Code Completion:
+    -Submit a code to complete this type of Task
+
+    TimeMap:
+    -Visit pre-selected portions of the TimeMap to complete these Tasks
+
+    Social:
+    -Share pre-selected stories from the TimeMap to complete these Tasks
+
+    Bibliocommons:
+    -Comment on or Rate a piece of content from Bibliocommons to complete these Tasks
+    """
     class Meta:
         verbose_name = "Task"
         verbose_name_plural = "Tasks"
@@ -64,7 +84,7 @@ class Task(models.Model):
     taskinfo = models.CharField(max_length=TASK_CODE_LEN)
 
     def __unicode__(self):
-        return self.title
+        return str(self.quest)+" >> "+self.title
 
     def interpretTMInfo(self):
         reqs = self.getInfoReqs()
@@ -135,7 +155,9 @@ class Task(models.Model):
         return requirements
 
 class TaskCode(models.Model):
-
+    """
+    These Codes are used to complete the associated Task. They must be entered exactly.
+    """
     class Meta:
         verbose_name = "Task Completion Code"
         verbose_name_plural = "Task Completion Codes"
@@ -148,7 +170,9 @@ class TaskCode(models.Model):
         return self.task.title+" ("+str(self.uses_remaining)+" remaining)"
 
 class UserTaskAction(models.Model):
-
+    """
+    Tracks the progress of a given User for a given Task 
+    """
     class Meta:
         verbose_name = "User Task Action"
         verbose_name_plural = "User Task Actions"
@@ -164,7 +188,9 @@ class UserTaskAction(models.Model):
         return str(self.user) + " - " + str(self.task)
 
 class UserQuestAction(models.Model):
-
+    """
+    Tracks the progress of a given User for a given Quest
+    """
     class Meta:
         verbose_name = "User Quest Action"
         verbose_name_plural = "User Quest Actions"
@@ -180,7 +206,9 @@ class UserQuestAction(models.Model):
         return str(self.user) + " - " + str(self.quest)
 
 class UserQuestSetAction(models.Model):
-
+    """
+    Tracks the progress of a given User for a given Quest Set
+    """
     class Meta:
         verbose_name = "User Quest Set Action"
         verbose_name_plural = "User Quest Set Actions"
@@ -195,7 +223,9 @@ class UserQuestSetAction(models.Model):
         return str(self.user) + " - " + str(self.questset)
 
 class Level(models.Model):
-
+    """
+    Names and provides experience requirements to obtain a given level
+    """
     class Meta:
         verbose_name = "Level"
         ordering = ["required_exp"]

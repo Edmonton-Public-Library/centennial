@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     'fts',
     'timemap',
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'tastypie',
     'taggit',
     'hyquest',
