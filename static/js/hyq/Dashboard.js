@@ -58,8 +58,8 @@ define(['lib/knockout', 'epl/Settings', 'lib/jquery.iosslider'], function (ko, S
 				if(questSet.complete) {
 					questSet.completedPoints += questSet.points;
 				}
+				console.log(questSet.completedPoints);
 			}
-			console.log(questSet.completedPoints);
 			self.data.featuredQuests(data.objects);
 		});
 	};
@@ -67,7 +67,6 @@ define(['lib/knockout', 'epl/Settings', 'lib/jquery.iosslider'], function (ko, S
 	Dashboard.prototype.getActiveQuests = function () {
 		var self = this;
 		$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
-			console.log(data);
 			self.data.activeQuests(data.objects);
 		});
 	};
