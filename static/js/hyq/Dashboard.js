@@ -36,30 +36,7 @@ define(['lib/knockout', 'epl/Settings', 'lib/jquery.iosslider'], function (ko, S
 	Dashboard.prototype.getFeaturedQuests = function () {
 		var self = this;
 		$.get(Settings.apiQuestSetsUrl + '/' + featuredEndpoint, function (data) {
-			for(i in data.objects) {
-				var questSet = data.objects[i];
-				questSet.completedPoints = 0;
-				for(var j in questSet.quests) {
-					var quest = questSet.quests[j];
-					quest.completedPoints = 0;
-					for(var k in quest.tasks) {
-						var task = quest.tasks[k];
-						if(task.complete) {
-							//If this task is completed, add its points to its quest
-							quest.completedPoints += task.points;
-						}
-					}
-					//If all of this quest's tasks were completed, then add its own points
-					if(quest.complete) {
-						quest.completedPoints += quest.points;
-					}
-				}
-				//If all of this quest set's quests were completed, then add its own points
-				if(questSet.complete) {
-					questSet.completedPoints += questSet.points;
-				}
-				console.log(questSet.completedPoints);
-			}
+			Dashboard.insertPoints(data);
 			self.data.featuredQuests(data.objects);
 		});
 	};
@@ -67,8 +44,40 @@ define(['lib/knockout', 'epl/Settings', 'lib/jquery.iosslider'], function (ko, S
 	Dashboard.prototype.getActiveQuests = function () {
 		var self = this;
 		$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
+			Dashboard.insertPoints(data);
 			self.data.activeQuests(data.objects);
 		});
+	};
+
+	Dashboard.insertPoints = function(data) {
+		for(i in data.objects) {
+			var questSet = data.objects[i];
+			questSet.completedPoints = 0;
+			questSet.totalPoints = questSet.points;
+			for(var j in questSet.quests) {
+				var quest = questSet.quests[j];
+				quest.completedPoints = 0;
+				quest.totalPoints = quest.points;
+				for(var k in quest.tasks) {
+					var task = quest.tasks[k];
+					quest.totalPoints += task.points;
+					if(task.complete) {
+						//If this task is completed, add its points to its quest
+						quest.completedPoints += task.points;
+					}
+				}
+				questSet.totalPoints += quest.totalPoints;
+				//If all of this quest's tasks were completed, then add its own points
+				if(quest.complete) {
+					quest.completedPoints += quest.points;
+				}
+				questSet.completedPoints += quest.completedPoints;
+			}
+			//If all of this quest set's quests were completed, then add its own points
+			if(questSet.complete) {
+				questSet.completedPoints += questSet.points;
+			}
+		}	
 	};
 
 	return Dashboard;

@@ -53,7 +53,7 @@
 								<div class="quest-description">
 									<span data-bind="text: title"></span>
 								</div>
-								<div class="completion-count" data-bind="text: (points + '/ ...')"></div>
+								<div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
 							</li>
 								<!-- /ko -->
 							<!-- /ko -->
@@ -68,7 +68,7 @@
 				<!-- ko foreach: {data: activeQuests, afterRender: initActiveSlider} -->
 					<div class="slide current-quest">
 						<div class="progress-container">
-							<div class="progress-bar"></div>
+							<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * 400) + 'px'}"></div>
 						</div>
 						<div class="title" data-bind="text: title"></div>
 						<ul>
@@ -78,7 +78,7 @@
 								<div class="quest-description">
 									<span data-bind="text: title"></span>
 								</div>
-								<div class="completion-count" data-bind="text: (points + '/ ...')"></div>
+								<div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
 							</li>
 								<!-- /ko -->
 							<!-- /ko -->
