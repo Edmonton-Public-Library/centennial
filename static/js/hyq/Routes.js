@@ -11,11 +11,6 @@ return {
 		var self = this;
 		
 		self.get('', function () {
-			//Initialize the quest sliders
-			$('.iosSlider').iosSlider({
-				desktopClickDrag : true,
-			});
-
 			var dash = new Dashboard($('#dashboard'));
 		});
 

@@ -18,9 +18,7 @@ var AppClass = (function () {
 	 *  - Viewport setup
 	 */
 	AppClass.prototype.init = function () {
-
 		var self = this;
-
 		var eplBar = new EPLBar('#epl-bar');
 
 		//Start accepting routes

@@ -1,10 +1,11 @@
 ;
-define(['lib/knockout', 'epl/Settings'], function (ko, Settings) {
+define(['lib/knockout', 'epl/Settings', 'lib/jquery.iosslider'], function (ko, Settings) {
 
 	var featuredEndpoint = 'featured',
 		activeEndpoint = 'active'
 
 	var Dashboard = function (viewport) {
+		var self = this;
 		this.viewport = viewport;
 
 		this.data = {
@@ -13,21 +14,33 @@ define(['lib/knockout', 'epl/Settings'], function (ko, Settings) {
 		}
 
 		this.getFeaturedQuests();
-		ko.applyBindings(this.data, this.viewport[0]);
+
+		$(document).ready(function () {
+			ko.applyBindings(self.data, self.viewport[0]);
+			// window.setTimeout(function () {
+			// 	// Initialize the quest sliders
+			// 	$('.iosSlider').iosSlider({
+			// 		desktopClickDrag : true,
+			// 	});
+			// }, 100);
+		});
+
 	};
 
 	Dashboard.prototype.getFeaturedQuests = function () {
 		var self = this;
 		$.get(Settings.apiQuestSetsUrl + '/' + featuredEndpoint, function (data) {
-			var questSets = data;
-			for(i in questSets.objects) {
-				var questSet = questSets.objects[i];
-				$.get(Settings.apiQuestsUrl + '/?format=json&questset=' + questSet.id, function (data) {
-					questSet.quests = data.objects;
-				});
-			}
-			self.data.featuredQuests(questSets);
+			console.log(data);
+			self.data.featuredQuests(data.objects);
 		});
+	};
+
+	ko.bindingHandlers.iosSlider = {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			$('.iosSlider').iosSlider({
+				desktopClickDrag : true
+			});
+		}
 	};
 
 	return Dashboard;

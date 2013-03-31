@@ -38,19 +38,7 @@
 	</div>
 	<div id="dashboard">
 		<h1>Featured Quests</h1>
-		<div class="iosSlider">
-			<div class="slider">
-				<div class="slide featured-quest">Testing!</div>
-				<div class="slide featured-quest">Testing!</div>
-				<div class="slide featured-quest">Testing!</div>
-				<div class="slide featured-quest">Testing!</div>
-				<div class="slide featured-quest">Testing!</div>
-				<div class="slide featured-quest">Testing!</div>
-			</div>
-		</div>
-
-		<h1>Quest Progression</h1>
-		<div class="iosSlider">
+		<div class="iosSlider" data-bind="iosSlider: true">
 			<div class="slider">
 				<!-- ko foreach: featuredQuests -->
 					<div class="slide current-quest">
@@ -59,30 +47,16 @@
 						</div>
 						<div class="title" data-bind="text: title"></div>
 						<ul>
+							<!-- ko foreach: quests -->
+								<!-- ko if: $index() <= 3 -->
 							<li>
 								<div class="quest-description">
-									<span>Quest one with some tasks inside of it.</span>
+									<span data-bind="text: title"></span>
 								</div>
-								<div class="completion-count">
-									13/20
-								</div>
+								<div class="completion-count" data-bind="text: (points + '/ ...')"></div>
 							</li>
-							<li>
-								<div class="quest-description">
-									<span>Another freaking awesome quest. w00t!</span>
-								</div>
-								<div class="completion-count">
-									9/16
-								</div>
-							</li>
-							<li>
-								<div class="quest-description">
-									<span>The last horrible sample quest text.</span>
-								</div>
-								<div class="completion-count">
-									4/18
-								</div>
-							</li>
+								<!-- /ko -->
+							<!-- /ko -->
 						</ul>
 					</div>
 				<!-- /ko -->
