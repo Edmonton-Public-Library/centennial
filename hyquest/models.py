@@ -44,10 +44,10 @@ class Quest(models.Model):
         if self.id:
             return "<a href='/admin/hyquest/quest/%s/' target='_blank'>Edit</a>" % str(self.id)
         else:
-            return "Not present"
+            return "Save before editing"
 
     selflink.allow_tags = True
-
+    selflink.short_description = 'Edit Link'
 class Task(models.Model):
     
     class Meta:
