@@ -15,8 +15,8 @@ class QuestSetResource(ModelResource):
     user = None
     def get_object_list(self, request):
         self.user = request.user
-        return QuestSet.objects.filter(Q(userquestsetaction__user=request.user, active=True) |
-                                       Q(userquestsetaction__user=request.user, userquestsetaction__complete=True) |
+        return QuestSet.objects.filter(Q(userquestsetaction__user=request.user, active=True) | \
+                                       Q(userquestsetaction__user=request.user, userquestsetaction__complete=True) | \
                                        Q(featured=True, active=True))
     def build_filters(self, filters=None):
         if filters is None:
