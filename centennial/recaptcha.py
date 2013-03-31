@@ -1,4 +1,4 @@
-from epl.settings import RECAPTCHA_PUBLIC_KEY, RECAPTCHA_PRIVATE_KEY
+from epl.settings import RECAPTCHA_PRIVATE_KEY
 import requests
 
 API_SERVER = "https://www.google.com/recaptcha/api/verify"
