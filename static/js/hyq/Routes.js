@@ -1,5 +1,5 @@
 ;
-define(['lib/sammy', 'hyq/Dashboard', 'hyq/QuestPopUp'], function (Sammy, Dashboard, QuestPopUp) {
+define(['lib/sammy', 'hyq/Dashboard'], function (Sammy, Dashboard) {
 
 /******************************
  * Contains app-wide settings *
