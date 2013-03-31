@@ -1,0 +1,70 @@
+<div class="quest-set-viewer" id="quest-set-viewer">
+
+	<div class="quest-set-header">Quest Set</div>
+	<p class="quest-set-title">
+		<!-- ko if: questSetComplete -->
+		<img style="vertical-align:middle" height="80px" data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/check_yellow.png'}">
+		<!-- /ko -->
+		<span data-bind="text: questSetTitle"></span>
+	</p>
+
+	<div class="quest-set-content">
+		<div >
+			<p class="quest-set-desc">
+				<span data-bind="text: questSetDesc"></span>
+			</p>
+			<p class="quest-set-points">
+				+<span data-bind="text: questSetPoints"></span> points
+			</p>
+		</div>
+		<div data-bind="foreach: quests">
+			<div>
+				<p class="quest-title" >
+					<!-- ko if: questComplete -->
+					<img style="vertical-align:middle" height="60px" data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/check.png'}">
+					<!-- /ko -->
+					Quest: <span data-bind="text: questTitle"></span>
+				</p>
+				<p class="quest-points">
+					+<span data-bind="text: questPoints"></span> points
+				</p>
+			</div>
+			<div data-bind="foreach: tasks">
+				<div class="quest-task" >
+					<p class="task-title">
+					<!-- ko if: taskComplete -->
+						<img style="vertical-align:middle" height="30px" data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/check.png'}">
+					<!-- /ko -->
+					<!-- ko if: !taskComplete -->
+						<img style="vertical-align:middle" height="30px" data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/no_check.png', id: 'icon-task' + taskId}">
+					<!-- /ko -->
+						<span data-bind="text: taskTitle" ></span>
+					</p>
+					<p class="task-points">
+						<b>+<span data-bind="text: taskPoints" ></span> points</b>
+					</p>
+
+					<p class="task-interaction">
+						<!-- ko if: taskType == 0 && !taskComplete -->
+							Complete this task by exploring the EPL catalog at <a href="http://epl.bibliocommons.com/" target="_blank">epl.bibliocommons.com</a>.
+						<!-- /ko -->
+						<!-- ko if: taskType == 1 && !taskComplete -->
+						<!-- /ko -->
+						<!-- ko if: taskType == 2 && !taskComplete -->
+						<input data-bind="value: code, attr: {id: 'codeInput' + taskId}">
+						<button data-bind="click: checkCode, attr: {id: 'codeSubmit' + taskId}">
+							Submit Code
+						</button>
+						<span class="error hidden" data-bind="attr: {id: 'codeError' + taskId}"></span>
+						<span class="success hidden" data-bind="attr: {id: 'codeSuccess' + taskId}">Task complete!</span>
+						<!-- /ko -->
+						<!-- ko if: taskType == 3 && !taskComplete -->
+							Explore the 
+							<a href="/timemap/" target="_blank">TimeMap<a> website to complete this task.</a>
+						<!-- /ko -->
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

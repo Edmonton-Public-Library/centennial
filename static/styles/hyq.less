@@ -136,3 +136,92 @@ body {
 
 @questWidgetWidth: 400px;
 @questWidgetHeight: 220px;
+
+.quest-set-viewer {
+	@background: #F0F0F0;
+	background-color: @background;
+	overflow: auto;
+	width: 900px;
+	.quest-set-header {
+		width: 100%;
+		text-align: center;
+		font-weight: bold;
+		font-size: 20px;
+		padding: 10px 0px 10px 0px;
+		background-color: darken(@background, 10);
+	}
+	.quest-set-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 40px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	.quest-set-points {
+		font-weight: bold;
+		font-size: 40px;
+		margin-top: 0px;
+		margin-buttom: 0px;
+		float: right;
+		width: 40%; 
+		text-align: right;
+	}
+	.quest-set-desc {
+		margin-top: 0px;
+		margin-buttom: 0px;
+		height: 50px;
+		float: left;
+		width: 60%; 
+		text-align: left;
+	}
+	.quest-set-content {
+		margin-left: auto;
+		margin-right: auto;
+		width: 90%;
+	}
+	.quest-title {
+		font-weight: bold;
+		font-size: 25px;
+		float: left; 
+		width: 80%; 
+		text-align: left;
+	}
+	.quest-points {
+		font-weight: bold;
+		font-size: 25px;
+		float: right; 
+		width: 20%; 
+		text-align: right;
+	}
+	.quest-task {
+		height: 50px;
+	}
+	.task-points {
+		float: left; 
+		width: 20%; 
+		text-align: right;
+	}
+	.task-title {
+		float: left;
+		width: 80%;
+		text-align: left;
+	}
+	.task-interaction {
+		float: left;
+		width: 80%;
+		text-align: left;
+		padding-left: 40px;
+	}
+	.error {
+		color: red;
+	}
+	.success {
+		color: green;
+	}
+	.hidden {
+		display: none;
+	}
+	.visible {
+		display: visible;
+	}
+}
