@@ -117,11 +117,13 @@ def getTaskResponseDict(user, task):
                   'points':task.points,
                   'quest':{'title': task.quest.title,
                            'completed': quest_completed,
-                           'total': quest_total
+                           'total': quest_total,
+                           'points': task.quest.points
                           },
                    'questset':{'title': task.quest.quest_set.title,
                                'completed': questset_completed,
-                               'total': questset_total}
+                               'total': questset_total,
+                               'points':task.quest.quest_set.points}
                               }
     return task_stats
 
