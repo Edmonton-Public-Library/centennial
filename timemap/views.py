@@ -1,5 +1,8 @@
+"""
+Django views to access several of the timemap utilities such as preferences,
+file uploads, or the main itmemap page
+"""
 import json
-from django.shortcuts import render_to_response
 from django.template.loader import get_template
 from django.template import Context
 from django.http import HttpResponse
@@ -7,11 +10,11 @@ from preferences import preferences
 
 import epl.settings
 import util
-import urlparse
-from timemap.models import Story
-from timemap.forms import UploadForm
 
 def timemap(request):
+    """
+    Serves main timemap application
+    """
     t = get_template('timemap.html')
     return HttpResponse(t.render(Context({'STATIC_URL' : epl.settings.STATIC_URL})))
 
