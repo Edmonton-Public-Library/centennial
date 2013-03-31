@@ -3,8 +3,9 @@ from django.db import models
 
 from epl.custommodels import IntegerRangeField
 from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE_LEN, \
-                              TASK_TITLE_LEN, TASK_DESC_LEN, TASK_CODE_LEN, \
-                              TASK_BIBLIOCOMMONS, TASK_CODE, TASK_SOCIAL, TASK_TIMEMAP
+                              TASK_TITLE_LEN, TASK_CODE_LEN, TASK_BIBLIOCOMMONS, \
+                              TASK_CODE, TASK_SOCIAL, TASK_TIMEMAP, TASK_CHOICES,\
+                              MAX_POINTS
 from timemap.models import Branch, Story
 
 biblioFormats = {'BK': 'Book', 'CD':'CD', 'DVD': 'DVD', 'BOOK_CD': 'Audiobook'}
@@ -17,7 +18,7 @@ class QuestSet(models.Model):
 
     title = models.CharField(max_length=QUESTSET_TITLE_LEN)
     description = models.CharField(max_length=QUESTSET_DESC_LEN)
-    points = IntegerRangeField(min_value=0, max_value=6000)
+    points = IntegerRangeField(min_value=0, max_value=MAX_POINTS)
     active = models.BooleanField(default=False)
     featured = models.BooleanField(default=False, db_index=True)
     depends_on = models.ForeignKey('QuestSet', blank=True, null=True)
@@ -35,7 +36,7 @@ class Quest(models.Model):
         verbose_name_plural = "Quests"
 
     title = models.CharField(max_length=QUEST_TITLE_LEN)
-    points = IntegerRangeField(min_value=0, max_value=6000)
+    points = IntegerRangeField(min_value=0, max_value=MAX_POINTS)
     quest_set = models.ForeignKey('QuestSet', db_index=True)
 
     def __unicode__(self):
@@ -57,9 +58,9 @@ class Task(models.Model):
         verbose_name_plural = "Tasks"
 
     title = models.CharField(max_length=TASK_TITLE_LEN)
-    points = IntegerRangeField(min_value=0, max_value=6000)
+    points = IntegerRangeField(min_value=0, max_value=MAX_POINTS)
     quest = models.ForeignKey('Quest', db_index=True)
-    type = IntegerRangeField(min_value=0, max_value=4)
+    type = IntegerRangeField(min_value=0, max_value=len(TASK_CHOICES))
     taskinfo = models.CharField(max_length=TASK_CODE_LEN)
 
     def __unicode__(self):
