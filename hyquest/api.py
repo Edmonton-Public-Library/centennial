@@ -1,5 +1,3 @@
-from tastypie.authentication import Authentication
-from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 from django.db.models.query_utils import Q
@@ -21,19 +19,19 @@ class QuestSetResource(ModelResource):
                                        Q(userquestsetaction__user=request.user, userquestsetaction__complete=True) |
                                        Q(featured=True, active=True))
     def build_filters(self, filters=None):
-       if filters is None:
-           filters = {}
-       orm_filters = super(QuestSetResource, self).build_filters(filters)
-       if 'featured' in filters:
-           orm_filters['featured__exact'] = True
-       if 'active' in filters:
-           orm_filters['featured__exact'] = False
-           orm_filters['userquestsetaction__user'] = self.user
-           orm_filters['userquestsetaction__complete'] = False
-       if 'complete' in filters:
-           orm_filters['userquestsetaction__user'] = self.user
-           orm_filters['userquestsetaction__complete'] = True
-       return orm_filters
+        if filters is None:
+            filters = {}
+        orm_filters = super(QuestSetResource, self).build_filters(filters)
+        if 'featured' in filters:
+            orm_filters['featured__exact'] = True
+        if 'active' in filters:
+            orm_filters['featured__exact'] = False
+            orm_filters['userquestsetaction__user'] = self.user
+            orm_filters['userquestsetaction__complete'] = False
+        if 'complete' in filters:
+            orm_filters['userquestsetaction__user'] = self.user
+            orm_filters['userquestsetaction__complete'] = True
+        return orm_filters
 
     def dehydrate(self, bundle):
         try:
@@ -76,7 +74,7 @@ class TaskResource(ModelResource):
         return bundle
 
 class LevelResource(ModelResource):
-    
+
     class Meta:
         queryset = Level.objects.all()
         fields = ['level_name', 'required_exp']
