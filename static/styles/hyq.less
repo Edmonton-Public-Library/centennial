@@ -85,6 +85,7 @@ body {
 			height: @tileWidth;
 			background-color: @questWidgetColor;
 			cursor: pointer;
+			overflow: hidden;
 
 			&:first-child {
 				margin-left: 0;
@@ -112,7 +113,7 @@ body {
 				border-bottom: solid 1px lighten(@questWidgetColor, 15%);
 				padding: 0 4px;
 				overflow: hidden;
-				.x-box-shadow(0, 2px, 4px, 0, rgba(0,0,0,0.2), false);
+				.x-box-shadow(0, 1px, 4px, 0, rgba(0,0,0,0.2), false);
 
 				span {
 					display: inline-block;

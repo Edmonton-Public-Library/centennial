@@ -38,9 +38,34 @@
 	</div>
 	<div id="dashboard">
 		<h1>Featured Quests</h1>
-		<div class="iosSlider" data-bind="iosSlider: true">
+		<div class="iosSlider featured-quests" data-bind="iosSlider: true">
 			<div class="slider">
-				<!-- ko foreach: featuredQuests -->
+				<!-- ko foreach: {data: featuredQuests, afterRender: initFeaturedSlider} -->
+					<div class="slide current-quest">
+						<div class="progress-container">
+							<div class="progress-bar"></div>
+						</div>
+						<div class="title" data-bind="text: title"></div>
+						<ul>
+							<!-- ko foreach: quests -->
+								<!-- ko if: $index() <= 3 -->
+							<li>
+								<div class="quest-description">
+									<span data-bind="text: title"></span>
+								</div>
+								<div class="completion-count" data-bind="text: (points + '/ ...')"></div>
+							</li>
+								<!-- /ko -->
+							<!-- /ko -->
+						</ul>
+					</div>
+				<!-- /ko -->
+			</div>
+		</div>
+		<h1>Active Quests</h1>
+		<div class="iosSlider active-quests" data-bind="iosSlider: true">
+			<div class="slider">
+				<!-- ko foreach: {data: activeQuests, afterRender: initActiveSlider} -->
 					<div class="slide current-quest">
 						<div class="progress-container">
 							<div class="progress-bar"></div>
