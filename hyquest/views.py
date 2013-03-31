@@ -114,6 +114,7 @@ def getTaskResponseDict(user, task):
                                                     user=user).count()
 
     task_stats = {'title':task.title,
+                  'points':task.points,
                   'quest':{'title': task.quest.title,
                            'completed': quest_completed,
                            'total': quest_total
