@@ -35,6 +35,7 @@ return (function () {
             }
             // Append the ReCaptcha Information
             self.account.recaptcha_challenge = $("#recaptcha-section #recaptcha_challenge_field").val();
+            self.account.recaptcha_response = $("#recaptcha-section #recaptcha_response_field").val();
             // Create the account
             $.ajax(Settings.apiAccountUrl + "create", {
                 data: ko.toJSON(self.account),
@@ -119,8 +120,7 @@ return (function () {
             }
         });
 
-        this.recaptcha_response = ko.observable("");
-            $("#recaptcha-section #recaptcha_response_field").attr("data-bind", "value: ReCaptchaResponse");
+        this.recaptcha_response = "";
         this.recaptcha_challenge = "";
         this.agreeToTerms = ko.observable(false).extend({
             equal: { value: true, message: "Please agree to the Terms and Conditions." }
