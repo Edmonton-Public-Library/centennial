@@ -1,5 +1,5 @@
 ;
-define(['lib/sammy', 'hyq/Dashboard'], function (Sammy, Dashboard) {
+define(['lib/sammy', 'hyq/Dashboard', 'hyq/QuestPopUp'], function (Sammy, Dashboard, QuestPopUp) {
 
 /******************************
  * Contains app-wide settings *
@@ -15,6 +15,8 @@ return {
 		});
 
 	})
+
+
 };
 
 //End module

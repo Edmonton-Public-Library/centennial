@@ -17,7 +17,12 @@ return (function () {
 		$(document).ready(function () {
 			$.get('/preferences/', function(json) {
 				self.initTimeline(json);
-				callback();
+				try {
+					callback();
+				}
+				catch(e) {
+
+				}
 			});
 		});
 

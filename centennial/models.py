@@ -4,7 +4,6 @@ from django.db.models.signals import post_save
 from django.db import models
 
 import datetime
-import socket
 
 from centennial.constants import FACEBOOK_KEY_LEN, BIBLIO_USER_LEN
 
@@ -25,7 +24,7 @@ class UserProfile(models.Model):
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        profile, created = UserProfile.objects.get_or_create(user=instance)
+        UserProfile.objects.get_or_create(user=instance)
 
 post_save.connect(create_user_profile, sender=User)
 
@@ -38,7 +37,7 @@ class BibliocommonsLink(models.Model):
         verbose_name_plural = "Bibliocommons Links"
 
     biblioname = models.CharField(max_length=BIBLIO_USER_LEN, default='', blank=True)
-    biblioid = models.IntegerField(default=-1,blank=True)
+    biblioid = models.IntegerField(default=-1, blank=True)
     user = models.OneToOneField(User)
 
     def __unicode__(self):
@@ -60,7 +59,7 @@ def send_activation_email(sender, **kwargs):
         instance.user.is_active = True
     else:
         if instance.email_sent == False:
-            name = "%s %s"%(instance.user.first_name, instance.user.last_name)
+            name = "%s %s" % (instance.user.first_name, instance.user.last_name)
             email = instance.user.email
             time = str(datetime.datetime.now())
             notification_email = email_template.getRegistrationNotification(name, "http://localhost:8000", email, time, "html")

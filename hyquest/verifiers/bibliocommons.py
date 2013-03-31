@@ -24,21 +24,21 @@ def matchingBibliocommonsTasks(user):
         bibliolink = BibliocommonsLink.objects.get(user=user)
         if bibliolink.biblioid == -1:
             print "Error: cannot look up Bibliocommons content without defined Bibliocommons ID"
-            return ([],[])
+            return ([], [])
     except ObjectDoesNotExist:
         print "Error: user "+str(user)+" does not have linked Bibliocommons Account."
-        return ([],[])
+        return ([], [])
     try:
         content = centennial.bibliocommons.userContent(bibliolink.biblioid)
     except Exception, e:
         print "Error: Unable to communicate with the Bibliocommons API"
         print e
-        return ([],[])
+        return ([], [])
     tasks = getTaskResultSet(user).filter(type=TASK_BIBLIOCOMMONS)
     activeTasks = []
     otherTasks = []
     for task in tasks:
-        if bibliocommonsMatches(content,task):
+        if bibliocommonsMatches(content, task):
             action = getUserAction(user, task)
             if action is None:
                 otherTasks.append(task)

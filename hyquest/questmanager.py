@@ -1,9 +1,9 @@
-from django.contrib.auth.models import User
-from hyquest.models import QuestSet, Quest, Task, UserQuestSetAction
+from hyquest.models import QuestSet, UserQuestSetAction
 from hyquest.actionmanager import beginQuestSet
 from hyquest.constants import MAX_ACTIVE_QUESTS
+
 def replenishQuestSets(user):
-    activeQuests = UserQuestSetAction.objects.filter(user=user,questset__featured=False).count()
+    activeQuests = UserQuestSetAction.objects.filter(user=user, questset__featured=False).count()
     if(activeQuests < MAX_ACTIVE_QUESTS):
         print "User "+str(user)+" needs more quests"
         #Get all completed quests
@@ -16,13 +16,13 @@ def replenishQuestSets(user):
         for newquest in newquests:
             if activeQuests >= MAX_ACTIVE_QUESTS:
                 return
-            
+
             print "Adding quest "+str(newquest)
             beginQuestSet(user, newquest)
             activeQuests += 1
-        
+
 def activateFeaturedQuestSets(user):
     for questset in QuestSet.objects.filter(featured=True):
-        if not UserQuestSetAction.objects.filter(user=user,questset=questset).exists():
+        if not UserQuestSetAction.objects.filter(user=user, questset=questset).exists():
             beginQuestSet(user, questset)
 

@@ -14,7 +14,7 @@ framework.
 
 """
 import os
-import sys 
+import sys
 
 path = os.path.realpath(__file__)
 path = path.rstrip(path[-11:])

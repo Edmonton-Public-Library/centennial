@@ -1,6 +1,6 @@
 ;
 //Create the application module
-define(['timemap/Routes', 'epl/Settings', 'lib/csc/Nav', 'lib/knockout', 'timemap/EPLBar', 'timemap/Environment', 'timemap/Sidebar', 'lib/sammy', 'lib/less', 'lib/jquery-ui', 'lib/jquery.hammer'], function (Routes, Settings, Nav, ko, EPLBar, Environment, Sidebar) {
+define(['timemap/Routes', 'epl/Settings', 'lib/csc/Nav', 'lib/knockout', 'timemap/EPLBar', 'timemap/Environment', 'timemap/Sidebar', 'timemap/QuestPopUp', 'lib/sammy', 'lib/less', 'lib/jquery-ui', 'lib/jquery.hammer'], function (Routes, Settings, Nav, ko, EPLBar, Environment, Sidebar, QuestPopUp) {
 var timemap = null;
 
 //Only start the app once the page has loaded
@@ -26,6 +26,8 @@ var AppClass = (function () {
 
 		//Get the viewport ready
 		$(document).ready(function () {
+
+			self.storage.questPopUp = new QuestPopUp($('#questPopUp'));
 
 			//TODO: Extract the sidebar/EPL bar
 			var eplBar = new EPLBar('#epl-bar');
