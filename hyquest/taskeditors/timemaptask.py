@@ -17,22 +17,22 @@ class TimeMapTaskForm(forms.Form):
     maximum_year = forms.IntegerField(required=False)
     on_map_enforced = forms.BooleanField(required=False)
     on_map = forms.BooleanField(required=False)
-    
+
     def clean_story(self):
         if self.cleaned_data['visit_story'] and not self.cleaned_data['story']:
             raise ValidationError("You must select a Story or disable Story detection")
         return self.cleaned_data['story']
-    
+
     def clean_branch(self):
         if self.cleaned_data['visit_branch'] and not self.cleaned_data['branch']:
             raise ValidationError("You must select a Branch or disable Branch detection")
         return self.cleaned_data['branch']
-    
+
     def clean_minimum_year(self):
         if self.cleaned_data['minimum_year_enabled'] and not self.cleaned_data['minimum_year']:
             raise ValidationError("You must select a Minimum Year or disable Minimum Year detection")
         return self.cleaned_data['minimum_year']
-    
+
     def clean_maximum_year(self):
         if self.cleaned_data['maximum_year_enabled'] and not self.cleaned_data['maximum_year']:
             raise ValidationError("You must select a Maximum Year or disable Maximum Year detection")
@@ -41,7 +41,7 @@ class TimeMapTaskForm(forms.Form):
 def edit_timemap_task(request):
     if not request.user.is_authenticated() or not request.user.is_staff:
         return HttpResponse(status=403)
-    
+
     if request.method == "POST":
         form = TimeMapTaskForm(request.POST)
         if form.is_valid():
@@ -56,14 +56,14 @@ def edit_timemap_task(request):
                 taskinfo += "maxYear="+str(form.cleaned_data['maximum_year'])+";"
             if form.cleaned_data['on_map_enforced']:
                 taskinfo += "onMap="+str(form.cleaned_data['on_map'])+";"
-            
+
             task = Task.objects.get(id=form.cleaned_data['task_id'])
             task.taskinfo = taskinfo
             task.save()
             return HttpResponseRedirect('/admin/hyquest/quest/'+str(task.quest.id)+'/')
         else:
             task = Task.objects.get(id=request.POST['task_id'])
-    
+
     else:
         arguments = {'task_id':request.GET['task_id']}
         task = Task.objects.get(id=request.GET['task_id'])

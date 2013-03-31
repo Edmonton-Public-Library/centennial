@@ -14,12 +14,12 @@ def matchingCodeTasks(user, code):
     if action.complete:
         return ([], [])
     burnCode(code)
-    return ([task,],[])
+    return ([task,], [])
 
 def getTaskForCode(code):
     try:
         tcode = TaskCode.objects.get(code=code)
-        if tcode.uses_remaining<1:
+        if tcode.uses_remaining < 1:
             return None
         task = tcode.task
         if task.quest.quest_set.active:

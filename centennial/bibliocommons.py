@@ -24,13 +24,13 @@ def userID(username):
     for user in response["users"]:
         if (user["name"] == username):
             return user["id"]
-    raise Error("No user matches provided Username")
+    raise Exception("No user matches provided Username")
 
 def userContent(userID):
     req = requests.get(APIRoot+"users/"+str(userID)+"/user_content", params={'api_key': APIKey})
     req.raise_for_status()
     response = req.json()
-    
+
     page = int(response["page"])
     pages = int(response["pages"])
     content = response["user_content"]
@@ -47,7 +47,7 @@ def userLists(userID):
     req = requests.get(APIRoot+"users/"+str(userID)+"/lists", params={'api_key': APIKey})
     req.raise_for_status()
     response = req.json()
-    
+
     page = int(response["page"])
     pages = int(response["pages"])
     content = response["lists"]

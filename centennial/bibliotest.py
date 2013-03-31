@@ -5,17 +5,18 @@ import bibliocommons
 from mock import Mock, patch
 
 class BiblicommonsTest(unittest.TestCase):
- 
+
     def testValidAPIKey(self):
-        req = requests.get(bibliocommons.APIRoot+"users", params={'q': 'notarealuser', 'api_key': bibliocommons.APIKey})
+        request_params = {'q': 'notarealuser', 'api_key': bibliocommons.APIKey}
+        req = requests.get(bibliocommons.APIRoot+"users", params=request_params)
         if (req.status_code == 403):
             self.fail("Included API Key invalid")
-    
+
     def testValidUserValid(self):
         #Assemble a mock result object
         result = Mock()
         result.text = "+VALID"
-        
+
         #Patch requests.get
         with patch.object(requests, 'get') as mockGet:
             mockGet.return_value = result
@@ -25,7 +26,7 @@ class BiblicommonsTest(unittest.TestCase):
         #Assemble a mock result object
         result = Mock()
         result.text = ""
-        
+
         #Patch requests.get
         with patch.object(requests, 'get') as mockGet:
             mockGet.return_value = result
@@ -53,14 +54,6 @@ class BiblicommonsTest(unittest.TestCase):
             mockGet.side_effect = self.manycontent_sideeffect
             self.assertTrue(bibliocommons.userContent('user') == ['1', '2', '3', '4'])
 
-    def manycontent_sideeffect(*args, **kwargs):
-        params = kwargs['params']
-        page = 1
-        if ('page' in params):
-            page = params['page']
-        result = Mock()
-        result.json.return_value = { 'page':str(page), 'pages':'4', 'user_content':[str(page)]}
-        return result
 
     def testUserListNone(self):
         result = Mock()
@@ -84,13 +77,23 @@ class BiblicommonsTest(unittest.TestCase):
             mockGet.side_effect = self.manylist_sideeffect
             self.assertTrue(bibliocommons.userLists('user') == ['1', '2', '3', '4'])
 
-    def manylist_sideeffect(*args, **kwargs):
-        params = kwargs['params']
-        page = 1
-        if ('page' in params):
-            page = params['page']
-        result = Mock()
-        result.json.return_value = { 'page':str(page), 'pages':'4', 'lists':[str(page)]}
-        return result
+def manycontent_sideeffect(*args, **kwargs):
+    params = kwargs['params']
+    page = 1
+    if ('page' in params):
+        page = params['page']
+    result = Mock()
+    result.json.return_value = { 'page':str(page), 'pages':'4', 'user_content':[str(page)]}
+    return result
+
+def manylist_sideeffect(*args, **kwargs):
+    params = kwargs['params']
+    page = 1
+    if ('page' in params):
+        page = params['page']
+    result = Mock()
+    result.json.return_value = { 'page':str(page), 'pages':'4', 'lists':[str(page)]}
+    return result
+
 if __name__ == '__main__':
     unittest.main()

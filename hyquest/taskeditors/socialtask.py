@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
-from django.core.exceptions import ValidationError
 
 from hyquest.models import Task
 from timemap.models import Story

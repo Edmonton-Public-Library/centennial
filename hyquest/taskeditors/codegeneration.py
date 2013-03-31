@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
-from django.core.exceptions import ValidationError
 
 import random
 
@@ -23,7 +22,7 @@ def generate_codes(request):
             # Create the codes
             generateTaskCodes(Task.objects.get(id=form.cleaned_data['task_id']), form.cleaned_data['code_count'], form.cleaned_data['uses_per_code'])
             return HttpResponseRedirect('/admin/hyquest/taskcode?task='+str(form.cleaned_data['task_id']))
-    
+
     else:
         arguments = {'task_id': request.GET['task_id'], 'code_count': '1', 'uses_per_code':'1'}
         form = CodeGenForm(arguments)

@@ -1,14 +1,11 @@
-from django.shortcuts import render_to_response
-from django.template.loader import get_template
-from django.template import Context
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from centennial.models import BibliocommonsLink
 from centennial.bibliocommons import validUser
 from centennial.recaptcha import verifyReCaptcha
 from hyquest.models import Level
-import epl.settings
 import util
 import util.email.email_template
 import urlparse
@@ -32,12 +29,11 @@ def accountActivate(request):
         emailAndTime = util.email.email_template.aesDecrypt(activationKey)
         split = emailAndTime.partition('=')
         email = split[0]
-        time = split[2]
 
         user = None
         try:
             user = User.objects.get(email=email)
-        except DoesNotExist:
+        except ObjectDoesNotExist:
             return HttpResponse("A user with email address %s does not exist!" % (email))
         if not user.is_active:
             user.is_active = True

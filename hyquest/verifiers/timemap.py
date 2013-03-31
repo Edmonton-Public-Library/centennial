@@ -7,7 +7,7 @@ def matchingTimeMapTasks(user, timeMapState):
     otherTasks = []
     for task in tasks:
         if timeMapMatches(task, timeMapState):
-            action=getUserAction(user, task)
+            action = getUserAction(user, task)
             if action is None:
                 otherTasks.append(task)
             elif action.complete != True:

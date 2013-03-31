@@ -6,13 +6,13 @@ import urllib
 def getRegistrationNotification(name, baseUrl, email, creationTime, MIME):
     activationKey = aesEncrypt(email + "=" + creationTime)
     keyValue = urllib.urlencode({"key" : activationKey})
-    urlFormatter = "_formatUrlAs%s"%(MIME)
+    urlFormatter = "_formatUrlAs%s" % (MIME)
     url = getattr(sys.modules[__name__], urlFormatter)("%s/account/activate?%s" % (baseUrl, keyValue))
-    textFormatter = "_formatTextAs%s"%(MIME)
+    textFormatter = "_formatTextAs%s" % (MIME)
     return getattr(sys.modules[__name__], textFormatter)(_REGISTRATION_NOTIFICATION % (name, url))
 
 def _formatUrlAshtml(raw):
-    return "<a href=\"%s\">link</a>"%(raw)
+    return "<a href=\"%s\">link</a>" % (raw)
 
 def _formatTextAshtml(raw):
     return """\
