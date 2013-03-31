@@ -71,6 +71,7 @@ def submit_code_task(request):
         activeTasks, otherTasks = matchingCodeTasks(request.user, request.GET['code'])
     if len(activeTasks)+len(otherTasks) == 0:
         return HttpResponse(json.dumps({'Response':'Error: Expired or invalid code'}), status=400, content_type='application/json')
+    beginDiscoveredTasks(request.user, otherTasks)
     for task in activeTasks:
         completeTask(request.user, task)
     for task in otherTasks:
