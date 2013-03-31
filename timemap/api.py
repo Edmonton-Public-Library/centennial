@@ -1,3 +1,7 @@
+"""
+Tastypie resource definitions. This exposes the timemap stories, branches,
+and map data through a REST interface
+"""
 from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
@@ -23,13 +27,15 @@ class StoryAuthentication(Authentication):
     Authenticates everyone if the request is GET, otherwise
     checks the user is authenticated through a session
     """
-
     def is_authenticated(self, request, **kwargs):
         if request.method == 'GET':
             return True
         return request.user.is_authenticated()
 
 class TagResource(ModelResource):
+    """
+    Keywords for different stories
+    """
     class Meta:
         queryset = Tag.objects.all()
         filtering = {"name": ALL}
@@ -46,6 +52,10 @@ class BranchResource(ModelResource):
         ordering = ['start_year', 'end_year']
 
 class SimpleBranchResource(ModelResource):
+    """
+    Almost equal to BranchResource, except less fields are exposed to reduce
+    data transfer in certain cases.
+    """
     class Meta:
         queryset = Branch.objects.all()
         resource_name = "simple_branch"
@@ -102,6 +112,10 @@ class StoryResource(ModelResource):
         ordering = ['year', 'month', 'day']
 
     def build_filters(self, filters=None):
+        """
+        Filters for stories are grouped for the title, description, story text and
+        keywords for searching
+        """
         if filters is None:
             filters = {}
 
@@ -113,7 +127,6 @@ class StoryResource(ModelResource):
             orm_filters['content_type__in'] = [CONTENT_HYDRATE[f] for f in filters['content_type__in'].split(',')]
 
         return orm_filters
-
 
     def apply_filters(self, request, applicable_filters):
         if 'grouped' in applicable_filters:
@@ -152,6 +165,9 @@ class StoryResource(ModelResource):
         return bundle
 
     def hydrate_content_type(self, bundle):
+        """
+        Hydrate content type to make more readable in requests
+        """
         if bundle.data['content_type'] == 'media':
             bundle.data['content_type'] = "T"
             return bundle
@@ -159,6 +175,10 @@ class StoryResource(ModelResource):
         return bundle
 
     def dehydrate(self, bundle):
+        """
+        Hide user ID and swap it with the username of the user who created the story. If
+        the story author chose to stay anonymous then it's name is not served.
+        """
         if bundle.data['anonymous']:
             bundle.data['user'] = "Anonymous"
         else:
@@ -171,6 +191,9 @@ class StoryResource(ModelResource):
         return dict(Story.CONTENT_TYPE_CHOICES)[bundle.data['content_type']]
 
 def get_grouped_filters(filters):
+    """
+    Generates the Q object with the grouped filters for story filtering used for searching
+    """
     grouped_filters = Q()
 
     if 'keyword' in filters:

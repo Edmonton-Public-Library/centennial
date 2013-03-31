@@ -1,4 +1,6 @@
-import copy
+"""
+Unit tests for the timemap application
+"""
 import json
 from django.test import TestCase
 from django.contrib.auth.models import User

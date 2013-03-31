@@ -42,7 +42,7 @@ class BibliocommonsLink(models.Model):
     user = models.OneToOneField(User)
 
     def __unicode__(self):
-        return str(self.user) + " --> " + str(biblioname)
+        return str(self.user) + " --> " + str(self.biblioname)
 
 #Signals
 
