@@ -67,6 +67,7 @@ var AppClass = (function () {
 			type : 'post',
 			success : function(data) {
 				console.log(data);
+				//self.storage.questPopUp.showPopUp(data.,data.,data.);
 			}
 		});
 	};
