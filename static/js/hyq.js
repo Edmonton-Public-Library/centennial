@@ -18,19 +18,12 @@ var AppClass = (function () {
 	 *  - Viewport setup
 	 */
 	AppClass.prototype.init = function () {
-
 		var self = this;
-
 		var eplBar = new EPLBar('#epl-bar');
 
 		//Start accepting routes
 		//Bootstrap components that depend on the DOM
 		this.nav = new Nav(this.viewport, Routes.routes);
-
-		$('.iosSlider').iosSlider({
-			desktopClickDrag : true,
-		});
-
 	};
 
 	return AppClass;

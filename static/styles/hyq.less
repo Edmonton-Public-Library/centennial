@@ -12,7 +12,6 @@ body {
 	left: 0;
 	overflow: hidden;
 	
-	width: 1920px;
 	height: @questWidgetHeight + 25;
 }
 
@@ -40,36 +39,96 @@ body {
 
 .current-quest {
 	@questWidgetColor: @epl-blue;
-	
+	@questBackgroundColor: desaturate(lighten(@questWidgetColor, 30%),30%);
 	width: @questWidgetWidth;
 	height: @questWidgetHeight;
-	background-color: @questWidgetColor;
+	background-color: @questBackgroundColor;
 	margin: 10px;
 
 	.title {
-		@titleBackground: darken(@questWidgetColor, 10%);
 		padding: 10px;
-		font-size: 18px;
+		font-size: 22px;
 		font-weight: bold;
-		background-color: @titleBackground;
-		color: lighten(@titleBackground, 40%);
-		text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+		color: darken(@questWidgetColor, 30%);
+	}
+
+	.progress-container {
+		height: 10px;
+		background-color: desaturate(lighten(@questWidgetColor, 20%), 20%);
+		border-bottom: solid 1px darken(@questWidgetColor, 10%);
+		.x-box-shadow(0, 1px, 0, 0, rgba(0,0,0,0.1), false);
+
+		.progress-bar {
+			height: 100%;
+			width: 180px;
+			background-color: @questWidgetColor;
+		}
 	}
 
 	ul {
+		@tileMargin: 10px;
+		//The list of tiles needs to accomodate the left tile margin being added as padding:;
+		@tileListWidth: @questWidgetWidth - (@tileMargin);
+		padding: 0 0 0 @tileMargin;
 		list-style-type: none;
-		padding: 0;
+		margin: 0;
 
 		li {
-			background-color: lighten(@questWidgetColor, 6%);
-			padding: 10px;
-			border-bottom: solid 1px lighten(@questWidgetColor, 25%);
-			border-top: solid 1px lighten(@questWidgetColor, 14%);
-			.x-box-shadow(0, 1px, 0, 0, darken(@questWidgetColor, 14%), false);
-			.status {
+			//Need to fit 3 tiles (width/3) and each tile has a left margin
+			@tileWidth: (@tileListWidth / 3) - (@tileMargin);
+			@descriptionHeight: @tileWidth - 40;
+			@countHeight: @tileWidth - @descriptionHeight;
+			@hoverBorderWidth: 2px;				
+			margin-left: @tileMargin;
+			float: left;
+			width: @tileWidth;
+			height: @tileWidth;
+			background-color: @questWidgetColor;
+			cursor: pointer;
+
+			&:first-child {
+				margin-left: 0;
+
+				&:hover {
+					margin-left: -(@hoverBorderWidth);
+				}
 			}
 
-			.description {
+			&:hover {
+				border: solid (@hoverBorderWidth) darken(@questWidgetColor, 20%);
+				margin: -(@hoverBorderWidth) -(@hoverBorderWidth) -(@hoverBorderWidth) (@tileMargin - (@hoverBorderWidth));
+			}
+
+			.quest-description {
+				@descriptionPadding: 6px;
+				height: @descriptionHeight;
+				line-height: @descriptionHeight - (2 * @descriptionPadding);
+				padding: @descriptionPadding 0;
+				color: lighten(@questWidgetColor, 40%);
+				text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+				font-size: 13px;
+				text-align: center;
+				background-color: lighten(@questWidgetColor, 10%);
+				border-bottom: solid 1px lighten(@questWidgetColor, 15%);
+				padding: 0 4px;
+				overflow: hidden;
+				.x-box-shadow(0, 2px, 4px, 0, rgba(0,0,0,0.2), false);
+
+				span {
+					display: inline-block;
+					vertical-align: middle;
+					line-height: normal;
+				}
+			}
+
+			.completion-count {
+				font-size: 30px;
+				text-align: center;
+				height: @countHeight;
+				line-height: @countHeight;
+				color: lighten(@questWidgetColor, 40%);
+				font-weight: bold;
+				text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
 			}
 		}
 	}
