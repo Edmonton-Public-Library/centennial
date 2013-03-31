@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 import json
+from hyquest.verifiers.social import matchingSocialTasks
 from hyquest.verifiers.code import matchingCodeTasks
 from hyquest.verifiers.timemap import matchingTimeMapTasks
 from hyquest.verifiers.bibliocommons import verifyBibliocommonsAccount, matchingBibliocommonsTasks
@@ -20,6 +21,7 @@ def check_biblio_tasks(request):
     for task in otherTasks:
         completeTask(request.user, task)
     return completedTasksHttpResponse(request.user, activeTasks, otherTasks)
+
 def submit_timemap_task(request):
     if not request.user.is_authenticated():
         return HttpResponse(json.dumps({'Response':'Error: Must be logged in'}), status=403, content_type='application/json')
@@ -100,12 +102,27 @@ def completedTasksHttpResponse(user, activeTasks, otherTasks):
     return HttpResponse(json.dumps(jdict), content_type='application/json')
 
 def getTaskResponseDict(user, task):
-    dict = {'title':task.title, 'quest':{'title':task.quest.title, 'completed':0, 'total':0},            'questset':{'title':task.quest.quest_set.title, 'completed':0, 'total':0}}
-    dict['quest']['completed'] = UserTaskAction.objects.filter(task__quest=task.quest, user=user, complete=True).count()
-    dict['quest']['total'] = UserTaskAction.objects.filter(task__quest=task.quest, user=user).count()
-    dict['questset']['completed'] = UserQuestAction.objects.filter(quest__quest_set=task.quest.quest_set, user=user, complete=True).count()
-    dict['questset']['total'] = UserQuestAction.objects.filter(quest__quest_set=task.quest.quest_set, user=user).count()
-    return dict
+    quest_completed = UserTaskAction.objects.filter(task__quest=task.quest,
+                                                    user=user,
+                                                    complete=True).count()
+    quest_total = UserTaskAction.objects.filter(task__quest=task.quest,
+                                                user=user).count()
+    questset_completed = UserQuestAction.objects.filter(quest__quest_set=task.quest.quest_set,
+                                                        user=user,
+                                                        complete=True).count()
+    questset_total = UserQuestAction.objects.filter(quest__quest_set=task.quest.quest_set,
+                                                    user=user).count()
+
+    task_stats = {'title':task.title,
+                  'quest':{'title': task.quest.title,
+                           'completed': quest_completed,
+                           'total': quest_total
+                          },
+                   'questset':{'title': task.quest.quest_set.title,
+                               'completed': questset_completed,
+                               'total': questset_total}
+                              }
+    return task_stats
 
 def beginDiscoveredTasks(user, tasks):
     # Begin UserActions for any serendipidously discovered Tasks
