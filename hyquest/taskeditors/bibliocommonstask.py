@@ -19,10 +19,6 @@ class BibliocommonsTaskForm(forms.Form):
     require_isbn = forms.BooleanField(required=False)
     isbn = forms.CharField(required=False)
 
-    def clean_action(self):
-        if self.cleaned_data['action'] != 'comment' and self.cleaned_data['action'] != 'rating':
-            raise ValidationError("Action must be comment or rating")
-        return self.cleaned_data['action']
 
     def clean_format(self):
         if self.cleaned_data['require_format'] and not self.cleaned_data['format']:
