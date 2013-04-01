@@ -143,15 +143,16 @@ return (function () {
 
 		return {
 			root : cellRoot(col, row),
-			random : cellRandom(col, row),
-			center : cellCenter(col, row)
+			random : cellRandom(col, row)
 		}
 
 		//Compute the cell's top-left root coordinates
 		function cellRoot (col, row) {
+			// Since the image is centered, the pins need to be shifted over to be centered too
+			var centeringAdjustment = (Environment.display.viewportWidth() - self.floorplanElement.width()) / 2
 			return {
-				x : self.dimensions.cellDimensions().width * col,
-				y : self.dimensions.cellDimensions().height * row
+				x : self.dimensions.cellDimensions().width * col + centeringAdjustment, 
+				y : self.dimensions.cellDimensions().height * row + self.branchHeaderElement.height()
 			};
 		}
 
@@ -168,14 +169,6 @@ return (function () {
 			return {
 				x : cellRootValue.x +(xRandom * self.dimensions.cellDimensions().width) + (1 - centFactor)/2 * self.dimensions.cellDimensions().width,
 				y : cellRootValue.y +(yRandom * self.dimensions.cellDimensions().height) + (1 - centFactor)/2 * self.dimensions.cellDimensions().height,
-			};
-		}
-
-		//Compute the center of the cell
-		function cellCenter (col, row) {
-			return {
-				x : self.dimensions.cellDimensions().width * col + self.dimensions.cellDimensions().width/2,
-				y : self.dimensions.cellDimensions().height * row + self.dimensions.cellDimensions().height/2
 			};
 		}
 	};
@@ -196,7 +189,8 @@ return (function () {
 		}
 
 		this.dimensions.viewerWidth(this.floorplanElement.width());
-		this.dimensions.viewerHeight(this.floorplanElement.height());
+		// The height of the icon is ~60px, so 60px is subtracted to ensure the icon fits
+		this.dimensions.viewerHeight(this.floorplanElement.height() - 60);
 	};
 
 	Branch.prototype.setData = function (branchData) {
