@@ -2,12 +2,14 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db import models
+from preferences import preferences
 
 import datetime
 
 from centennial.constants import FACEBOOK_KEY_LEN, BIBLIO_USER_LEN
 
 from util.email import emailer, email_template
+import epl.settings as settings
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -62,10 +64,14 @@ def send_activation_email(profile):
             name = "%s %s" % (instance.user.first_name, instance.user.last_name)
             email = instance.user.email
             time = str(datetime.datetime.now())
-            notification_email = email_template.getRegistrationNotification(name, "http://localhost:8000", email, time, "html")
+            notification_email = email_template.getRegistrationNotification(name, preferences.TimemapPreferences.base_url, email, time, "html")
             try:
-                emailer.do_send(notification_email, "bpetruk@serve.ctrlshiftcreate.com", email)
+                emailer.do_send(notification_email,
+                        settings.SMTP_VALUES['SMTP_FROM_ADDR'],
+                        email,
+                        smtp_login=settings.SMTP_VALUES['SMTP_AUTH'])
                 instance.email_sent = True
-            except Exception:
+            except Exception as e:
+                print e
                 instance.email_sent = False
                 raise ValidationError("Failed to create user profile. Please try again later")

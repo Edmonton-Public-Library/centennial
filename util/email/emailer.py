@@ -1,8 +1,10 @@
 """Reference: http://docs.python.org/2/library/email-examples.html"""
-import smtplib
 
+import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+
+import epl.settings as settings
 
 def do_send(msg_text, src_address, dst_address, MIME='html', smtp_login=None):
     me = src_address
@@ -22,11 +24,18 @@ def do_send(msg_text, src_address, dst_address, MIME='html', smtp_login=None):
     msg.attach(htmlPart)
 
     # Send the message via local SMTP server.
-    s = smtplib.SMTP('localhost')
+    try:
+        s = smtplib.SMTP(settings.SMTP_VALUES['SMTP_SERVER'],
+                settings.SMTP_VALUES['SMTP_PORT'])
+    except Exception as e:
+        print e
+        raise
     # sendmail function takes 3 arguments: sender's address, recipient's address
     # and message to send - here it is sent as one string.
     if smtp_login is not None:
+        s.ehlo()
         s.starttls()
+        s.ehlo()
         s.login(smtp_login[0], smtp_login[1])
     s.sendmail(me, dst_address, msg.as_string())
     s.quit()
