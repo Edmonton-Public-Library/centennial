@@ -81,13 +81,13 @@ class LevelResource(ModelResource):
         resource_name = 'level'
     def dehydrate(self, bundle):
         required_exp = int(bundle.data['required_exp'])
-        lastexp = 0
+        nextexp = 0
         try:
-            lastexp = Level.objects.filter(required_exp__lt=required_exp).latest('required_exp').required_exp
-        except Level.DoesNotExist:
+            nextexp = Level.objects.filter(required_exp__gt=required_exp).order_by('required_exp')[0].required_exp
+        except IndexError:
             pass
-        bundle.data['exp_total'] = required_exp - lastexp
-        bundle.data['start_exp'] = lastexp
-        bundle.data['end_exp'] = required_exp
+        bundle.data['exp_total'] = nextexp - required_exp
+        bundle.data['start_exp'] = required_exp
+        bundle.data['end_exp'] = nextexp
         del bundle.data['required_exp']
         return bundle
