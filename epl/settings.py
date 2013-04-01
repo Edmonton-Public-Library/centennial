@@ -186,7 +186,7 @@ FILE_UPLOAD_HANDLERS = (
 # SMTP_AUTH  - a tuple of (user_name, password)
 ####
 SMTP_VALUES = { 'SMTP_SERVER'    : 'localhost',
-                'SMTP_PORT'      : 587,
+                'SMTP_PORT'      : 25,
                 'SMTP_FROM_ADDR' : 'bpetruk@serve.ctrlshiftcreate.com',
                 'SMTP_AUTH'      : None,
         }
