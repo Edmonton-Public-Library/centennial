@@ -55,8 +55,7 @@
 
             <p>
                 <label for="branch" class="form-label">Branch: <span class="required">*</span></label>
-                <select data-bind= "options: branchOptions, optionsText: 'name', optionsValue: 'id',
-                    optionsCaption: 'Select a branch', value: story.branch">
+                <select data-bind= "options: branchOptions, optionsText: 'name', optionsValue: 'id', optionsCaption: 'All Branches', value: story.branch">
                 </select>
             </p>
             <p class="inputError indent" data-bind="validationMessage: story.branch"></p>

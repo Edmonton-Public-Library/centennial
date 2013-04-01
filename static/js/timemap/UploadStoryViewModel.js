@@ -128,9 +128,7 @@ return (function () {
                 params: this.content_type
             }
         });
-        this.branch = ko.observable().extend({
-            required: { message: 'Branch is required.' }
-        });
+        this.branch = ko.observable();
         this.year = ko.observable().extend({
             required: { message: 'Year is required.' }
         });
@@ -158,7 +156,11 @@ return (function () {
         delete copy.custom_keywords;
         delete copy.preset_keywords;
         delete copy.errors;
-        copy.branch = Settings.apiBranchUrl + copy.branch + "/";
+        if (copy.branch == null) {
+            copy.branch = null;
+        } else {
+            copy.branch = Settings.apiBranchUrl + copy.branch + "/";
+        }
     	return copy;
     }
     
