@@ -73,7 +73,7 @@ class Story(models.Model):
     year = IntegerRangeField(db_index=True, min_value=1900, max_value=3000)
     month = IntegerRangeField(min_value=1, max_value=12, blank=True, null=True)
     day = IntegerRangeField(min_value=1, max_value=31, blank=True, null=True)
-    branch = models.ForeignKey('Branch')
+    branch = models.ForeignKey('Branch', blank=True, null=True)
     keywords = TaggableManager(verbose_name="keywords",
                                help_text=("A comma-separated list of keywords"),
                                blank=True)

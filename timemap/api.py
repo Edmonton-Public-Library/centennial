@@ -85,7 +85,7 @@ class StoryResource(ModelResource):
     Modifications to allow tag support taken and modified from:
     https://gist.github.com/joshbohde/1702293
     """
-    branch = fields.ForeignKey(BranchResource, 'branch', full=True)
+    branch = fields.ForeignKey(BranchResource, 'branch', full=True, null=True)
     user = fields.ForeignKey(UserResource, 'user')
     keywords = fields.ListField()
 
@@ -120,8 +120,10 @@ class StoryResource(ModelResource):
             filters = {}
 
         grouped = get_grouped_filters(filters)
+        branch_filters = get_branch_filter(filters)
         orm_filters = super(StoryResource, self).build_filters(filters)
         orm_filters['grouped'] = grouped
+        orm_filters['br_filter'] = branch_filters
 
         if 'content_type__in' in filters:
             orm_filters['content_type__in'] = [CONTENT_HYDRATE[f] for f in filters['content_type__in'].split(',')]
@@ -134,10 +136,17 @@ class StoryResource(ModelResource):
         else:
             custom = None
 
+        if 'br_filter' in applicable_filters:
+            branch_filter = applicable_filters.pop('br_filter')
+        else:
+            branch_filter = None
+
         semi_filtered = super(StoryResource, self).apply_filters(request, applicable_filters)
         semi_filtered = semi_filtered.distinct()
+        semi_filtered = semi_filtered.filter(custom) if custom else semi_filtered
+        semi_filtered = semi_filtered.filter(branch_filter) if branch_filter else semi_filtered
 
-        return semi_filtered.filter(custom) if custom else semi_filtered
+        return semi_filtered
 
     def dehydrate_keywords(self, bundle):
         """
@@ -214,6 +223,11 @@ def get_grouped_filters(filters):
 
     return grouped_filters
 
+def get_branch_filter(filters):
+    if 'branch' in filters:
+        branch = int(filters.pop('branch')[0])
+        return Q(branch__pk=branch) | Q(branch__isnull=True)
+
 class FeaturedStoryResource(ModelResource):
     story = fields.ForeignKey(StoryResource, 'story', full=True)
 
@@ -226,3 +240,29 @@ class FeaturedStoryResource(ModelResource):
                     }
         ordering = ['story']
 
+    def build_filters(self, filters=None):
+        if filters is None:
+            filters = {}
+
+        branch_filters = get_featured_branch_filter(filters)
+        orm_filters = super(FeaturedStoryResource, self).build_filters(filters)
+        orm_filters['br_filter'] = branch_filters
+
+        return orm_filters
+
+    def apply_filters(self, request, applicable_filters):
+        if 'br_filter' in applicable_filters:
+            branch_filter = applicable_filters.pop('br_filter')
+        else:
+            branch_filter = None
+
+        semi_filtered = super(FeaturedStoryResource, self).apply_filters(request, applicable_filters)
+        semi_filtered = semi_filtered.distinct()
+        semi_filtered = semi_filtered.filter(branch_filter) if branch_filter else semi_filtered
+
+        return semi_filtered
+
+def get_featured_branch_filter(filters):
+    if 'story__branch' in filters:
+        branch = int(filters.pop('story__branch')[0])
+        return Q(story__branch__pk=branch) | Q(story__branch__isnull=True)
