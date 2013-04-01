@@ -7,7 +7,6 @@
             </div>
 
             <h1>Upload Your Story</h1>
-            <p class="inputError" id="ajaxError"></p>
 
             <p>
                 <label for="title" class="form-label">Title: <span class="required">*</span></label>
@@ -135,6 +134,8 @@
                 <input type="checkbox" id="anonymousInd" data-bind="checked: story.anonymous">
                 <label for="anonymousInd">Check if you wish to remain anonymous.</label>
             </p>
+
+            <p class="inputError" id="ajaxError"></p>
 
             <button data-bind="click: submitStory">Upload</button><br>
 
