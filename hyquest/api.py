@@ -25,6 +25,8 @@ class QuestSetResource(ModelResource):
         orm_filters = super(QuestSetResource, self).build_filters(filters)
         if 'featured' in filters:
             orm_filters['featured__exact'] = True
+            orm_filters['userquestsetaction__user'] = self.user
+            orm_filters['userquestsetaction__complete'] = False
         if 'active' in filters:
             orm_filters['featured__exact'] = False
             orm_filters['userquestsetaction__user'] = self.user
