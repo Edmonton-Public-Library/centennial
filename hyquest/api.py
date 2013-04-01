@@ -38,6 +38,7 @@ class QuestSetResource(ModelResource):
         try:
             ua = UserQuestSetAction.objects.get(questset=bundle.obj, user=bundle.request.user)
             bundle.data['complete'] = ua.complete
+            bundle.data['date_completed'] = ua.completionTime
         except Exception:
             bundle.data['complete'] = False
         return bundle
