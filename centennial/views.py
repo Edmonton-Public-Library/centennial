@@ -102,8 +102,7 @@ def create_user(request):
                 return HttpResponse(status='400')
             #Perform data integrity verification
             if User.objects.filter(username=data['username']).count() == 0:
-                user = User.objects.create(username = data['username'], email = data['email'])
-                user.is_active = False
+                user = User.objects.create(username = data['username'], email = data['email'], is_active = False)
                 user.first_name = data['firstname']
                 user.last_name = data['lastname']
                 user.save()
