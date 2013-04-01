@@ -1,5 +1,5 @@
 ;
-define(['timemap', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'lib/knockout.validation', 'lib/ajaxfileupload'], function (epl, Settings, Error, ko) {
+define(['timemap', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'timemap/Environment','lib/knockout.validation', 'lib/ajaxfileupload'], function (epl, Settings, Error, ko, Environment) {
 
 return (function () {
 
@@ -31,7 +31,12 @@ return (function () {
                 self.user(data.username);
             }
         });
-        
+
+        self.imagesDirectory = ko.observable(Environment.routes.imageDirectory);
+        self.closeView = function () {
+            top.location = "/timemap/";
+        };
+
         // Set up empty story and form validation
         self.story = new Story();
         ko.validation.configure({

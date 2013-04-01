@@ -2,8 +2,11 @@
     <div id="content-container">
         <!-- ko if: user() != null -->
         <form action="" id="uploadStoryForm" method="POST" enctype="multipart/form-data">
-            <h1>Upload Your Story</h1>
+            <div id="close-icon" data-bind="click: closeView">
+                <img data-bind="attr: {src: imagesDirectory() + '/x.png'}">
+            </div>
 
+            <h1>Upload Your Story</h1>
             <p class="inputError" id="ajaxError"></p>
 
             <p>
@@ -134,8 +137,6 @@
             </p>
 
             <button data-bind="click: submitStory">Upload</button><br>
-
-            <p class="hintText"><a href="/timemap/">(Click here to cancel and return to the TimeMap)</a></p>
 
         </form>
         <!-- /ko -->
