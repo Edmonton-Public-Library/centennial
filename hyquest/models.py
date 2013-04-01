@@ -239,7 +239,7 @@ class Level(models.Model):
 # Signal setup
 
 from django.dispatch.dispatcher import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delet
 from hyquest.actionmanager import beginTask, beginQuest
 
 @receiver(post_save, sender=Task)
@@ -259,3 +259,19 @@ def maintainUserQuestActions(sender, instance, created, **kwargs):
         for action in userActions:
             print "Adding action for " + str(action.user)
             beginQuest(user=action.user, quest=instance)
+
+@receiver(post_delete, sender=Task)
+def maintainDeletedTaskActions(sender, instance, **kwargs):
+    print "Task Deleted, rechecking user quests"
+    userActions = UserQuestAction.objects.filter(quest=instance.quest, complete=False)
+    for action in userActions:
+        print "Checking completion for "+str(action.user)
+        completeQuest(action.user, action.quest)
+
+@receiver(post_delete, sender=Quest)
+def maintainDeletedQuestActions(sender, instance, **kwargs):
+    print "Quest Deleted, rechecking user questsets"
+    userActions = UserQuestSetAction.objects.filter(questset=instance.quest_set, complete=False)
+    for action in userActions:
+        print "Checking completion for "+str(action.user)
+        completeQuestSet(action.user, action.questset)
