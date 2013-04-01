@@ -77,7 +77,8 @@ return (function () {
                             success: function (data, status) {
                                 var jsonData = jQuery.parseJSON($(data).text());
                                 if (jsonData != null && jsonData.errors) {
-                                    $("#ajaxError").text(jsonData.errors);
+                                    var error = "" + jsonData.errors;
+                                    $("#ajaxError").text(error);
                                 } else {
                                     top.location="#uploadStorySuccess";   
                                 }
@@ -165,6 +166,12 @@ return (function () {
             copy.branch = null;
         } else {
             copy.branch = Settings.apiBranchUrl + copy.branch + "/";
+        }
+        if (copy.month == null || copy.month == '') {
+            delete copy.month;
+        }
+        if (copy.day == null || copy.day == '') {
+            delete copy.day;
         }
     	return copy;
     }
