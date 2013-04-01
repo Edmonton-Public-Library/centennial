@@ -1,16 +1,21 @@
 ;
-define(['lib/knockout', 'epl/Settings', 'lib/jquery.iosslider'], function (ko, Settings) {
+define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'lib/jquery.iosslider', 'lib/jquery.tablesorter'], function (ko, Settings, Environment) {
 
 	var featuredEndpoint = 'featured',
-		activeEndpoint = 'active'
+		activeEndpoint = 'active',
+		completedEndpoint = 'questset';
 
 	var Dashboard = function (viewport) {
 		var self = this;
 		this.viewport = viewport;
 
 		this.data = {
+			widgetWidth : 400,
 			featuredQuests : ko.observable([]),
 			activeQuests : ko.observable([]),
+			completedQuests : ko.observableArray([]),
+			sortOrder : {}, //Used to store the most recent sort order for each column
+			Environment: Environment,
 			initFeaturedSlider : function () {
 				window.setTimeout(function () {
 					$('.iosSlider.featured-quests').iosSlider({
@@ -24,11 +29,53 @@ define(['lib/knockout', 'epl/Settings', 'lib/jquery.iosslider'], function (ko, S
 						desktopClickDrag : true,
 					});
 				}, 100);
+			},
+			sortCompletedQuests : function(column, order) {
+				var sortFunction = function () {},
+					lastSortOrder = self.data.sortOrder[column];
+
+				if(typeof lastSortOrder == 'undefined') {
+					if(typeof order == 'undefined') order = 'desc';
+				} else {
+					order = lastSortOrder;
+				}
+
+				switch(lastSortOrder) {
+					case 'desc' :
+						self.data.sortOrder[column] = 'asc';
+					break;
+					case 'asc' :
+						self.data.sortOrder[column] = 'desc';
+					break;
+					default:
+						self.data.sortOrder[column] = 'asc';
+					break;
+				}
+
+				switch(order) {
+					case 'asc' :
+						sortFunction = function(left, right) {
+							if(left[column] == right[column]) return 0;
+							if(left[column] < right[column]) return -1;
+							if(left[column] >= right[column]) return 1;
+						}
+					break;
+					case 'desc' :
+						sortFunction = function(left, right) {
+							if(left[column] == right[column]) return 0;
+							if(left[column] >= right[column]) return -1;
+							if(left[column] < right[column]) return 1;
+						}
+					break;
+				}
+
+				self.data.completedQuests.sort(sortFunction);
 			}
 		}
 
 		this.getFeaturedQuests();
 		this.getActiveQuests();
+		this.getCompletedQuests();
 
 		ko.applyBindings(self.data, self.viewport[0]);
 	};
@@ -46,6 +93,15 @@ define(['lib/knockout', 'epl/Settings', 'lib/jquery.iosslider'], function (ko, S
 		$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
 			Dashboard.insertPoints(data);
 			self.data.activeQuests(data.objects);
+		});
+	};
+
+	Dashboard.prototype.getCompletedQuests = function () {
+		var self = this;
+		$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&completed', function (data) {
+			for(i in data.objects) {
+				self.data.completedQuests.push(data.objects[i]);
+			}
 		});
 	};
 
@@ -78,6 +134,14 @@ define(['lib/knockout', 'epl/Settings', 'lib/jquery.iosslider'], function (ko, S
 				questSet.completedPoints += questSet.points;
 			}
 		}	
+	};
+
+	ko.bindingHandlers.sortQuests = {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			$(element).click(function () {
+				viewModel.sortCompletedQuests(valueAccessor().column, valueAccessor().order);
+			});
+		}
 	};
 
 	return Dashboard;

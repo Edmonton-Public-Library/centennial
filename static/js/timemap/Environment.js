@@ -8,6 +8,8 @@ define(['lib/knockout'], function (ko) {
 			this.sidebar = {};
 		});
 
+		this.user = ko.observable({});
+
 		this.chrome = new (function () {
 			var chrome = this;
 			this.timeline = {

@@ -12,7 +12,7 @@ body {
 	left: 0;
 	overflow: hidden;
 	
-	height: @questWidgetHeight + 25;
+	height: @questWidgetHeight;
 }
 
 /* slider */
@@ -28,6 +28,14 @@ body {
 	float: left;
 }
 
+#info-panel {
+	background-color: rgb(220,220,220);
+
+	.rank {
+		float: right;
+	}
+}
+
 .featured-quest {
 	@questWidgetColor: @epl-green;
 
@@ -38,7 +46,6 @@ body {
 }
 
 .current-quest {
-	@questWidgetColor: @epl-blue;
 	@questBackgroundColor: desaturate(lighten(@questWidgetColor, 30%),30%);
 	width: @questWidgetWidth;
 	height: @questWidgetHeight;
@@ -135,8 +142,42 @@ body {
 	}
 }
 
-@questWidgetWidth: 400px;
-@questWidgetHeight: 220px;
+h1 {
+	color: rgb(50,50,50);
+	font-size: 25px;
+	padding: 10px;
+	margin: 0;
+}
+
+table#completed-quests {
+
+	width: 100%;
+	text-align: left;
+
+	thead {
+		background-color: @questWidgetColor;
+
+		th {
+			padding: 10px;
+			cursor: pointer;
+		}
+	}
+
+	tbody {
+		tr {
+			&.row-even {
+				background-color: desaturate(lighten(@questWidgetColor, 20%), 25%);
+			}
+			&.row-odd {
+				background-color: desaturate(lighten(@questWidgetColor, 30%), 25%);
+			}
+
+			td {
+				padding: 7px;
+			}
+		}
+	}
+}
 
 .quest-set-viewer {
 	@background: #F0F0F0;
@@ -226,3 +267,7 @@ body {
 		display: visible;
 	}
 }
+
+@questWidgetColor: @epl-blue;
+@questWidgetWidth: 400px;
+@questWidgetHeight: 197px;

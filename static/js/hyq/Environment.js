@@ -7,6 +7,8 @@ define(['lib/knockout'], function (ko) {
 			this.staticDirectory = '/static';
 			this.imageDirectory = this.staticDirectory + '/images';
 		});
+
+		this.user = ko.observable({});
 	});
 
 	return Environment;

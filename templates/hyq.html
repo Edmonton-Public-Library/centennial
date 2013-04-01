@@ -40,13 +40,16 @@
 		<div id="timeline" data-bind="style: {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
 	</div>
 	<div id="dashboard">
-		<h1>Featured Quests</h1>
+		<div id="info-panel">
+			<div data-bind="text: Environment.user().points"></div>
+		</div>
+		<h1>Featured Quest Sets</h1>
 		<div class="iosSlider featured-quests" data-bind="iosSlider: true">
 			<div class="slider">
 				<!-- ko foreach: {data: featuredQuests, afterRender: initFeaturedSlider} -->
 					<div class="slide current-quest">
 						<div class="progress-container">
-							<div class="progress-bar"></div>
+							<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
 						</div>
 						<div class="title" data-bind="text: title"></div>
 						<ul>
@@ -65,13 +68,13 @@
 				<!-- /ko -->
 			</div>
 		</div>
-		<h1>Active Quests</h1>
+		<h1>Active Quest Sets</h1>
 		<div class="iosSlider active-quests" data-bind="iosSlider: true">
 			<div class="slider">
 				<!-- ko foreach: {data: activeQuests, afterRender: initActiveSlider} -->
 					<div class="slide current-quest">
 						<div class="progress-container">
-							<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * 400) + 'px'}"></div>
+							<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
 						</div>
 						<div class="title" data-bind="text: title"></div>
 						<ul>
@@ -90,7 +93,26 @@
 				<!-- /ko -->
 			</div>
 		</div>
-		<div data-role="viewport"></div>
+		<div data-role="viewport"></div>   
+		<h1>Completed Quest Sets</h1>
+		<table id="completed-quests">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th data-bind="sortQuests: {column: 'title'}">Quest</th>
+					<th data-bind="sortQuests: {column: 'points'}">Points</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- ko foreach: {data: completedQuests} -->
+				<tr data-bind="css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
+					<td data-bind="">0</td>
+					<td data-bind="text: title"></td>
+					<td data-bind="text: points"></td>
+				</tr>
+				<!-- /ko -->
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>
