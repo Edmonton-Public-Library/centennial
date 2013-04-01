@@ -1,5 +1,5 @@
 ;
-define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'lib/jquery.iosslider', 'lib/jquery.tablesorter'], function (ko, Settings, Environment) {
+define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBar', 'lib/jquery.iosslider', 'lib/jquery.tablesorter'], function (ko, Settings, Environment, EPLBar) {
 
 	var featuredEndpoint = 'featured',
 		activeEndpoint = 'active',
@@ -14,6 +14,7 @@ define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'lib/jquery.iosslider
 			featuredQuests : ko.observable([]),
 			activeQuests : ko.observable([]),
 			completedQuests : ko.observableArray([]),
+			completionPoints : ko.observable(0),
 			sortOrder : {}, //Used to store the most recent sort order for each column
 			Environment: Environment,
 			initFeaturedSlider : function () {
@@ -76,6 +77,7 @@ define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'lib/jquery.iosslider
 		this.getFeaturedQuests();
 		this.getActiveQuests();
 		this.getCompletedQuests();
+		this.getCompletionPoints();
 
 		ko.applyBindings(self.data, self.viewport[0]);
 	};
@@ -98,12 +100,21 @@ define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'lib/jquery.iosslider
 
 	Dashboard.prototype.getCompletedQuests = function () {
 		var self = this;
-		$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&completed', function (data) {
+		$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
 			for(i in data.objects) {
 				self.data.completedQuests.push(data.objects[i]);
 			}
 		});
 	};
+
+	Dashboard.prototype.getCompletionPoints = function () {
+		var self = this;
+		EPLBar.updateUserInfo(function (user) {		
+			$.get(Settings.apiBaseUrl + 'level/' + user.level + '/?format=json', function (data) {
+				self.data.completionPoints(data.end_exp);
+			});
+		});
+	}
 
 	Dashboard.insertPoints = function(data) {
 		for(i in data.objects) {
@@ -143,6 +154,24 @@ define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'lib/jquery.iosslider
 			});
 		}
 	};
+
+	ko.bindingHandlers.checkCode = {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			$(element).keyup(function (e) {
+				var code = $(e.target).val();
+				if(code.length == 10 || code.length == 11) {
+					if(code.length == 10) {
+						codePrefix = code.substring(0, 5);
+						codeSuffix = code.substring(5, 10);
+						code = codePrefix + '-' + codeSuffix;
+					}
+					$.get(Settings.apiCodeUrl + '/?format=json&code=' + code, function (data) {
+						console.log(data);
+					});
+				}
+			});
+		}
+	}
 
 	return Dashboard;
 });

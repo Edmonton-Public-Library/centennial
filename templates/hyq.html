@@ -41,7 +41,33 @@
 	</div>
 	<div id="dashboard">
 		<div id="info-panel">
-			<div data-bind="text: Environment.user().points"></div>
+			<div class="profile">
+				<div class="title">Profile</div>
+				<ul>
+					<li>
+						<span class="field">Username: </span>
+						<span class="value" data-bind="text: Environment.user().username"></span>
+					</li>
+					<li>
+						<span class="field">Email: </span>
+						<span class="value" data-bind="text: Environment.user().email"></span>
+					</li>
+				</ul>
+			</div>
+			<div class="rank">
+				<div class="text">Level</div>
+				<div class="number" data-bind="text: Environment.user().level"></div>
+			</div>
+			<div class="rank">
+				<div class="text">Points to Next Level</div>
+				<div class="number" data-bind="text: completionPoints() - Environment.user().points"></div>
+			</div>
+			<div class="rank">
+				<div class="text">Enter Quest Code</div>
+				<div class="controls">
+					<input type="text" class="code" data-bind="checkCode: true, text: 'test'" />
+				</div>
+			</div>
 		</div>
 		<h1>Featured Quest Sets</h1>
 		<div class="iosSlider featured-quests" data-bind="iosSlider: true">
@@ -98,7 +124,7 @@
 		<table id="completed-quests">
 			<thead>
 				<tr>
-					<th>Date</th>
+					<th data-bind="sortQuests: {column: 'date'}">Date</th>
 					<th data-bind="sortQuests: {column: 'title'}">Quest</th>
 					<th data-bind="sortQuests: {column: 'points'}">Points</th>
 				</tr>
@@ -106,7 +132,7 @@
 			<tbody>
 				<!-- ko foreach: {data: completedQuests} -->
 				<tr data-bind="css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
-					<td data-bind="">0</td>
+					<td data-bind="text: date_completed">0</td>
 					<td data-bind="text: title"></td>
 					<td data-bind="text: points"></td>
 				</tr>

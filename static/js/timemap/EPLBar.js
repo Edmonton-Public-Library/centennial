@@ -9,7 +9,7 @@ return (function () {
 	var EPLBar = function (selector) {
 		var self = this;
 
-		EPLBar.getUserInfo();
+		EPLBar.updateUserInfo();
 
 		//Don't try to initialize before the page is ready
 		$(document).ready(function () {
@@ -36,10 +36,11 @@ return (function () {
 		});
 	};
 
-	EPLBar.getUserInfo = function () {
+	EPLBar.updateUserInfo = function (callback) {
 		$.get(accountInfoEndpoint, function(data) {
 			TimemapEnvironment.user(data);
 			HYQEnvironment.user(data);
+			if(typeof callback == 'function') callback(data);
 		});
 	};
 

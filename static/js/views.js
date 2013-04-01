@@ -180,14 +180,6 @@ branch : new View('branch', 'Branch',
 
 					Environment.sidebar.setFeaturedStoriesSource('branch', epl.nav.params.id);
 				});
-				// brch.showPin(new StoryPin("video", "1", "a Video")); 
-				// brch.showPin(new StoryPin("audio", "2", "some audio")); 
-			 //  	brch.showPin(new StoryPin("text", "3", "Fred's story")); 
-				// brch.showPin(new StoryPin("video", "4", "second video")); 
-				// brch.showPin(new StoryPin("link", "5", "link to somewhere")); 
-				// brch.showPin(new StoryPin("pdf", "7", "a pdf"));
-
-				// ko.applyBindings({Environment: Environment}, $('#BranchView')[0]); 
 			});
 			callback();
 		},
