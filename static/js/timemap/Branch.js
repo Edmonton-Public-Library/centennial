@@ -190,7 +190,7 @@ return (function () {
 
 		this.dimensions.viewerWidth(this.floorplanElement.width());
 		// The height of the icon is ~60px, so 60px is subtracted to ensure the icon fits
-		this.dimensions.viewerHeight(this.floorplanElement.height() - 60);
+		this.dimensions.viewerHeight(this.floorplanElement.height() - 70);
 	};
 
 	Branch.prototype.setData = function (branchData) {

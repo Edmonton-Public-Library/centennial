@@ -52,10 +52,10 @@ return (function () {
             self.username(data.user);
             self.keywords(data.keywords);
             self.content_type(data.content_type);
-            $.getJSON(self.branch(), function(branchData) {
-                self.branch_name(branchData.name);
-                self.branch_id(branchData.id);
-            });
+            if (data.branch != null) {
+                self.branch_name(data.branch.name);
+                self.branch_id(data.branch.id);
+            }
         });
 
         // If a story does not exist for the ID parameter, redirect to the main view
@@ -64,7 +64,11 @@ return (function () {
         }
 
         self.closeStoryView = function () {
-            history.back();
+            if (self.branch_id() == null) {
+                top.location = "/timemap/";
+            } else {
+                top.location = "#branch/" + self.branch_id();
+            }
         };
 
     };
