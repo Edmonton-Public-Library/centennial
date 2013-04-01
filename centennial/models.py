@@ -24,7 +24,7 @@ class UserProfile(models.Model):
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        profile = UserProfile.objects.get_or_create(user=instance)
+        profile, created = UserProfile.objects.get_or_create(user=instance)
         send_activation_email(profile)
 
 post_save.connect(create_user_profile, sender=User)
