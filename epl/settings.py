@@ -177,3 +177,16 @@ LOGGING = {
 FILE_UPLOAD_HANDLERS = (
             'django.core.files.uploadhandler.TemporaryFileUploadHandler',
             )
+
+
+####
+# SMTP_SERVER - the address to the smtp server
+# SMTP_PORT   - the port that the SMTP server is executing on
+# SMTP_FROM_ADDR - the 'from' address of the email to be sent
+# SMTP_AUTH  - a tuple of (user_name, password)
+####
+SMTP_VALUES = { 'SMTP_SERVER'    : 'localhost',
+                'SMTP_PORT'      : 25,
+                'SMTP_FROM_ADDR' : 'bpetruk@serve.ctrlshiftcreate.com',
+                'SMTP_AUTH'      : None,
+        }

@@ -12,6 +12,9 @@
 
 	<!-- General Libraries -->
 	<script type="text/javascript" src="{{ STATIC_URL }}/js/lib/require-jquery.js" data-main="/static/js/init-timemap.js"></script>
+    <script>
+        var KEYS = {{ KEYS }}
+    </script>
     <meta property='fb:app_id' content='150662938425048'/>
 
     <!-- Prevent page zooming on mobile devices -->
@@ -35,8 +38,8 @@
 		};
 
 		// Load the SDK's source Asynchronously
-		// Note that the debug version is being actively developed and might 
-		// contain some type checks that are overly strict. 
+		// Note that the debug version is being actively developed and might
+		// contain some type checks that are overly strict.
 		// Please report such bugs using the bugs tool.
 		(function(d, debug){
 		   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
@@ -46,7 +49,7 @@
 		   ref.parentNode.insertBefore(js, ref);
 		 }(document, /*debug*/ false));
     </script>
-    
+
     <div id="epl-bar">
     	    <a href="#"><img class="logo" src="/static/images/epl-logo.png" alt="EPL Logo"/></a>
     	    <ul class="buttons">
@@ -98,8 +101,13 @@
                     </div>
     			</div>
     			<div class="tab-contents" data-tab="search">
-    				<input type="text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
-    				<div class="results" data-bind="style: {height: searchHeight() + 'px'}">
+    				<input type="text" id="search-box-text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
+                    <div id="search-year-range">
+                        <input type="text" id="search-year-start" class="epl-input text search-box-year-start" data-default-text="Min Year" maxLength="4"/> - 
+                        <input type="text" id="search-year-end" class="epl-input text search-box-year-end" data-default-text="Max Year" maxLength="4"/>
+                    </div>
+    				
+                    <div class="results" data-bind="style: {height: searchHeight() + 'px'}">
     					<!-- ko ifnot: searchResults().length > 0 -->
     					<div class="search-result">
     						<p class="title">No results.</p>
@@ -109,7 +117,9 @@
     					<!-- ko foreach: {data: searchResults(), as: 'result'} -->
     					<div class="search-result linked" data-bind="click: $root.resultClick, style: {'z-index' : $root.searchResults().length - $index()}, attr: {class: 'search-result linked ' + result.content_type}">
                             <p class="title" data-bind="text: result.title"></p>
+                            <!-- ko if: result.branch != null -->
     						<p class="branch-name" data-bind="text: result.branch.name"></p>
+                            <!-- /ko -->
                             <!-- ko if: result.description.length > 200 -->
         						<p class="description" data-bind="text: result.description.substring(0, 200) + ' ...'"></p>
                             <!-- /ko -->
