@@ -88,7 +88,8 @@ class BranchResourceTest(ResourceTestCase):
     def test_get_branch_json(self):
         resp = self.api_client.get(self.capilano_url, format='json')
         self.assertValidJSONResponse(resp)
-        keys = ['description',
+        keys = ['btype',
+                'description',
                 'end_year',
                 'floor_plan',
                 'id',
