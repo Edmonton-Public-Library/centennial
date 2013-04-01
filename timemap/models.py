@@ -34,7 +34,7 @@ class Branch(models.Model):
     description = models.TextField(max_length=BRANCH_DESCRIPTION_LEN)
     start_year = IntegerRangeField(db_index=True, min_value=1900, max_value=3000)
     end_year = IntegerRangeField(db_index=True, min_value=1900, max_value=3000, blank=True, null=True)
-    floor_plan = models.FileField(upload_to="floor_plans", blank=True, null=True)
+    floor_plan = models.FileField(upload_to="floor_plans")
     latitude_help = "Latitude range : -90:90"
     latitude = FloatRangeField(min_value=-90, max_value=90, help_text=latitude_help)
     longitude_help = "Longitude range : -180:180"
