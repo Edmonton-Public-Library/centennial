@@ -11,7 +11,7 @@ from util.file_validator import FileValidator
 from timemap.constants import BRANCH_NAME_LEN, BRANCH_DESCRIPTION_LEN, STORY_TITLE_LEN, \
                               STORY_DESCRIPTION_LEN, STORY_TEXT_LEN, MAP_BASE_FOLDER_LEN, \
                               MAP_TITLE_LEN, MAP_AUTHOR_LEN, UPLOAD_EXTENSIONS, \
-                              UPLOAD_MIME_TYPES, BASE_URL_LEN
+                              UPLOAD_MIME_TYPES, BASE_URL_LEN, KEY_LEN
 
 from util.email import emailer, email_template
 
@@ -136,6 +136,8 @@ class TimemapPreferences(Preferences):
     timeline_start_date = models.DateField(default=datetime.date(1900, 1, 1))
     timeline_end_date = models.DateField(default=datetime.date(2014, 1, 1))
     base_url = models.CharField(max_length=BASE_URL_LEN, default="http://eplcentennial.ca")
+    facebook_key = models.CharField(max_length=KEY_LEN, default='150662938425048')
+    google_key = models.CharField(max_length=KEY_LEN, default='AIzaSyA59Z_Kym_voRl--cHJzYkep3Cs-_71')
 
 # Signal setup
 from django.dispatch.dispatcher import receiver
