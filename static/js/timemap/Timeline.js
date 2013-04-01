@@ -3,7 +3,7 @@ define(['lib/simile', 'timemap/Environment', 'timemap/map/BranchPin', 'timemap/m
 
 return (function () {
 
-	var Timeline = function (viewport, map, startingDate, callback) {
+	var Timeline = function (viewport, map, startingDate, branchID, branchViewer) {
 		var self = this;
 		this.viewport = $(viewport);
 		this.map = map;
@@ -16,13 +16,7 @@ return (function () {
 		//When the document is ready, initialize the timeline's DOM element
 		$(document).ready(function () {
 			$.get('/preferences/', function(json) {
-				self.initTimeline(json);
-				try {
-					callback();
-				}
-				catch(e) {
-
-				}
+				self.initTimeline(json, branchID, branchViewer);
 			});
 		});
 
@@ -52,8 +46,8 @@ return (function () {
 			});
 		}
 
-		//this.setTimelineStartDate(new Date(Date.UTC(json[0].year - 1, 0, 1)));
-		//this.setTimelineEndDate(new Date(Date.UTC(json[json.length - 1].year + 1, 0, 1)));
+		this.setTimelineStartDate(new Date(Date.UTC(json[0].year - 1, 0, 1)));
+		this.setTimelineEndDate(new Date(Date.UTC(json[json.length - 1].year + 1, 0, 1)));
 
 		this.stories.byStart = newJson;
 		this.stories.byEnd = newJson;
@@ -277,6 +271,7 @@ return (function () {
 
 		doHideShow(self.branches);
 		doHideShow(self.stories);
+		//console.log(self.stories);
 
 		rightVisibleDate = self.tl._bands[0].getCenterVisibleDate().getTime();
 		leftVisibleDate = rightVisibleDate;
@@ -286,6 +281,9 @@ return (function () {
 
 	Timeline.prototype.setTimelineStartDate = function(startDate) {
 		var self = this;
+
+		console.log("START YEAR");
+		console.log(self.startYear);
 
 		if(self.startYear == null || startDate < self.startYear) {
 
@@ -350,9 +348,11 @@ return (function () {
 			branchEndYear = new Date(Date.UTC(branchData.end_year.toString(), 0, 1));
 		}
 		this.setTimelineEndDate(branchEndYear);
+		console.log(self.startYear);
 	};
 
 	Timeline.prototype.enterBranchView = function(branchID, viewer) {
+		console.log("ENTER BRANCH");
 		var self = this;
 
 		self.branchViewer = viewer;
@@ -361,184 +361,198 @@ return (function () {
 
 		$.get(Environment.routes.apiBase + '/story/?format=json&branch=' + branchID + '&order_by=year', function(json) {self.processStories(json);});
 	
+		//console.log("BRANCH ID: " + branchID);
+
 		$.get(Environment.routes.apiBase + '/branch/' + branchID + '/?format=json', function(json) {self.setBoundsByBranch(json);});
+		
 	};
 
-	Timeline.prototype.initTimeline = function(prefs) {
+	Timeline.prototype.initTimeline = function(prefs, branchID, branchViewer) {
+		console.log("INIT TIMELINE");
 		var self = this;
-		self.branches = {
-			byStart : [],
-			byEnd : [],
-			hideFunction : function(data) {
-				try {
-					self.map.hidePin(new BranchPin(data));
-				}
-				catch(e) {
 
-				}
-			},
-			showFunction : function(data) {
-				try {
-					self.map.showPin(new BranchPin(data));
-				}
-				catch(e) {
-					
-				}
-			},
-			rightVisible : -1,
-			leftVisible : 0
-		}
-
-		self.stories = {
-			byStart : [],
-			byEnd : [],
-			hideFunction : function(data) {
-				try {
-					self.branchViewer.hidePin(new StoryPin(data.content_type, data.id, data.title));
-				}
-				catch(e) {
-					
-				}
-			},
-			showFunction : function(data) {
-				try {
-					self.branchViewer.showPin(new StoryPin(data.content_type, data.id, data.title));
-				}
-				catch(e) {
-					
-				}
-			},
-			rightVisible : -1,
-			leftVisible : 0
-		}
-
-		self.tiles = {
-			byStart : [],
-			byEnd : [],
-			hideFunction : function(data) {
-
-			},
-			showFunction : function(data) {
-				try {
-					if(self.map.setMap) {
-						self.map.setMap(data.folder);
+		if(!self.hasInitialized) {
+			self.branches = {
+				byStart : [],
+				byEnd : [],
+				hideFunction : function(data) {
+					try {
+						self.map.hidePin(new BranchPin(data));
 					}
-				}
-				catch(e) {
-					
-				}
-			},
-			rightVisible : -1,
-			leftVisible : 0
-		}
+					catch(e) {
 
-		var decadePixels = 150;
-
-		var timelineTheme = Simile.ClassicTheme.create();
-
-		self.startYear = new Date(Date.UTC(prefs.timeline_start_date.year, prefs.timeline_start_date.month - 1, prefs.timeline_start_date.day));
-	    self.endYear = new Date(Date.UTC(prefs.timeline_end_date.year, prefs.timeline_end_date.month - 1, prefs.timeline_end_date.day));
-
-	    var bsDate = prefs.timeline_start_date.year - (prefs.timeline_start_date.year % 10);
-	    var beDate = (prefs.timeline_end_date.year + 10) - (prefs.timeline_end_date.year % 10);
-
-	    self.blockedStartYear = new Date(Date.UTC(bsDate, prefs.timeline_start_date.month - 1, prefs.timeline_start_date.day));
-	    self.blockedEndYear = new Date(Date.UTC(beDate, prefs.timeline_end_date.month - 1, prefs.timeline_end_date.day));
-
-
-	    var endHighLight = new Date(self.endYear.toString());
-	    endHighLight.setFullYear(endHighLight.getFullYear() + 1000);
-
-	    var beginHighLight = new Date(self.startYear.toString());
-	    beginHighLight.setFullYear(beginHighLight.getFullYear() - 1000);
-
-		timelineTheme.timeline_start = self.startYear;
-		timelineTheme.timeline_stop = self.endYear;
-		//timelineTheme.mouseWheel = 'zoom';
-
-		var bandInfos = [
-			Simile.createBandInfo({
-				width : "0%",
-				intervalUnit : Simile.DateTime.YEAR,
-				intervalPixels : self.viewport.width()/10,
-				theme : timelineTheme
-			}),
-			Simile.createBandInfo({
-				width : "100%",
-				intervalUnit : Simile.DateTime.DECADE,
-				intervalPixels : decadePixels,
-				showEventText : false,
-				overview : true,
-				theme : timelineTheme,
-				/*zoomIndex : 1,
-				zoomSteps : [
-					{
-						pixelsPerInterval : (decadePixels),
-						unit : Simile.DateTime.FIVEYEAR
-					},
-					{
-						pixelsPerInterval : decadePixels,
-						unit : Simile.DateTime.DECADE
 					}
-				]*/
-			})
-		];
+				},
+				showFunction : function(data) {
+					try {
+						self.map.showPin(new BranchPin(data));
+					}
+					catch(e) {
+						
+					}
+				},
+				rightVisible : -1,
+				leftVisible : 0
+			}
 
-		bandInfos[1].decorators = [
-			new Simile.SpanHighlightDecorator({
-				startDate : beginHighLight,
-				endDate : self.blockedStartYear,
-				opacity : 100,
-				inFront : true
-			}),
-			new Simile.SpanHighlightDecorator({
-				startDate : self.blockedStartYear,
-				endDate : self.startYear,
-				opacity : 100
-			}),
-			new Simile.SpanHighlightDecorator({
-				startDate : self.endYear,
-				endDate : self.blockedEndYear,
-				opacity : 100
-			}),
-			new Simile.SpanHighlightDecorator({
-				startDate : self.blockedEndYear,
-				endDate : endHighLight,
-				opacity : 100,
-				inFront : true
-			})
-		];
-	    
-	    bandInfos[1].syncWith = 0;
-	    bandInfos[1].highlight = true;
-	    self.tl = Simile.create(self.viewport[0], bandInfos);
+			self.stories = {
+				byStart : [],
+				byEnd : [],
+				hideFunction : function(data) {
+					try {
+						self.branchViewer.hidePin(new StoryPin(data.content_type, data.id, data.title));
+					}
+					catch(e) {
+						
+					}
+				},
+				showFunction : function(data) {
+					try {
+						self.branchViewer.showPin(new StoryPin(data.content_type, data.id, data.title));
+					}
+					catch(e) {
+						
+					}
+				},
+				rightVisible : -1,
+				leftVisible : 0
+			}
 
-		var startingDate = new Date(Date.UTC(prefs.timeline_init_date, prefs.timeline_init_date.month - 1, prefs.timeline_init_date.day));
-		//If an alternate start date was specified, use that instead
-	    if(typeof this.startingDate != 'undefined' && this.startingDate != null) {
-	    	startingDate = this.startingDate;
+			self.tiles = {
+				byStart : [],
+				byEnd : [],
+				hideFunction : function(data) {
+
+				},
+				showFunction : function(data) {
+					try {
+						if(self.map.setMap) {
+							self.map.setMap(data.folder);
+						}
+					}
+					catch(e) {
+						
+					}
+				},
+				rightVisible : -1,
+				leftVisible : 0
+			}
+
+			var decadePixels = 150;
+
+			var timelineTheme = Simile.ClassicTheme.create();
+
+			self.startYear = new Date(Date.UTC(prefs.timeline_start_date.year, prefs.timeline_start_date.month - 1, prefs.timeline_start_date.day));
+		    self.endYear = new Date(Date.UTC(prefs.timeline_end_date.year, prefs.timeline_end_date.month - 1, prefs.timeline_end_date.day));
+
+		    var bsDate = prefs.timeline_start_date.year - (prefs.timeline_start_date.year % 10);
+		    var beDate = (prefs.timeline_end_date.year + 10) - (prefs.timeline_end_date.year % 10);
+
+		    self.blockedStartYear = new Date(Date.UTC(bsDate, prefs.timeline_start_date.month - 1, prefs.timeline_start_date.day));
+		    self.blockedEndYear = new Date(Date.UTC(beDate, prefs.timeline_end_date.month - 1, prefs.timeline_end_date.day));
+
+
+		    var endHighLight = new Date(self.endYear.toString());
+		    endHighLight.setFullYear(endHighLight.getFullYear() + 1000);
+
+		    var beginHighLight = new Date(self.startYear.toString());
+		    beginHighLight.setFullYear(beginHighLight.getFullYear() - 1000);
+
+			timelineTheme.timeline_start = self.startYear;
+			timelineTheme.timeline_stop = self.endYear;
+			//timelineTheme.mouseWheel = 'zoom';
+
+			var bandInfos = [
+				Simile.createBandInfo({
+					width : "0%",
+					intervalUnit : Simile.DateTime.YEAR,
+					intervalPixels : self.viewport.width()/10,
+					theme : timelineTheme
+				}),
+				Simile.createBandInfo({
+					width : "100%",
+					intervalUnit : Simile.DateTime.DECADE,
+					intervalPixels : decadePixels,
+					showEventText : false,
+					overview : true,
+					theme : timelineTheme,
+					/*zoomIndex : 1,
+					zoomSteps : [
+						{
+							pixelsPerInterval : (decadePixels),
+							unit : Simile.DateTime.FIVEYEAR
+						},
+						{
+							pixelsPerInterval : decadePixels,
+							unit : Simile.DateTime.DECADE
+						}
+					]*/
+				})
+			];
+
+			bandInfos[1].decorators = [
+				new Simile.SpanHighlightDecorator({
+					startDate : beginHighLight,
+					endDate : self.blockedStartYear,
+					opacity : 100,
+					inFront : true
+				}),
+				new Simile.SpanHighlightDecorator({
+					startDate : self.blockedStartYear,
+					endDate : self.startYear,
+					opacity : 100
+				}),
+				new Simile.SpanHighlightDecorator({
+					startDate : self.endYear,
+					endDate : self.blockedEndYear,
+					opacity : 100
+				}),
+				new Simile.SpanHighlightDecorator({
+					startDate : self.blockedEndYear,
+					endDate : endHighLight,
+					opacity : 100,
+					inFront : true
+				})
+			];
+		    
+		    bandInfos[1].syncWith = 0;
+		    bandInfos[1].highlight = true;
+		    self.tl = Simile.create(self.viewport[0], bandInfos);
+
+			var startingDate = new Date(Date.UTC(prefs.timeline_init_date, prefs.timeline_init_date.month - 1, prefs.timeline_init_date.day));
+			//If an alternate start date was specified, use that instead
+		    if(typeof this.startingDate != 'undefined' && this.startingDate != null) {
+		    	startingDate = this.startingDate;
+			}
+
+			self.tl._bands[0].addOnScrollListener(function(scrollVal) {self.hideShowOnScroll(scrollVal);});
+			self.tl._bands[0].addOnScrollListener(function() {self.setNumbers();});
+
+			self.tl._bands[1]._onMouseUp2 = self.tl._bands[1]._onMouseUp;
+			self.tl._bands[1]._onMouseUp = function() {self.newMouseUp();};
+
+			self.tl._bands[0].setCenterVisibleDate(startingDate);
+
+			self.hideShowOnScroll();
+			self.setNumbers();
+
+			self.recenterTimeWindow();
+
+			$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=start_year', function(json) {self.processBranchesByStart(json);});
+			$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=end_year', function(json) {self.processBranchesByEnd(json);});
+			
+			$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=start_year', function(json) {self.processTilesByStart(json);});
+			$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=start_year', function(json) {self.processTilesByEnd(json);});
+
+			self.viewport.find('.timeline-ether-highlight').append(self.leftNumber).append(self.rightNumber);
+
+			self.hasInitialized = true;
+
 		}
 
-		self.tl._bands[0].addOnScrollListener(function(scrollVal) {self.hideShowOnScroll(scrollVal);});
-		self.tl._bands[0].addOnScrollListener(function() {self.setNumbers();});
-
-		self.tl._bands[1]._onMouseUp2 = self.tl._bands[1]._onMouseUp;
-		self.tl._bands[1]._onMouseUp = function() {self.newMouseUp();};
-
-		self.tl._bands[0].setCenterVisibleDate(startingDate);
-
-		self.hideShowOnScroll();
-		self.setNumbers();
-
-		self.recenterTimeWindow();
-
-		$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=start_year', function(json) {self.processBranchesByStart(json);});
-		$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=end_year', function(json) {self.processBranchesByEnd(json);});
-		
-		$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=start_year', function(json) {self.processTilesByStart(json);});
-		$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=start_year', function(json) {self.processTilesByEnd(json);});
-
-		self.viewport.find('.timeline-ether-highlight').append(self.leftNumber).append(self.rightNumber);
+		if(branchViewer) {
+			self.enterBranchView(branchID, branchViewer);
+		}
 
 
 	};

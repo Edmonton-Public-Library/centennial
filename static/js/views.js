@@ -175,10 +175,8 @@ branch : new View('branch', 'Branch',
 				Map.withBranchInfo(epl.nav.params.id, function (branchData) {
 					var branch = new Branch($('#branch-viewer'));
 					branch.setData(branchData);
-					
-					epl.storage.timeline = new Timeline('#timeline', {}, epl.storage.selectedDate, function() {
-						epl.storage.timeline.enterBranchView(epl.nav.params.id, branch);
-					});
+
+					epl.storage.timeline = new Timeline('#timeline', {}, epl.storage.selectedDate, epl.nav.params.id, branch);
 
 					Environment.sidebar.setFeaturedStoriesSource('branch', epl.nav.params.id);
 				});

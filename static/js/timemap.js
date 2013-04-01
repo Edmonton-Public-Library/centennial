@@ -59,6 +59,7 @@ var AppClass = (function () {
 	};
 
 	AppClass.prototype.updateQuest = function (data) {
+		var self = this;
 		console.log(data);
 		$.ajax(Settings.apiQuestUrl,{
 			data : JSON.stringify(data),
@@ -67,7 +68,7 @@ var AppClass = (function () {
 			type : 'post',
 			success : function(data) {
 				console.log(data);
-				//self.storage.questPopUp.showPopUp(data.,data.,data.);
+				self.storage.questPopUp.checkTasks(data);
 			}
 		});
 	};
