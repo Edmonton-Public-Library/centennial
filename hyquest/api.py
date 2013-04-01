@@ -12,6 +12,7 @@ class QuestSetResource(ModelResource):
         resource_name = 'questset'
         fields = ['featured', 'id', 'title', 'description', 'points']
         filtering = {'featured': ALL}
+        allowed_methods = ['get']
     user = None
     def get_object_list(self, request):
         self.user = request.user
@@ -49,6 +50,7 @@ class QuestResource(ModelResource):
         resource_name = 'quest'
         filtering = {"questset": ALL_WITH_RELATIONS}
         fields = ['id', 'title', 'points']
+        allowed_methods = ['get']
     def dehydrate(self, bundle):
         try:
             ua = UserQuestAction.objects.get(quest=bundle.obj, user=bundle.request.user)
@@ -64,7 +66,7 @@ class TaskResource(ModelResource):
         resource_name = 'task'
         filtering = {"quest": ALL_WITH_RELATIONS}
         fields = ['id', 'title', 'type', 'points']
-
+        allowed_methods = ['get']
     def dehydrate(self, bundle):
         try:
             ua = UserTaskAction.objects.get(task=bundle.obj, user=bundle.request.user)
@@ -79,6 +81,7 @@ class LevelResource(ModelResource):
         queryset = Level.objects.all()
         fields = ['level_name', 'required_exp']
         resource_name = 'level'
+        allowed_methods = ['get']
     def dehydrate(self, bundle):
         required_exp = int(bundle.data['required_exp'])
         nextexp = 0
