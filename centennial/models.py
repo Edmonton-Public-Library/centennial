@@ -24,7 +24,8 @@ class UserProfile(models.Model):
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.get_or_create(user=instance)
+        profile = UserProfile.objects.get_or_create(user=instance)
+        send_activation_email(profile)
 
 post_save.connect(create_user_profile, sender=User)
 
@@ -48,12 +49,11 @@ class BibliocommonsLink(models.Model):
 from django.dispatch.dispatcher import receiver
 from django.db.models.signals import pre_save
 
-@receiver(pre_save, sender=UserProfile)
-def send_activation_email(sender, **kwargs):
+def send_activation_email(profile):
     """
     Send acivation e-mail for unactivated users
     """
-    instance = kwargs['instance']
+    instance = profile
     if instance.user.is_staff or instance.user.is_superuser or instance.user.is_active:
         instance.email_sent = True
         instance.user.is_active = True
