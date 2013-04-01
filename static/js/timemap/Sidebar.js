@@ -14,7 +14,9 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 		var Criteria = function (data) {
 			this.defaultData = {
 				keyword : '',
-				title__icontains: ''
+				title__icontains: '',
+				year__gte: '',
+				year__lte: ''
 			};
 			this.data = { };
 			this.string = '';
@@ -91,8 +93,8 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 				featuredStories : ko.observable([]),
 				searchResults : ko.observable([]),
 				searchHeight : ko.computed(function () {
-					//-114 for search stuff on top
-					return Environment.display.height() - Environment.display.topBarHeight() - 114;
+					//-170 for search stuff on top
+					return Environment.display.height() - Environment.display.topBarHeight() - 170;
 				}),
 				featuredHeight : ko.computed(function () {
 					//-114 for search stuff on top
@@ -110,15 +112,37 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 				Environment: Environment
 			};
 
-			//TODO: REMOVE! THIS IS FOR EXPERIMENTING ONLY!
 			$('.search-box').eplInput({
 				events: {
 					onchange: {
 						callback: function (e) {
-							sidebar.search(new Criteria({
-								'keyword' : e.currentValue,
-								'title__icontains' : e.currentValue
-							}));
+							criteria = sidebar.createCriteria();
+							sidebar.search(criteria);
+						},
+						interval: 400
+					}
+				}
+			});
+
+			$('.search-box-year-start').eplInput({
+				events: {
+					onchange: {
+						callback: function (e) {
+							criteria = sidebar.createCriteria();
+							sidebar.search(criteria);
+						},
+
+						interval: 400
+					}
+				}
+			});
+
+			$('.search-box-year-end').eplInput({
+				events: {
+					onchange: {
+						callback: function (e) {
+							criteria = sidebar.createCriteria();
+							sidebar.search(criteria);
 						},
 
 						interval: 400
@@ -189,6 +213,22 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 				self.viewport.find('[data-tab=search]').find('.search-box').focus().val(criteria);
 			}
 		};
+
+		Sidebar.prototype.createCriteria = function () {
+			var textInput = $('#search-box-text').val();
+			var useTextInput = textInput != "Start typing to search...";
+			var yearStartInput = $('#search-year-start').val();
+			var useStartYear = yearStartInput.length == 4 && yearStartInput != "Min Year";
+			var yearEndInput = $('#search-year-end').val();
+			var useEndYear = yearEndInput.length == 4 && yearEndInput != "Max Year";
+			criteria = new Criteria({
+				'keyword' : useTextInput ? textInput : "",
+				'title__icontains' : useTextInput ? textInput : "",
+				'year__gte' : useStartYear ? yearStartInput : "",
+				'year__lte' : useEndYear ? yearEndInput : ""
+			})
+			return criteria;
+		}
 
 		/**
 		 * Set the currently-displayed tab in the sidebar
