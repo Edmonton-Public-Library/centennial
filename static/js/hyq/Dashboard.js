@@ -3,7 +3,8 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 
 	var featuredEndpoint = 'featured',
 		activeEndpoint = 'active',
-		completedEndpoint = 'questset';
+		completedEndpoint = 'questset',
+		lastCode = '';
 
 	var Dashboard = function (viewport) {
 		var self = this;
@@ -17,19 +18,14 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 			completionPoints : ko.observable(0),
 			sortOrder : {}, //Used to store the most recent sort order for each column
 			Environment: Environment,
-			initFeaturedSlider : function () {
-				window.setTimeout(function () {
-					$('.iosSlider.featured-quests').iosSlider({
-						desktopClickDrag : true,
-					});
-				}, 100);
-			},
-			initActiveSlider : function () {
-				window.setTimeout(function () {
-					$('.iosSlider.active-quests').iosSlider({
-						desktopClickDrag : true,
-					});
-				}, 100);
+			loadWidgets : function () {
+				$('.iosSlider.featured-quests').iosSlider({
+					desktopClickDrag : true,
+				});
+
+				$('.iosSlider.active-quests').iosSlider({
+					desktopClickDrag : true,
+				});
 			},
 			sortCompletedQuests : function(column, order) {
 				var sortFunction = function () {},
@@ -196,6 +192,9 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 							codeSuffix = code.substring(5, 10);
 							code = codePrefix + '-' + codeSuffix;
 						}
+						//Prevent duplicate submission
+						if(code == lastCode) return;
+						lastCode = code;
 						$.ajax(Settings.apiCodeUrl + '/?format=json&code=' + code, {
 							method : 'get',
 							success : function (data) {
