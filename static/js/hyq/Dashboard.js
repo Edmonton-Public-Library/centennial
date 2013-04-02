@@ -1,5 +1,5 @@
 ;
-define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBar', 'timemap/QuestPopUp', 'lib/jquery.iosslider', 'lib/jquery.tablesorter'], function (hyq, ko, Settings, Environment, EPLBar, QuestPopUp) {
+define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBar', 'timemap/QuestPopUp', 'hyq/QuestSetViewer', 'lib/jquery.iosslider', 'lib/jquery.tablesorter'], function (hyq, ko, Settings, Environment, EPLBar, QuestPopUp, QuestSetViewer) {
 
 	var featuredEndpoint = 'featured',
 		activeEndpoint = 'active',
@@ -73,7 +73,6 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 				self.data.completedQuests.sort(sortFunction);
 			}
 		}
-
 		this.getFeaturedQuests();
 		this.getActiveQuests();
 		this.getCompletedQuests();
@@ -145,6 +144,27 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 				questSet.completedPoints += questSet.points;
 			}
 		}	
+	};
+
+	ko.bindingHandlers.openQuestSetViewer = {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			$(element).click(function () {
+				$('#quest-set-viewer').removeClass('hidden');
+				$('#dashboard').fadeTo(500, 0.2);
+				questSetView = new QuestSetViewer(valueAccessor().questSetId, $('#quest-set-viewer'));
+			});
+		}
+	};
+
+	ko.bindingHandlers.closeQuestSetViewer = {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			$(element).click(function () {
+				$('#quest-set-viewer').addClass('hidden');
+				$('#dashboard').fadeTo(500, 1);
+				// Reload the page to prevent weird behaviour with the knockout bindings...
+				window.location.reload();
+			});
+		}
 	};
 
 	ko.bindingHandlers.sortQuests = {

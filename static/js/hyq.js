@@ -1,6 +1,6 @@
 ;
 //Create the application module
-define(['hyq/Routes', 'epl/Settings', 'lib/csc/Nav', 'timemap/QuestPopUp', 'lib/knockout', 'timemap/EPLBar', 'lib/sammy', 'lib/less', 'lib/jquery-ui', 'lib/jquery.iosslider'], function (Routes, Settings, Nav, QuestPopUp, ko, EPLBar) {
+define(['hyq/Routes', 'epl/Settings', 'lib/csc/Nav', 'timemap/QuestPopUp', 'lib/knockout', 'timemap/EPLBar', 'hyq/QuestSetViewer', 'lib/sammy', 'lib/less', 'lib/jquery-ui', 'lib/jquery.iosslider'], function (Routes, Settings, Nav, QuestPopUp, ko, EPLBar, QuestSetViewer) {
 var hyq = null;
 
 //Only start the app once the page has loaded

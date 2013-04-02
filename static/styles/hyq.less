@@ -273,6 +273,7 @@ table#completed-quests {
 
 	tbody {
 		tr {
+			cursor: pointer;
 			&.row-even {
 				background-color: desaturate(lighten(@questWidgetColor, 20%), 25%);
 			}
@@ -288,16 +289,36 @@ table#completed-quests {
 }
 
 .quest-set-viewer {
+
+	#close-icon {
+		cursor: pointer;
+		img {
+			position: absolute;
+			top: 2px;
+			right: 2px;
+			width: 60px;
+		}
+	}
+
 	@background: #F0F0F0;
 	background-color: @background;
+	border: 1px solid black;
 	overflow: auto;
 	width: 900px;
+	margin-left: -450px;
+	position: absolute;
+	left: 50%;
+	top: 100px;
+	z-index: 100;
+	padding-bottom: 20px;
 	.quest-set-header {
 		width: 100%;
 		text-align: center;
 		font-weight: bold;
-		font-size: 20px;
-		padding: 10px 0px 10px 0px;
+		font-size: 30px;
+		padding: 20px 0px 20px 0px;
+		padding-right: 50px;
+		margin-bottom: 20px;
 		background-color: darken(@background, 10);
 	}
 	.quest-set-title {
@@ -311,7 +332,7 @@ table#completed-quests {
 		font-weight: bold;
 		font-size: 40px;
 		margin-top: 0px;
-		margin-buttom: 0px;
+		margin-bottom: 0px;
 		float: right;
 		width: 40%; 
 		text-align: right;
@@ -350,17 +371,20 @@ table#completed-quests {
 		float: left; 
 		width: 20%; 
 		text-align: right;
+		margin-top: 0px;
 	}
 	.task-title {
 		float: left;
 		width: 80%;
 		text-align: left;
+		margin-top: 0px;
 	}
 	.task-interaction {
 		float: left;
 		width: 80%;
 		text-align: left;
 		padding-left: 40px;
+		margin-top: 0px;
 	}
 	.error {
 		color: red;
