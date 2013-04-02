@@ -54,22 +54,94 @@
     <div id="epl-bar">
     	    <a href="http://www.epl.ca/"><img class="logo" src="/static/images/epl-logo.png" alt="EPL Logo"/></a>
     	    <ul class="buttons">
-                <li class="help" onClick="window.open('{{ STATIC_URL }}views/help.html', '_blank', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700px,height=800px');">Help</li>
-    			<li data-role="account">
+                <li class="button help" onClick="window.open('{{ STATIC_URL }}views/help.html', '_blank', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700px,height=800px');">Help</li>
+    			<li class="button" data-role="account">
     				<img class="icon"/>
     				<span data-role="name">Login</span>
     				<div class="menu">
-                        <ul class="tabs">
-                            <li>Login</li>
-                            <li>Create Account</li>
+                        <ul class="tabs" data-bind="eplBarTabs: true">
+                            <li class="tab" data-tab="login" data-bind="css: {active: loginMenu.currentTab() == 'login' || loginMenu.currentTab() == ''}">
+                                <div class="text">Login</div>
+                            </li>
+                            <li class="tab" data-tab="create-account" data-bind="css: {active: loginMenu.currentTab() == 'create-account'}">
+                                <div class="text">Create Account</div>
+                            </li>
                         </ul>
-    					<p class="section-title">Authenticate</p>
-                        <form method="post" action="#" data-bind="loginForm: true">
-        					<input id="auth-username" data-role="username" type="text" class="epl-input text" data-default-text="Username" />
-        					<input id="auth-password" data-role="password" type="password" class="epl-input text" data-default-text="Password" />
-        					<input type="submit" class="save-button" value="Log In" />
-                        </form>
-    					<div class="save-button-space"></div>
+                        <div class="tab-contents" data-tab="login" data-bind="css: {active: loginMenu.currentTab() == 'login' || loginMenu.currentTab() == ''}">
+        					<p class="section-title">Authenticate</p>
+                            <form method="post" action="#" data-bind="loginForm: true">
+            					<input id="auth-username" data-role="username" type="text" class="epl-input text" data-default-text="Username" />
+            					<input id="auth-password" data-role="password" type="password" class="epl-input text" data-default-text="Password" />
+            					<input type="submit" class="save-button" value="Log In" />
+                            </form>
+                            <div class="save-button-space"></div>
+                        </div>
+                        <div class="tab-contents" data-tab="create-account" data-bind="css: {active: loginMenu.currentTab() == 'create-account'}">
+                            <p class="section-title">Create Account</p>
+                            <form>
+                            <p>If you do not have an EPL card, you can create your own account for the TimeMap below:</p>
+
+                            <p class="inputError" id="ajaxErrorCreateAccount"></p>
+                            
+                            <p>
+                                <label for="firstName" class="form-label">First Name: <span class="required">*</span></label>
+                                <input type="text" class="form-input text epl-input" id="firstName" maxLength="30"
+                                    data-bind="value: createAccount.account.firstname"/>
+                            </p>
+                            <p class="inputError indent" data-bind="validationMessage: createAccount.account.firstname"></p>
+                            
+                            <p>
+                                <label for="lastName" class="form-label">Last Name: <span class="required">*</span></label>
+                                <input type="text" class="form-input text" id="lastName" maxLength="30"
+                                    data-bind="value: createAccount.account.lastname"/>
+                            </p>
+                            <p class="inputError indent" data-bind="validationMessage: createAccount.account.lastname"></p>
+
+                            <p>
+                                <label for="email" class="form-label">Email: <span class="required">*</span></label>
+                                <input type="text" class="form-input text" id="email" 
+                                     data-bind="value: createAccount.account.email"/>
+                            </p>
+                            <p class="inputError indent" data-bind="validationMessage: createAccount.account.email"></p>
+                            
+                            <p>
+                                <label for="username" class="form-label">Username: <span class="required">*</span></label>
+                                <input type="text" class="form-input text" id="username" maxLength="30"
+                                    data-bind="value: createAccount.account.username"/>
+                            </p>
+                            <p class="inputError indent" data-bind="validationMessage: createAccount.account.username"></p>
+                            
+                            <p>
+                                <label for="password" class="form-label">Password: <span class="required">*</span></label>
+                                <input type="password" class="form-input text" id="password" maxLength="30"
+                                    data-bind="value: createAccount.account.password"/>
+                            </p>
+                            <p class="inputError indent" data-bind="validationMessage: createAccount.account.password"></p>
+                            
+                            <p>
+                                <label for="confirmPassword" class="form-label">Confirm Password: <span class="required">*</span></label>
+                                <input type="password" class="form-input text" id="confirmPassword" maxLength="30"
+                                    data-bind="value: createAccount.account.passwordConfirmation"/>
+                            </p>
+                            <p class="inputError indent" data-bind="validationMessage: createAccount.account.passwordConfirmation"></p>
+                            
+                            <p>
+                                <input type="checkbox" id="agreeToTerms" data-bind="checked: createAccount.account.agreeToTerms">
+                                <label for="agreeToTerms">I agree to the 
+                                    <a href="" target="_blank" id="termsAndConditions">Terms and Conditions</a>.
+                                </label>
+                            </p>
+                            <p class="inputError" data-bind="validationMessage: createAccount.account.agreeToTerms"></p>
+
+                            <div>
+                                <p>As a security measure to prevent spam account creation, please complete the Captcha below:</p>
+                                <div id="recaptcha-section"/>
+                            </div>
+
+                            <p><input class="save-button" type="submit" id="createAccountSubmit" data-bind="click: createAccount.createAccountSubmit" value="Create Account"></p>
+                            
+                            <p>You will receive an email to confirm your new account.</p>
+                            </form>
     				</div>
     			</li>
     	    </ul>

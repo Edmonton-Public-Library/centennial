@@ -1,5 +1,5 @@
 ;
-define(['timemap/Authentication', 'lib/knockout', 'timemap/Environment', 'hyq/Environment', 'epl/Settings'], function (Authentication, ko, TimemapEnvironment, HYQEnvironment, Settings) {
+define(['timemap/Authentication', 'lib/knockout', 'timemap/Environment', 'hyq/Environment', 'epl/Settings', 'timemap/CreateAccountViewModel'], function (Authentication, ko, TimemapEnvironment, HYQEnvironment, Settings, CreateAccountViewModel) {
 
 return (function () {
 
@@ -11,11 +11,21 @@ return (function () {
 
 		EPLBar.updateUserInfo();
 
+		this.data = {
+			Environment : TimemapEnvironment,
+			Settings : Settings,
+			createAccount : new CreateAccountViewModel(),
+			loginMenu : {
+				authenticated : ko.observable(false),
+				currentTab : ko.observable('')
+			}
+		};
+
 		//Don't try to initialize before the page is ready
 		$(document).ready(function () {
 			self.element = $(selector);
 			self.initButtons();
-			ko.applyBindings({Environment: TimemapEnvironment, Settings: Settings}, self.element[0]);
+			ko.applyBindings(self.data, self.element[0]);
 		});
 	};
 
@@ -74,6 +84,16 @@ return (function () {
 			});
 		}
 	};
+
+	ko.bindingHandlers.eplBarTabs = {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			var tabs = $(element).find('.tab').click(function () {
+				var tabID = $(this).attr('data-tab');
+				viewModel.loginMenu.currentTab(tabID);
+			});
+			// console.log($(element).parents().find('.menu').find('.tab-contents[data-tab=' + tabID + ']'));
+		}
+	}
 
 	return EPLBar;
 
