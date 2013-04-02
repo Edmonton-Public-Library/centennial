@@ -224,8 +224,6 @@ return (function () {
 		var currDate;
 		var hasChangedSomething;
 
-		console.log(self.tl._bands[0].getCenterVisibleDate().getFullYear());
-
 		var doHideShow = function(obj) {
 
 			try{
@@ -610,8 +608,8 @@ return (function () {
 				}
 				else {
 					self.yearCount++;
-					self.branchViewer.setYear(self.stoppedYear);
-					self.map.setYear(self.stoppedYear);
+					if(self.branchViewer) {self.branchViewer.setYear(self.stoppedYear);}
+					if(self.map) {self.map.setYear(self.stoppedYear);}
 				}
 			}
 		}
