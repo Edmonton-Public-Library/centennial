@@ -1,5 +1,5 @@
 ;
-define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBar', 'lib/jquery.iosslider', 'lib/jquery.tablesorter'], function (ko, Settings, Environment, EPLBar) {
+define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBar', 'timemap/QuestPopUp', 'lib/jquery.iosslider', 'lib/jquery.tablesorter'], function (ko, Settings, Environment, EPLBar, QuestPopUp) {
 
 	var featuredEndpoint = 'featured',
 		activeEndpoint = 'active',
@@ -166,7 +166,7 @@ define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBar', 'li
 						code = codePrefix + '-' + codeSuffix;
 					}
 					$.get(Settings.apiCodeUrl + '/?format=json&code=' + code, function (data) {
-						console.log(data);
+						QuestPopUp.checkTasks(data);
 					});
 				}
 			});
