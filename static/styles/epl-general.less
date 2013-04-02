@@ -112,6 +112,7 @@ div {
 		overflow: hidden;
 		background-color: none;
 		position: relative; /* To allow for drop-down positioning */
+		z-index: 1000;
 
 		.option-list {
 			padding: 0 2px 0 0; /* Fit the borders of the option elements */
@@ -148,7 +149,6 @@ div {
 			.option-contents {
 				height: @inputHeight;
 				margin: @optionPaddingVertical @optionPaddingHorizontal;
-				width: 100px;
 				padding: 6px 0;
 				color: darken(@inputBorderColor, 30%);
 			}

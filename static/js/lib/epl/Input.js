@@ -198,7 +198,7 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 				// ------------------- //
 
 				divInput.find('.option:not(.option-selected)').click(function (e) {
-					selectItem($(e.srcElement));
+					selectItem($(e.target));
 					if(inputOpen) {
 						close();
 						//If we're closing it, don't allow the main element

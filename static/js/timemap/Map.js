@@ -93,6 +93,8 @@ return (function () {
 		this.map.setOptions({
 			center : new google.maps.LatLng(53.5472, -113.5006),
 			zoom : 11,
+            minZoom : 11,
+            maxZoom : 16,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
 			mapTypeControl : false
 		});

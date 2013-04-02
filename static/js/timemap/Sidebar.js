@@ -14,9 +14,10 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 		var Criteria = function (data) {
 			this.defaultData = {
 				keyword : '',
-				title__icontains: '',
-				year__gte: '',
-				year__lte: ''
+				title__icontains : '',
+				year__gte : '',
+				year__lte : '',
+				content_type__in : '',
 			};
 			this.data = { };
 			this.string = '';
@@ -93,8 +94,8 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 				featuredStories : ko.observable([]),
 				searchResults : ko.observable([]),
 				searchHeight : ko.computed(function () {
-					//-170 for search stuff on top
-					return Environment.display.height() - Environment.display.topBarHeight() - 170;
+					//-210 for search stuff on top
+					return Environment.display.height() - Environment.display.topBarHeight() - 210;
 				}),
 				featuredHeight : ko.computed(function () {
 					//-114 for search stuff on top
@@ -138,6 +139,19 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			});
 
 			$('.search-box-year-end').eplInput({
+				events: {
+					onchange: {
+						callback: function (e) {
+							criteria = sidebar.createCriteria();
+							sidebar.search(criteria);
+						},
+
+						interval: 400
+					}
+				}
+			});
+
+			$('.search-select').eplInput({
 				events: {
 					onchange: {
 						callback: function (e) {
@@ -221,11 +235,13 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			var useStartYear = yearStartInput.length == 4 && yearStartInput != "Min Year";
 			var yearEndInput = $('#search-year-end').val();
 			var useEndYear = yearEndInput.length == 4 && yearEndInput != "Max Year";
+			var contentType = $('.option-selected').find('.option-contents').html().toLowerCase();
 			criteria = new Criteria({
 				'keyword' : useTextInput ? textInput : "",
 				'title__icontains' : useTextInput ? textInput : "",
 				'year__gte' : useStartYear ? yearStartInput : "",
-				'year__lte' : useEndYear ? yearEndInput : ""
+				'year__lte' : useEndYear ? yearEndInput : "",
+				'content_type__in' : contentType != "all content types" ? contentType : ""
 			})
 			return criteria;
 		}

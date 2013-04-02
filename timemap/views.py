@@ -25,10 +25,6 @@ def timemap(request):
                       })
     return HttpResponse(t.render(context))
 
-def hyq(request):
-    t = get_template('hyq.html')
-    return HttpResponse(t.render(Context({'STATIC_URL' : epl.settings.STATIC_URL})))
-
 def upload(request, story_id):
     """
     Once stories are created, this view is used to attach the media file to the
