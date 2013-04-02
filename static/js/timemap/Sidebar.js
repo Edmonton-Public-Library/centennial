@@ -214,7 +214,7 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			var self = this;
 			//Don't run empty queries
 			if(criteria.toString().length > 0) {
-				$.get(Environment.routes.apiBase + '/story/?format=json' + criteria, function (data) {
+				$.get(Environment.routes.apiBase + '/story/?format=json' + criteria + "&limit=0", function (data) {
 					self.data.searchResults(data.objects);
 				});
 			} else {
