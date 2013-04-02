@@ -86,13 +86,6 @@ return (function () {
 				return Type;
 			})();
 
-			epl.updateQuest({
-				year : self.mapData.selectedYear,
-				branch : -1,
-				story : -1,
-				onMap : true
-			});
-
 			callback();
 		};
 	};
@@ -257,6 +250,13 @@ return (function () {
 		} else {
 			self.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
 		}
+	};
+
+	Map.prototype.setYear = function (year) {
+		epl.updateQuest({
+			year : year,
+			onMap : true
+		});
 	};
 
 	/**
