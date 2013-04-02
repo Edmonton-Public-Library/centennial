@@ -267,11 +267,6 @@
                                         <td>Attempt to login with deleted user</td>
                                         <td>Login should fail</td>
                                     </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Attempt to re-create account with same credentials</td>
-                                        <td>Attempt should fail</td>
-                                    </tr>
                                 </table>
                                 <br>
                             </td>
@@ -477,9 +472,16 @@
                             <td>
                                 <br>
                                 <table border="1" class="test-case-steps">
-                                    <th>Step #</th>
-                                    <th>Description</th>
-                                    <th>Expected Result</th>
+                                    <tr>
+                                        <th>Step #</th>
+                                        <th>Description</th>
+                                        <th>Expected Result</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>This test identical to test TM-2.3 except that EPL credentials are used to login.</td>
+                                        <td>Pass</td>
+                                    </tr>
                                 </table>
                                 <br>
                             </td>
@@ -696,7 +698,7 @@
                         </tr>
                         <tr>
                             <td class="left-column">Pre Conditions</td>
-                            <td></td>
+                            <td>At least two branches must exist.</td>
                         </tr>
                         <tr>
                             <td class="left-column">Post Conditions</td>
@@ -755,7 +757,7 @@
                         </tr>
                         <tr>
                             <td class="left-column">Pre Conditions</td>
-                            <td></td>
+                            <td>The Story "Sing, Sign, Laugh and Learn" must be loaded into the database.</td>
                         </tr>
                         <tr>
                             <td class="left-column">Post Conditions</td>
@@ -803,15 +805,15 @@
                         </tr>
                         <tr>
                             <td class="left-column">Test Name</td>
-                            <td></td>
+                            <td>Create new quest</td>
                         </tr>
                         <tr>
                             <td class="left-column">Purpose</td>
-                            <td></td>
+                            <td>Test to ensure an administrator can successfully create a new quest using the admin UI.</td>
                         </tr>
                         <tr>
                             <td class="left-column">User Requirement Reference</td>
-                            <td></td>
+                            <td>HYQ.1.1</td>
                         </tr>
                         <tr>
                             <td class="left-column">Pre Conditions</td>
