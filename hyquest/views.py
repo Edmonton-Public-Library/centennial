@@ -7,6 +7,21 @@ from hyquest.verifiers.bibliocommons import verifyBibliocommonsAccount, matching
 from hyquest.actionmanager import completeTask, beginQuestSet
 from hyquest.questmanager import replenishQuestSets, activateFeaturedQuestSets
 from hyquest.models import UserTaskAction, UserQuestAction
+from django.template import Context
+from django.utils.safestring import mark_safe
+from django.template.loader import get_template
+from preferences import preferences
+import epl.settings
+
+def hyq(request):
+    t = get_template('hyq.html')
+    keys = { 'FB_KEY': preferences.TimemapPreferences.facebook_key,
+             'GOOGLE_KEY': preferences.TimemapPreferences.google_key
+           }
+    return HttpResponse(t.render(Context({'STATIC_URL' : epl.settings.STATIC_URL,
+                                          'KEYS': mark_safe(json.dumps(keys)),
+                                         })))
+
 
 def check_biblio_tasks(request):
     if not request.user.is_authenticated():

@@ -13,7 +13,7 @@
 	<!-- General Libraries -->
 	<script type="text/javascript" src="{{ STATIC_URL }}/js/lib/require-jquery.js" data-main="/static/js/init-timemap.js"></script>
     <script>
-        var KEYS = {{ KEYS }}
+        var KEYS = {{ KEYS }};
     </script>
     <meta property='fb:app_id' content='150662938425048'/>
 
@@ -103,10 +103,10 @@
     			<div class="tab-contents" data-tab="search">
     				<input type="text" id="search-box-text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
                     <div id="search-year-range">
-                        <input type="text" id="search-year-start" class="epl-input text search-box-year-start" data-default-text="Min Year" maxLength="4"/> - 
+                        <input type="text" id="search-year-start" class="epl-input text search-box-year-start" data-default-text="Min Year" maxLength="4"/> -
                         <input type="text" id="search-year-end" class="epl-input text search-box-year-end" data-default-text="Max Year" maxLength="4"/>
                     </div>
-    				
+
                     <div class="results" data-bind="style: {height: searchHeight() + 'px'}">
     					<!-- ko ifnot: searchResults().length > 0 -->
     					<div class="search-result">
