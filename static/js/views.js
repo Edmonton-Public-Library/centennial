@@ -298,14 +298,25 @@ viewStory : new View('viewStory', 'View Story',
                     '<a href="https://twitter.com/share" class="twitter-share-button" data-text="'+ story.title() + '" data-lang="en" data-hashtags="epl"></a>';
                 $.getScript('http://platform.twitter.com/widgets.js', function() {
                     twttr.widgets.load(twitterDiv);
+                    twttr.events.bind('tweet', function(event) {
+                        epl.updateQuest({
+                        	story : storyId
+                        });
+                    });
                 });
 
                 //load the googlePlus share button here
                 var googlePlusDiv = $('#my-googleplus-share-button')[0];
                 var pageCannonicalHref = baseURL + "/timemap/#viewStory/" + storyId;
-                googlePlusDiv.innerHTML = '<div class="g-plus" data-action="share" data-annotation="bubble" href="'+pageCannonicalHref+'"></div>'
+                googlePlusDiv.innerHTML = '<div class="g-plus" data-action="share" data-annotation="bubble" href="'+pageCannonicalHref+'"></div>';
+                var gpd = $(googlePlusDiv).find('.g-plus')[0];
                 $.getScript("https://apis.google.com/js/plusone.js" , function() {
-                        gapi.plusone.go(googlePlusDiv);
+                    // gapi.plusone.render(
+                    // 	gpd, {
+                    // 	callback : function () {
+                    // 		console.log('G+!');
+                    // 	}
+                    // });
                 });
             });
 
