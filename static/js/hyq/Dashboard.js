@@ -73,12 +73,17 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 				self.data.completedQuests.sort(sortFunction);
 			}
 		}
+		
+		this.getData();
+
+		ko.applyBindings(self.data, self.viewport[0]);
+	};
+
+	Dashboard.prototype.getData = function () {
 		this.getFeaturedQuests();
 		this.getActiveQuests();
 		this.getCompletedQuests();
 		this.getCompletionPoints();
-
-		ko.applyBindings(self.data, self.viewport[0]);
 	};
 
 	Dashboard.prototype.getFeaturedQuests = function () {
@@ -194,7 +199,6 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 									'background-color' : '#67F211'
 								});
 								window.setTimeout(function () {
-									console.log('hh');
 									$(element).css({
 									'background-color' : 'white'
 									}).val('');

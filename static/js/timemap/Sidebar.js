@@ -107,7 +107,6 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 				},
 				//React to clicking on a search resultClick
 				resultClick : function (data) {
-					console.log(data);
 					document.location = '#viewStory/' + data.id;
 				},
 				Environment: Environment
@@ -164,7 +163,7 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 				}
 			});
 
-			$(document).bind('keyup', function(e) {
+			$(document).bind('keydown', function(e) {
 				if(catchKey) {
 					var character = String.fromCharCode(e.which).toLowerCase();
 					if(e.shiftKey) character = character.toUpperCase();
@@ -217,7 +216,6 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			if(criteria.toString().length > 0) {
 				$.get(Environment.routes.apiBase + '/story/?format=json' + criteria, function (data) {
 					self.data.searchResults(data.objects);
-					console.log(data.objects);
 				});
 			} else {
 				self.data.searchResults([]);

@@ -1,5 +1,5 @@
 ;
-define(['timemap', 'epl/Settings', 'lib/knockout', 'lib/knockout.validation'], function (epl, Settings, ko) {
+define(['epl/Settings', 'lib/knockout', 'lib/knockout.validation'], function (Settings, ko) {
 
 return (function () {
     /**

@@ -19,7 +19,7 @@ var AppClass = (function () {
 	 */
 	AppClass.prototype.init = function () {
 		var self = this;
-		var eplBar = new EPLBar('#epl-bar');
+		var eplBar = new EPLBar('#epl-bar', 'hyq');
 
 		self.storage.questPopUp = new QuestPopUp($('#questPopUp'));
 

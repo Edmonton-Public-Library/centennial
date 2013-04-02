@@ -1,5 +1,5 @@
 ;
-define(['lib/sammy', 'hyq/Dashboard'], function (Sammy, Dashboard) {
+define(['lib/sammy', 'hyq/Dashboard', 'hyq/Environment'], function (Sammy, Dashboard, Environment) {
 
 /******************************
  * Contains app-wide settings *
@@ -11,7 +11,7 @@ return {
 		var self = this;
 		
 		self.get('', function () {
-			var dash = new Dashboard($('#dashboard'));
+			Environment.dashboard = new Dashboard($('#dashboard'));
 		});
 
 	})

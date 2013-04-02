@@ -4,6 +4,8 @@ define(['lib/knockout'], function (ko) {
 	var Environment = new(function () {
 		var self = this;
 
+		this.page = 'timemap';
+
 		this.components = new (function () {
 			this.sidebar = {};
 		});

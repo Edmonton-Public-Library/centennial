@@ -1,18 +1,21 @@
 ;
-define(['timemap/Authentication', 'lib/knockout', 'timemap/Environment', 'hyq/Environment', 'epl/Settings', 'timemap/CreateAccountViewModel', 'timemap/MyAccountViewModel'], function (Authentication, ko, TimemapEnvironment, HYQEnvironment, Settings, CreateAccountViewModel, MyAccountViewModel) {
+define(['timemap/Authentication', 'lib/knockout', 'timemap/Environment', 'hyq/Environment', 'epl/Settings', 'timemap/CreateAccountViewModel', 'timemap/MyAccountViewModel', 'lib/epl/Input'], function (Authentication, ko, TimemapEnvironment, HYQEnvironment, Settings, CreateAccountViewModel, MyAccountViewModel) {
 
 return (function () {
 
 	var loginEndpoint = '/account/login/centennial/';
 	var accountInfoEndpoint = '/account/current';
 
-	var EPLBar = function (selector) {
+	var EPLBar = function (selector, page) {
 		var self = this;
 
 		EPLBar.updateUserInfo();
 
+		if(page == 'hyq') Environment = HYQEnvironment;
+		if(page == 'timemap') Environment = TimemapEnvironment;
+
 		this.data = {
-			Environment : TimemapEnvironment,
+			Environment : Environment,
 			Settings : Settings,
 			createAccount : new CreateAccountViewModel(),
 			manageAccount : new MyAccountViewModel(),
@@ -20,8 +23,8 @@ return (function () {
 			loginError : ko.observable(false),
 			linkError : ko.observable(false),
 			linkAccount : EPLBar.linkAccount,
+			baseURL : ko.observable(Settings.siteUrl),
 			hideLoginMenu : function () {
-				console.log(self.element);
 				//Hide the login box after the user is logged in successfully
 				self.element.find('[data-role=account]').removeClass('active');
 			},
@@ -36,6 +39,9 @@ return (function () {
 			self.element = $(selector);
 			self.initButtons();
 			ko.applyBindings(self.data, self.element[0]);
+
+			$('.buttons').find('#auth-username').eplInput();
+			$('.buttons').find('#auth-password').eplInput();
 		});
 	};
 
@@ -85,7 +91,6 @@ return (function () {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			var linkForm = $(element);
 			$(element).bind('submit', function (e) {
-				console.log('sub');
 				$.ajax(Settings.apiAccountUrl + 'link/bibliocommons', {
 					type : 'post',
 					contentType : 'application/json',
@@ -121,6 +126,10 @@ return (function () {
 						EPLBar.updateUserInfo();
 						viewModel.hideLoginMenu();
 						viewModel.loginError(false);
+						//Load the Dashboard information when the user logs in, if they weren't previously logged in.
+						if(viewModel.Environment.page == 'hyq') {
+							viewModel.Environment.dashboard.getData();
+						}
 					},
 
 					error : function (data) {
@@ -139,7 +148,6 @@ return (function () {
 				var tabID = $(this).attr('data-tab');
 				viewModel.loginMenu.currentTab(tabID);
 			});
-			// console.log($(element).parents().find('.menu').find('.tab-contents[data-tab=' + tabID + ']'));
 		}
 	}
 
