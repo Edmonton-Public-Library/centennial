@@ -1,33 +1,41 @@
 .questPopUp {
-  height: 237px;
-  width: 430px;
+  height: 208px;
+  width: 416px;
   position: fixed;
   right: 0px;
-  bottom: -240px;
+  bottom: -208px;
   visibility: hidden;
+  font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
 }
 
-.questPopUpCompleted {
-	background-image: url('/static/images/compass-notification.png');
+.questPopUpTask{
+  background-image: url('/static/images/task-popup.png');
+}
+
+.questPopUpChallenge{
+  background-image: url('/static/images/challenge-popup.png');
+}
+
+.questPopUpQuest{
+  background-image: url('/static/images/quest-popup.png');
 }
 
 .questPopUpDiscovered {
-	background-image: url('/static/images/bulb-notification.png');
+	background-image: url('/static/images/discovery-popup.png');
 }
 
 .questPopUpCloseButton {
-  height: 52px;
-  width: 52px;
+  height: 35px;
+  width: 35px;
   position: absolute;
-  right: 1px;
-  top: 26px;
+  right: 5px;
+  top: 5px;
 }
 
 .questPopUpText {
   position: absolute;
-  left: 60px;
-  top: 60px;
-  font-size: 15;
+  left: 40px;
+  top: 35px;
   width: 350px;
 }
 
@@ -58,8 +66,8 @@
 
 .questPopUpArrows {
 	position: absolute;
-	right: 100px;
-	top: 30px;
+	right: 60px;
+	top: 10px;
 	width: 100px;
 }
 

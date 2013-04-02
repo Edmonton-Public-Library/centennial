@@ -29,7 +29,7 @@ define(['lib/knockout'], function (ko) {
 	};
 				
 
-	QuestPopUp.prototype.showPopUp = function(title, description, points, discovered) {
+	QuestPopUp.prototype.showPopUp = function(title, description, points, type) {
 		var self = this;
 
 		if(self.viewport.css('visibility') == "visible") {
@@ -52,7 +52,7 @@ define(['lib/knockout'], function (ko) {
 			title: title,
 			description: description,
 			points: points,
-			discovered: discovered
+			type: type
 		});
 
 		self.updatePopUp();
@@ -63,7 +63,7 @@ define(['lib/knockout'], function (ko) {
 		self.popUpMessages = [];
 		self.currentPopUp = 0;
 		self.viewport.animate({
-			bottom: '-240px'
+			bottom: '-208px'
 		}, null, function() {
 			self.viewport.css('visibility', 'hidden');
 		});
@@ -72,13 +72,29 @@ define(['lib/knockout'], function (ko) {
 	QuestPopUp.prototype.updatePopUp = function() {
 		var self = this;
 
-		if(self.popUpMessages[self.currentPopUp].discovered) {
-			self.viewport.removeClass('questPopUpCompleted');
+		if(self.popUpMessages[self.currentPopUp].type == 'discovery') {
+			self.viewport.removeClass('questPopUpTask');
+			self.viewport.removeClass('questPopUpChallenge');
+			self.viewport.removeClass('questPopUpQuest');
 			self.viewport.addClass('questPopUpDiscovered');
 		}
-		else {
+		else if(self.popUpMessages[self.currentPopUp].type == 'task') {
+			self.viewport.removeClass('questPopUpChallenge');
+			self.viewport.removeClass('questPopUpQuest');
 			self.viewport.removeClass('questPopUpDiscovered');
-			self.viewport.addClass('questPopUpCompleted');
+			self.viewport.addClass('questPopUpTask');
+		}
+		else if(self.popUpMessages[self.currentPopUp].type == 'challenge') {
+			self.viewport.removeClass('questPopUpTask');
+			self.viewport.removeClass('questPopUpQuest');
+			self.viewport.removeClass('questPopUpDiscovered');
+			self.viewport.addClass('questPopUpChallenge');
+		}
+		else if(self.popUpMessages[self.currentPopUp].type == 'quest') {
+			self.viewport.removeClass('questPopUpChallenge');
+			self.viewport.removeClass('questPopUpTask');
+			self.viewport.removeClass('questPopUpDiscovered');
+			self.viewport.addClass('questPopUpQuest');
 		}
 
 		self.viewport.find('.questPopUpTitle').html(self.popUpMessages[self.currentPopUp].title);
@@ -108,7 +124,7 @@ define(['lib/knockout'], function (ko) {
 			self.viewport.find('.questPopUpArrows').css('visibility', 'hidden');
 		}
 
-		if(self.popUpMessages[self.currentPopUp].discovered) {
+		if(self.popUpMessages[self.currentPopUp].type == "discovery") {
 			self.viewport.find('.questPopUpPointsDisplay').css('visibility', 'hidden');
 		}
 		else {
@@ -134,14 +150,14 @@ define(['lib/knockout'], function (ko) {
 	};
 
 	QuestPopUp.prototype.popUp_DisplayDiscovery = function(title) {
-		this.showPopUp("Quest Discovered!", "You have discovered the quest: <br/> <br/><i>" + title + "</i>! <br/> <br/>Check it it out in your Hundred Year Quest page!", 0, true);
+		this.showPopUp("Quest Discovered!", "You have discovered the quest: <br/> <br/><i>" + title + "</i>! <br/> <br/>Check it it out in your Hundred Year Quest page!", 0, 'discovery');
 	};
 
 	QuestPopUp.prototype.popUp_DisplayCompletion = function(title, type1, type2, points) {
 		var popUpTitle = type1 + " Completed!";
 		var popUpDescription = "You have completed the " + type2 + ": <br/> <br/><i>" + title + "</i>!";
 
-		this.showPopUp(popUpTitle, popUpDescription, points, false);
+		this.showPopUp(popUpTitle, popUpDescription, points, type2);
 	};
 
 	QuestPopUp.prototype.completeTask = function(task, discovered) {
