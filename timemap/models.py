@@ -20,15 +20,29 @@ class Branch(models.Model):
     class Meta:
         verbose_name_plural = "Branches"
 
+    BRANCH = "B"
+    STREET_CAR = "S"
+    BOOK_MOBILE = "M"
+
+    BRANCH_TYPE_CHOICES = (
+        (BRANCH, 'branch'),
+        (STREET_CAR, 'street'),
+        (BOOK_MOBILE, 'mobile'),
+    )
+
     name = models.CharField(db_index=True, max_length=BRANCH_NAME_LEN)
     description = models.TextField(max_length=BRANCH_DESCRIPTION_LEN)
     start_year = IntegerRangeField(db_index=True, min_value=1900, max_value=3000)
     end_year = IntegerRangeField(db_index=True, min_value=1900, max_value=3000, blank=True, null=True)
-    floor_plan = models.FileField(upload_to="floor_plans", blank=True, null=True)
+    floor_plan = models.FileField(upload_to="floor_plans")
     latitude_help = "Latitude range : -90:90"
     latitude = FloatRangeField(min_value=-90, max_value=90, help_text=latitude_help)
     longitude_help = "Longitude range : -180:180"
     longitude = FloatRangeField(min_value=-180, max_value=180, help_text=longitude_help)
+    btype = models.CharField(db_index=True,
+                             max_length=1,
+                             choices=BRANCH_TYPE_CHOICES,
+                             default=BRANCH)
 
     def clean(self):
         if self.end_year and self.start_year > self.end_year:

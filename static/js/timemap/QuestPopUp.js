@@ -56,7 +56,7 @@ define(['lib/knockout'], function (ko) {
 		});
 
 		self.updatePopUp();
-	}
+	};
 
 	QuestPopUp.prototype.hidePopUp = function() {
 		var self = this;
@@ -67,7 +67,7 @@ define(['lib/knockout'], function (ko) {
 		}, null, function() {
 			self.viewport.css('visibility', 'hidden');
 		});
-	}
+	};
 
 	QuestPopUp.prototype.updatePopUp = function() {
 		var self = this;
@@ -83,7 +83,7 @@ define(['lib/knockout'], function (ko) {
 
 		self.viewport.find('.questPopUpTitle').html(self.popUpMessages[self.currentPopUp].title);
 		self.viewport.find('.questPopUpDescription').html(self.popUpMessages[self.currentPopUp].description);
-		self.viewport.find('.questPopUpPoints').html(self.popUpMessages[self.currentPopUp].points + "pts");
+		self.viewport.find('.questPopUpPoints').html(self.popUpMessages[self.currentPopUp].points);
 		self.viewport.find('.questPopUpCurrentNumber').html((self.currentPopUp + 1).toString());
 		self.viewport.find('.questPopUpTotalNumber').html((self.popUpMessages.length).toString());
 
@@ -107,7 +107,14 @@ define(['lib/knockout'], function (ko) {
 		else {
 			self.viewport.find('.questPopUpArrows').css('visibility', 'hidden');
 		}
-	}
+
+		if(self.popUpMessages[self.currentPopUp].discovered) {
+			self.viewport.find('.questPopUpPointsDisplay').css('visibility', 'hidden');
+		}
+		else {
+			self.viewport.find('.questPopUpPointsDisplay').css('visibility', 'visible');
+		}
+	};
 
 	QuestPopUp.prototype.shiftPopUpRight = function() {
 		var self = this;
@@ -115,26 +122,59 @@ define(['lib/knockout'], function (ko) {
 
 		self.currentPopUp++;
 		self.updatePopUp();
-	}
+	};
 
 	QuestPopUp.prototype.shiftPopUpLeft = function() {
 		var self = this;
+
 		if(self.currentPopUp == 0) return;
 
 		self.currentPopUp--;
 		self.updatePopUp();
-	}
+	};
+
+	QuestPopUp.prototype.popUp_DisplayDiscovery = function(title) {
+		this.showPopUp("Quest Set Discovered!", "You have discovered the quest set '" + title + "'! \n\nCheck it it out in your Hundred Year Quest page!", 0, true);
+	};
+
+	QuestPopUp.prototype.popUp_DisplayCompletion = function(title, type1, type2, points) {
+		var popUpTitle = type1 + " Completed!";
+		var popUpDescription = "You have completed the " + type2 + " '" + title + "' for " + points + " points! \n\nCheck it it out in your Hundred Year Quest page!";
+
+		this.showPopUp(popUpTitle, popUpDescription, points, false);
+	};
 
 	QuestPopUp.prototype.completeTask = function(task, discovered) {
+		var self = this;
 
-	}
+		var taskPoints = task.points;
+		var questPoints = task.quest.points;
+		var setPoints = task.questset.points;
+
+		self.popUp_DisplayCompletion(task.title, "Task", "task", taskPoints);
+		if(task.quest.completed == task.quest.total) {
+			self.popUp_DisplayCompletion(task.quest.title, "Quest", "quest", questPoints);
+		}
+		if(task.questset.completed == task.questset.total) {
+			self.popUp_DisplayCompletion(task.questset.title, "Quest Set", "quest set", setPoints);
+		}
+
+		if(discovered) {
+			self.popUp_DisplayDiscovery(task.questset.title);
+		}
+	};
 
 	QuestPopUp.prototype.completeTasks = function(taskList, discovered) {
 		var self = this;
 
 		for(task in taskList) {
-			self.completeTask(task, discovered);
+			self.completeTask(taskList[task], discovered);
 		}
+	};
+
+	QuestPopUp.prototype.checkTasks = function(taskLists) {
+		this.completeTasks(taskLists.completedTasks, false);
+		this.completeTasks(taskLists.discoveredTasks, true);
 	}
 
 	return QuestPopUp;

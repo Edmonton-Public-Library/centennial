@@ -177,8 +177,17 @@ body {
 
 		.search-box {
 			width: @sidebarWidth - 40;
-			margin: 20px auto;
+			margin: 20px 7px 10px 7px;
 			border: solid 1px lighten(gray, 30%);
+		}
+
+		#search-year-range {
+			input {
+				display: inline;
+				width: 20%;
+				margin: 0px 7px 20px 7px;
+				border: solid 1px lighten(gray, 30%);
+			}
 		}
 
 		.search-select {
@@ -663,10 +672,18 @@ body {
 	text-decoration: underline;
 }
 
-.questPopUpPoints {
+.questPopUpPointsDisplay {
   position: absolute;
   right: 10px;
   bottom: 10px;
+}
+
+.questPopUpPts {
+  float: right;
+}
+
+.questPopUpPoints {
+  
 }
 
 .questPopUpArrows {
