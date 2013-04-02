@@ -46,8 +46,10 @@ return (function () {
 			});
 		}
 
-		this.setTimelineStartDate(new Date(Date.UTC(json[0].year - 1, 0, 1)));
-		this.setTimelineEndDate(new Date(Date.UTC(json[json.length - 1].year + 1, 0, 1)));
+		if(json.length) {
+			this.setTimelineStartDate(new Date(Date.UTC(json[0].year - 1, 0, 1)));
+			this.setTimelineEndDate(new Date(Date.UTC(json[json.length - 1].year + 1, 0, 1)));
+		}
 
 		this.stories.byStart = newJson;
 		this.stories.byEnd = newJson;
@@ -58,6 +60,13 @@ return (function () {
 	Timeline.prototype.processBranches = function(json) {
 		var newJson = [];
 		var currYear = new Date().getFullYear().toString();
+
+		var btypeToIcon = {
+			B: 'std',
+			M: 'bookmobile-bus',
+			S: 'bookmobile-trolley'
+		}
+
 		for (i in json) {
 			newJson.push({
 				name: json[i].name,
@@ -67,7 +76,8 @@ return (function () {
 				lng: json[i].longitude,
 				start: json[i].start_year.toString(),
 				end: json[i].end_year ? json[i].end_year.toString() : currYear.toString(),
-				id: json[i].id
+				id: json[i].id,
+				type: btypeToIcon[json[i].btype]
 			});
 		}
 		return newJson;
@@ -170,20 +180,32 @@ return (function () {
 		this.recenterTimeWindow();
 	};
 
+	Timeline.prototype.newMouseMove = function(mValx, mValy) {
+		if(this.recenterTimeWindow()) {
+			this.tl._bands[1]._onMouseMove2(mValx, mValy);
+		}
+	}
+
 	Timeline.prototype.recenterTimeWindow = function() {
 		var maxVisDate = this.tl._bands[0].getMaxVisibleDate().getTime();
 		var minVisDate = this.tl._bands[0].getMinVisibleDate().getTime();
 
-		if(this.endYear != null && maxVisDate > this.endYear.getTime() && Math.abs((maxVisDate - this.endYear.getTime()) / maxVisDate) > 0.01) {
-			this.tl._bands[0].setMaxVisibleDate(this.endYear);
-			return false;
-		}
-		else if(this.startYear != null && minVisDate < this.startYear.getTime() && Math.abs((this.startYear.getTime() - minVisDate) / minVisDate) > 0.01)  {
-			this.tl._bands[0].setMinVisibleDate(this.startYear);
-			return false;
-		}
-		else {
-			return true;
+		if(this.startYear && this.endYear) {
+			if(this.endYear.getFullYear() - this.startYear.getFullYear() <= 10) {
+				this.tl._bands[0].setMaxVisibleDate(this.endYear);
+				return false;
+			}
+			else if(this.endYear != null && maxVisDate > this.endYear.getTime() && Math.abs((maxVisDate - this.endYear.getTime()) / maxVisDate) > 0.01) {
+				this.tl._bands[0].setMaxVisibleDate(this.endYear);
+				return false;
+			}
+			else if(this.startYear != null && minVisDate < this.startYear.getTime() && Math.abs((this.startYear.getTime() - minVisDate) / minVisDate) > 0.01)  {
+				this.tl._bands[0].setMinVisibleDate(this.startYear);
+				return false;
+			}
+			else {
+				return true;
+			}
 		}
 	};
 
@@ -271,7 +293,6 @@ return (function () {
 
 		doHideShow(self.branches);
 		doHideShow(self.stories);
-		//console.log(self.stories);
 
 		rightVisibleDate = self.tl._bands[0].getCenterVisibleDate().getTime();
 		leftVisibleDate = rightVisibleDate;
@@ -281,9 +302,6 @@ return (function () {
 
 	Timeline.prototype.setTimelineStartDate = function(startDate) {
 		var self = this;
-
-		console.log("START YEAR");
-		console.log(self.startYear);
 
 		if(self.startYear == null || startDate < self.startYear) {
 
@@ -337,22 +355,27 @@ return (function () {
 	Timeline.prototype.setBoundsByBranch = function(branchData) {
 		var self = this;
 
-		var branchStartYear = new Date(Date.UTC(branchData.start_year.toString(), 0, 1));
+		var bsYear = branchData.start_year;
+		var beYear = branchData.end_year ? branchData.end_year : new Date().getFullYear();
+
+		while(beYear - bsYear <= 2) {
+			bsYear--;
+		}
+
+		var branchStartYear = new Date(Date.UTC(bsYear.toString(), 0, 1));
 		this.setTimelineStartDate(branchStartYear);
 
 		var branchEndYear;
-		if(branchData.end_year == null) {
-			branchEndYear = new Date();
+		if(branchData.end_year) {
+			branchEndYear = new Date(Date.UTC(beYear.toString(), 0, 1));
 		}
 		else {
-			branchEndYear = new Date(Date.UTC(branchData.end_year.toString(), 0, 1));
+			branchEndYear = new Date();
 		}
 		this.setTimelineEndDate(branchEndYear);
-		console.log(self.startYear);
 	};
 
 	Timeline.prototype.enterBranchView = function(branchID, viewer) {
-		console.log("ENTER BRANCH");
 		var self = this;
 
 		self.branchViewer = viewer;
@@ -361,14 +384,11 @@ return (function () {
 
 		$.get(Environment.routes.apiBase + '/story/?format=json&branch=' + branchID + '&order_by=year', function(json) {self.processStories(json);});
 	
-		//console.log("BRANCH ID: " + branchID);
-
 		$.get(Environment.routes.apiBase + '/branch/' + branchID + '/?format=json', function(json) {self.setBoundsByBranch(json);});
 		
 	};
 
 	Timeline.prototype.initTimeline = function(prefs, branchID, branchViewer) {
-		console.log("INIT TIMELINE");
 		var self = this;
 
 		if(!self.hasInitialized) {
@@ -527,9 +547,13 @@ return (function () {
 
 			self.tl._bands[0].addOnScrollListener(function(scrollVal) {self.hideShowOnScroll(scrollVal);});
 			self.tl._bands[0].addOnScrollListener(function() {self.setNumbers();});
+			self.tl._bands[0].addOnScrollListener(function() {self.recenterTimeWindow();});
 
 			self.tl._bands[1]._onMouseUp2 = self.tl._bands[1]._onMouseUp;
-			self.tl._bands[1]._onMouseUp = function() {self.newMouseUp();};
+			self.tl._bands[1]._onMouseUp = function(mValx, mValy) {self.newMouseUp(mValx, mValy);};
+
+			/*self.tl._bands[1]._onMouseMove2 = self.tl._bands[1]._onMouseMove;
+			self.tl._bands[1]._onMouseMove = function(mValx, mValy) {self.newMouseMove(mValx, mValy);};*/
 
 			self.tl._bands[0].setCenterVisibleDate(startingDate);
 
