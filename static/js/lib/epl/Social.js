@@ -12,7 +12,7 @@ Social.postToFeed = function(shareLink, shareImage, shareName, shareCaption, sha
           picture: shareImage,
           name: shareName,
           caption: shareCaption,
-          description: shareDescription,
+          description: shareDescription
         }
 
         function callback(response) {

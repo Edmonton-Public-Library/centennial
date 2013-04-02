@@ -28,7 +28,7 @@ return {
 		facebook : {
 			connect : '150662938425048'
 		}
-	},
+	}
 };
 
 //End module

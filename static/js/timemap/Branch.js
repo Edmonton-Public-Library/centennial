@@ -119,13 +119,19 @@ return (function () {
 			self.configureFloorplan();
 		});
 
-		this.pinCoordinates(new StoryPin('text', '11', 'coll'));
-
 		//Hide story lists when clicking outside of them
 		$(window).bind('click tap touchstart', function () {
 			self.hideStorySelector();
 		});
 	};
+
+	Branch.prototype.setYear = function (year) {
+		timemap.updateQuest({
+			year : year,
+			onMap : false,
+			branch : this.branchID
+		});
+	}
 
 	Branch.prototype.showStorySelector = function (type) {
 		this.selectedStoryType(type);

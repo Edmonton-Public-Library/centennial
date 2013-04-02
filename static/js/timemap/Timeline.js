@@ -9,6 +9,7 @@ return (function () {
 		this.map = map;
 		this.branchViewer = null;
 		this.startingDate = startingDate;
+		this.questTimeout = null;
 
 		this.leftNumber = $('<div>').addClass('timelineBound').addClass('left');
 		this.rightNumber = $('<div>').addClass('timelineBound').addClass('right');
@@ -220,6 +221,8 @@ return (function () {
 
 		var currDate;
 		var hasChangedSomething;
+
+		console.log(self.tl._bands[0].getCenterVisibleDate().getFullYear());
 
 		var doHideShow = function(obj) {
 
@@ -495,7 +498,7 @@ return (function () {
 					intervalPixels : decadePixels,
 					showEventText : false,
 					overview : true,
-					theme : timelineTheme,
+					theme : timelineTheme
 					/*zoomIndex : 1,
 					zoomSteps : [
 						{
