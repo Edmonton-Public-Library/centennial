@@ -290,7 +290,13 @@ viewStory : new View('viewStory', 'View Story',
                     '<div class="fb-like" data-send="false" data-width="450"\
                         data-show-faces="false" data-font="arial"\
                         data-colorscheme="dark" data-action="recommend"></div>'
-                FB.XFBML.parse(facebookDiv);
+                FB.XFBML.parse(facebookDiv, function () {
+                	FB.Event.subscribe('edge.create', function(href, widget) {
+						epl.updateQuest({
+							story : storyId
+						});
+					});
+                });
 
                 //load the twitter button here
                 var twitterDiv = $('#my-twitter-share-button')[0];
@@ -311,12 +317,7 @@ viewStory : new View('viewStory', 'View Story',
                 googlePlusDiv.innerHTML = '<div class="g-plus" data-action="share" data-annotation="bubble" href="'+pageCannonicalHref+'"></div>';
                 var gpd = $(googlePlusDiv).find('.g-plus')[0];
                 $.getScript("https://apis.google.com/js/plusone.js" , function() {
-                    // gapi.plusone.render(
-                    // 	gpd, {
-                    // 	callback : function () {
-                    // 		console.log('G+!');
-                    // 	}
-                    // });
+                    gapi.plusone.go(gpd);
                 });
             });
 

@@ -218,11 +218,11 @@ return (function () {
 
 		var rightVisibleDate = self.tl._bands[0].getMaxVisibleDate().getTime();
 		var leftVisibleDate = self.tl._bands[0].getMinVisibleDate().getTime();
+		
+		self.currentYear = self.tl._bands[0].getCenterVisibleDate().getFullYear();
 
 		var currDate;
 		var hasChangedSomething;
-
-		console.log(self.tl._bands[0].getCenterVisibleDate().getFullYear());
 
 		var doHideShow = function(obj) {
 
@@ -573,6 +573,9 @@ return (function () {
 
 			self.viewport.find('.timeline-ether-highlight').append(self.leftNumber).append(self.rightNumber);
 
+			self.maxYearCount
+			self.startYearLoop(100, 30);
+
 			self.hasInitialized = true;
 
 		}
@@ -583,6 +586,38 @@ return (function () {
 
 
 	};
+
+	Timeline.prototype.startYearLoop = function(interval, maxYearCount) {
+		var self = this;
+		self.maxYearCount = maxYearCount;
+		self.yearInterval = setInterval(function(){self.yearLoop();}, interval);
+	}
+
+	Timeline.prototype.stopYearLoop = function() {
+		var self = this;
+		clearInterval(self.yearInterval)
+	}
+
+	Timeline.prototype.yearLoop = function() {
+		var self = this;
+
+		if(self.stoppedYear == self.currentYear) {
+			if(self.yearCount <= self.maxYearCount) {
+				if(self.yearCount != self.maxYearCount) {
+					self.yearCount++;
+				}
+				else {
+					self.yearCount++;
+					if(self.branchViewer) {self.branchViewer.setYear(self.stoppedYear);}
+					if(self.map) {self.map.setYear(self.stoppedYear);}
+				}
+			}
+		}
+		else {
+			self.yearCount = 0;
+			self.stoppedYear = self.currentYear;
+		}
+	}
 	
 
 	var resizeTimerID = null;
