@@ -61,7 +61,7 @@
 			<li class="button" data-role="account">
 				<span data-role="name" data-bind="text: Environment.user() == null ? 'Log In' : 'Manage'">Log In</span>
 				<div class="menu">
-                    <div class="menu-wrapper" data-bind="style: {'max-height': Environment.display.viewportHeight() + 'px'}">
+                    <div class="menu-wrapper" data-bind="style: {'max-height': Environment.display.height() - 150 + 'px'}">
                         <div class="menu-section" data-role="authenticate-tabs" data-bind="css: {active: Environment.user() == null}">
                             <ul class="tabs" data-bind="eplBarTabs: true">
                                 <li class="tab" data-tab="login" data-bind="css: {active: loginMenu.currentTab() != 'create-account'}">
