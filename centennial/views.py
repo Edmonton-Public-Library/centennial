@@ -136,6 +136,8 @@ def link_bibliocommons(request):
         if request.user.is_authenticated():
             if ('username' in data and 'password' in data):
                 if validUser(data['username'], data['password']):
+                    if BibliocommonsLink.objects.filter(user=request.user).count() > 0:
+                        return HttpResponse(json.dumps({'result': 'Error: Centennial account already linked'}))
                     if BibliocommonsLink.objects.filter(biblioname=data['username']).count() > 0:
                         return HttpResponse(json.dumps({'result': 'Error: Bibliocommons account already linked'}))
                     link = BibliocommonsLink.objects.create(biblioname=data['username'], user=request.user)
