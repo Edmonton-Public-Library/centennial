@@ -3,6 +3,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from hyquest.models import Task, UserTaskAction
 from epl.settings import DISCOVERY_MODE
 
+# These are methods used by more than one Task verifier
+
 def getTaskResultSet(user):
     if DISCOVERY_MODE == True:
         return Task.objects.filter(quest__quest_set__active=True)

@@ -2,6 +2,9 @@ from hyquest.models import QuestSet, UserQuestSetAction
 from hyquest.actionmanager import beginQuestSet
 from hyquest.constants import MAX_ACTIVE_QUESTS
 
+# Here are the methods used to ensure proper quest flow for users
+# These are called for each user whenever the dashboard is loaded
+
 def replenishQuestSets(user):
     activeQuests = UserQuestSetAction.objects.filter(user=user, questset__featured=False, questset__active=True).count()
     if(activeQuests < MAX_ACTIVE_QUESTS):

@@ -3,6 +3,8 @@ from django.db.models import F
 from hyquest.models import TaskCode
 from hyquest.verifiers.common import getUserAction
 
+# This handles matching Tasks to provided Completion Codes
+
 def matchingCodeTasks(user, code):
     task = getTaskForCode(code)
     if task is None:

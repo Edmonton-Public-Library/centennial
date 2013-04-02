@@ -5,6 +5,8 @@ from hyquest.verifiers.common import getTaskResultSet, getUserAction
 from hyquest.constants import TASK_BIBLIOCOMMONS
 import centennial.bibliocommons
 
+# This is the code that matches bibliocommons content to bibliocommons tasks
+
 def verifyBibliocommonsAccount(user):
     try:
         bibliolink = BibliocommonsLink.objects.get(user=user)

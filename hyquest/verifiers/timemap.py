@@ -1,6 +1,8 @@
 from hyquest.verifiers.common import getTaskResultSet, getUserAction
 from hyquest.constants import TASK_TIMEMAP
 
+# This handles matching up TimeMap state to associated TimeMap Tasks
+
 def matchingTimeMapTasks(user, timeMapState):
     tasks = getTaskResultSet(user).filter(type=TASK_TIMEMAP)
     activeTasks = []

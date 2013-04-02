@@ -8,6 +8,8 @@ from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE
                               MAX_POINTS
 from timemap.models import Branch, Story
 
+# This class provides database-backed models for the HYQuest
+
 biblioFormats = {'BK': 'Book', 'CD':'CD', 'DVD': 'DVD', 'BOOK_CD': 'Audiobook'}
 
 class QuestSet(models.Model):
