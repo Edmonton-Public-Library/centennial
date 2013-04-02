@@ -14,6 +14,10 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# Discovery Mode allows users to stumble across Quests they haven't yet started.
+# Turning it on is CPU expensive, but causes users to be more active in the game
+DISCOVERY_MODE = True
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
