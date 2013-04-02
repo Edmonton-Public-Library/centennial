@@ -1,5 +1,5 @@
 ;
-define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBar', 'timemap/QuestPopUp', 'lib/jquery.iosslider', 'lib/jquery.tablesorter'], function (ko, Settings, Environment, EPLBar, QuestPopUp) {
+define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBar', 'timemap/QuestPopUp', 'lib/jquery.iosslider', 'lib/jquery.tablesorter'], function (hyq, ko, Settings, Environment, EPLBar, QuestPopUp) {
 
 	var featuredEndpoint = 'featured',
 		activeEndpoint = 'active',
@@ -157,18 +157,41 @@ define(['lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBar', 'ti
 
 	ko.bindingHandlers.checkCode = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-			$(element).keyup(function (e) {
-				var code = $(e.target).val();
-				if(code.length == 10 || code.length == 11) {
-					if(code.length == 10) {
-						codePrefix = code.substring(0, 5);
-						codeSuffix = code.substring(5, 10);
-						code = codePrefix + '-' + codeSuffix;
+			require(['hyq'], function (hyq) {
+				$(element).keyup(function (e) {
+					var code = $(e.target).val();
+					if(code.length == 10 || code.length == 11) {
+						if(code.length == 10) {
+							codePrefix = code.substring(0, 5);
+							codeSuffix = code.substring(5, 10);
+							code = codePrefix + '-' + codeSuffix;
+						}
+						$.ajax(Settings.apiCodeUrl + '/?format=json&code=' + code, {
+							method : 'get',
+							success : function (data) {
+								hyq.storage.questPopUp.checkTasks(data);
+								$(element).css({
+									'background-color' : '#67F211'
+								});
+								window.setTimeout(function () {
+									console.log('hh');
+									$(element).css({
+									'background-color' : 'white'
+									}).val('');
+								}, 1000);
+							},
+							error : function () {
+								$(e.target).css({
+									'background-color' : '#ED1330'
+								});
+							}
+						});
+					} else {
+						$(element).css({
+							'background-color' : 'white'
+						});
 					}
-					$.get(Settings.apiCodeUrl + '/?format=json&code=' + code, function (data) {
-						QuestPopUp.checkTasks(data);
-					});
-				}
+				});
 			});
 		}
 	}

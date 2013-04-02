@@ -1,6 +1,6 @@
 ;
 //Create the application module
-define(['hyq/Routes', 'epl/Settings', 'lib/csc/Nav', 'lib/knockout', 'timemap/EPLBar', 'lib/sammy', 'lib/less', 'lib/jquery-ui', 'lib/jquery.iosslider'], function (Routes, Settings, Nav, ko, EPLBar) {
+define(['hyq/Routes', 'epl/Settings', 'lib/csc/Nav', 'timemap/QuestPopUp', 'lib/knockout', 'timemap/EPLBar', 'lib/sammy', 'lib/less', 'lib/jquery-ui', 'lib/jquery.iosslider'], function (Routes, Settings, Nav, QuestPopUp, ko, EPLBar) {
 var hyq = null;
 
 //Only start the app once the page has loaded
@@ -20,6 +20,8 @@ var AppClass = (function () {
 	AppClass.prototype.init = function () {
 		var self = this;
 		var eplBar = new EPLBar('#epl-bar');
+
+		self.storage.questPopUp = new QuestPopUp($('#questPopUp'));
 
 		//Start accepting routes
 		//Bootstrap components that depend on the DOM
