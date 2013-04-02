@@ -16,8 +16,6 @@ def verifyReCaptcha(request, challenge, response):
     params = {'privatekey': RECAPTCHA_PRIVATE_KEY, 'remoteip': ip, 'challenge': challenge, 'response': response}
     retval = requests.post(API_SERVER, params=params)
     verification = retval.text.split('\n')
-    print("ReCaptcha for "+ip+", result: "+retval.text)
-    print("Challenge: "+challenge+"\n Response: "+response)
     return (verification[0] == 'true', verification[1])
 
 

@@ -123,7 +123,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'preferences',
-    'south',
     'fts',
     'timemap',
     'django.contrib.admin',
@@ -132,7 +131,6 @@ INSTALLED_APPS = (
     'taggit',
     'hyquest',
     'centennial',
-    'social_auth'
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

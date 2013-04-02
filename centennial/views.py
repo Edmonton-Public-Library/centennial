@@ -49,14 +49,11 @@ def login_user(request):
     """
         View used to create a user cookie to maintain a session.
     """
-    print "w00t"
     if request.method == "POST":
         data = None
         try:
             data = json.loads(request.raw_post_data)
-            print data
         except ValueError, e:
-            print e
             return HttpResponse(status='400')
         if 'username' in data and 'password' in data:
             username = data['username']
@@ -111,7 +108,6 @@ def create_user(request):
                 return HttpResponse(status='201')
             else:
                 return HttpResponse(status='409')
-        #print("Bad POST data:" + request.raw_post_data)
         return HttpResponse(status='400')
 
 def current_user(request):

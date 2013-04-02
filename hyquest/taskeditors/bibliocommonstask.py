@@ -70,7 +70,6 @@ def edit_bibliocommons_task(request):
         arguments = {'task_id':request.GET['task_id']}
         task = Task.objects.get(id=request.GET['task_id'])
         taskinfo = task.getInfoReqs()
-        print taskinfo
         try:
             if('action' in taskinfo):
                 arguments['action'] = taskinfo['action']
@@ -98,5 +97,4 @@ def edit_bibliocommons_task(request):
         except Exception, e:
             print e
         form = BibliocommonsTaskForm(arguments)
-        print form.as_p()
     return render(request, 'admin/bibliotask.html', {'tmform': form, 'task': task})

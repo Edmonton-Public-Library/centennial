@@ -171,7 +171,7 @@ class TaskCode(models.Model):
 
 class UserTaskAction(models.Model):
     """
-    Tracks the progress of a given User for a given Task 
+    Tracks the progress of a given User for a given Task
     """
     class Meta:
         verbose_name = "User Task Action"
@@ -245,36 +245,28 @@ from hyquest.actionmanager import beginTask, beginQuest, completeQuest, complete
 @receiver(post_save, sender=Task)
 def maintainUserTaskActions(sender, instance, created, **kwargs):
     if created:
-        print "New Task created. Adding User Actions for all current users"
         userActions = UserQuestAction.objects.filter(quest=instance.quest, complete=False)
         for action in userActions:
-            print "Adding action for " + str(action.user)
             beginTask(user=action.user, task=instance)
 
 @receiver(post_save, sender=Quest)
 def maintainUserQuestActions(sender, instance, created, **kwargs):
     if created:
-        print "New Task created. Adding User Actions for all current users"
         userActions = UserQuestSetAction.objects.filter(questset=instance.quest_set, complete=False)
         for action in userActions:
-            print "Adding action for " + str(action.user)
             beginQuest(user=action.user, quest=instance)
 
 @receiver(post_delete, sender=Task)
 def maintainDeletedTaskActions(sender, instance, **kwargs):
-    print "Task Deleted, rechecking user quests"
     try:
         userActions = UserQuestAction.objects.filter(quest=instance.quest, complete=False)
         for action in userActions:
-            print "Checking completion for "+str(action.user)
             completeQuest(action.user, action.quest)
     except ObjectDoesNotExist:
-        print "Quest Deleted, skipping"
+        pass
 
 @receiver(post_delete, sender=Quest)
 def maintainDeletedQuestActions(sender, instance, **kwargs):
-    print "Quest Deleted, rechecking user questsets"
     userActions = UserQuestSetAction.objects.filter(questset=instance.quest_set, complete=False)
     for action in userActions:
-        print "Checking completion for "+str(action.user)
         completeQuestSet(action.user, action.questset)

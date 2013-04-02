@@ -68,7 +68,6 @@ def edit_timemap_task(request):
         arguments = {'task_id':request.GET['task_id']}
         task = Task.objects.get(id=request.GET['task_id'])
         taskinfo = task.getInfoReqs()
-        print taskinfo
         try:
             if('story' in taskinfo):
                 arguments['visit_story'] = True

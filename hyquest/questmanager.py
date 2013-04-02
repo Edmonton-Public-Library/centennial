@@ -5,7 +5,6 @@ from hyquest.constants import MAX_ACTIVE_QUESTS
 def replenishQuestSets(user):
     activeQuests = UserQuestSetAction.objects.filter(user=user, questset__featured=False, questset__active=True).count()
     if(activeQuests < MAX_ACTIVE_QUESTS):
-        print "User "+str(user)+" needs more quests"
         #Get all completed quests
         completed = UserQuestSetAction.objects.filter(user=user, complete=True).values_list('questset', flat=True)
         #filter quest sets where dependancies are met or dependancies are null
@@ -17,7 +16,6 @@ def replenishQuestSets(user):
             if activeQuests >= MAX_ACTIVE_QUESTS:
                 return
 
-            print "Adding quest "+str(newquest)
             beginQuestSet(user, newquest)
             activeQuests += 1
 

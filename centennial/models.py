@@ -72,6 +72,5 @@ def send_activation_email(profile):
                         smtp_login=settings.SMTP_VALUES['SMTP_AUTH'])
                 instance.email_sent = True
             except Exception as e:
-                print e
                 instance.email_sent = False
                 raise ValidationError("Failed to create user profile. Please try again later")
