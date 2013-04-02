@@ -116,9 +116,8 @@ def current_user(request):
     """
     if request.user.is_authenticated():
         bibliolink = BibliocommonsLink.objects.filter(user=request.user).count() != 0
-        facebooklink = request.user.social_auth.filter(provider='facebook').count() != 0
         level = Level.objects.filter(required_exp__lte=request.user.profile.points).latest('required_exp')
-        userinfo = { "username": request.user.username, "firstname": request.user.first_name, "lastname": request.user.last_name, "email": request.user.email, "bibliolink" : bibliolink, "facebooklink" : facebooklink, "points": request.user.profile.points, "level": level.id}
+        userinfo = { "username": request.user.username, "firstname": request.user.first_name, "lastname": request.user.last_name, "email": request.user.email, "bibliolink" : bibliolink, "points": request.user.profile.points, "level": level.id}
         return HttpResponse(json.dumps(userinfo), content_type='application/json')
     return HttpResponse(status='403')
 
