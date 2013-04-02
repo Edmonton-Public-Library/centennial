@@ -8,7 +8,7 @@ define(['lib/knockout'], function (ko) {
 		self.currentPopUp = 0;
 
 		self.viewport.find('.questPopUpText').click(function(e) {
-			window.location = "/hyq";
+			window.open("/hyq", "_blank");
 		});
 
 		self.viewport.find('.questPopUpCloseButton').click(function(e) {
@@ -134,12 +134,12 @@ define(['lib/knockout'], function (ko) {
 	};
 
 	QuestPopUp.prototype.popUp_DisplayDiscovery = function(title) {
-		this.showPopUp("Quest Discovered!", "You have discovered the quest '" + title + "'! <br/> <br/>Check it it out in your Hundred Year Quest page!", 0, true);
+		this.showPopUp("Quest Discovered!", "You have discovered the quest: <br/> <br/><i>" + title + "</i>! <br/> <br/>Check it it out in your Hundred Year Quest page!", 0, true);
 	};
 
 	QuestPopUp.prototype.popUp_DisplayCompletion = function(title, type1, type2, points) {
 		var popUpTitle = type1 + " Completed!";
-		var popUpDescription = "You have completed the " + type2 + " '" + title + "' for " + points + " points! <br/> <br/>Check it it out in your Hundred Year Quest page!";
+		var popUpDescription = "You have completed the " + type2 + ": <br/> <br/><i>" + title + "</i>!";
 
 		this.showPopUp(popUpTitle, popUpDescription, points, false);
 	};
