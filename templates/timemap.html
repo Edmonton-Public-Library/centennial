@@ -58,7 +58,11 @@
     			<li data-role="account">
     				<img class="icon"/>
     				<span data-role="name">Login</span>
-    				<div class="menu" data-bind="authenticateSubmit: {username: 'auth-username', password: 'auth-password'}">
+    				<div class="menu">
+                        <ul class="tabs">
+                            <li>Login</li>
+                            <li>Create Account</li>
+                        </ul>
     					<p class="section-title">Authenticate</p>
                         <form method="post" action="#" data-bind="loginForm: true">
         					<input id="auth-username" data-role="username" type="text" class="epl-input text" data-default-text="Username" />
