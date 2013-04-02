@@ -228,20 +228,25 @@
                             </form>
                         </div>
                         <div class="tab-contents" data-tab="login" data-bind="css: {active: loginMenu.currentTab() == 'link'}">
-                            <p class="section-title">Link Your Centennial and EPL Accounts</p>
-                            <form data-bind="linkForm: true">
-                                <p class="inputError indent" data-bind="if: linkError() == true">There was a problem linking your EPL account. Check your credentials.</p>
-                                <p>
-                                    <label for="eplUsername">EPL Username:</label>
-                                    <input id="eplUsername" data-role="username" type="text" class="form-input text" data-default-text="Username" />
-                                </p>
-                                <p>
-                                    <label for="eplUsername">EPL Password:</label>
-                                    <input id="eplPassword" data-role="password" type="password" class="form-input text" data-default-text="Password" />
-                                </p>
-                                <div class="save-button-space"></div>
-                                <p><input type="submit" class="save-button" value="Link to EPL"/></p>
-                            </form>
+                            <div data-bind="style: {display: (Environment.user() != null && Environment.user().bibliolink == false) ? 'block' : 'none'}">
+                                <p class="section-title">Link Your Centennial and EPL Accounts</p>
+                                <form data-bind="linkForm: true">
+                                    <p class="inputError indent" data-bind="if: linkError() == true">There was a problem linking your EPL account. Check your credentials.</p>
+                                    <p>
+                                        <label for="eplUsername">EPL Username:</label>
+                                        <input id="eplUsername" data-role="username" type="text" class="form-input text" data-default-text="Username" />
+                                    </p>
+                                    <p>
+                                        <label for="eplUsername">EPL Password:</label>
+                                        <input id="eplPassword" data-role="password" type="password" class="form-input text" data-default-text="Password" />
+                                    </p>
+                                    <div class="save-button-space"></div>
+                                    <p><input type="submit" class="save-button" value="Link to EPL"/></p>
+                                </form>
+                            </div>
+                            <div data-bind="style: {display: (Environment.user() != null && Environment.user().bibliolink == true) ? 'block' : 'none'}">
+                                <p class="section-title">You have successfully linked your EPL account.</p>
+                            </div>
                         </div>
                     </div>
                 </div>

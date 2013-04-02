@@ -98,8 +98,12 @@ return (function () {
 					data : JSON.stringify({username : linkForm.find('[data-role=username]').val(),
 						password : linkForm.find('[data-role=password]').val()}),
 					success : function (data) {
-
-						viewModel.linkError(false);
+						if(data.result.toLowerCase().indexOf("error") > -1) {
+							viewModel.linkError(true);
+						} else {
+							EPLBar.updateUserInfo();
+							viewModel.linkError(false);
+						}
 					},
 					error : function (data) {
 						viewModel.linkError(true);
