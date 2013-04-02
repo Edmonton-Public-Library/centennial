@@ -106,6 +106,15 @@
                         <input type="text" id="search-year-start" class="epl-input text search-box-year-start" data-default-text="Min Year" maxLength="4"/> -
                         <input type="text" id="search-year-end" class="epl-input text search-box-year-end" data-default-text="Max Year" maxLength="4"/>
                     </div>
+                    <select id="search-box-content-type" class="epl-input select search-select">
+                        <option>All content types</option>
+                        <option>Audio</option>
+                        <option>Image</option>
+                        <option>Link</option>
+                        <option>PDF</option>
+                        <option>Text</option>
+                        <option>Video</option>
+                    </select>
 
                     <div class="results" data-bind="style: {height: searchHeight() + 'px'}">
     					<!-- ko ifnot: searchResults().length > 0 -->
