@@ -140,9 +140,9 @@ def link_bibliocommons(request):
                         return HttpResponse(json.dumps({'result': 'Error: Bibliocommons account already linked'}))
                     link = BibliocommonsLink.objects.create(biblioname=data['username'], user=request.user)
                     link.save()
-                    return HttpResponse(json.dumps({'result':'success'}, content_type='application/json'))
+                    return HttpResponse(json.dumps({'result':'success'}), content_type='application/json')
                 else:
-                    return HttpResponse(json.dumps({'result':'Error: Invalid Username or Password'}, content_type='application/json'))
+                    return HttpResponse(json.dumps({'result':'Error: Invalid Username or Password'}), content_type='application/json')
             else:
                 return HttpResponse(status='400')
         else:
