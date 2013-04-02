@@ -986,7 +986,7 @@
                             </tr>
                             <tr>
                                 <td class="left-column">Pre Conditions</td>
-                                <td></td>
+                                <td><ul><li>Account must exist which is not yet linked with an bibliocommons account</li><li>Bibliocommons quest must be loaded</li><ul></td>
                             </tr>
                             <tr>
                                 <td class="left-column">Post Conditions</td>
@@ -1000,6 +1000,26 @@
                                             <th>Step #</th>
                                             <th>Description</th>
                                             <th>Expected Result</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Navigate to the HYQ dash board and select a bibliocommons based test and complete it.</td>
+                                            <td>Pass</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Attempt to check that the quest is completed.</td>
+                                            <td>Error should be displayed that user has not linked their account to bibliocommons.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Link account to bibliocommons account</td>
+                                            <td>Pass</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Attempt to recheck the bibliocommons quest completion.</td>
+                                            <td>Quest should successfully complete.</td>
                                         </tr>
                                     </table>
                                 </td>
