@@ -22,9 +22,10 @@ def _formatTextAshtml(raw):
         <p>Greetings from EPL<br>
            %s
         </p>
+      <img src="%s" alt="EPL logo">
       </body>
     </html>
-    """ % (raw)
+    """ % (raw, GLOBAL_URLS["email_logo"])
 
 def aesEncrypt(msg):
     diff = len(msg) % 16
