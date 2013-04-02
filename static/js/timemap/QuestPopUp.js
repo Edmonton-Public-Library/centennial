@@ -134,12 +134,12 @@ define(['lib/knockout'], function (ko) {
 	};
 
 	QuestPopUp.prototype.popUp_DisplayDiscovery = function(title) {
-		this.showPopUp("Quest Set Discovered!", "You have discovered the quest set '" + title + "'! \n\nCheck it it out in your Hundred Year Quest page!", 0, true);
+		this.showPopUp("Quest Discovered!", "You have discovered the quest '" + title + "'! <br/> <br/>Check it it out in your Hundred Year Quest page!", 0, true);
 	};
 
 	QuestPopUp.prototype.popUp_DisplayCompletion = function(title, type1, type2, points) {
 		var popUpTitle = type1 + " Completed!";
-		var popUpDescription = "You have completed the " + type2 + " '" + title + "' for " + points + " points! \n\nCheck it it out in your Hundred Year Quest page!";
+		var popUpDescription = "You have completed the " + type2 + " '" + title + "' for " + points + " points! <br/> <br/>Check it it out in your Hundred Year Quest page!";
 
 		this.showPopUp(popUpTitle, popUpDescription, points, false);
 	};
@@ -148,15 +148,17 @@ define(['lib/knockout'], function (ko) {
 		var self = this;
 
 		var taskPoints = task.points;
-		var questPoints = task.quest.points;
-		var setPoints = task.questset.points;
+		var challengePoints = taskPoints + task.quest.points;
+		var setPoints = challengePoints + task.questset.points;
 
-		self.popUp_DisplayCompletion(task.title, "Task", "task", taskPoints);
-		if(task.quest.completed == task.quest.total) {
-			self.popUp_DisplayCompletion(task.quest.title, "Quest", "quest", questPoints);
-		}
 		if(task.questset.completed == task.questset.total) {
-			self.popUp_DisplayCompletion(task.questset.title, "Quest Set", "quest set", setPoints);
+			self.popUp_DisplayCompletion(task.questset.title, "Quest", "quest", setPoints);
+		}
+		else if(task.quest.completed == task.quest.total) {
+			self.popUp_DisplayCompletion(task.quest.title, "Challenge", "challenge", challengePoints);
+		}
+		else {
+			self.popUp_DisplayCompletion(task.title, "Task", "task", taskPoints);
 		}
 
 		if(discovered) {
@@ -173,6 +175,8 @@ define(['lib/knockout'], function (ko) {
 	};
 
 	QuestPopUp.prototype.checkTasks = function(taskLists) {
+		console.log('tasks:');
+		console.log(taskLists);
 		this.completeTasks(taskLists.completedTasks, false);
 		this.completeTasks(taskLists.discoveredTasks, true);
 	}

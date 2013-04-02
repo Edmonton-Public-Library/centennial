@@ -6,7 +6,8 @@
 	<!-- Styling -->
 	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}styles/reset.less" />
 	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}styles/epl-general.less" />
-	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}styles/timemap.less" />
+    <link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}styles/timemap.less" />
+	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}styles/questPopUp.less" />
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/timeline.css" />
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/jPlayer-skin/jplayer.blue.monday.css" />
 
@@ -57,7 +58,11 @@
     			<li data-role="account">
     				<img class="icon"/>
     				<span data-role="name">Login</span>
-    				<div class="menu" data-bind="authenticateSubmit: {username: 'auth-username', password: 'auth-password'}">
+    				<div class="menu">
+                        <ul class="tabs">
+                            <li>Login</li>
+                            <li>Create Account</li>
+                        </ul>
     					<p class="section-title">Authenticate</p>
                         <form method="post" action="#" data-bind="loginForm: true">
         					<input id="auth-username" data-role="username" type="text" class="epl-input text" data-default-text="Username" />
@@ -107,7 +112,7 @@
                         <input type="text" id="search-year-end" class="epl-input text search-box-year-end" data-default-text="Max Year" maxLength="4"/>
                     </div>
                     <select id="search-box-content-type" class="epl-input select search-select">
-                        <option>All content types</option>
+                        <option>Filter by content type...</option>
                         <option>Audio</option>
                         <option>Image</option>
                         <option>Link</option>
@@ -151,12 +156,12 @@
     <div id="questPopUp" class="questPopUp">
         <img src="/static/images/x.png" class="questPopUpCloseButton"></img>
         <div class="questPopUpText">
-            <div class="questPopUpTitle">derpity</div>
-            <div class="questPopUpDescription">poops</div>
+            <div class="questPopUpTitle"></div>
+            <div class="questPopUpDescription"></div>
         </div>
         <div class="questPopUpPointsDisplay">
             <div class="questPopUpPts">pts</div>
-            <div class="questPopUpPoints questPopUpPts">35</div>
+            <div class="questPopUpPoints questPopUpPts"></div>
         </div>
         <div class="questPopUpArrows">
             <img src="/static/images/arrow_right.png" class="questPopUpRightArrow questPopUpFloatingNumbers"></img>

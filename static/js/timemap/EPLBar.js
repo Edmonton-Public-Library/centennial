@@ -1,18 +1,21 @@
 ;
-define(['timemap/Authentication', 'lib/knockout', 'timemap/Environment', 'epl/Settings'], function (Authentication, ko, Environment, Settings) {
+define(['timemap/Authentication', 'lib/knockout', 'timemap/Environment', 'hyq/Environment', 'epl/Settings'], function (Authentication, ko, TimemapEnvironment, HYQEnvironment, Settings) {
 
 return (function () {
 
 	var loginEndpoint = '/account/login/centennial/';
+	var accountInfoEndpoint = '/account/current';
 
 	var EPLBar = function (selector) {
 		var self = this;
+
+		EPLBar.updateUserInfo();
 
 		//Don't try to initialize before the page is ready
 		$(document).ready(function () {
 			self.element = $(selector);
 			self.initButtons();
-			ko.applyBindings({Environment: Environment, Settings: Settings}, self.element[0]);
+			ko.applyBindings({Environment: TimemapEnvironment, Settings: Settings}, self.element[0]);
 		});
 	};
 
@@ -30,6 +33,14 @@ return (function () {
 			$(document).bind('click', function () {
 				button.removeClass('active');
 			});
+		});
+	};
+
+	EPLBar.updateUserInfo = function (callback) {
+		$.get(accountInfoEndpoint, function(data) {
+			TimemapEnvironment.user(data);
+			HYQEnvironment.user(data);
+			if(typeof callback == 'function') callback(data);
 		});
 	};
 

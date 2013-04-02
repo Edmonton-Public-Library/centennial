@@ -8,10 +8,11 @@ return (function () {
 		var pinIcons = {
 			std: Environment.routes.staticDirectory + '/images/std-pin.png',
 			'bookmobile-bus': Environment.routes.staticDirectory + '/images/bookmobile-bus-pin.png',
-			'bookmobile-trolley': Environment.routes.staticDirectory + '/images/bookmobile-bus-pin.png'
+			'bookmobile-trolley': Environment.routes.staticDirectory + '/images/bookmobile-trolley-pin.png'
 		};
 
-		this.type = 'std';
+		
+		this.type = options['type'];
 		this.id = '';
 		this.name = '';
 		this.description = '';
