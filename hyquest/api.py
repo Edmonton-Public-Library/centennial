@@ -18,15 +18,15 @@ class QuestSetResource(ModelResource):
         self.user = request.user
         return QuestSet.objects.filter(Q(userquestsetaction__user=request.user, active=True) | \
                                        Q(userquestsetaction__user=request.user, userquestsetaction__complete=True) | \
-                                       Q(featured=True, active=True))
+                                       Q(featured=True, active=True)).distinct()
     def build_filters(self, filters=None):
         if filters is None:
             filters = {}
         orm_filters = super(QuestSetResource, self).build_filters(filters)
         if 'featured' in filters:
             orm_filters['featured__exact'] = True
-            orm_filters['userquestsetaction__user'] = self.user
-            orm_filters['userquestsetaction__complete'] = False
+            #orm_filters['userquestsetaction__user'] = self.user
+            #orm_filters['userquestsetaction__complete'] = False
         if 'active' in filters:
             orm_filters['featured__exact'] = False
             orm_filters['userquestsetaction__user'] = self.user

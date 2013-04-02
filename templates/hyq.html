@@ -7,6 +7,7 @@
 	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}/styles/reset.less" />
 	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}/styles/epl-general.less" />
 	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}/styles/hyq.less" />
+	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}/styles/questPopUp.less" />
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/styles/timeline.css" />
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/jPlayer-skin/jplayer.blue.monday.css" />
 
@@ -40,13 +41,42 @@
 		<div id="timeline" data-bind="style: {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
 	</div>
 	<div id="dashboard">
-		<h1>Featured Quests</h1>
+		<div id="info-panel">
+			<div class="profile">
+				<div class="title">Profile</div>
+				<ul>
+					<li>
+						<span class="field">Username: </span>
+						<span class="value" data-bind="text: Environment.user().username"></span>
+					</li>
+					<li>
+						<span class="field">Email: </span>
+						<span class="value" data-bind="text: Environment.user().email"></span>
+					</li>
+				</ul>
+			</div>
+			<div class="rank">
+				<div class="text">Level</div>
+				<div class="number" data-bind="text: Environment.user().level"></div>
+			</div>
+			<div class="rank">
+				<div class="text">Points to Next Level</div>
+				<div class="number" data-bind="text: completionPoints() - Environment.user().points"></div>
+			</div>
+			<div class="rank">
+				<div class="text">Enter Quest Code</div>
+				<div class="controls">
+					<input type="text" class="code" data-bind="checkCode: true, text: 'test'" />
+				</div>
+			</div>
+		</div>
+		<h1>Featured Quest Sets</h1>
 		<div class="iosSlider featured-quests" data-bind="iosSlider: true">
 			<div class="slider">
 				<!-- ko foreach: {data: featuredQuests, afterRender: initFeaturedSlider} -->
 					<div class="slide current-quest">
 						<div class="progress-container">
-							<div class="progress-bar"></div>
+							<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
 						</div>
 						<div class="title" data-bind="text: title"></div>
 						<ul>
@@ -65,13 +95,13 @@
 				<!-- /ko -->
 			</div>
 		</div>
-		<h1>Active Quests</h1>
+		<h1>Active Quest Sets</h1>
 		<div class="iosSlider active-quests" data-bind="iosSlider: true">
 			<div class="slider">
 				<!-- ko foreach: {data: activeQuests, afterRender: initActiveSlider} -->
 					<div class="slide current-quest">
 						<div class="progress-container">
-							<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * 400) + 'px'}"></div>
+							<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
 						</div>
 						<div class="title" data-bind="text: title"></div>
 						<ul>
@@ -90,7 +120,44 @@
 				<!-- /ko -->
 			</div>
 		</div>
-		<div data-role="viewport"></div>
+		<div data-role="viewport"></div>   
+		<h1>Completed Quest Sets</h1>
+		<table id="completed-quests">
+			<thead>
+				<tr>
+					<th data-bind="sortQuests: {column: 'date'}">Date</th>
+					<th data-bind="sortQuests: {column: 'title'}">Quest</th>
+					<th data-bind="sortQuests: {column: 'points'}">Points</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- ko foreach: {data: completedQuests} -->
+				<tr data-bind="css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
+					<td data-bind="text: date_completed">0</td>
+					<td data-bind="text: title"></td>
+					<td data-bind="text: points"></td>
+				</tr>
+				<!-- /ko -->
+			</tbody>
+		</table>
 	</div>
+	<div id="questPopUp" class="questPopUp">
+        <img src="/static/images/x.png" class="questPopUpCloseButton"></img>
+        <div class="questPopUpText">
+            <div class="questPopUpTitle"></div>
+            <div class="questPopUpDescription"></div>
+        </div>
+        <div class="questPopUpPointsDisplay">
+            <div class="questPopUpPts">pts</div>
+            <div class="questPopUpPoints questPopUpPts"></div>
+        </div>
+        <div class="questPopUpArrows">
+            <img src="/static/images/arrow_right.png" class="questPopUpRightArrow questPopUpFloatingNumbers"></img>
+            <div class="questPopUpTotalNumber questPopUpFloatingNumbers"></div>
+            <div class="questPopUpFloatingNumbers">/</div>
+            <div class="questPopUpCurrentNumber questPopUpFloatingNumbers"></div>
+            <img src="/static/images/arrow_left.png" class="questPopUpLeftArrow questPopUpFloatingNumbers"></img>
+        </div>
+    </div>
 </body>
 </html>
