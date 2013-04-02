@@ -7,7 +7,7 @@ define(['lib/knockout'], function (ko) {
 		self.popUpMessages = [];
 		self.currentPopUp = 0;
 
-		self.viewport.click(function(e) {
+		self.viewport.find('.questPopUpText').click(function(e) {
 			window.location = "/hyq";
 		});
 
