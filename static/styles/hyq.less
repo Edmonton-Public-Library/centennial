@@ -12,7 +12,7 @@ body {
 	left: 0;
 	overflow: hidden;
 	
-	height: @questWidgetHeight + 25;
+	height: @questWidgetHeight;
 }
 
 /* slider */
@@ -28,6 +28,122 @@ body {
 	float: left;
 }
 
+#info-panel {
+	@panelBackground: rgb(220,220,220);
+	@panelHeight: 80px;
+	background-color: @panelBackground;
+	height: @panelHeight;
+	.x-box-shadow(0, -2px, 4px, 0, rgba(0,0,0,0.2), true);
+	position: relative;
+
+	.profile {
+		float: left;
+
+		.title {
+			font-weight: bold;
+			font-size: @panelHeight;
+			color: darken(@panelBackground, 5%);
+			position: absolute;
+			top: -10px;
+			left: 0;
+			z-index: 0;
+		}
+
+		ul {
+			list-style-type: none;
+			padding: 0 0 0 12px;
+			position: relative;
+			z-index: 2;
+
+			li {
+				.field {
+					font-weight: bold;
+				}
+
+				.value {
+
+				}
+			}
+		}
+	}
+
+	.rank {
+		float: right;
+		background-color: darken(@panelBackground, 15%);
+		height: @panelHeight;
+		.x-box-shadow(0, -2px, 4px, 0, rgba(0,0,0,0.2), true);
+		margin-left: 3px;
+		position: relative;
+		z-index: 3;
+
+		.text {
+			background-color: darken(@panelBackground, 25%);
+			height: 23px;
+			line-height: 25px;
+			font-size: 18px;
+			padding: 0 10px;
+			text-align: center;
+		}
+
+		.controls {
+			font-size: 14px;
+
+			input, button {
+				font-size: @panelHeight - 45px;
+				border: solid 1px darken(@panelBackground, 30%);
+				margin: 5px 5px 5px 0;
+				padding: 5px;
+				height: @panelHeight - 45px;
+
+				&:first-child {
+					margin-left: 5px;
+				}
+			}
+
+			input[type=text] {
+
+				&.code {
+					width: 205px;
+					float: left;
+				}
+			}
+
+			button {
+				font-size: 25px;
+			}
+		}
+
+		.number {
+			padding: 0 10px;
+			font-size: 50px;
+			text-align: center;
+		}
+	}
+
+	.progress {
+		float: right;
+		background-color: darken(@panelBackground, 15%);
+		height: @panelHeight;
+		.x-box-shadow(0, -2px, 4px, 0, rgba(0,0,0,0.2), true);
+		margin-right: 3px;
+
+		.title {
+			background-color: darken(@panelBackground, 25%);
+			height: 23px;
+			line-height: 25px;
+			font-size: 18px;
+			padding: 0 10px;
+			text-align: center;
+			margin-bottom: 5px;
+		}
+
+		.contents {
+			padding: 0 10px;
+			font-size: 14px;
+		}
+	}
+}
+
 .featured-quest {
 	@questWidgetColor: @epl-green;
 
@@ -38,7 +154,6 @@ body {
 }
 
 .current-quest {
-	@questWidgetColor: @epl-blue;
 	@questBackgroundColor: desaturate(lighten(@questWidgetColor, 30%),30%);
 	width: @questWidgetWidth;
 	height: @questWidgetHeight;
@@ -123,7 +238,7 @@ body {
 			}
 
 			.completion-count {
-				font-size: 30px;
+				font-size: 24px;
 				text-align: center;
 				height: @countHeight;
 				line-height: @countHeight;
@@ -135,20 +250,75 @@ body {
 	}
 }
 
-@questWidgetWidth: 400px;
-@questWidgetHeight: 220px;
+h1 {
+	color: rgb(50,50,50);
+	font-size: 25px;
+	padding: 10px;
+	margin: 0;
+}
+
+table#completed-quests {
+
+	width: 100%;
+	text-align: left;
+
+	thead {
+		background-color: @questWidgetColor;
+
+		th {
+			padding: 10px;
+			cursor: pointer;
+		}
+	}
+
+	tbody {
+		tr {
+			cursor: pointer;
+			&.row-even {
+				background-color: desaturate(lighten(@questWidgetColor, 20%), 25%);
+			}
+			&.row-odd {
+				background-color: desaturate(lighten(@questWidgetColor, 30%), 25%);
+			}
+
+			td {
+				padding: 7px;
+			}
+		}
+	}
+}
 
 .quest-set-viewer {
+
+	#close-icon {
+		cursor: pointer;
+		img {
+			position: absolute;
+			top: 2px;
+			right: 2px;
+			width: 60px;
+		}
+	}
+
 	@background: #F0F0F0;
 	background-color: @background;
+	border: 1px solid black;
 	overflow: auto;
 	width: 900px;
+	margin-left: -450px;
+	position: absolute;
+	left: 50%;
+	top: 100px;
+	z-index: 100;
+	padding-bottom: 20px;
 	.quest-set-header {
 		width: 100%;
 		text-align: center;
 		font-weight: bold;
-		font-size: 20px;
-		padding: 10px 0px 10px 0px;
+		font-size: 30px;
+		padding: 20px 0px 20px 0px;
+		padding-right: 50px;
+		margin-bottom: 20px;
 		background-color: darken(@background, 10);
 	}
 	.quest-set-title {
@@ -162,7 +332,7 @@ body {
 		font-weight: bold;
 		font-size: 40px;
 		margin-top: 0px;
-		margin-buttom: 0px;
+		margin-bottom: 0px;
 		float: right;
 		width: 40%; 
 		text-align: right;
@@ -201,17 +371,20 @@ body {
 		float: left; 
 		width: 20%; 
 		text-align: right;
+		margin-top: 0px;
 	}
 	.task-title {
 		float: left;
 		width: 80%;
 		text-align: left;
+		margin-top: 0px;
 	}
 	.task-interaction {
 		float: left;
 		width: 80%;
 		text-align: left;
 		padding-left: 40px;
+		margin-top: 0px;
 	}
 	.error {
 		color: red;
@@ -226,3 +399,7 @@ body {
 		display: visible;
 	}
 }
+
+@questWidgetColor: @epl-blue;
+@questWidgetWidth: 400px;
+@questWidgetHeight: 197px;

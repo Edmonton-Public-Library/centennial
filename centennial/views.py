@@ -11,6 +11,8 @@ import util.email.email_template
 import urlparse
 import json
 
+# This file handles HttpRequests for User Account related information
+
 def accountActivate(request):
     if request.method == 'GET':
         # i should only have one parameter
@@ -49,14 +51,11 @@ def login_user(request):
     """
         View used to create a user cookie to maintain a session.
     """
-    print "w00t"
     if request.method == "POST":
         data = None
         try:
             data = json.loads(request.raw_post_data)
-            print data
         except ValueError, e:
-            print e
             return HttpResponse(status='400')
         if 'username' in data and 'password' in data:
             username = data['username']
@@ -99,20 +98,18 @@ def create_user(request):
             #Perform ReCaptcha Verification
             captchaValid = verifyReCaptcha(request, data['recaptcha_challenge'], data['recaptcha_response'])
             if not captchaValid[0]:
-                return HttpResponse(status='400')
+                return HttpResponse(captchaValid[1], status='400')
             #Perform data integrity verification
             if User.objects.filter(username=data['username']).count() == 0:
-                user = User.objects.create_user(username = data['username'],
-                                                password = data['password'],
-                                                email = data['email'])
-                user.is_active = False
+                user = User.objects.create(username = data['username'], email = data['email'], is_active = False)
                 user.first_name = data['firstname']
                 user.last_name = data['lastname']
+                user.save()
+                user.set_password(data['password'])
                 user.save()
                 return HttpResponse(status='201')
             else:
                 return HttpResponse(status='409')
-        #print("Bad POST data:" + request.raw_post_data)
         return HttpResponse(status='400')
 
 def current_user(request):
@@ -121,9 +118,8 @@ def current_user(request):
     """
     if request.user.is_authenticated():
         bibliolink = BibliocommonsLink.objects.filter(user=request.user).count() != 0
-        facebooklink = request.user.social_auth.filter(provider='facebook').count() != 0
         level = Level.objects.filter(required_exp__lte=request.user.profile.points).latest('required_exp')
-        userinfo = { "username": request.user.username, "firstname": request.user.first_name, "lastname": request.user.last_name, "email": request.user.email, "bibliolink" : bibliolink, "facebooklink" : facebooklink, "points": request.user.profile.points, "level": level.id}
+        userinfo = { "username": request.user.username, "firstname": request.user.first_name, "lastname": request.user.last_name, "email": request.user.email, "bibliolink" : bibliolink, "points": request.user.profile.points, "level": level.id}
         return HttpResponse(json.dumps(userinfo), content_type='application/json')
     return HttpResponse(status='403')
 
@@ -141,13 +137,15 @@ def link_bibliocommons(request):
         if request.user.is_authenticated():
             if ('username' in data and 'password' in data):
                 if validUser(data['username'], data['password']):
+                    if BibliocommonsLink.objects.filter(user=request.user).count() > 0:
+                        return HttpResponse(json.dumps({'result': 'Error: Centennial account already linked'}))
                     if BibliocommonsLink.objects.filter(biblioname=data['username']).count() > 0:
                         return HttpResponse(json.dumps({'result': 'Error: Bibliocommons account already linked'}))
                     link = BibliocommonsLink.objects.create(biblioname=data['username'], user=request.user)
                     link.save()
-                    return HttpResponse(json.dumps({'result':'success'}, content_type='application/json'))
+                    return HttpResponse(json.dumps({'result':'success'}), content_type='application/json')
                 else:
-                    return HttpResponse(json.dumps({'result':'Error: Invalid Username or Password'}, content_type='application/json'))
+                    return HttpResponse(json.dumps({'result':'Error: Invalid Username or Password'}), content_type='application/json')
             else:
                 return HttpResponse(status='400')
         else:

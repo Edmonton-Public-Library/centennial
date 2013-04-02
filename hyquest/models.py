@@ -1,12 +1,14 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.core.exceptions import ObjectDoesNotExist
 from epl.custommodels import IntegerRangeField
 from hyquest.constants import QUESTSET_TITLE_LEN, QUESTSET_DESC_LEN, QUEST_TITLE_LEN, \
                               TASK_TITLE_LEN, TASK_CODE_LEN, TASK_BIBLIOCOMMONS, \
                               TASK_CODE, TASK_SOCIAL, TASK_TIMEMAP, TASK_CHOICES,\
                               MAX_POINTS
 from timemap.models import Branch, Story
+
+# This class provides database-backed models for the HYQuest
 
 biblioFormats = {'BK': 'Book', 'CD':'CD', 'DVD': 'DVD', 'BOOK_CD': 'Audiobook'}
 
@@ -171,7 +173,7 @@ class TaskCode(models.Model):
 
 class UserTaskAction(models.Model):
     """
-    Tracks the progress of a given User for a given Task 
+    Tracks the progress of a given User for a given Task
     """
     class Meta:
         verbose_name = "User Task Action"
@@ -239,23 +241,34 @@ class Level(models.Model):
 # Signal setup
 
 from django.dispatch.dispatcher import receiver
-from django.db.models.signals import post_save
-from hyquest.actionmanager import beginTask, beginQuest
+from django.db.models.signals import post_save, post_delete
+from hyquest.actionmanager import beginTask, beginQuest, completeQuest, completeQuestSet
 
 @receiver(post_save, sender=Task)
 def maintainUserTaskActions(sender, instance, created, **kwargs):
     if created:
-        print "New Task created. Adding User Actions for all current users"
         userActions = UserQuestAction.objects.filter(quest=instance.quest, complete=False)
         for action in userActions:
-            print "Adding action for " + str(action.user)
             beginTask(user=action.user, task=instance)
 
 @receiver(post_save, sender=Quest)
 def maintainUserQuestActions(sender, instance, created, **kwargs):
     if created:
-        print "New Task created. Adding User Actions for all current users"
         userActions = UserQuestSetAction.objects.filter(questset=instance.quest_set, complete=False)
         for action in userActions:
-            print "Adding action for " + str(action.user)
             beginQuest(user=action.user, quest=instance)
+
+@receiver(post_delete, sender=Task)
+def maintainDeletedTaskActions(sender, instance, **kwargs):
+    try:
+        userActions = UserQuestAction.objects.filter(quest=instance.quest, complete=False)
+        for action in userActions:
+            completeQuest(action.user, action.quest)
+    except ObjectDoesNotExist:
+        pass
+
+@receiver(post_delete, sender=Quest)
+def maintainDeletedQuestActions(sender, instance, **kwargs):
+    userActions = UserQuestSetAction.objects.filter(questset=instance.quest_set, complete=False)
+    for action in userActions:
+        completeQuestSet(action.user, action.questset)

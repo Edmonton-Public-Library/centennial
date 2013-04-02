@@ -14,7 +14,10 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 		var Criteria = function (data) {
 			this.defaultData = {
 				keyword : '',
-				title__icontains: ''
+				title__icontains : '',
+				year__gte : '',
+				year__lte : '',
+				content_type__in : ''
 			};
 			this.data = { };
 			this.string = '';
@@ -91,12 +94,12 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 				featuredStories : ko.observable([]),
 				searchResults : ko.observable([]),
 				searchHeight : ko.computed(function () {
-					//-114 for search stuff on top
-					return Environment.display.height() - Environment.display.topBarHeight() - 114;
+					//-210 for search stuff on top
+					return Environment.display.height() - Environment.display.topBarHeight() - 260;
 				}),
 				featuredHeight : ko.computed(function () {
 					//-114 for search stuff on top
-					return Environment.display.height() - Environment.display.topBarHeight() - 53;
+					return Environment.display.height() - Environment.display.topBarHeight() - 103;
 				}),
 				//React to clicking on a featured story
 				featuredClick : function (data) {
@@ -104,21 +107,55 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 				},
 				//React to clicking on a search resultClick
 				resultClick : function (data) {
-					console.log(data);
 					document.location = '#viewStory/' + data.id;
 				},
 				Environment: Environment
 			};
 
-			//TODO: REMOVE! THIS IS FOR EXPERIMENTING ONLY!
 			$('.search-box').eplInput({
 				events: {
 					onchange: {
 						callback: function (e) {
-							sidebar.search(new Criteria({
-								'keyword' : e.currentValue,
-								'title__icontains' : e.currentValue
-							}));
+							criteria = sidebar.createCriteria();
+							sidebar.search(criteria);
+						},
+						interval: 400
+					}
+				}
+			});
+
+			$('.search-box-year-start').eplInput({
+				events: {
+					onchange: {
+						callback: function (e) {
+							criteria = sidebar.createCriteria();
+							sidebar.search(criteria);
+						},
+
+						interval: 400
+					}
+				}
+			});
+
+			$('.search-box-year-end').eplInput({
+				events: {
+					onchange: {
+						callback: function (e) {
+							criteria = sidebar.createCriteria();
+							sidebar.search(criteria);
+						},
+
+						interval: 400
+					}
+				}
+			});
+
+			$('.search-select').eplInput({
+				events: {
+					onchange: {
+						callback: function (e) {
+							criteria = sidebar.createCriteria();
+							sidebar.search(criteria);
 						},
 
 						interval: 400
@@ -179,7 +216,6 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			if(criteria.toString().length > 0) {
 				$.get(Environment.routes.apiBase + '/story/?format=json' + criteria, function (data) {
 					self.data.searchResults(data.objects);
-					console.log(data.objects);
 				});
 			} else {
 				self.data.searchResults([]);
@@ -190,6 +226,29 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			}
 		};
 
+		Sidebar.prototype.createCriteria = function () {
+			var textInput = $('#search-box-text').val();
+			var useTextInput = textInput != "Start typing to search...";
+			var yearStartInput = $('#search-year-start').val();
+			var useStartYear = yearStartInput.length == 4 && yearStartInput != "Min Year";
+			var yearEndInput = $('#search-year-end').val();
+			var useEndYear = yearEndInput.length == 4 && yearEndInput != "Max Year";
+			var contentType = $('.option-selected').find('.option-contents').attr('data-value');
+			if(typeof contentType == 'string') {
+				contentType = contentType.toLowerCase();
+			} else {
+				contentType = '';
+			}
+			criteria = new Criteria({
+				'keyword' : useTextInput ? textInput : "",
+				'title__icontains' : useTextInput ? textInput : "",
+				'year__gte' : useStartYear ? yearStartInput : "",
+				'year__lte' : useEndYear ? yearEndInput : "",
+				'content_type__in' : contentType != "Filter by content type..." ? contentType : ""
+			})
+			return criteria;
+		}
+
 		/**
 		 * Set the currently-displayed tab in the sidebar
 		 * @param	id		String		The ID of the tab that should be displayed
@@ -197,8 +256,8 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 		 *								the tab element that should be displayed)
 		 */
 		Sidebar.prototype.tab = function (id) {
-			this.viewport.find('.tab').add('.tab-contents').removeClass('active');
-			this.viewport.find('.tab[data-tab=' + id + ']').add('.tab-contents[data-tab=' + id + ']').addClass('active');
+			this.viewport.find('.sidebar-tab').add('.sidebar-tab').removeClass('active');
+			this.viewport.find('.sidebar-tab[data-tab=' + id + ']').add('.sidebar-tab[data-tab=' + id + ']').addClass('active');
 		};
 
 		return Sidebar;

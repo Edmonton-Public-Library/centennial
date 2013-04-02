@@ -5,6 +5,8 @@ from django import forms
 from hyquest.models import Task
 from timemap.models import Story
 
+# This generates the form that allows social task creation
+
 class SocialTaskForm(forms.Form):
     task_id = forms.CharField(widget=forms.HiddenInput())
     share_story = forms.ModelChoiceField(queryset=Story.objects.filter(public_approved=True), required=False)

@@ -3,6 +3,7 @@ Django views to access several of the timemap utilities such as preferences,
 file uploads, or the main itmemap page
 """
 import json
+from django.utils.safestring import mark_safe
 from django.template.loader import get_template
 from django.template import Context
 from django.http import HttpResponse
@@ -16,11 +17,13 @@ def timemap(request):
     Serves main timemap application
     """
     t = get_template('timemap.html')
-    return HttpResponse(t.render(Context({'STATIC_URL' : epl.settings.STATIC_URL})))
-
-def hyq(request):
-    t = get_template('hyq.html')
-    return HttpResponse(t.render(Context({'STATIC_URL' : epl.settings.STATIC_URL})))
+    keys = { 'FB_KEY': preferences.TimemapPreferences.facebook_key,
+             'GOOGLE_KEY': preferences.TimemapPreferences.google_key
+           }
+    context = Context({'STATIC_URL': epl.settings.STATIC_URL,
+                               'KEYS': mark_safe(json.dumps(keys)),
+                      })
+    return HttpResponse(t.render(context))
 
 def upload(request, story_id):
     """

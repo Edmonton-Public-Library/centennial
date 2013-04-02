@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 
 from hyquest.models import Task
 
+# This constructs the form that allows editing Bibliocommons tasks.
+
 biblioFormats = [('BK', 'Book'), ('CD','CD'), ('DVD','DVD'), ('BOOK_CD', 'Audiobook')]
 
 class BibliocommonsTaskForm(forms.Form):
@@ -19,10 +21,6 @@ class BibliocommonsTaskForm(forms.Form):
     require_isbn = forms.BooleanField(required=False)
     isbn = forms.CharField(required=False)
 
-    def clean_action(self):
-        if self.cleaned_data['action'] != 'comment' and self.cleaned_data['action'] != 'rating':
-            raise ValidationError("Action must be comment or rating")
-        return self.cleaned_data['action']
 
     def clean_format(self):
         if self.cleaned_data['require_format'] and not self.cleaned_data['format']:
@@ -74,7 +72,6 @@ def edit_bibliocommons_task(request):
         arguments = {'task_id':request.GET['task_id']}
         task = Task.objects.get(id=request.GET['task_id'])
         taskinfo = task.getInfoReqs()
-        print taskinfo
         try:
             if('action' in taskinfo):
                 arguments['action'] = taskinfo['action']
@@ -102,5 +99,4 @@ def edit_bibliocommons_task(request):
         except Exception, e:
             print e
         form = BibliocommonsTaskForm(arguments)
-        print form.as_p()
     return render(request, 'admin/bibliotask.html', {'tmform': form, 'task': task})

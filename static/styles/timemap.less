@@ -123,7 +123,7 @@ body {
 				font-family: Arial;
 				display: inline;
 				float: left;
-				padding: (@tabHeight / 3) 58px (@tabHeight / 3 - 4) 58px;
+				padding: (@tabHeight / 3) 57.5px (@tabHeight / 3 - 4) 57.5px;
 				cursor: pointer;
 				position: relative;
 				border-bottom: solid 1px white;
@@ -177,13 +177,22 @@ body {
 
 		.search-box {
 			width: @sidebarWidth - 40;
-			margin: 20px auto;
+			margin: 20px 7px 10px 7px;
 			border: solid 1px lighten(gray, 30%);
+		}
+
+		#search-year-range {
+			input {
+				display: inline;
+				width: 20%;
+				margin: 0px 7px 10px 7px;
+				border: solid 1px lighten(gray, 30%);
+			}
 		}
 
 		.search-select {
 			width: @sidebarWidth - 15;
-			margin: 20px auto;
+			margin: 0px auto 15px auto;
 		}
 
 		.results {
@@ -256,6 +265,15 @@ body {
 					margin: 10px 0 0 0;
 				}
 			}
+		}
+
+		button {
+			.shiny-button();
+			width: @sidebarWidth - 15px;
+			position: relative;
+			top: 10px;
+			left: -8px;
+			cursor: pointer;
 		}
 	}
 }
@@ -412,11 +430,12 @@ body {
 			padding: 20px;
 			width: 650px;
 			text-align: center;
+			overflow: auto;
 			.x-border-radius(15px);
 			.x-box-shadow(0, 10px, 10px, 0px, rgba(0,0,0,0.1), false);
 		}
 
-		#story-close-icon {
+		#close-icon {
 			cursor: pointer;
 			img {
 				position: absolute;
@@ -623,67 +642,4 @@ body {
 			border-top-color: darken(@border, @darkenAmount);
 		}
 	}
-}
-
-.questPopUp {
-  height: 237px;
-  width: 430px;
-  position: fixed;
-  right: 0px;
-  bottom: -240px;
-  visibility: hidden;
-}
-
-.questPopUpCompleted {
-	background-image: url('/static/images/compass-notification.png');
-}
-
-.questPopUpDiscovered {
-	background-image: url('/static/images/bulb-notification.png');
-}
-
-.questPopUpCloseButton {
-  height: 52px;
-  width: 52px;
-  position: absolute;
-  right: 1px;
-  top: 26px;
-}
-
-.questPopUpText {
-  position: absolute;
-  left: 60px;
-  top: 60px;
-  font-size: 15;
-}
-
-.questPopUpTitle {
-	font-size: x-large;
-	font-weight: bold;
-	text-decoration: underline;
-}
-
-.questPopUpPoints {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-}
-
-.questPopUpArrows {
-	position: absolute;
-	right: 100px;
-	top: 30px;
-	width: 100px;
-}
-
-.questPopUpFloatingNumbers {
-	float: right;
-}
-
-.questPopUpLeftArrow {
-
-}
-
-.questPopUpRightArrow {
-
 }

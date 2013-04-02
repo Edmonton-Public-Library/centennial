@@ -13,6 +13,7 @@ return {
 	apiAccountUrl : '/account/',
 	apiQuestBaseUrl : '/game/complete/',
 	apiQuestUrl : '/game/complete/timemap',
+	apiCodeUrl : '/game/complete/code',
 	apiQuestSetsUrl : '/game/questsets',
 	apiQuestsUrl : '/api/v1/quest',
 	viewDirectory : function () { return '/static/views'; },
@@ -27,7 +28,7 @@ return {
 		facebook : {
 			connect : '150662938425048'
 		}
-	},
+	}
 };
 
 //End module

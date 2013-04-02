@@ -1,6 +1,8 @@
 from epl.settings import RECAPTCHA_PRIVATE_KEY
 import requests
 
+# A small implementation of the Recaptcha server-side API
+
 API_SERVER = "https://www.google.com/recaptcha/api/verify"
 
 def verifyReCaptcha(request, challenge, response):
@@ -16,8 +18,6 @@ def verifyReCaptcha(request, challenge, response):
     params = {'privatekey': RECAPTCHA_PRIVATE_KEY, 'remoteip': ip, 'challenge': challenge, 'response': response}
     retval = requests.post(API_SERVER, params=params)
     verification = retval.text.split('\n')
-    print("ReCaptcha for "+ip+", result: "+retval.text)
-    print("Challenge: "+challenge+"\n Response: "+response)
     return (verification[0] == 'true', verification[1])
 
 

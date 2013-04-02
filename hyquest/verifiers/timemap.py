@@ -1,6 +1,8 @@
 from hyquest.verifiers.common import getTaskResultSet, getUserAction
 from hyquest.constants import TASK_TIMEMAP
 
+# This handles matching up TimeMap state to associated TimeMap Tasks
+
 def matchingTimeMapTasks(user, timeMapState):
     tasks = getTaskResultSet(user).filter(type=TASK_TIMEMAP)
     activeTasks = []
@@ -16,10 +18,10 @@ def matchingTimeMapTasks(user, timeMapState):
 
 def timeMapMatches(task, timeMapState):
     reqs = task.getInfoReqs()
-    if 'minYear' in reqs and ('year' not in timeMapState or int(timeMapState['year']) < int(reqs['minYear'])):
+    if 'minYear' in reqs and ('year' not in timeMapState or int(timeMapState['year'])+5 < int(reqs['minYear'])):
         print "year before minYear"
         return False
-    if 'maxYear' in reqs and ('year' not in timeMapState or int(timeMapState['year']) > int(reqs['maxYear'])):
+    if 'maxYear' in reqs and ('year' not in timeMapState or int(timeMapState['year'])-5 > int(reqs['maxYear'])):
         print "year after maxYear"
         return False
     if 'branch' in reqs and ('branch' not in timeMapState or reqs['branch'] != str(timeMapState['branch'])):

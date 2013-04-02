@@ -43,9 +43,6 @@ main : new View('timemap', 'Home',
 					epl.storage.map.resetPins();
 					epl.storage.timeline = new Timeline('#timeline', epl.storage.map, date);
 				}
-
-				$('.buttons').find('#auth-username').eplInput();
-				$('.buttons').find('#auth-password').eplInput();
 			});
 		}, 
 
@@ -175,21 +172,11 @@ branch : new View('branch', 'Branch',
 				Map.withBranchInfo(epl.nav.params.id, function (branchData) {
 					var branch = new Branch($('#branch-viewer'));
 					branch.setData(branchData);
-					
-					epl.storage.timeline = new Timeline('#timeline', {}, epl.storage.selectedDate, function() {
-						epl.storage.timeline.enterBranchView(epl.nav.params.id, branch);
-					});
+
+					epl.storage.timeline = new Timeline('#timeline', {}, epl.storage.selectedDate, epl.nav.params.id, branch);
 
 					Environment.sidebar.setFeaturedStoriesSource('branch', epl.nav.params.id);
 				});
-				// brch.showPin(new StoryPin("video", "1", "a Video")); 
-				// brch.showPin(new StoryPin("audio", "2", "some audio")); 
-			 //  	brch.showPin(new StoryPin("text", "3", "Fred's story")); 
-				// brch.showPin(new StoryPin("video", "4", "second video")); 
-				// brch.showPin(new StoryPin("link", "5", "link to somewhere")); 
-				// brch.showPin(new StoryPin("pdf", "7", "a pdf"));
-
-				// ko.applyBindings({Environment: Environment}, $('#BranchView')[0]); 
 			});
 			callback();
 		},
@@ -311,14 +298,25 @@ viewStory : new View('viewStory', 'View Story',
                     '<a href="https://twitter.com/share" class="twitter-share-button" data-text="'+ story.title() + '" data-lang="en" data-hashtags="epl"></a>';
                 $.getScript('http://platform.twitter.com/widgets.js', function() {
                     twttr.widgets.load(twitterDiv);
+                    twttr.events.bind('tweet', function(event) {
+                        epl.updateQuest({
+                        	story : storyId
+                        });
+                    });
                 });
 
                 //load the googlePlus share button here
                 var googlePlusDiv = $('#my-googleplus-share-button')[0];
                 var pageCannonicalHref = baseURL + "/timemap/#viewStory/" + storyId;
-                googlePlusDiv.innerHTML = '<div class="g-plus" data-action="share" data-annotation="bubble" href="'+pageCannonicalHref+'"></div>'
+                googlePlusDiv.innerHTML = '<div class="g-plus" data-action="share" data-annotation="bubble" href="'+pageCannonicalHref+'"></div>';
+                var gpd = $(googlePlusDiv).find('.g-plus')[0];
                 $.getScript("https://apis.google.com/js/plusone.js" , function() {
-                        gapi.plusone.go(googlePlusDiv);
+                    // gapi.plusone.render(
+                    // 	gpd, {
+                    // 	callback : function () {
+                    // 		console.log('G+!');
+                    // 	}
+                    // });
                 });
             });
 

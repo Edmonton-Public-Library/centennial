@@ -60,6 +60,7 @@ def save_branch(name, description, start_year, end_year, longitude, latitude):
     branch.description = description
     branch.start_year = start_year
     branch.end_year = end_year
+    branch.floor_plan = " "
     branch.longitude = longitude
     branch.latitude = latitude
     branch.save()
@@ -74,7 +75,7 @@ class MapModelTest(TestCase):
             map_object.clean()
 
 class BranchResourceTest(ResourceTestCase):
-    fixtures = ['branches.json']
+    fixtures = ['test.json']
 
     def setUp(self):
         super(BranchResourceTest, self).setUp()
@@ -88,7 +89,8 @@ class BranchResourceTest(ResourceTestCase):
     def test_get_branch_json(self):
         resp = self.api_client.get(self.capilano_url, format='json')
         self.assertValidJSONResponse(resp)
-        keys = ['description',
+        keys = ['btype',
+                'description',
                 'end_year',
                 'floor_plan',
                 'id',
@@ -101,7 +103,7 @@ class BranchResourceTest(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['name'], "Capilano")
 
 class StoryResourceTest(ResourceTestCase):
-    fixtures = ['branches.json']
+    fixtures = ['test.json']
 
     def setUp(self):
         super(StoryResourceTest, self).setUp()
@@ -112,11 +114,12 @@ class StoryResourceTest(ResourceTestCase):
                      "day": 30,
                      "description": "For children up to age three",
                      "month": 1,
-                     "public_approved": True,
+                     "public_approved": False,
                      "resource_uri": "/api/v1/story/1/",
                      "story_text": "Location\tInformation\tRegistration",
                      "title": "Sing, Sign, Laugh and Learn",
                      "content_type": "text",
+                     "anonymous": True,
                      "year": 2013
                     }
 
@@ -141,26 +144,26 @@ class StoryResourceTest(ResourceTestCase):
         self.assertHttpCreated(resp)
 
         resp = self.api_client.get('/api/v1/story/', format='json')
-        self.assertEqual(json.loads(resp.content)['meta']['total_count'], 0)
+        self.assertEqual(json.loads(resp.content)['meta']['total_count'], 51)
 
     def test_public_approved_shown(self):
         login = self.api_client.client.login(username='testuser', password='hello')
         self.assertTrue(login)
         resp = self.api_client.post('/api/v1/story/', data=self.test_story)
         self.assertHttpCreated(resp)
-        s = Story.objects.all()[0]
+        s = Story.objects.get(pk=52)
         s.public_approved = True
         s.save()
 
         resp = self.api_client.get('/api/v1/story/', format='json')
-        self.assertEqual(json.loads(resp.content)['meta']['total_count'], 1)
+        self.assertEqual(json.loads(resp.content)['meta']['total_count'], 52)
 
     def test_created_story_public_approved(self):
         login = self.api_client.client.login(username='testuser', password='hello')
         self.assertTrue(login)
         resp = self.api_client.post('/api/v1/story/', data=self.test_story)
         self.assertHttpCreated(resp)
-        self.assertFalse(Story.objects.all()[0].public_approved)
+        self.assertFalse(Story.objects.get(pk=52).public_approved)
 
 def create_test_user():
     user = User.objects.create(username='testuser', password='12345',

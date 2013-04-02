@@ -1,5 +1,5 @@
 ;
-define(['timemap', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'lib/knockout.validation', 'lib/ajaxfileupload'], function (epl, Settings, Error, ko) {
+define(['timemap', 'epl/Settings', 'lib/csc/Error', 'lib/knockout', 'timemap/Environment','lib/knockout.validation', 'lib/ajaxfileupload'], function (epl, Settings, Error, ko, Environment) {
 
 return (function () {
 
@@ -31,7 +31,12 @@ return (function () {
                 self.user(data.username);
             }
         });
-        
+
+        self.imagesDirectory = ko.observable(Environment.routes.imageDirectory);
+        self.closeView = function () {
+            window.location = '#';
+        };
+
         // Set up empty story and form validation
         self.story = new Story();
         ko.validation.configure({
@@ -72,7 +77,8 @@ return (function () {
                             success: function (data, status) {
                                 var jsonData = jQuery.parseJSON($(data).text());
                                 if (jsonData != null && jsonData.errors) {
-                                    $("#ajaxError").text(jsonData.errors);
+                                    var error = "" + jsonData.errors;
+                                    $("#ajaxError").text(error);
                                 } else {
                                     top.location="#uploadStorySuccess";   
                                 }
@@ -128,9 +134,7 @@ return (function () {
                 params: this.content_type
             }
         });
-        this.branch = ko.observable().extend({
-            required: { message: 'Branch is required.' }
-        });
+        this.branch = ko.observable();
         this.year = ko.observable().extend({
             required: { message: 'Year is required.' }
         });
@@ -158,7 +162,17 @@ return (function () {
         delete copy.custom_keywords;
         delete copy.preset_keywords;
         delete copy.errors;
-        copy.branch = Settings.apiBranchUrl + copy.branch + "/";
+        if (copy.branch == null) {
+            copy.branch = null;
+        } else {
+            copy.branch = Settings.apiBranchUrl + copy.branch + "/";
+        }
+        if (copy.month == null || copy.month == '') {
+            delete copy.month;
+        }
+        if (copy.day == null || copy.day == '') {
+            delete copy.day;
+        }
     	return copy;
     }
     

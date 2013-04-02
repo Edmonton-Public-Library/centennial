@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 
 from hyquest.models import Task, Branch, Story
 
+# This generates the form that allow TimeMap-based Tasks to be created
+
 class TimeMapTaskForm(forms.Form):
     task_id = forms.CharField(widget=forms.HiddenInput())
     visit_story = forms.BooleanField(required=False)
@@ -68,7 +70,6 @@ def edit_timemap_task(request):
         arguments = {'task_id':request.GET['task_id']}
         task = Task.objects.get(id=request.GET['task_id'])
         taskinfo = task.getInfoReqs()
-        print taskinfo
         try:
             if('story' in taskinfo):
                 arguments['visit_story'] = True

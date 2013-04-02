@@ -14,6 +14,10 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# Discovery Mode allows users to stumble across Quests they haven't yet started.
+# Turning it on is CPU expensive, but causes users to be more active in the game
+DISCOVERY_MODE = True
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -119,7 +123,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'preferences',
-    'south',
     'fts',
     'timemap',
     'django.contrib.admin',
@@ -128,7 +131,6 @@ INSTALLED_APPS = (
     'taggit',
     'hyquest',
     'centennial',
-    'social_auth'
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -177,3 +179,16 @@ LOGGING = {
 FILE_UPLOAD_HANDLERS = (
             'django.core.files.uploadhandler.TemporaryFileUploadHandler',
             )
+
+
+####
+# SMTP_SERVER - the address to the smtp server
+# SMTP_PORT   - the port that the SMTP server is executing on
+# SMTP_FROM_ADDR - the 'from' address of the email to be sent
+# SMTP_AUTH  - a tuple of (user_name, password)
+####
+SMTP_VALUES = { 'SMTP_SERVER'    : 'localhost',
+                'SMTP_PORT'      : 25,
+                'SMTP_FROM_ADDR' : 'bpetruk@serve.ctrlshiftcreate.com',
+                'SMTP_AUTH'      : None,
+        }

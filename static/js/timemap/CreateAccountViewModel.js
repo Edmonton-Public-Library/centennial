@@ -1,23 +1,23 @@
 ;
-define(['timemap', 'epl/Settings', 'lib/knockout', 'lib/knockout.validation'], function (epl, Settings, ko) {
+define(['epl/Settings', 'lib/knockout', 'lib/knockout.validation'], function (Settings, ko) {
 
 return (function () {
-    // Load the ReCaptcha Library
-    $.getScript("http://www.google.com/recaptcha/api/js/recaptcha_ajax.js")
-    .done(function(script, textStatus) {
-        Recaptcha.create("6LeKB94SAAAAAJobmSzc9kLGeGizn8VWjbiKDJ9p", 
-        "recaptcha-section",
-        {
-           theme: "red"
-        });
-    });
-
     /**
     * Creates the ViewModel to back the Create Account screen.
     * @return void
     */
     var CreateAccountViewModel = function () {
         var self = this;
+
+        // Load the ReCaptcha Library
+        $.getScript("http://www.google.com/recaptcha/api/js/recaptcha_ajax.js")
+        .done(function(script, textStatus) {
+            Recaptcha.create("6LeKB94SAAAAAJobmSzc9kLGeGizn8VWjbiKDJ9p", 
+            "recaptcha-section",
+            {
+            theme: "red"
+            });
+        });
         
         // Set up an empty account and login
         self.account = new Account();
@@ -33,6 +33,10 @@ return (function () {
                 self.account.errors.showAllMessages();
                 return false;
             }
+
+            // Disable the submit button to prevent resubmission
+            $('#createAccountSubmit').attr('disabled', true);
+
             // Append the ReCaptcha Information
             self.account.recaptcha_challenge = $("#recaptcha-section #recaptcha_challenge_field").val();
             self.account.recaptcha_response = $("#recaptcha-section #recaptcha_response_field").val();
@@ -44,8 +48,10 @@ return (function () {
                 contentType: "application/json",
                 success: function () {
                     top.location="#createAccountSuccess";
+                    top.location.reload(true);
                 }, 
                 error: function (xhr) {
+                     $('#createAccountSubmit').attr('disabled', false);
                     // Response code 409 indicates duplicate user.
                     if (xhr.status == 409) {
                         $("#ajaxErrorCreateAccount").text("Username is already taken. Please choose another username.");

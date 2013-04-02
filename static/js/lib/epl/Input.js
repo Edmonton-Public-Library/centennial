@@ -188,6 +188,7 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 					}
 
 					divInput.find('.option-selected').find('.option-contents').html(optionElement.attr('data-text'));
+					divInput.find('.option-selected').find('.option-contents').attr('data-value', optionElement.attr('data-value'));
 					config.events.onchange.callback({
 						currentValue: optionElement.attr('data-value')
 					});
@@ -198,7 +199,7 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 				// ------------------- //
 
 				divInput.find('.option:not(.option-selected)').click(function (e) {
-					selectItem($(e.srcElement));
+					selectItem($(e.target));
 					if(inputOpen) {
 						close();
 						//If we're closing it, don't allow the main element

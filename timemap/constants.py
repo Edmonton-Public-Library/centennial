@@ -15,6 +15,8 @@ BASE_URL_LEN = 200
 # Timeline API Constants
 STORY_RESOURCE_LIMIT = 100
 
+KEY_LEN = 100
+
 # File Constraints
 UPLOAD_MIME_TYPES = ('image/png',
                      'image/jpeg',

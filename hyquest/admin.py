@@ -4,6 +4,9 @@ from django import forms
 from django.shortcuts import render
 from hyquest.constants import TASK_CHOICES
 
+# Here all of the forms for Administration of HYQuest are set up,
+# and provided with filtration and editing options
+
 class QuestForm(forms.ModelForm):
     class Meta:
         model = Quest

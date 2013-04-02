@@ -112,6 +112,7 @@ div {
 		overflow: hidden;
 		background-color: none;
 		position: relative; /* To allow for drop-down positioning */
+		z-index: 1000;
 
 		.option-list {
 			padding: 0 2px 0 0; /* Fit the borders of the option elements */
@@ -148,7 +149,6 @@ div {
 			.option-contents {
 				height: @inputHeight;
 				margin: @optionPaddingVertical @optionPaddingHorizontal;
-				width: 100px;
 				padding: 6px 0;
 				color: darken(@inputBorderColor, 30%);
 			}
@@ -202,62 +202,124 @@ div {
   		list-style-type: none;
   		padding: 0;
 
-  		li {
-  			@fontSize: 13px;
-  			//-4 just because... Something to do with text sizing, I suppose
-  			@heightAdjust: 4px;
-  			@padding: (@eplBarHeight - @fontSize - @heightAdjust) / 2;
-  			@buttonBackground: #DEDEDE;
-  			@buttonRadius: 3px;
-  			@buttonBorderWidth: 1px;
-  			height: @fontSize + @heightAdjust + 2;
-  			padding:(@padding - @heightAdjust) @padding (@padding - @heightAdjust) (@padding + @eplBarHeight - 5px);
-  			margin: 0;
-  			background-color: @buttonBackground;
-  			display: inline;
-  			float: right;
-  			cursor: default;
-  			color: darken(@buttonBackground, 50%);
-  			border: solid @buttonBorderWidth darken(@buttonBackground, 30%);
-  			box-shadow: inset 0 0 0 1px white, 1px 1px 3px rgba(0,0,0,0.2);
-  			.x-border-radius(@buttonRadius);
-  			.x-gradient(lighten(@buttonBackground, 3%), darken(@buttonBackground, 3%));
-  			position: relative;
-  			// overflow: hidden;
-  			z-index: 1000;
-
-  			&.help {
-  				width: 30px;
-  				margin-left: (@eplBarHeight / 4);
-  				padding-left: @padding;
-  			}
-
-  			.icon {
-  				float: left;
-  				height: (2 * @padding) + @fontSize - (2 * @buttonBorderWidth);
-  				width: (2 * @padding) + @fontSize - (2 * @buttonBorderWidth);
-  				position: absolute;
-  				top: -1px;
-  				left: -1px;
-  				.x-border-top-left-radius(@buttonRadius);
-  				.x-border-bottom-left-radius(@buttonRadius);
-	  			border: solid @buttonBorderWidth darken(@buttonBackground, 30%);
-	  			.x-gradient(darken(@buttonBackground, 8%), darken(@buttonBackground, 22%));
-	  			box-shadow: inset 0 0 0 1px white;
-  			}
+  		li.button {
+  			.shiny-button();
 
   			.menu {
   				@menuBackground: #F5F5F5;
   				@saveButtonHeight: 35px;
-  				padding: 10px;
+  				padding: 50px 10px 10px 10px;
   				position: absolute;
   				right: -1px;
   				top: 33px;
   				background-color: @menuBackground;
   				border: solid 1px darken(@menuBackground, 23%);
+  				min-width: 348px;
+  				min-height: 100px;
+  				overflow: auto;
 				.x-box-shadow(0, 0, 40px, 0px, rgba(0,0,0,0.3), false);
 				display: none;
 				z-index: 999;
+
+				.menu-section {
+					display: none;
+					&.active {
+						display: block;
+					}
+				}
+
+				.menu-wrapper {
+					overflow: auto;
+					width: 400px;
+					max-height: 800px;
+				}
+
+				.tabs {
+					list-style-type: none;
+					width: 100%;
+					padding: 0;
+					margin: 0;
+					position: absolute;
+					top: 0;
+					left: 0;
+
+					li {
+						@tabBackground: darken(desaturate(@epl-blue, 30%), 10%);
+						@tabTextColor: white;
+						width: 50%;
+						float: left;
+						background-color: @tabBackground;
+						cursor: pointer;
+						text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+						.x-box-shadow(0, -3px, 4px, -2px, rgba(0,0,0,0.2), true);
+
+						&.active {
+							background-color: darken(@tabBackground, 10%);
+						}
+
+						&:hover {
+							background-color: darken(@tabBackground, 20%);
+						}
+
+						.text {
+							padding: 10px;
+							text-align: center;
+							color: @tabTextColor;
+
+						}
+					}
+				}
+
+				.tab-contents {
+					@required-error-color: #3394ff;
+					@hint-color: #6299d6;
+					display: none;
+
+					&.active {
+						display: block;
+					}
+
+					.form-input {
+						border: solid 1px lighten(gray, 30%);
+						.x-border-radius(14px);
+						&.text  {
+							height: 25px;
+							padding: 3px 12px;
+						}
+						&.textarea {
+							height: 70px;
+							padding: 10px 12px;
+						}
+						&.date {
+							width: 45px;
+							height: 25px;
+							padding: 0px 5px;
+							text-align: center;
+						}
+						&:focus {
+							.x-box-shadow(0, 0, 10px, 0, rgba(0,0,0,0.8), false);
+						}
+					}
+
+					.epl-input {
+						width: 373px;
+					}
+
+					label.form-label {
+						display: inline-block;
+						text-align: right;
+						width: 160px;
+					}
+
+					.required, .inputError {
+						color: @required-error-color;
+					}
+
+					.hintText {
+						font-size: 12px;
+						color: @hint-color;
+					}
+				}
 
 				.section-title {
 					font-size: 16px;
@@ -311,6 +373,27 @@ div {
   	}
 }
 
+.shiny-button() {
+	@fontSize: 13px;
+	//-4 just because... Something to do with text sizing, I suppose
+	@padding: 13px;
+	@heightAdjust: 4px;
+	padding:(@padding - @heightAdjust) @padding (@padding - @heightAdjust) @padding;
+	margin: -2px 0 0 6px;
+	background-color: @buttonBackground;
+	display: inline;
+	float: right;
+	cursor: default;
+	color: darken(@buttonBackground, 50%);
+	border: solid @buttonBorderWidth darken(@buttonBackground, 30%);
+	box-shadow: inset 0 0 0 1px white, 1px 1px 3px rgba(0,0,0,0.2);
+	.x-border-radius(@buttonRadius);
+	.x-gradient(lighten(@buttonBackground, 3%), darken(@buttonBackground, 3%));
+	position: relative;
+	// overflow: hidden;
+	z-index: 1000;
+}
+
 .top {
     vertical-align:text-top;
 }
@@ -334,6 +417,10 @@ div {
 //==========================//
 // Page Settings            //
 //==========================//
+
+@buttonBackground: #DEDEDE;
+@buttonRadius: 3px;
+@buttonBorderWidth: 1px;
 
 @pageBackground: white;
 @sidebarWidth: 350px; //Also change in Environment

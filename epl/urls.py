@@ -6,12 +6,12 @@ from tastypie.api import Api
 
 from timemap.api import BranchResource, StoryResource, UserResource, SimpleBranchResource, \
                         MapResource, FeaturedStoryResource
-from timemap.views import timemap, hyq, upload, preference
+from timemap.views import timemap, upload, preference
 from centennial.views import accountActivate, login_user, logout_user, create_user, current_user, \
                              link_bibliocommons, update_user
 from hyquest.api import QuestSetResource, QuestResource, TaskResource, LevelResource
 from hyquest.views import submit_code_task, submit_timemap_task, submit_social_task, \
-                          check_biblio_tasks, get_featured_quests, get_active_quests
+                          check_biblio_tasks, get_featured_quests, get_active_quests, hyq
 from hyquest.taskeditors.codegeneration import generate_codes
 from hyquest.taskeditors.timemaptask import edit_timemap_task
 from hyquest.taskeditors.bibliocommonstask import edit_bibliocommons_task
