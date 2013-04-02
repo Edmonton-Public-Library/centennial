@@ -40,3 +40,10 @@
 
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
+<VirtualHost *:443>
+    SSLEngine On
+    SSLCertificateFile path/to/cert
+    SSLCertificateKeyFile path/to/cert/key
+
+    WSGIScriptAlias / /bin/EPL/epl/wsgi.py
+</VirtualHost>
