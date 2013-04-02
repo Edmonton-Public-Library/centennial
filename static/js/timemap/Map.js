@@ -24,6 +24,23 @@ return (function () {
 		this.mapElement = $('<div>'); //For caching the map when not in view
 		require(['https://maps.googleapis.com/maps/api/js?key=' + Settings.apiKeys.google.maps + 'luc&sensor=true&callback=eplMapsInit'], function () { });
 
+		this.randomLocations = [
+			{lat: 53.585984, lng: -113.562927},
+			{lat: 53.594542, lng: -113.442764},
+			{lat: 53.538267, lng: -113.620605},
+			{lat: 53.501525, lng: -113.547134},
+			{lat: 53.550915, lng: -113.501816},
+			{lat: 53.534186, lng: -113.438644},
+			{lat: 53.497033, lng: -113.466110},
+			{lat: 53.546020, lng: -113.554001},
+			{lat: 53.573346, lng: -113.463364},
+			{lat: 53.509285, lng: -113.503876},
+			{lat: 53.517451, lng: -113.591080},
+			{lat: 53.527656, lng: -113.461304},
+			{lat: 53.485594, lng: -113.506622},
+			{lat: 53.535411, lng: -113.498383}
+		];
+
 		this.mapData = {
 			markers : {},
 			branchInfo : {},
@@ -45,29 +62,36 @@ return (function () {
 
 			//Create a custom map type for displaying historical maps from different years
 			EPLMapType = (function () {
-					var Type = function (mapDirectory) {
-						this.tileBase = mapDirectory;
-					};
+				var Type = function (mapDirectory) {
+					this.tileBase = mapDirectory;
+				};
 
-					Type.prototype.maxZoom = 16;
-					Type.prototype.minZoom = 7;
-					Type.prototype.tileSize = new google.maps.Size(256, 256);
-					Type.prototype.isPng = false;
-					Type.prototype.name = '';
-					Type.prototype.alt = '';
+				Type.prototype.maxZoom = 16;
+				Type.prototype.minZoom = 7;
+				Type.prototype.tileSize = new google.maps.Size(256, 256);
+				Type.prototype.isPng = false;
+				Type.prototype.name = '';
+				Type.prototype.alt = '';
 
-					Type.prototype.getTile = function(coord, zoom, ownerDocument) {
-						var self = this,
-							div = ownerDocument.createElement('div');
-						div.style.width = 256 + 'px';
-						div.style.height = 256 + 'px';
-						div.style.backgroundImage = 'url(' + self.tileBase + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg)';
-						div.style.backgroundColor = '#FFFFFF';
-						return div;
-					};
+				Type.prototype.getTile = function(coord, zoom, ownerDocument) {
+					var self = this,
+						div = ownerDocument.createElement('div');
+					div.style.width = 256 + 'px';
+					div.style.height = 256 + 'px';
+					div.style.backgroundImage = 'url(' + self.tileBase + '/' + zoom + '/' + coord.x + '/' + (Math.pow(2,zoom)-coord.y-1) + '.jpg)';
+					div.style.backgroundColor = '#FFFFFF';
+					return div;
+				};
 
-					return Type;
-				})();
+				return Type;
+			})();
+
+			epl.updateQuest({
+				year : self.mapData.selectedYear,
+				branch : -1,
+				story : -1,
+				onMap : true
+			});
 
 			callback();
 		};
@@ -127,9 +151,17 @@ return (function () {
 	 */
 	Map.prototype.showPin = function (pin) {
 		var self = this;
+
 		//Create the pin if needed
 		if(typeof self.mapData.markers[pin.id] == 'undefined') {
 			self.mapData.markers[pin.id] = pin;
+
+			if(pin.type != 'std') {
+				var randomLatLng = self.getRandomLatLng();
+				pin.lat = randomLatLng.lat;
+				pin.lng = randomLatLng.lng;
+			}
+
 			self.mapData.markers[pin.id].marker = new google.maps.Marker({
 				map: self.map,
 				position: new google.maps.LatLng(pin.lat, pin.lng),
@@ -157,6 +189,18 @@ return (function () {
 			self.mapData.markers[pin.id].marker.setVisible(true);
 		}
 		//TODO: Adjust the map zoom/position to show all of the pins? Or is this intrusive?
+	};
+
+	Map.prototype.getRandomLatLng = function () {
+		//Shuffle the locations
+		this.randomLocations.sort(function () {
+			return (Math.round(Math.random())-0.5);
+		});
+		return this.randomLocations.pop();
+	};
+
+	Map.prototype.releaseRandomLatLng = function (latLng) {
+		this.randomLocations.push(latLng);
 	};
 
 	/**

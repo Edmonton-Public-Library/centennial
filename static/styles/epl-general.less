@@ -203,43 +203,7 @@ div {
   		padding: 0;
 
   		li.button {
-  			@fontSize: 13px;
-  			//-4 just because... Something to do with text sizing, I suppose
-  			@heightAdjust: 4px;
-  			@padding: (@eplBarHeight - @fontSize - @heightAdjust) / 2;
-  			@buttonBackground: #DEDEDE;
-  			@buttonRadius: 3px;
-  			@buttonBorderWidth: 1px;
-  			height: @fontSize + @heightAdjust + 2;
-  			padding:(@padding - @heightAdjust) @padding (@padding - @heightAdjust) @padding;
-  			margin: 0;
-  			background-color: @buttonBackground;
-  			display: inline;
-  			float: right;
-  			cursor: default;
-  			color: darken(@buttonBackground, 50%);
-  			border: solid @buttonBorderWidth darken(@buttonBackground, 30%);
-  			box-shadow: inset 0 0 0 1px white, 1px 1px 3px rgba(0,0,0,0.2);
-  			.x-border-radius(@buttonRadius);
-  			.x-gradient(lighten(@buttonBackground, 3%), darken(@buttonBackground, 3%));
-  			position: relative;
-			margin-left: (@eplBarHeight / 4);
-  			// overflow: hidden;
-  			z-index: 1000;
-
-  			.icon {
-  				float: left;
-  				height: (2 * @padding) + @fontSize - (2 * @buttonBorderWidth);
-  				width: (2 * @padding) + @fontSize - (2 * @buttonBorderWidth);
-  				position: absolute;
-  				top: -1px;
-  				left: -1px;
-  				.x-border-top-left-radius(@buttonRadius);
-  				.x-border-bottom-left-radius(@buttonRadius);
-	  			border: solid @buttonBorderWidth darken(@buttonBackground, 30%);
-	  			.x-gradient(darken(@buttonBackground, 8%), darken(@buttonBackground, 22%));
-	  			box-shadow: inset 0 0 0 1px white;
-  			}
+  			.shiny-button();
 
   			.menu {
   				@menuBackground: #F5F5F5;
@@ -409,6 +373,27 @@ div {
   	}
 }
 
+.shiny-button() {
+	@fontSize: 13px;
+	//-4 just because... Something to do with text sizing, I suppose
+	@padding: 13px;
+	@heightAdjust: 4px;
+	padding:(@padding - @heightAdjust) @padding (@padding - @heightAdjust) @padding;
+	margin: -2px 0 0 6px;
+	background-color: @buttonBackground;
+	display: inline;
+	float: right;
+	cursor: default;
+	color: darken(@buttonBackground, 50%);
+	border: solid @buttonBorderWidth darken(@buttonBackground, 30%);
+	box-shadow: inset 0 0 0 1px white, 1px 1px 3px rgba(0,0,0,0.2);
+	.x-border-radius(@buttonRadius);
+	.x-gradient(lighten(@buttonBackground, 3%), darken(@buttonBackground, 3%));
+	position: relative;
+	// overflow: hidden;
+	z-index: 1000;
+}
+
 .top {
     vertical-align:text-top;
 }
@@ -432,6 +417,10 @@ div {
 //==========================//
 // Page Settings            //
 //==========================//
+
+@buttonBackground: #DEDEDE;
+@buttonRadius: 3px;
+@buttonBorderWidth: 1px;
 
 @pageBackground: white;
 @sidebarWidth: 350px; //Also change in Environment

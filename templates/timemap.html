@@ -292,7 +292,7 @@
                         <input type="text" id="search-year-end" class="epl-input text search-box-year-end" data-default-text="Max Year" maxLength="4"/>
                     </div>
                     <select id="search-box-content-type" class="epl-input select search-select">
-                        <option>Filter by content type...</option>
+                        <option value="">Filter by content type...</option>
                         <option>Audio</option>
                         <option>Image</option>
                         <option>Link</option>
@@ -325,7 +325,10 @@
     				</div>
     			</div>
     		</div>
-    	</div>
+            <div>
+                <button onClick="window.location='#uploadStory'">Submit a Story</button>
+            </div>
+        </div>
     </div>
 	<div data-role="viewport" data-bind="
     style: {

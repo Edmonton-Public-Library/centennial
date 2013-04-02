@@ -28,6 +28,19 @@ var AppClass = (function () {
 		this.nav = new Nav(this.viewport, Routes.routes);
 	};
 
+	AppClass.prototype.updateQuest = function (data) {
+		var self = this;
+		$.ajax(Settings.apiQuestUrl,{
+			data : JSON.stringify(data),
+			dataType : 'json',
+			processData : false,
+			type : 'post',
+			success : function(data) {
+				self.storage.questPopUp.checkTasks(data);
+			}
+		});
+	};
+
 	return AppClass;
 
 })();

@@ -72,7 +72,12 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 
 				self.data.completedQuests.sort(sortFunction);
 			}
-		}
+		};
+
+		this.data.displayCompletionPoints = ko.computed(function () {
+			if(self.data.completionPoints() > -1) return self.data.completionPoints();
+			return 'N/A';
+		});
 		
 		this.getData();
 
