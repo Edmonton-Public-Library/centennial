@@ -17,7 +17,7 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 				title__icontains : '',
 				year__gte : '',
 				year__lte : '',
-				content_type__in : '',
+				content_type__in : ''
 			};
 			this.data = { };
 			this.string = '';

@@ -495,7 +495,7 @@ return (function () {
 					intervalPixels : decadePixels,
 					showEventText : false,
 					overview : true,
-					theme : timelineTheme,
+					theme : timelineTheme
 					/*zoomIndex : 1,
 					zoomSteps : [
 						{
