@@ -5,7 +5,11 @@ from centennial.models import UserProfile, BibliocommonsLink
 
 # This creates and modifies User Administration
 
-admin.site.register(UserProfile)
+
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'points']
+
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(BibliocommonsLink)
 
 class UserForm(forms.ModelForm):
