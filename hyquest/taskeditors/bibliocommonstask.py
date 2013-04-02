@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 
 from hyquest.models import Task
 
+# This constructs the form that allows editing Bibliocommons tasks.
+
 biblioFormats = [('BK', 'Book'), ('CD','CD'), ('DVD','DVD'), ('BOOK_CD', 'Audiobook')]
 
 class BibliocommonsTaskForm(forms.Form):

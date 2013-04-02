@@ -6,6 +6,8 @@ import random
 
 from hyquest.models import Task, TaskCode
 
+# This generates the Form that allows for Task Code Generation
+
 class CodeGenForm(forms.Form):
     task_id = forms.CharField(widget=forms.HiddenInput())
     code_count = forms.IntegerField(initial=1)

@@ -3,6 +3,8 @@ from django import forms
 from django.contrib.auth.models import User
 from centennial.models import UserProfile, BibliocommonsLink
 
+# This creates and modifies User Administration
+
 admin.site.register(UserProfile)
 admin.site.register(BibliocommonsLink)
 

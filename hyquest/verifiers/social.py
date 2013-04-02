@@ -1,6 +1,8 @@
 from hyquest.verifiers.common import getTaskResultSet, getUserAction
 from hyquest.constants import TASK_SOCIAL
 
+# This handles matching up social state to the provided social Tasks
+
 def matchingSocialTasks(user, social):
     tasks = getTaskResultSet(user).filter(type=TASK_SOCIAL)
     activeTasks = []

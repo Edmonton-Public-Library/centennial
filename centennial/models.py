@@ -11,6 +11,8 @@ from centennial.constants import FACEBOOK_KEY_LEN, BIBLIO_USER_LEN
 from util.email import emailer, email_template
 import epl.settings as settings
 
+# Database-backed models shared by the whole application
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
 

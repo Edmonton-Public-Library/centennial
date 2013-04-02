@@ -30,7 +30,7 @@ var AppClass = (function () {
 			self.storage.questPopUp = new QuestPopUp($('#questPopUp'));
 
 			//TODO: Extract the sidebar/EPL bar
-			var eplBar = new EPLBar('#epl-bar');
+			var eplBar = new EPLBar('#epl-bar', 'timemap');
 
 			//Initialize the sidebar
 			Environment.sidebar = new Sidebar($('#tm-sidebar'));
@@ -60,14 +60,12 @@ var AppClass = (function () {
 
 	AppClass.prototype.updateQuest = function (data) {
 		var self = this;
-		console.log(data);
 		$.ajax(Settings.apiQuestUrl,{
 			data : JSON.stringify(data),
 			dataType : 'json',
 			processData : false,
 			type : 'post',
 			success : function(data) {
-				console.log(data);
 				self.storage.questPopUp.checkTasks(data);
 			}
 		});

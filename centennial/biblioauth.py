@@ -2,6 +2,8 @@ from centennial.bibliocommons import validUser
 from centennial.models import BibliocommonsLink
 from django.contrib.auth.models import User
 
+# This class acts as an authenticator that logs in users with their bibliocommons IDs
+
 class BiblioBackend:
     def authenticate(self, username=None, password=None):
         if validUser(username, password):

@@ -175,8 +175,6 @@ define(['lib/knockout'], function (ko) {
 	};
 
 	QuestPopUp.prototype.checkTasks = function(taskLists) {
-		console.log('tasks:');
-		console.log(taskLists);
 		this.completeTasks(taskLists.completedTasks, false);
 		this.completeTasks(taskLists.discoveredTasks, true);
 	}

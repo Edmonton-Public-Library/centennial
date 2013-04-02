@@ -4,6 +4,7 @@ from django.db.models.query_utils import Q
 
 from hyquest.models import QuestSet, Quest, Task, UserTaskAction, UserQuestAction, UserQuestSetAction, Level
 
+# This class handles the creation of a read-only API for getting information about hyquest-related models
 
 class QuestSetResource(ModelResource):
     quests = fields.ToManyField('hyquest.api.QuestResource', 'quest_set', full=True)

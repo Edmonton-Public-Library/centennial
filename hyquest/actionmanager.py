@@ -4,6 +4,12 @@ from hyquest.models import Quest, Task, UserTaskAction, UserQuestAction, UserQue
 
 from datetime import datetime
 
+# This is a central location for other classes to call, that handles bookkeeping and integrity
+# management for User Actions with the Quest structure.
+
+# All begin___ methods cascade downwards (QuestSet->Task), 
+# and all complete___ methods cascade upwards (Task->QuestSet)
+
 def beginQuestSet(user, questset):
     #Create the UserQuestSetAction Object
     uqsa = UserQuestSetAction.objects.create(user=user, questset=questset, beginTime=datetime.now())

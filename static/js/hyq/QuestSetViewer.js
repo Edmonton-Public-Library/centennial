@@ -1,12 +1,10 @@
 ;
-define(['timemap', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (epl, Settings, ko, Environment) {
-
-return (function () {
+define(['epl/Settings', 'lib/knockout', 'hyq/Environment'], function (Settings, ko, Environment) {
 
     var QuestSetViewer = function (questSetId, viewport) {
         var self = this;
         this.questSet = new QuestSet(questSetId);
-
+        
         ko.applyBindings({
             Environment : Environment,
             questSet : this.questSet
@@ -78,7 +76,6 @@ return (function () {
     };
 
     return QuestSetViewer;
-})();
 
 //End module
 });

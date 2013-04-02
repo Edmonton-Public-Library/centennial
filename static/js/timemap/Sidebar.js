@@ -95,11 +95,11 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 				searchResults : ko.observable([]),
 				searchHeight : ko.computed(function () {
 					//-210 for search stuff on top
-					return Environment.display.height() - Environment.display.topBarHeight() - 210;
+					return Environment.display.height() - Environment.display.topBarHeight() - 260;
 				}),
 				featuredHeight : ko.computed(function () {
 					//-114 for search stuff on top
-					return Environment.display.height() - Environment.display.topBarHeight() - 53;
+					return Environment.display.height() - Environment.display.topBarHeight() - 103;
 				}),
 				//React to clicking on a featured story
 				featuredClick : function (data) {
@@ -107,7 +107,6 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 				},
 				//React to clicking on a search resultClick
 				resultClick : function (data) {
-					console.log(data);
 					document.location = '#viewStory/' + data.id;
 				},
 				Environment: Environment
@@ -217,7 +216,6 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			if(criteria.toString().length > 0) {
 				$.get(Environment.routes.apiBase + '/story/?format=json' + criteria, function (data) {
 					self.data.searchResults(data.objects);
-					console.log(data.objects);
 				});
 			} else {
 				self.data.searchResults([]);
@@ -235,13 +233,18 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			var useStartYear = yearStartInput.length == 4 && yearStartInput != "Min Year";
 			var yearEndInput = $('#search-year-end').val();
 			var useEndYear = yearEndInput.length == 4 && yearEndInput != "Max Year";
-			var contentType = $('.option-selected').find('.option-contents').html().toLowerCase();
+			var contentType = $('.option-selected').find('.option-contents').attr('data-value');
+			if(typeof contentType == 'string') {
+				contentType = contentType.toLowerCase();
+			} else {
+				contentType = '';
+			}
 			criteria = new Criteria({
 				'keyword' : useTextInput ? textInput : "",
 				'title__icontains' : useTextInput ? textInput : "",
 				'year__gte' : useStartYear ? yearStartInput : "",
 				'year__lte' : useEndYear ? yearEndInput : "",
-				'content_type__in' : contentType != "all content types" ? contentType : ""
+				'content_type__in' : contentType != "Filter by content type..." ? contentType : ""
 			})
 			return criteria;
 		}

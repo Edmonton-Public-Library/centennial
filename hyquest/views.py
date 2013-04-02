@@ -13,6 +13,10 @@ from django.template.loader import get_template
 from preferences import preferences
 import epl.settings
 
+# Here are all of the methods that directly handle HttpRequests for HYQuest
+# As a general rule, they perform sanitation and error checking, then delegate
+# to the appropriate methods
+
 def hyq(request):
     t = get_template('hyq.html')
     keys = { 'FB_KEY': preferences.TimemapPreferences.facebook_key,

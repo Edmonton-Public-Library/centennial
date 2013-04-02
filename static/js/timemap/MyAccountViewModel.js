@@ -1,5 +1,5 @@
 ;
-define(['timemap', 'epl/Settings', 'lib/knockout', 'lib/knockout.validation'], function (epl, Settings, ko) {
+define(['epl/Settings', 'lib/knockout', 'lib/knockout.validation'], function (Settings, ko) {
 
 return (function () {
 
@@ -47,7 +47,7 @@ return (function () {
                 dataType: "json",
                 contentType: "application/json",
                 success: function () {
-                    top.location="#updateAccountSuccess";
+                    // top.location="#updateAccountSuccess";
                 }, 
                 error: function (xhr) {
                     // 403 indicates that the old password was incorrect or the user is not logged in

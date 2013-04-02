@@ -43,9 +43,6 @@ main : new View('timemap', 'Home',
 					epl.storage.map.resetPins();
 					epl.storage.timeline = new Timeline('#timeline', epl.storage.map, date);
 				}
-
-				$('.buttons').find('#auth-username').eplInput();
-				$('.buttons').find('#auth-password').eplInput();
 			});
 		}, 
 

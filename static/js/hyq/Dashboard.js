@@ -1,5 +1,5 @@
 ;
-define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBar', 'timemap/QuestPopUp', 'lib/jquery.iosslider', 'lib/jquery.tablesorter'], function (hyq, ko, Settings, Environment, EPLBar, QuestPopUp) {
+define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBar', 'timemap/QuestPopUp', 'hyq/QuestSetViewer', 'lib/jquery.iosslider', 'lib/jquery.tablesorter'], function (hyq, ko, Settings, Environment, EPLBar, QuestPopUp, QuestSetViewer) {
 
 	var featuredEndpoint = 'featured',
 		activeEndpoint = 'active',
@@ -72,14 +72,23 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 
 				self.data.completedQuests.sort(sortFunction);
 			}
-		}
+		};
 
+		this.data.displayCompletionPoints = ko.computed(function () {
+			if(self.data.completionPoints() > -1) return self.data.completionPoints();
+			return 'N/A';
+		});
+		
+		this.getData();
+
+		ko.applyBindings(self.data, self.viewport[0]);
+	};
+
+	Dashboard.prototype.getData = function () {
 		this.getFeaturedQuests();
 		this.getActiveQuests();
 		this.getCompletedQuests();
 		this.getCompletionPoints();
-
-		ko.applyBindings(self.data, self.viewport[0]);
 	};
 
 	Dashboard.prototype.getFeaturedQuests = function () {
@@ -147,6 +156,27 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		}	
 	};
 
+	ko.bindingHandlers.openQuestSetViewer = {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			$(element).click(function () {
+				$('#quest-set-viewer').removeClass('hidden');
+				$('#dashboard').fadeTo(500, 0.2);
+				questSetView = new QuestSetViewer(valueAccessor().questSetId, $('#quest-set-viewer'));
+			});
+		}
+	};
+
+	ko.bindingHandlers.closeQuestSetViewer = {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			$(element).click(function () {
+				$('#quest-set-viewer').addClass('hidden');
+				$('#dashboard').fadeTo(500, 1);
+				// Reload the page to prevent weird behaviour with the knockout bindings...
+				window.location.reload();
+			});
+		}
+	};
+
 	ko.bindingHandlers.sortQuests = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
@@ -174,7 +204,6 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 									'background-color' : '#67F211'
 								});
 								window.setTimeout(function () {
-									console.log('hh');
 									$(element).css({
 									'background-color' : 'white'
 									}).val('');

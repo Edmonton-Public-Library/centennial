@@ -34,7 +34,7 @@ return (function () {
 
         self.imagesDirectory = ko.observable(Environment.routes.imageDirectory);
         self.closeView = function () {
-            top.location = "/timemap/";
+            window.location = '#';
         };
 
         // Set up empty story and form validation
