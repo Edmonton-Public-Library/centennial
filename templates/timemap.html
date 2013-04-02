@@ -152,6 +152,7 @@
                         </div>
                     </div>
                     <div class="menu-section" data-role="management-tabs" data-bind="css: {active: Environment.user() != null}">
+
                         <ul class="tabs" data-bind="eplBarTabs: true">
                             <li class="tab" data-tab="manage" data-bind="css: {active: loginMenu.currentTab() != 'link'}">
                                 <div class="text">Manage Account</div>
@@ -188,7 +189,7 @@
                             </p>
                             <p class="inputError indent" data-bind="validationMessage: manageAccount.account.lastname"></p>
 
-                            <p class="section-title">Edit Account Information</p>
+                            <p class="section-title">Password and Email</p>
 
                             <p class="hintText">Enter your current password to change your password or your email.</p>
 
@@ -259,17 +260,17 @@
     <div id="tm-sidebar">
     	<div class="contents" data-bind="style: {marginTop: Environment.display.topBarHeight() + 'px'}">
     		<ul class="tabs">
-    			<li class="tab" data-tab="features">
+    			<li class="tab sidebar-tab" data-tab="features">
     				Featured
     				<div class="indicator"></div>
     			</li>
-    			<li class="tab" class="active" data-tab="search">
+    			<li class="tab sidebar-tab" class="active" data-tab="search">
     				Search
     				<div class="indicator"></div>
     			</li>
     		</ul>
     		<div class="tab-containers">
-    			<div class="tab-contents" data-tab="features">
+    			<div class="tab-contents sidebar-tab" data-tab="features">
     				<div class="results" data-bind="style: {height: featuredHeight() + 'px'}">
                         <!-- ko ifnot: featuredStories().length > 0 -->
                             <div class="search-result">
@@ -285,7 +286,7 @@
                         <!-- /ko -->
                     </div>
     			</div>
-    			<div class="tab-contents" data-tab="search">
+    			<div class="tab-contents sidebar-tab" data-tab="search">
     				<input type="text" id="search-box-text" class="epl-input text search-box" data-default-text="Start typing to search..."/>
                     <div id="search-year-range">
                         <input type="text" id="search-year-start" class="epl-input text search-box-year-start" data-default-text="Min Year" maxLength="4"/> -

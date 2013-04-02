@@ -256,8 +256,8 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 		 *								the tab element that should be displayed)
 		 */
 		Sidebar.prototype.tab = function (id) {
-			this.viewport.find('.tab').add('.tab-contents').removeClass('active');
-			this.viewport.find('.tab[data-tab=' + id + ']').add('.tab-contents[data-tab=' + id + ']').addClass('active');
+			this.viewport.find('.sidebar-tab').add('.sidebar-tab').removeClass('active');
+			this.viewport.find('.sidebar-tab[data-tab=' + id + ']').add('.sidebar-tab[data-tab=' + id + ']').addClass('active');
 		};
 
 		return Sidebar;
