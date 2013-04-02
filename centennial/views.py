@@ -11,6 +11,8 @@ import util.email.email_template
 import urlparse
 import json
 
+# This file handles HttpRequests for User Account related information
+
 def accountActivate(request):
     if request.method == 'GET':
         # i should only have one parameter

@@ -1,6 +1,8 @@
 from epl.settings import RECAPTCHA_PRIVATE_KEY
 import requests
 
+# A small implementation of the Recaptcha server-side API
+
 API_SERVER = "https://www.google.com/recaptcha/api/verify"
 
 def verifyReCaptcha(request, challenge, response):

@@ -4,6 +4,8 @@ import bibliocommons
 
 from mock import Mock, patch
 
+# Full unit tests for the bibliocommons API
+
 class BiblicommonsTest(unittest.TestCase):
 
     def testValidAPIKey(self):

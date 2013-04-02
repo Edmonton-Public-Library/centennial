@@ -1,5 +1,8 @@
 import requests
 
+# This file implements API calls to Bibliocommons, and wraps them to be more usable
+# to the rest of the app
+
 # Publicly available Bibliocommons API
 APIRoot = "https://api.bibliocommons.com/v1/"
 APIKey = "d7b4x2enac7yg8aesbu6dvck"
