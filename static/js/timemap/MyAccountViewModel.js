@@ -47,7 +47,7 @@ return (function () {
                 dataType: "json",
                 contentType: "application/json",
                 success: function () {
-                    top.location="#updateAccountSuccess";
+                    // top.location="#updateAccountSuccess";
                 }, 
                 error: function (xhr) {
                     // 403 indicates that the old password was incorrect or the user is not logged in

@@ -47,7 +47,7 @@ return (function () {
                 dataType: "json",
                 contentType: "application/json",
                 success: function () {
-                    top.location="#createAccountSuccess";
+                    // top.location="#createAccountSuccess";
                 }, 
                 error: function (xhr) {
                      $('#createAccountSubmit').attr('disabled', false);

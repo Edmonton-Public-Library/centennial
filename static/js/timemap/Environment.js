@@ -8,7 +8,7 @@ define(['lib/knockout'], function (ko) {
 			this.sidebar = {};
 		});
 
-		this.user = ko.observable({});
+		this.user = ko.observable(null);
 
 		this.chrome = new (function () {
 			var chrome = this;

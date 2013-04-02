@@ -1,5 +1,5 @@
 ;
-define(['timemap/Authentication', 'lib/knockout', 'timemap/Environment', 'hyq/Environment', 'epl/Settings', 'timemap/CreateAccountViewModel'], function (Authentication, ko, TimemapEnvironment, HYQEnvironment, Settings, CreateAccountViewModel) {
+define(['timemap/Authentication', 'lib/knockout', 'timemap/Environment', 'hyq/Environment', 'epl/Settings', 'timemap/CreateAccountViewModel', 'timemap/MyAccountViewModel'], function (Authentication, ko, TimemapEnvironment, HYQEnvironment, Settings, CreateAccountViewModel, MyAccountViewModel) {
 
 return (function () {
 
@@ -15,6 +15,16 @@ return (function () {
 			Environment : TimemapEnvironment,
 			Settings : Settings,
 			createAccount : new CreateAccountViewModel(),
+			manageAccount : new MyAccountViewModel(),
+			logOut : EPLBar.logOut,
+			loginError : ko.observable(false),
+			linkError : ko.observable(false),
+			linkAccount : EPLBar.linkAccount,
+			hideLoginMenu : function () {
+				console.log(self.element);
+				//Hide the login box after the user is logged in successfully
+				self.element.find('[data-role=account]').removeClass('active');
+			},
 			loginMenu : {
 				authenticated : ko.observable(false),
 				currentTab : ko.observable('')
@@ -47,15 +57,57 @@ return (function () {
 	};
 
 	EPLBar.updateUserInfo = function (callback) {
-		$.get(accountInfoEndpoint, function(data) {
-			TimemapEnvironment.user(data);
-			HYQEnvironment.user(data);
-			if(typeof callback == 'function') callback(data);
+		$.ajax(accountInfoEndpoint, {
+			method : 'get',
+			success : function(data) {
+				TimemapEnvironment.user(data);
+				HYQEnvironment.user(data);
+				if(typeof callback == 'function') callback(data);
+			},
+			error : function () {
+				TimemapEnvironment.user(null);
+				HYQEnvironment.user(null);
+			}
 		});
 	};
 
+	EPLBar.logOut = function () {
+		$.get(Settings.apiAccountUrl + 'logout', function () {
+			EPLBar.updateUserInfo();
+		});
+	};
+
+	EPLBar.linkAccount = function () {
+
+	};
+
+	ko.bindingHandlers.linkForm = {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			var linkForm = $(element);
+			$(element).bind('submit', function (e) {
+				console.log('sub');
+				$.ajax(Settings.apiAccountUrl + 'link/bibliocommons', {
+					type : 'post',
+					contentType : 'application/json',
+					processData : false,
+					data : JSON.stringify({username : linkForm.find('[data-role=username]').val(),
+						password : linkForm.find('[data-role=password]').val()}),
+					success : function (data) {
+
+						viewModel.linkError(false);
+					},
+					error : function (data) {
+						viewModel.linkError(true);
+					}
+				});
+				e.stopPropagation();
+				return false;
+			});
+		}
+	};
+
 	ko.bindingHandlers.loginForm = {
-		init: function (element) {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			var loginForm = $(element);
 			$(element).bind('submit', function (e) {
 				$.ajax(loginEndpoint, {
@@ -66,17 +118,13 @@ return (function () {
 						password : loginForm.find('[data-role=password]').val()}),
 
 					success : function (data) {
-						//TODO: Make more elegant after demo
-						var username = $(element).find('[data-role=username]').val();
-						var accountButton = $(element).parents().find('[data-role=account]').find('[data-role=name]').html(username);
-						$(element).parents().find('.menu').html('Logged in!');
-						window.setTimeout(function () {
-							$(document).click();
-						}, 2000);
+						EPLBar.updateUserInfo();
+						viewModel.hideLoginMenu();
+						viewModel.loginError(false);
 					},
 
 					error : function (data) {
-
+						viewModel.loginError(true);
 					}
 				});
 				e.stopPropagation();
