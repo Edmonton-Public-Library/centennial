@@ -1,0 +1,737 @@
+/* Prevent outset borders -- allows precise element sizing */
+div {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.epl-input {
+  width: 300px;
+  height: 30px;
+  display: block;
+  border: solid 1px #cdcdcd;
+  color: #a6a6a6;
+  position: relative;
+}
+.epl-input.text {
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  /* useful if you don't want a bg color from leaking outside the border: */
+
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 3px 12px;
+  outline: none;
+  font-style: italic;
+  background-color: #ffffff;
+}
+.epl-input.text.text-entered {
+  font-style: normal;
+  color: #737373;
+}
+.epl-input.text:focus {
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+}
+.epl-input.select {
+  height: 39px;
+  padding: none;
+  border: none;
+  overflow: hidden;
+  background-color: none;
+  position: relative;
+  /* To allow for drop-down positioning */
+
+  z-index: 1000;
+}
+.epl-input.select .option-list {
+  padding: 0 2px 0 0;
+  /* Fit the borders of the option elements */
+
+  height: auto;
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+.epl-input.select .option {
+  width: 100%;
+  height: 38px;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  /* useful if you don't want a bg color from leaking outside the border: */
+
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: solid 1px #cdcdcd;
+  background-color: #ffffff;
+  display: none;
+  cursor: default;
+  /* To collapse borders between option elements */
+
+  margin-top: -1px;
+  /* End of collapsing */
+
+}
+.epl-input.select .option:first-child {
+  margin-top: 1px;
+}
+.epl-input.select .option.option-selected {
+  display: block;
+}
+.epl-input.select .option:hover,
+.epl-input.select .option.hover {
+  background-color: #e6e6e6;
+}
+.epl-input.select .option .option-contents {
+  height: 30px;
+  margin: 4px 12px;
+  padding: 6px 0;
+  color: #808080;
+}
+.epl-input.select.select-active {
+  overflow: visible;
+}
+.epl-input.select.select-active .option {
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  /* useful if you don't want a bg color from leaking outside the border: */
+
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  display: block;
+}
+.epl-input.select.select-active .option-selected {
+  background-color: #f2f2f2;
+  border-bottom-width: 3px;
+}
+#epl-bar {
+  width: 100%;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+}
+#epl-bar .logo {
+  height: 40px;
+  margin: 10px;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 20px;
+  float: left;
+}
+#epl-bar .buttons {
+  height: 40px;
+  float: right;
+  margin: 12px 10px 0 0;
+  list-style-type: none;
+  padding: 0;
+}
+#epl-bar .buttons li.button {
+  padding: 9px 13px 9px 13px;
+  margin: -2px 0 0 6px;
+  background-color: #dedede;
+  display: inline;
+  float: right;
+  cursor: default;
+  color: #5f5f5f;
+  border: solid 1px #929292;
+  box-shadow: inset 0 0 0 1px #ffffff, 1px 1px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  /* useful if you don't want a bg color from leaking outside the border: */
+
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background-color: #e6e6e6;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#e6e6e6), to(#d6d6d6));
+  /* Chrome, Safari 4+ */
+
+  background-image: -webkit-linear-gradient(top, #e6e6e6, #d6d6d6);
+  /* Chrome 10-25, iOS 5+, Safari 5.1+ */
+
+  background-image: -moz-linear-gradient(top, #e6e6e6, #d6d6d6);
+  /* Firefox 3.6-15 */
+
+  background-image: -o-linear-gradient(top, #e6e6e6, #d6d6d6);
+  /* Opera 11.10-12.00 */
+
+  background-image: linear-gradient(to bottom, #e6e6e6, #d6d6d6);
+  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.50+ */
+
+  position: relative;
+  z-index: 1000;
+}
+#epl-bar .buttons li.button .menu {
+  padding: 50px 10px 10px 10px;
+  position: absolute;
+  right: -1px;
+  top: 33px;
+  background-color: #f5f5f5;
+  border: solid 1px #bababa;
+  min-width: 348px;
+  min-height: 100px;
+  overflow: auto;
+  box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 999;
+}
+#epl-bar .buttons li.button .menu .menu-section {
+  display: none;
+}
+#epl-bar .buttons li.button .menu .menu-section.active {
+  display: block;
+}
+#epl-bar .buttons li.button .menu .menu-wrapper {
+  overflow: auto;
+  width: 400px;
+  max-height: 800px;
+}
+#epl-bar .buttons li.button .menu .tabs {
+  list-style-type: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#epl-bar .buttons li.button .menu .tabs li {
+  width: 50%;
+  float: left;
+  background-color: #3e84a6;
+  cursor: pointer;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 -3px 4px -2px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0 -3px 4px -2px rgba(0, 0, 0, 0.2);
+}
+#epl-bar .buttons li.button .menu .tabs li.active {
+  background-color: #306681;
+}
+#epl-bar .buttons li.button .menu .tabs li:hover {
+  background-color: #22495c;
+}
+#epl-bar .buttons li.button .menu .tabs li .text {
+  padding: 10px;
+  text-align: center;
+  color: #ffffff;
+}
+#epl-bar .buttons li.button .menu .tab-contents {
+  display: none;
+}
+#epl-bar .buttons li.button .menu .tab-contents.active {
+  display: block;
+}
+#epl-bar .buttons li.button .menu .tab-contents .form-input {
+  border: solid 1px #cdcdcd;
+  border-radius: 14px;
+  -webkit-border-radius: 14px;
+  /* useful if you don't want a bg color from leaking outside the border: */
+
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#epl-bar .buttons li.button .menu .tab-contents .form-input.text {
+  height: 25px;
+  padding: 3px 12px;
+}
+#epl-bar .buttons li.button .menu .tab-contents .form-input.textarea {
+  height: 70px;
+  padding: 10px 12px;
+}
+#epl-bar .buttons li.button .menu .tab-contents .form-input.date {
+  width: 45px;
+  height: 25px;
+  padding: 0px 5px;
+  text-align: center;
+}
+#epl-bar .buttons li.button .menu .tab-contents .form-input:focus {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
+}
+#epl-bar .buttons li.button .menu .tab-contents .epl-input {
+  width: 373px;
+}
+#epl-bar .buttons li.button .menu .tab-contents label.form-label {
+  display: inline-block;
+  text-align: right;
+  width: 160px;
+}
+#epl-bar .buttons li.button .menu .tab-contents .required,
+#epl-bar .buttons li.button .menu .tab-contents .inputError {
+  color: #3394ff;
+}
+#epl-bar .buttons li.button .menu .tab-contents .hintText {
+  font-size: 12px;
+  color: #6299d6;
+}
+#epl-bar .buttons li.button .menu .section-title {
+  font-size: 16px;
+  font-weight: 900;
+  margin: 4px 0 10px 0;
+}
+#epl-bar .buttons li.button .menu .epl-input.text {
+  margin-top: 6px;
+}
+#epl-bar .buttons li.button .menu .save-button-space {
+  height: 35px;
+  clear: both;
+}
+#epl-bar .buttons li.button .menu .save-button {
+  height: 35px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #dcdcdc;
+  border: none;
+  border-top: solid 1px #b5b5b5;
+  color: #828282;
+}
+#epl-bar .buttons li.button .menu .save-button:hover {
+  background-color: #434343;
+  color: white;
+  border-color: #363636;
+}
+#epl-bar .buttons li.button:hover {
+  background-color: #c5c5c5;
+  background-color: #dedede;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#dedede), to(#c5c5c5));
+  /* Chrome, Safari 4+ */
+
+  background-image: -webkit-linear-gradient(top, #dedede, #c5c5c5);
+  /* Chrome 10-25, iOS 5+, Safari 5.1+ */
+
+  background-image: -moz-linear-gradient(top, #dedede, #c5c5c5);
+  /* Firefox 3.6-15 */
+
+  background-image: -o-linear-gradient(top, #dedede, #c5c5c5);
+  /* Opera 11.10-12.00 */
+
+  background-image: linear-gradient(to bottom, #dedede, #c5c5c5);
+  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.50+ */
+
+  box-shadow: inset 0 0 0 1px #e8e8e8, 1px 1px 3px rgba(0, 0, 0, 0.2);
+  color: #525252;
+  border-color: #858585;
+}
+#epl-bar .buttons li.button.active .menu {
+  display: block;
+}
+.siteTitle {
+  font-size: 16px;
+  font-family: 'Lucida Grande', 'Bookman Old Style', Tahoma, Verdana, Arial, sans-serif;
+  float: left;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 3px;
+  cursor: pointer;
+}
+.siteTitle .pageTitle {
+  float: top;
+  border: solid #bbbbbb 1px;
+  position: relative;
+  text-align: center;
+}
+.siteTitle .pageTitle:first-child {
+  border-bottom: none;
+}
+.siteTitle .pageTitle.active {
+  background-color: #cccccc;
+  font-weight: bold;
+  color: #444444;
+}
+.siteTitle .pageTitle.active:hover {
+  background-color: #b3b3b3;
+}
+.siteTitle .pageTitle.inactive {
+  box-shadow: 0 3px 4px -2px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 3px 4px -2px rgba(0, 0, 0, 0.2);
+  background-color: #eeeeee;
+  color: #aaaaaa;
+}
+.siteTitle .pageTitle.inactive:hover {
+  background-color: #d5d5d5;
+  color: #919191;
+}
+.siteTitle .timeMapTitle {
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  z-index: 2;
+}
+.siteTitle .hyqTitle {
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  z-index: 1;
+}
+.siteTitle .titleText {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.top {
+  vertical-align: text-top;
+}
+.center {
+  text-align: center;
+}
+.hidden {
+  visibility: hidden;
+}
+.visible {
+  visibility: visible;
+}
+.error {
+  color: #3394ff;
+}
+body {
+  margin-top: 60px;
+}
+/* slider container */
+.iosSlider {
+  /* required */
+
+  position: relative;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  height: 197px;
+}
+/* slider */
+.iosSlider .slider {
+  /* required */
+
+  width: 100%;
+  height: 100%;
+}
+/* slide */
+.iosSlider .slider .slide {
+  /* required */
+
+  float: left;
+}
+#info-panel {
+  background-color: #dcdcdc;
+  height: 80px;
+  box-shadow: inset 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+#info-panel .profile {
+  float: left;
+}
+#info-panel .profile .title {
+  font-weight: bold;
+  font-size: 80px;
+  color: #cfcfcf;
+  position: absolute;
+  top: -10px;
+  left: 0;
+  z-index: 0;
+}
+#info-panel .profile ul {
+  list-style-type: none;
+  padding: 0 0 0 12px;
+  position: relative;
+  z-index: 2;
+}
+#info-panel .profile ul li .field {
+  font-weight: bold;
+}
+#info-panel .rank {
+  float: right;
+  background-color: #b6b6b6;
+  height: 80px;
+  box-shadow: inset 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
+  margin-left: 3px;
+  position: relative;
+  z-index: 3;
+}
+#info-panel .rank .text {
+  background-color: #9c9c9c;
+  height: 23px;
+  line-height: 25px;
+  font-size: 18px;
+  padding: 0 10px;
+  text-align: center;
+}
+#info-panel .rank .controls {
+  font-size: 14px;
+}
+#info-panel .rank .controls input,
+#info-panel .rank .controls button {
+  font-size: 35px;
+  border: solid 1px #909090;
+  margin: 5px 5px 5px 0;
+  padding: 5px;
+  height: 35px;
+}
+#info-panel .rank .controls input:first-child,
+#info-panel .rank .controls button:first-child {
+  margin-left: 5px;
+}
+#info-panel .rank .controls input[type=text].code {
+  width: 205px;
+  float: left;
+}
+#info-panel .rank .controls button {
+  font-size: 25px;
+}
+#info-panel .rank .number {
+  padding: 0 10px;
+  font-size: 50px;
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+}
+#info-panel .progress {
+  float: right;
+  background-color: #b6b6b6;
+  height: 80px;
+  box-shadow: inset 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
+  margin-right: 3px;
+}
+#info-panel .progress .title {
+  background-color: #9c9c9c;
+  height: 23px;
+  line-height: 25px;
+  font-size: 18px;
+  padding: 0 10px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+#info-panel .progress .contents {
+  padding: 0 10px;
+  font-size: 14px;
+}
+.featured-quest {
+  width: 400px;
+  height: 197px;
+  background-color: #7dd145;
+  margin: 10px;
+}
+.current-quest {
+  width: 400px;
+  height: 197px;
+  background-color: #c6deea;
+  margin: 10px;
+}
+.current-quest .title {
+  padding: 10px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #0f4f6f;
+}
+.current-quest .progress-container {
+  height: 10px;
+  background-color: #9bcbe2;
+  border-bottom: solid 1px #1c8fc8;
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+}
+.current-quest .progress-container .progress-bar {
+  height: 100%;
+  width: 180px;
+  background-color: #34a9e3;
+}
+.current-quest ul {
+  padding: 0 0 0 10px;
+  list-style-type: none;
+  margin: 0;
+}
+.current-quest ul li {
+  margin-left: 10px;
+  float: left;
+  width: 120px;
+  height: 120px;
+  background-color: #34a9e3;
+  cursor: pointer;
+  overflow: hidden;
+}
+.current-quest ul li:first-child {
+  margin-left: 0;
+}
+.current-quest ul li:first-child:hover {
+  margin-left: -2px;
+}
+.current-quest ul li:hover {
+  border: solid 2px #156f9c;
+  margin: -2px -2px -2px 8px;
+}
+.current-quest ul li .quest-description {
+  height: 80px;
+  line-height: 68px;
+  padding: 6px 0;
+  color: #e7f5fc;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+  font-size: 13px;
+  text-align: center;
+  background-color: #61bce9;
+  border-bottom: solid 1px #77c5ec;
+  padding: 0 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+}
+.current-quest ul li .quest-description span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+}
+.current-quest ul li .completion-count {
+  font-size: 24px;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  color: #e7f5fc;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+h1 {
+  color: #323232;
+  font-size: 25px;
+  padding: 10px;
+  margin: 0;
+}
+table#completed-quests {
+  width: 100%;
+  text-align: left;
+}
+table#completed-quests thead {
+  background-color: #34a9e3;
+}
+table#completed-quests thead th {
+  padding: 10px;
+  cursor: pointer;
+}
+table#completed-quests tbody tr {
+  cursor: pointer;
+}
+table#completed-quests tbody tr.row-even {
+  background-color: #9ecadf;
+}
+table#completed-quests tbody tr.row-odd {
+  background-color: #c4dfec;
+}
+table#completed-quests tbody tr td {
+  padding: 7px;
+}
+.quest-set-viewer {
+  background-color: #f0f0f0;
+  border: 1px solid black;
+  overflow: auto;
+  width: 900px;
+  margin-left: -450px;
+  position: absolute;
+  left: 50%;
+  top: 100px;
+  z-index: 100;
+  padding-bottom: 20px;
+}
+.quest-set-viewer #close-icon {
+  cursor: pointer;
+}
+.quest-set-viewer #close-icon img {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 60px;
+}
+.quest-set-viewer .quest-set-header {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px;
+  padding: 20px 0px 20px 0px;
+  padding-right: 50px;
+  margin-bottom: 20px;
+  background-color: #d7d7d7;
+}
+.quest-set-viewer .quest-set-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.quest-set-viewer .quest-set-points {
+  font-weight: bold;
+  font-size: 40px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  float: right;
+  width: 40%;
+  text-align: right;
+}
+.quest-set-viewer .quest-set-desc {
+  margin-top: 0px;
+  margin-buttom: 0px;
+  height: 50px;
+  float: left;
+  width: 60%;
+  text-align: left;
+}
+.quest-set-viewer .quest-set-content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+.quest-set-viewer .quest-title {
+  font-weight: bold;
+  font-size: 25px;
+  float: left;
+  width: 80%;
+  text-align: left;
+}
+.quest-set-viewer .quest-points {
+  font-weight: bold;
+  font-size: 25px;
+  float: right;
+  width: 20%;
+  text-align: right;
+}
+.quest-set-viewer .quest-task {
+  height: 50px;
+}
+.quest-set-viewer .task-points {
+  float: left;
+  width: 20%;
+  text-align: right;
+  margin-top: 0px;
+}
+.quest-set-viewer .task-title {
+  float: left;
+  width: 80%;
+  text-align: left;
+  margin-top: 0px;
+}
+.quest-set-viewer .task-interaction {
+  float: left;
+  width: 80%;
+  text-align: left;
+  padding-left: 40px;
+  margin-top: 0px;
+}
+.quest-set-viewer .error {
+  color: red;
+}
+.quest-set-viewer .success {
+  color: green;
+}
+.quest-set-viewer .hidden {
+  display: none;
+}
+.quest-set-viewer .visible {
+  display: visible;
+}
