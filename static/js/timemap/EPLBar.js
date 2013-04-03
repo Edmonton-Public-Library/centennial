@@ -55,6 +55,11 @@ return (function () {
 			button.addClass('active');
 			e.stopPropagation();
 
+			//Automatically focus username field when opening the login menu
+			if(button.attr('data-role') == 'account') {
+				button.find('.tab-contents[data-tab=login]').find('input[type=text].auto-focus').focus();
+			}
+
 			//TODO: Better event handler cleanup
 			$(document).bind('click', function () {
 				button.removeClass('active');
