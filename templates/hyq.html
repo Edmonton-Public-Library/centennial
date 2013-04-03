@@ -111,7 +111,7 @@
                                     <p>
                                         <input type="checkbox" id="agreeToTerms" data-bind="checked: createAccount.account.agreeToTerms">
                                         <label for="agreeToTerms">I agree to the 
-                                            <a href="" target="_blank" id="termsAndConditions">Terms and Conditions</a>.
+                                            <a href="/static/views/termsAndConditions.html" target="_blank" id="termsAndConditions">Terms and Conditions</a>.
                                         </label>
                                     </p>
                                     <p class="inputError" data-bind="validationMessage: createAccount.account.agreeToTerms"></p>
@@ -415,7 +415,11 @@
 
 						<p class="task-interaction">
 							<!-- ko if: taskType == 0 && !taskComplete -->
-								Complete this task by exploring the EPL catalog at <a href="http://epl.bibliocommons.com/" target="_blank">epl.bibliocommons.com</a>.
+								Complete this task by exploring the EPL catalog at <a href="http://epl.bibliocommons.com/" target="_blank">epl.bibliocommons.com</a>. When you have completed this quest, click the button below. Note that it may take up to a minute to verify your quests. <br> 
+								<button id="checkBiblio" style="margin-top: 10px" data-bind="click: checkBiblio">
+									Check Quest Completion
+								</button>
+								<span class="error hidden" data-bind="attr: {id: 'biblioError' + taskId}"></span>
 							<!-- /ko -->
 							<!-- ko if: taskType == 1 && !taskComplete -->
 							<!-- /ko -->
