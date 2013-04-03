@@ -21,7 +21,19 @@ var AppClass = (function () {
 		var self = this;
 		var eplBar = new EPLBar('#epl-bar', 'hyq');
 
-		self.storage.questPopUp = new QuestPopUp($('#questPopUp'));
+		$(document).ready(function () {
+
+			self.storage.questPopUp = new QuestPopUp($('#questPopUp'));
+
+			$('#siteTitle').find('.timeMapTitle').click(function() {
+				window.location.href = '/timemap/';
+			});
+
+			$('#siteTitle').find('.hyqTitle').click(function() {
+				window.location.href = '/hyq/';
+			});
+
+		});
 
 		//Start accepting routes
 		//Bootstrap components that depend on the DOM

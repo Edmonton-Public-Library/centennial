@@ -373,6 +373,68 @@ div {
   	}
 }
 
+.siteTitle {
+	font-size: 16px;
+	font-family: 'Lucida Grande', 'Bookman Old Style', Tahoma, Verdana, Arial, sans-serif;
+	float: left;
+	padding-left:20px;
+	padding-top: 10px;
+	padding-bottom: 3px;
+	cursor: pointer;
+
+	.pageTitle {
+		float: top;
+		border: solid #bbbbbb 1px;
+		position: relative;
+		text-align: center;
+
+		&:first-child{
+			border-bottom: none;
+		}
+
+		&.active {
+			@background: #cccccc;
+			background-color: @background;
+			font-weight: bold;
+			color: #444444;
+
+			&:hover {
+				background-color:darken(@background, 10%);
+			}
+		}
+
+		&.inactive {
+			@background: #eeeeee;
+			@textcolour: #aaaaaa;
+			.x-box-shadow(0, 3px, 4px, -2px, rgba(0,0,0,0.2), false);
+			background-color: @background;
+			color: @textcolour;
+
+			&:hover {
+				background-color:darken(@background, 10%);
+				color: darken(@textcolour, 10%);
+			}
+		}
+	}
+
+	.timeMapTitle {
+		border-top-right-radius: 3px;
+		border-top-left-radius: 3px;
+		z-index: 2;
+	}
+
+	.hyqTitle {
+		border-bottom-right-radius: 3px;
+		border-bottom-left-radius: 3px;
+		z-index: 1;
+	}
+
+	.titleText {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+}
+
 .shiny-button() {
 	@fontSize: 13px;
 	//-4 just because... Something to do with text sizing, I suppose

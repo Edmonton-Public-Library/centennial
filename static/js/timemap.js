@@ -27,6 +27,14 @@ var AppClass = (function () {
 		//Get the viewport ready
 		$(document).ready(function () {
 
+			$('#siteTitle').find('.timeMapTitle').click(function() {
+				window.location.href = '/timemap/';
+			});
+
+			$('#siteTitle').find('.hyqTitle').click(function() {
+				window.location.href = '/hyq/';
+			});
+
 			self.storage.questPopUp = new QuestPopUp($('#questPopUp'));
 
 			//TODO: Extract the sidebar/EPL bar

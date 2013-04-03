@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:fb="http://ogp.me/ns/fb#">
 <head>
-	<title>Home</title>
+	<title>EPL Hundred Year Quest</title>
 
 	<!-- Styling -->
 	<link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}/styles/reset.less" />
@@ -20,7 +20,17 @@
     </head>
 <body>
     <div id="epl-bar">
-	    <a href="http://www.epl.ca/"><img class="logo" src="/static/images/epl-logo.png" alt="EPL Logo"/></a>
+        <div>
+            <a href="http://www.epl.ca/"><img class="logo" src="/static/images/epl-logo.png" alt="EPL Logo"/></a>
+            <div id="siteTitle" class="siteTitle">
+                <div class="timeMapTitle pageTitle inactive">
+                    <div class="titleText">Centennial TimeMap</div>
+                </div>
+                <div class="hyqTitle pageTitle active">
+                    <div class="titleText">Hundred Year Quest</div>
+                </div>
+            </div>
+        </div>
 	    <ul class="buttons">
             <li class="button help" onClick="window.open('{{ STATIC_URL }}views/help.html', '_blank', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700px,height=800px');">Help</li>
             <!-- ko  if: Environment.user() != null -->
