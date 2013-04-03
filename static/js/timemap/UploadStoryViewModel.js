@@ -9,7 +9,6 @@ return (function () {
      */
      var UploadStoryViewModel = function () {
         var self = this;
-
         // Obtain branches for the 'Branches' drop down
         self.branchOptions = ko.observableArray([]);
         $.ajax({
@@ -78,13 +77,13 @@ return (function () {
                                 var jsonData = jQuery.parseJSON($(data).text());
                                 if (jsonData != null && jsonData.errors) {
                                     var error = "" + jsonData.errors;
-                                    $("#ajaxError").text(error);
+                                    $("#asdfsdfg").text(error);
                                 } else {
                                     top.location="#uploadStorySuccess";   
                                 }
                             },
                             error: function (data, status, e) {
-                                $("#ajaxError").text(data);
+                                $("#asdfsdfg").text(data);
                             }
                         });
                     } else {
@@ -92,7 +91,10 @@ return (function () {
                     }
                 }, 
                 error: function (result) {
-                    $("#ajaxError").text(result.responseText);
+                    var error = ""  + result.responseText;
+                    alert($("#asdfsdfg").innerHtml);
+                    document.getElementById('asdfsdfg').innerHtml = error;
+                    $("#asdfsdfg").innerHtml = error;
                 }
             });
         };

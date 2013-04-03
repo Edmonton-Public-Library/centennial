@@ -292,24 +292,26 @@ body {
 }
 
 #tm-content-panel {
-	@content-background-color: #27394c;
+	@content-background-color: #3c4c5d;
 	@required-error-color: #3394ff;
 	@content-link-color: #6299d6;
 	@hint-color: #6299d6;
 
-	background-color: @content-background-color;
-	height: 100%;
-	overflow: auto;
-
-	#content-container {
-		width: 860px;
-		padding: 10px 0px 60px 10px;
-		margin-left: auto;
-		margin-right: auto;
-		overflow: auto;
+	#content-header {
+		h1 {
+			margin-bottom: 5px;
+			margin-top: 5px;
+		}
+		h3 {
+			margin-bottom: 5px;
+			margin-top: 5px;
+		}
+		background-color: @content-background-color;
 		color: white;
-		font-weight: bold;
-
+		td {
+			margin-bottom: 5px;
+			margin-top: 5px;
+		}
 		a {
 			text-decoration: none;
 			&:link, &:visited {
@@ -319,14 +321,38 @@ body {
 				color: lighten(@content-link-color, 10%);
 			}
 		}
+	}
 
-		.required, .inputError {
-			color: @required-error-color;
+	#content-body {
+		background-color: darken(white, 10%);
+		color: darken(white, 80%);
+		padding-bottom: 20px;
+		height: 100%;
+		a {
+			text-decoration: none;
+			&:link, &:visited {
+				color: darken(@content-link-color, 20%);
+			}
+			&:hover {
+				color: @content-link-color;
+			}
+		}
+	}
+
+	#content-container {
+		width: 750px;
+		padding: 8px 0px 8px 0px;
+		margin-left: auto;
+		margin-right: auto;
+		overflow: auto;
+
+		.required, .inputError, .error {
+			color: darken(@required-error-color, 20%);
 		}
 
 		.hintText {
 			font-size: 12px;
-			color: @hint-color;
+			color: darken(@hint-color, 20%);
 		}
 
 		.form-input {
@@ -390,17 +416,15 @@ body {
 
 		.icon-column {
 			vertical-align: top;
-			padding: 20px;
+			padding: 5px 0px 0px 0px;
+			width: 100px;
 		}
 
 		div.highlight-box {
-			background-color: lighten(@content-background-color, 10%);
+			background-color: lighten(@content-background-color, 50%);
 			padding: 20px;
-			margin-left: auto;
-			margin-right: auto;
-			width: 650px;
-			.x-border-radius(15px);
-			.x-box-shadow(0, 10px, 10px, 0px, rgba(0,0,0,0.1), false);
+			width: 100%;
+			.x-border-radius(10px);
 
 			&.text {
 				font-size: 16px;
@@ -411,13 +435,14 @@ body {
 			}
 			&.link {
 				font-size: 20px;
+				font-weight: bold;
 				a {
 					text-decoration: none;
 					&:link, &:visited {
-						color: white;
+						color: darken(@content-link-color, 40%);
 					}
 					&:hover {
-						color: lighten(@content-link-color, 10%);
+						color: darken(@content-link-color, 20%);
 					}
 				}
 			}
@@ -426,26 +451,24 @@ body {
 		div.social-box-share-container {
 			background-color: white;
 			margin-top: 20px;
-			margin-left: auto;
-			margin-right: auto;
 			padding: 20px;
-			width: 650px;
+			width: 100%;
 			text-align: center;
 			overflow: auto;
-			.x-border-radius(15px);
-			.x-box-shadow(0, 10px, 10px, 0px, rgba(0,0,0,0.1), false);
+			.x-border-radius(10px);
 		}
 
 		#close-icon {
 			cursor: pointer;
 			img {
 				position: absolute;
-				top: 20px;
-				right: 30px;
-				width: 70px;
+				top: 10px;
+				right: 10px;
+				width: 40px;
 			}
 		}
-   	}
+
+    }
 }
 
 #branch-viewer {

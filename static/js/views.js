@@ -263,7 +263,7 @@ viewStory : new View('viewStory', 'View Story',
                     $("#pdf").addClass('visible');
                     var pdf = new PDFObject({
                         url: story.media_file(),
-                        width: "690px",
+                        width: "650px",
                         height: "500px"
                     }).embed("pdf");
                 } else if (story.content_type() == "image") {
