@@ -135,7 +135,9 @@ return (function () {
 
 	Branch.prototype.showStorySelector = function (type) {
 		this.selectedStoryType(type);
-		this.storySelector.show().css('left', Environment.display.mouseX()).css('top', Environment.display.mouseY());
+		var x = Math.min(Environment.display.width() - this.storySelector.width(), Environment.display.mouseX());
+		var y = Math.min(Environment.display.height() - this.storySelector.height(), Environment.display.mouseY());
+		this.storySelector.show().css('left', x).css('top', y);
 	};
 
 	Branch.prototype.hideStorySelector = function () {
