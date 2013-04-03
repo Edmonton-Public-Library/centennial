@@ -608,8 +608,18 @@ return (function () {
 				}
 				else {
 					self.yearCount++;
-					if(self.branchViewer) {self.branchViewer.setYear(self.stoppedYear);}
-					if(self.map) {self.map.setYear(self.stoppedYear);}
+					try {
+						if(self.branchViewer) {self.branchViewer.setYear(self.stoppedYear);}
+					}
+					catch(e) {
+
+					}
+					try {
+						if(self.map) {self.map.setYear(self.stoppedYear);}
+					}
+					catch(e) {
+						
+					}
 				}
 			}
 		}
