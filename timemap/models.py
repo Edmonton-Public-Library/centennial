@@ -149,7 +149,7 @@ class TimemapPreferences(Preferences):
     timeline_init_date = models.DateField(default=datetime.date(2013, 1, 1))
     timeline_start_date = models.DateField(default=datetime.date(1900, 1, 1))
     timeline_end_date = models.DateField(default=datetime.date(2014, 1, 1))
-    base_url = models.CharField(max_length=BASE_URL_LEN, default="http://eplcentennial.ca")
+    base_url = models.CharField(max_length=BASE_URL_LEN, default="http://serve.ctrlshiftcreate.com/")
     facebook_key = models.CharField(max_length=KEY_LEN, default='150662938425048')
     google_key = models.CharField(max_length=KEY_LEN, default='AIzaSyA59Z_Kym_voRl--cHJzYkep3Cs-_71')
 
