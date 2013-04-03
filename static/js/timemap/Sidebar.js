@@ -190,6 +190,12 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			ko.applyBindings(this.data, viewport[0]);
 		};
 
+		/**
+		 * Allows featured stories to be scoped by branch, when the branch viewer
+		 * is open
+		 * @param	type	?
+		 * @param	branch	object		The branch data from which to extract filter information
+		 */
 		Sidebar.prototype.setFeaturedStoriesSource = function (type, branch) {
 			var self = this,
 				endpointURL = Environment.routes.apiBase + '/featured/?format=json';
@@ -226,6 +232,9 @@ define(['lib/knockout', 'lib/csc/Utils', 'timemap/Environment', 'lib/epl/Input']
 			}
 		};
 
+		/**
+		 * Build search criteria based on the entered filters and keywords
+		 */
 		Sidebar.prototype.createCriteria = function () {
 			var textInput = $('#search-box-text').val();
 			var useTextInput = textInput != "Start typing to search...";

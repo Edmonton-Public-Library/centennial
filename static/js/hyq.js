@@ -40,6 +40,10 @@ var AppClass = (function () {
 		this.nav = new Nav(this.viewport, Routes.routes);
 	};
 
+	/**
+	 * Send the current app state to the quest checking service
+	 * @param	data	object		The game state
+	 */
 	AppClass.prototype.updateQuest = function (data) {
 		var self = this;
 		$.ajax(Settings.apiQuestUrl,{

@@ -18,9 +18,11 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 			completionPoints : ko.observable(0),
 			sortOrder : {}, //Used to store the most recent sort order for each column
 			Environment: Environment,
+			//Refreshes the displayed quest data when the user enters a code, logs in, etc
 			refreshData : function () {
 				self.getData();
 			},
+			//Initializes the widget sliders
 			loadWidgets : function () {
 				$('.iosSlider.featured-quests').iosSlider({
 					desktopClickDrag : true,
@@ -30,6 +32,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 					desktopClickDrag : true,
 				});
 			},
+			//Enables sorting of the completed quests table
 			sortCompletedQuests : function(column, order) {
 				var sortFunction = function () {},
 					lastSortOrder = self.data.sortOrder[column];
@@ -78,6 +81,9 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		ko.applyBindings(self.data, self.viewport[0]);
 	};
 
+	/**
+	 * Gets all of the Quest data ready for Knockout
+	 */
 	Dashboard.prototype.getData = function () {
 		this.getFeaturedQuests();
 		this.getActiveQuests();
@@ -85,6 +91,9 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		this.getCompletionPoints();
 	};
 
+	/**
+	 * Gets featured quest data
+	 */
 	Dashboard.prototype.getFeaturedQuests = function () {
 		var self = this;
 		$.get(Settings.apiQuestSetsUrl + '/' + featuredEndpoint, function (data) {
@@ -93,6 +102,9 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		});
 	};
 
+	/**
+	 * Gets active quest data
+	 */
 	Dashboard.prototype.getActiveQuests = function () {
 		var self = this;
 		$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
@@ -101,6 +113,9 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		});
 	};
 
+	/**
+	 * Gets completed quest data
+	 */
 	Dashboard.prototype.getCompletedQuests = function () {
 		var self = this;
 		$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
@@ -110,6 +125,9 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		});
 	};
 
+	/**
+	 * Gets the number of points required to advance to the next level
+	 */
 	Dashboard.prototype.getCompletionPoints = function () {
 		var self = this;
 		EPLBar.updateUserInfo(function (user) {		
@@ -123,6 +141,11 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		});
 	}
 
+	/**
+	 * Computes acquired QuestSet, Quest, and Task points for display in 
+	 * the widgets and progress bars
+	 * @param	data	questset	The data from the questset/complete endpoint
+	 */
 	Dashboard.insertPoints = function(data) {
 		for(i in data.objects) {
 			var questSet = data.objects[i];
@@ -154,6 +177,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		}	
 	};
 
+	//Opens the Quest Set Viewer when clicking on a quest in a widget
 	ko.bindingHandlers.openQuestSetViewer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
@@ -164,6 +188,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		}
 	};
 
+	//Closes the Quest Set Viewer when clicking the close button
 	ko.bindingHandlers.closeQuestSetViewer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
@@ -175,6 +200,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		}
 	};
 
+	//Triggers completed quest sorting
 	ko.bindingHandlers.sortQuests = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
@@ -183,6 +209,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		}
 	};
 
+	//Allows checking codes in the profile panel
 	ko.bindingHandlers.checkCode = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			require(['hyq'], function (hyq) {

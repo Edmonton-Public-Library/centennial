@@ -28,7 +28,13 @@ define(['lib/knockout'], function (ko) {
 
 	};
 				
-
+	/**
+	 * Shows the quest popup, or adds to a currently-showed popup
+	 * @param	title			string		The title of the popup
+	 * @param	description		string		The popup description
+	 * @param	points			int			The number of points gathered
+	 * @param	type			string		The type of popup (completed/discovered)
+	 */
 	QuestPopUp.prototype.showPopUp = function(title, description, points, type) {
 		var self = this;
 
@@ -58,6 +64,9 @@ define(['lib/knockout'], function (ko) {
 		self.updatePopUp();
 	};
 
+	/**
+	 * Hides the popup
+	 */
 	QuestPopUp.prototype.hidePopUp = function() {
 		var self = this;
 		self.popUpMessages = [];
@@ -69,6 +78,9 @@ define(['lib/knockout'], function (ko) {
 		});
 	};
 
+	/**
+	 * Updates an existing popup
+	 */
 	QuestPopUp.prototype.updatePopUp = function() {
 		var self = this;
 
@@ -132,6 +144,9 @@ define(['lib/knockout'], function (ko) {
 		}
 	};
 
+	/**
+	 * Shifts a popup over to make room for another type
+	 */
 	QuestPopUp.prototype.shiftPopUpRight = function() {
 		var self = this;
 		if(self.currentPopUp == self.popUpMessages.length - 1) return;
@@ -140,6 +155,10 @@ define(['lib/knockout'], function (ko) {
 		self.updatePopUp();
 	};
 
+	/**
+	 * If a popup to the right is hidden, shifts this popup back to 
+	 * the edge of the screen
+	 */
 	QuestPopUp.prototype.shiftPopUpLeft = function() {
 		var self = this;
 
@@ -149,10 +168,21 @@ define(['lib/knockout'], function (ko) {
 		self.updatePopUp();
 	};
 
+	/** 
+	 * Display a quest discovery popup
+	 * @param	title		string		The title of the popup
+	 */
 	QuestPopUp.prototype.popUp_DisplayDiscovery = function(title) {
 		this.showPopUp("Quest Discovered!", "You have discovered the quest: <br/> <br/><i>" + title + "</i>! <br/> <br/>Check it it out in your Hundred Year Quest page!", 0, 'discovery');
 	};
 
+	/** 
+	 * Display a quest completion popup
+	 * @param	title		string		The title of the popup
+	 * @param	type1		string
+	 * @param	type2		string
+	 * @param	points		int			The number of acquired points
+	 */
 	QuestPopUp.prototype.popUp_DisplayCompletion = function(title, type1, type2, points) {
 		var popUpTitle = type1 + " Completed!";
 		var popUpDescription = "You have completed the " + type2 + ": <br/> <br/><i>" + title + "</i>!";
@@ -160,6 +190,11 @@ define(['lib/knockout'], function (ko) {
 		this.showPopUp(popUpTitle, popUpDescription, points, type2);
 	};
 
+	/**
+	 * Displays a popup for a completed task item
+	 * @param	task		object		The object from the API
+	 * @param	discovered	boolean		Whether this task was just discovered
+	 */
 	QuestPopUp.prototype.completeTask = function(task, discovered) {
 		var self = this;
 
@@ -182,6 +217,11 @@ define(['lib/knockout'], function (ko) {
 		}
 	};
 
+	/**
+	 * Shows any popups required from a list of completed tasks
+	 * @param	taskList	object		The task list from the API
+	 * @param	discovered	boolean		If these tasks were just discovered
+	 */
 	QuestPopUp.prototype.completeTasks = function(taskList, discovered) {
 		var self = this;
 
@@ -190,6 +230,10 @@ define(['lib/knockout'], function (ko) {
 		}
 	};
 
+	/**
+	 * Runs all required popup processing on a list of tasks
+	 * @param	taskLists	object	The list of completed and discovered tasks from the API
+	 */
 	QuestPopUp.prototype.checkTasks = function(taskLists) {
 		this.completeTasks(taskLists.completedTasks, false);
 		this.completeTasks(taskLists.discoveredTasks, true);

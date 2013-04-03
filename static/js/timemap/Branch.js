@@ -125,6 +125,10 @@ return (function () {
 		});
 	};
 
+	/**
+	 * Set the current Timeline year to trigger quest checking
+	 * @param	year	int		The currently-selected year
+	 */
 	Branch.prototype.setYear = function (year) {
 		timemap.updateQuest({
 			year : year,
@@ -133,6 +137,10 @@ return (function () {
 		});
 	}
 
+	/**
+	 * Displays a menu near the cursor allowing the user to open stories related to the clicked pin
+	 * @param	type	The type of pin that was selected
+	 */
 	Branch.prototype.showStorySelector = function (type) {
 		this.selectedStoryType(type);
 		var x = Math.min(Environment.display.width() - this.storySelector.width(), Environment.display.mouseX());
@@ -140,10 +148,19 @@ return (function () {
 		this.storySelector.show().css('left', x).css('top', y);
 	};
 
+	/**
+	 * Hides the story selector menu
+	 */
 	Branch.prototype.hideStorySelector = function () {
 		this.storySelector.hide();
 	};
 
+	/**
+	 * Computes "random" pin coordinates by placing the pins in a 
+	 * grid above the floor plan, and offsetting them using a
+	 * random number that is seeded by the branch name
+	 * @param	pin		StoryPin	The pin to generate coordinates for
+	 */
 	Branch.prototype.pinCoordinates = function (pin) {
 		var self = this,
 			col = contentTypes[pin.type].index % this.dimensions.numCols,
@@ -181,6 +198,10 @@ return (function () {
 		}
 	};
 
+	/**
+	 * Compute dimensions that allow the floor plan and pins to be rendered
+	 * correctly under all screen conditions
+	 */
 	Branch.prototype.configureFloorplan = function() {
 		var floorplanWidth = this.floorplanElement.width(),
 			floorplanHeight = this.floorplanElement.height(),
@@ -201,6 +222,18 @@ return (function () {
 		this.dimensions.viewerHeight(this.floorplanElement.height() - 70);
 	};
 
+	/**
+	 * Set the data to be displayed by the branch viewer
+	 * @param	branchData		Branch
+	 							{
+									id: 0,
+									name: '',
+									description: '',
+									start_year: 0,
+									end_year: 0,
+									floor_plan: ''
+	 							}
+	 */
 	Branch.prototype.setData = function (branchData) {
 		var self = this;
 		this.branchID = branchData.id;
@@ -225,6 +258,11 @@ return (function () {
 		});
 	};
 
+	/**
+	 * Shows the specified StoryPin, or adds a Story to its object list if
+	 * a pin of the same type is already displayed
+	 * @param	pin		StoryPin	The pin to display
+	 */
 	Branch.prototype.showPin = function (pin) {
 		var typePins = this.storyData[pin.type](),
 			exists = false;
@@ -238,6 +276,12 @@ return (function () {
 		}
 	};
 
+	/**
+	 * Hides the specified StoryPin if it is the only one, or 
+	 * removes the Story from that type's object list if 
+	 * more than one of that story type is displayed
+	 * @param	pin		StoryPin	The pin to hide
+	 */
 	Branch.prototype.hidePin = function (pin) {
 		this.storyData[pin.type].remove(function (item) {
 			return item.id == pin.id;
