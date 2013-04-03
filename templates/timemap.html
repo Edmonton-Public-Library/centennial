@@ -12,10 +12,10 @@
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/jPlayer-skin/jplayer.blue.monday.css" />
 
 	<!-- General Libraries -->
-	<script type="text/javascript" src="{{ STATIC_URL }}/js/lib/require-jquery.js" data-main="/static/js/init-timemap.js"></script>
     <script>
         var KEYS = {{ KEYS }};
     </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/lib/require-jquery.js" data-main="/static/js/init-timemap.js"></script>
     <meta property='fb:app_id' content='150662938425048'/>
 
     <!-- Prevent page zooming on mobile devices -->
@@ -29,7 +29,7 @@
 		window.fbAsyncInit = function() {
 			// init the FB JS SDK
 			FB.init({
-                appId      : '150662938425048',
+                appId      : KEYS.FB_KEY,
 				//appId      : Settings.apiKeys.facebook.connect, // App ID from the App Dashboard
 				//channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File for x-domain communication
 				status     : true, // check the login status upon init?

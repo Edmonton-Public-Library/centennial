@@ -23,10 +23,10 @@ return {
 	//API Keys
 	apiKeys : {
 		google : {
-			maps : 'AIzaSyA59Z_Kym_voRl--cHJzYkep3Cs-_71'
+			maps : KEYS.GOOGLE_KEY
 		},
 		facebook : {
-			connect : '150662938425048'
+			connect : KEYS.FB_KEY
 		}
 	}
 };

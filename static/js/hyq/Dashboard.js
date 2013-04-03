@@ -70,11 +70,6 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 			}
 		};
 
-		this.data.displayCompletionPoints = ko.computed(function () {
-			if(self.data.completionPoints() > -1) return self.data.completionPoints();
-			return 'N/A';
-		});
-		
 		this.getData();
 
 		ko.applyBindings(self.data, self.viewport[0]);
@@ -116,7 +111,11 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		var self = this;
 		EPLBar.updateUserInfo(function (user) {		
 			$.get(Settings.apiBaseUrl + 'level/' + user.level + '/?format=json', function (data) {
-				self.data.completionPoints(data.end_exp);
+				if(data.end_exp > -1) {
+					self.data.completionPoints(data.end_exp);
+				} else {
+					self.data.completionPoints(0);
+				}
 			});
 		});
 	}
