@@ -253,6 +253,10 @@ return (function () {
 		}
 	};
 
+	/**
+	 * Sets the current map year, and triggers a quest check based on that year
+	 * @param	year	int		The currently-selected year
+	 */
 	Map.prototype.setYear = function (year) {
 		epl.updateQuest({
 			year : year,

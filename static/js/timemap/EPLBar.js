@@ -67,6 +67,11 @@ return (function () {
 		});
 	};
 
+	/**
+	 * Grabs updated user data from the API, and stores it in the Environment
+	 * @param	callback	function	A callback function to be run once the 
+	 *									user data has been gathered
+	 */
 	EPLBar.updateUserInfo = function (callback) {
 		$.ajax(accountInfoEndpoint, {
 			method : 'get',
@@ -82,16 +87,16 @@ return (function () {
 		});
 	};
 
+	/**
+	 * Logs the user out and triggers a user info update
+	 */
 	EPLBar.logOut = function () {
 		$.get(Settings.apiAccountUrl + 'logout', function () {
 			EPLBar.updateUserInfo();
 		});
 	};
 
-	EPLBar.linkAccount = function () {
-
-	};
-
+	//Allows EPL accounts to be linked from the EPLBar
 	ko.bindingHandlers.linkForm = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			var linkForm = $(element);
@@ -120,6 +125,7 @@ return (function () {
 		}
 	};
 
+	//Allows users to log in through the EPLBar
 	ko.bindingHandlers.loginForm = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			var loginForm = $(element);
@@ -151,6 +157,7 @@ return (function () {
 		}
 	};
 
+	//Allows users to choose user management tabs
 	ko.bindingHandlers.eplBarTabs = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			var tabs = $(element).find('.tab').click(function () {

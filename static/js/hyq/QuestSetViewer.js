@@ -83,6 +83,7 @@ define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (hyq
                 }
             });
         }
+        //Checks Bibliocommons tasks
         this.checkBiblio = function() {
             var errorElement = $("#biblioError" + self.taskId);
             errorElement.removeClass("hidden");
