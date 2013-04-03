@@ -113,7 +113,8 @@ return (function () {
             minZoom : 11,
             maxZoom : 16,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
-			mapTypeControl : false
+			mapTypeControl : false,
+            streetViewControl : false
 		});
 
 		if (typeof canvas[0] == 'undefined') Error.throw(new Error('Maps.invalidViewport'));

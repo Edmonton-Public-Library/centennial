@@ -255,7 +255,7 @@
 			</div>
 			<div class="rank" data-bind="if: Environment.user() != null">
 				<div class="text">Points to Next Level</div>
-				<div class="number" data-bind="text: displayCompletionPoints() - Environment.user().points"></div>
+				<div class="number" data-bind="text: completionPoints() - Environment.user().points"></div>
 			</div>
 			<div class="rank">
 				<div class="text">Enter Quest Code</div>
@@ -264,78 +264,86 @@
 				</div>
 			</div>
 		</div>
-		<div data-bind="if: Environment.user() != null">
-			<h1>Featured Quests</h1>
-			<div class="iosSlider featured-quests" data-bind="iosSlider: true">
-				<div class="slider">
-					<!-- ko foreach: {data: featuredQuests, afterRender: initFeaturedSlider} -->
-						<div class="slide current-quest">
-							<div class="progress-container">
-								<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
-							</div>
-							<div class="title" data-bind="text: title"></div>
-							<ul>
-								<!-- ko foreach: quests -->
-									<!-- ko if: $index() <= 3 -->
-								<li data-bind="openQuestSetViewer: {questSetId: $parent.id}">
-									<div class="quest-description">
-										<span data-bind="text: title"></span>
-									</div>
-									<div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
-								</li>
-									<!-- /ko -->
-								<!-- /ko -->
-							</ul>
-						</div>
-					<!-- /ko -->
-				</div>
-			</div>
-			<h1>Active Quests</h1>
-			<div class="iosSlider active-quests" data-bind="iosSlider: true">
-				<div class="slider">
-					<!-- ko foreach: {data: activeQuests, afterRender: initActiveSlider} -->
-						<div class="slide current-quest">
-							<div class="progress-container">
-								<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
-							</div>
-							<div class="title" data-bind="text: title"></div>
-							<ul>
-								<!-- ko foreach: quests -->
-									<!-- ko if: $index() <= 3 -->
-								<li data-bind="openQuestSetViewer: {questSetId: $parent.id}">
-									<div class="quest-description">
-										<span data-bind="text: title"></span>
-									</div>
-									<div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
-								</li>
-									<!-- /ko -->
-								<!-- /ko -->
-							</ul>
-						</div>
-					<!-- /ko -->
-				</div>
-			</div>
-			<div data-role="viewport"></div>   
-			<h1>Completed Quests</h1>
-			<table id="completed-quests">
-				<thead>
-					<tr>
-						<th data-bind="sortQuests: {column: 'date'}">Date</th>
-						<th data-bind="sortQuests: {column: 'title'}">Quest</th>
-						<th data-bind="sortQuests: {column: 'points'}">Points</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!-- ko foreach: {data: completedQuests} -->
-					<tr data-bind="openQuestSetViewer: {questSetId: id}, css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
-						<td data-bind="text: date_completed">0</td>
-						<td data-bind="text: title"></td>
-						<td data-bind="text: points"></td>
-					</tr>
-					<!-- /ko -->
-				</tbody>
-			</table>
-		</div>
+        <script type="text/html" id="widgets">
+    		<div data-bind="if: Environment.user() != null">
+    			<h1>Featured Quests</h1>
+    			<div class="iosSlider featured-quests" data-bind="iosSlider: true">
+    				<div class="slider">
+    					<!-- ko foreach: {data: featuredQuests} -->
+    						<div class="slide current-quest">
+    							<div class="progress-container">
+    								<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
+    							</div>
+    							<div class="title" data-bind="text: title"></div>
+    							<ul>
+    								<!-- ko foreach: quests -->
+    									<!-- ko if: $index() <= 3 -->
+    								<li data-bind="openQuestSetViewer: {questSetId: $parent.id}">
+    									<div class="quest-description">
+    										<span data-bind="text: title"></span>
+    									</div>
+    									<div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
+    								</li>
+    									<!-- /ko -->
+    								<!-- /ko -->
+    							</ul>
+    						</div>
+    					<!-- /ko -->
+    				</div>
+    			</div>
+    			<h1>Active Quests</h1>
+    			<div class="iosSlider active-quests" data-bind="iosSlider: true">
+    				<div class="slider">
+    					<!-- ko foreach: {data: activeQuests} -->
+    						<div class="slide current-quest">
+    							<div class="progress-container">
+    								<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
+    							</div>
+    							<div class="title" data-bind="text: title"></div>
+    							<ul>
+    								<!-- ko foreach: quests -->
+    									<!-- ko if: $index() <= 3 -->
+    								<li data-bind="openQuestSetViewer: {questSetId: $parent.id}">
+    									<div class="quest-description">
+    										<span data-bind="text: title"></span>
+    									</div>
+    									<div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
+    								</li>
+    									<!-- /ko -->
+    								<!-- /ko -->
+    							</ul>
+    						</div>
+    					<!-- /ko -->
+    				</div>
+    			</div>
+    			<div data-role="viewport"></div>   
+    			<h1>Completed Quests</h1>
+                <!-- ko if: completedQuests().length > 0 -->
+    			<table id="completed-quests">
+    				<thead>
+    					<tr>
+    						<th data-bind="sortQuests: {column: 'date'}">Date</th>
+    						<th data-bind="sortQuests: {column: 'title'}">Quest</th>
+    						<th data-bind="sortQuests: {column: 'points'}">Points</th>
+    					</tr>
+    				</thead>
+    				<tbody>
+    					<!-- ko foreach: {data: completedQuests} -->
+    					<tr data-bind="openQuestSetViewer: {questSetId: id}, css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
+    						<td data-bind="text: date_completed">0</td>
+    						<td data-bind="text: title"></td>
+    						<td data-bind="text: points"></td>
+    					</tr>
+    					<!-- /ko -->
+    				</tbody>
+    			</table>
+                <!-- /ko -->
+                <!-- ko ifnot: completedQuests().length > 0 -->
+                <div>You have not completed any quests.</div>
+                <!-- /ko -->
+    		</div>
+        </script>
+        <div data-bind="template: {name: 'widgets', data: $data, afterRender: loadWidgets}"></div>
 		<div data-bind="style: {display: Environment.user() == null ? 'block' : 'none'}">
 			<h1>Please log in to start or continue quests.</h1>
 		</div>

@@ -910,11 +910,11 @@
                             </tr>
                             <tr>
                                 <td class="left-column">Test Name</td>
-                                <td>Trial Quest</td>
+                                <td>Code Based Quest</td>
                             </tr>
                             <tr>
                                 <td class="left-column">Purpose</td>
-                                <td>To ensure that users can complete quests</td>
+                                <td>To ensure that users can complete location based quests</td>
                             </tr>
                             <tr>
                                 <td class="left-column">User Requirement Reference</td>
@@ -922,7 +922,7 @@
                             </tr>
                             <tr>
                                 <td class="left-column">Pre Conditions</td>
-                                <td><ul><li>Quest must be created in: HYQ-Test.2.1.</li><li>User account must be created.</li></ul></td>
+                                <td><ul><li>Quest must be created in: HYQ-Test.1.2.</li><li>User account must be created.</li></ul></td>
                             </tr>
                             <tr>
                                 <td class="left-column">Post Conditions</td>
@@ -952,25 +952,33 @@
                                             <td>Verify that the quest now appears in the 'Completed Quests' section</td>
                                             <td>Pass</td>
                                         </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Change the code for the quest and login as a different user</td>
+                                            <td>Pass</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Repeat the same quest but this time entering the new code</td>
+                                            <td>The same quest should be completed with the new code</td>
+                                        </tr>
                                     </table>
                                 </td>
                         </table>
                         <br>
 
-<!--                    <h2>Quests</h2>
-
-                        <table border="1" class='test-case' id='hyq.3.1'>
+                        <table border="1" class='test-case' id='hyq.2.2'>
                             <tr>
                                 <th class="left-column">#</td>
-                                <th>HYQ.3.1</td>
+                                <th>HYQ-Test.2.2</td>
                             </tr>
                             <tr>
                                 <td class="left-column">Test Name</td>
-                                <td></td>
+                                <td>Bibliocommons quest</td>
                             </tr>
                             <tr>
                                 <td class="left-column">Purpose</td>
-                                <td></td>
+                                <td>Ensure that users can interact with bibliocommons quests</td>
                             </tr>
                             <tr>
                                 <td class="left-column">User Requirement Reference</td>
@@ -978,7 +986,7 @@
                             </tr>
                             <tr>
                                 <td class="left-column">Pre Conditions</td>
-                                <td></td>
+                                <td><ul><li>Account must exist which is not yet linked with an bibliocommons account</li><li>Bibliocommons quest must be loaded</li><ul></td>
                             </tr>
                             <tr>
                                 <td class="left-column">Post Conditions</td>
@@ -988,19 +996,144 @@
                                 <td class="left-column">Test Steps</td>
                                 <td>
                                     <table border="1" class="test-case-steps">
-                                        <th>Step #</th>
-                                        <th>Description</th>
-                                        <th>Expected Result</th>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <th>Step #</th>
+                                            <th>Description</th>
+                                            <th>Expected Result</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Navigate to the HYQ dash board and select a bibliocommons based test and complete it.</td>
+                                            <td>Pass</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Attempt to check that the quest is completed.</td>
+                                            <td>Error should be displayed that user has not linked their account to bibliocommons.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Link account to bibliocommons account</td>
+                                            <td>Pass</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Attempt to recheck the bibliocommons quest completion.</td>
+                                            <td>Quest should successfully complete.</td>
                                         </tr>
                                     </table>
                                 </td>
                         </table>
                         <br>
--->
+
+                        <table border="1" class='test-case' id='hyq.2.3'>
+                            <tr>
+                                <th class="left-column">#</td>
+                                <th>HYQ-Test.2.3</td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">Test Name</td>
+                                <td>Accedential Quest Discovery</td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">Purpose</td>
+                                <td>Ensure that users can stumble upon quests</td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">User Requirement Reference</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">Pre Conditions</td>
+                                <td>Quest must exist but not be discovered yet</td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">Post Conditions</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">Test Steps</td>
+                                <td>
+                                    <table border="1" class="test-case-steps">
+                                        <tr>
+                                            <th>Step #</th>
+                                            <th>Description</th>
+                                            <th>Expected Result</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Navigate to the timeline location where a quest can be discovered.</td>
+                                            <td>Popup should appear indicating that the quest has been discovered.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Navigate to the HYQ dash board</td>
+                                            <td>New quest should now be on the user's dash board</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                        </table>
+                        <br>
+
+                        <table border="1" class='test-case' id='hyq.2.4'>
+                            <tr>
+                                <th class="left-column">#</td>
+                                <th>HYQ-Test.2.4</td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">Test Name</td>
+                                <td>TimeMap and Social Media Quest</td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">Purpose</td>
+                                <td>Ensure that users can perform TimeMap and Social media quests</td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">User Requirement Reference</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">Pre Conditions</td>
+                                <td>TimeMap and Social media quest must be loaded</td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">Post Conditions</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="left-column">Test Steps</td>
+                                <td>
+                                    <table border="1" class="test-case-steps">
+                                        <tr>
+                                            <th>Step #</th>
+                                            <th>Description</th>
+                                            <th>Expected Result</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Naviage to the HYQ dash board</td>
+                                            <td>TimeMap quest should be visible</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Complete the quest.</td>
+                                            <td>Popup message should indicate that the quest is completed.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Navigate back to the HYQ dash board</td>
+                                            <td>Quest should appear in completed quests</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Repeat test for a Social Media test</td>
+                                            <td>Pass</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                        </table>
+                        <br>
+
                     <br>
                 </div>
             </div>
