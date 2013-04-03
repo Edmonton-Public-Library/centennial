@@ -1,5 +1,5 @@
 ;
-define(['epl/Settings', 'lib/knockout', 'hyq/Environment'], function (Settings, ko, Environment) {
+define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (hyq, Settings, ko, Environment) {
 
     var QuestSetViewer = function (questSetId, viewport) {
         var self = this;
@@ -60,14 +60,48 @@ define(['epl/Settings', 'lib/knockout', 'hyq/Environment'], function (Settings, 
         this.taskComplete = ko.observable();
         this.code = ko.observable();
         this.checkCode = function() {
-            $.ajax(Settings.apiQuestBaseUrl + "code/?code=" + this.code(), {
+            var code = this.code();
+            if(code != null && code.length == 10) {
+                codePrefix = code.substring(0, 5);
+                codeSuffix = code.substring(5, 10);
+                code = codePrefix + '-' + codeSuffix;
+            }
+            $.ajax(Settings.apiQuestBaseUrl + "code/?code=" + code, {
                 processData : false,
                 type : 'get',
                 success : function(data) {
-                    location.reload();
+                    require(['hyq'], function (hyq) {
+                        hyq.storage.questPopUp.checkTasks(data);
+                    });
+                    var errorElement = $("#codeError" + self.taskId);
+                    errorElement.addClass("hidden");
                 },
                 error : function(data) {
                     var errorElement = $("#codeError" + self.taskId);
+                    errorElement.removeClass("hidden");
+                    errorElement.text(JSON.parse(data.responseText).Response);
+                }
+            });
+        }
+        this.checkBiblio = function() {
+            var errorElement = $("#biblioError" + self.taskId);
+            errorElement.removeClass("hidden");
+            errorElement.html('Checking...');
+            $('#checkBiblio').attr('disabled', true);
+            $.ajax(Settings.apiQuestBaseUrl + "bibliocommons", {
+                processData : false,
+                type : 'get',
+                success : function(data) {
+                    $('#checkBiblio').attr('disabled', false);
+                    require(['hyq'], function (hyq) {
+                        hyq.storage.questPopUp.checkTasks(data);
+                    });
+                    var errorElement = $("#biblioError" + self.taskId);
+                    errorElement.addClass("hidden");
+                },
+                error : function(data) {
+                    $('#checkBiblio').attr('disabled', false);
+                    var errorElement = $("#biblioError" + self.taskId);
                     errorElement.removeClass("hidden");
                     errorElement.text(JSON.parse(data.responseText).Response);
                 }

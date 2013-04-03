@@ -78,13 +78,13 @@ return (function () {
                                 var jsonData = jQuery.parseJSON($(data).text());
                                 if (jsonData != null && jsonData.errors) {
                                     var error = "" + jsonData.errors;
-                                    $("#ajaxError").text(error);
+                                    self.story.errorMessage(error);
                                 } else {
                                     top.location="#uploadStorySuccess";   
                                 }
                             },
                             error: function (data, status, e) {
-                                $("#ajaxError").text(data);
+                                self.story.errorMessage(data);
                             }
                         });
                     } else {
@@ -92,7 +92,7 @@ return (function () {
                     }
                 }, 
                 error: function (result) {
-                    $("#ajaxError").text(result.responseText);
+                    self.story.errorMessage(result.responseText);
                 }
             });
         };
@@ -154,6 +154,7 @@ return (function () {
                 return this.preset_keywords();
             }
         }, this);
+        this.errorMessage = ko.observable();
     };
     
     // Modifies the json to be compatible with what is expected from the API
@@ -162,6 +163,7 @@ return (function () {
         delete copy.custom_keywords;
         delete copy.preset_keywords;
         delete copy.errors;
+        delete copy.errorMessage;
         if (copy.branch == null) {
             copy.branch = null;
         } else {

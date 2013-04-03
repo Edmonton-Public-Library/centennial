@@ -18,6 +18,9 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 			completionPoints : ko.observable(0),
 			sortOrder : {}, //Used to store the most recent sort order for each column
 			Environment: Environment,
+			refreshData : function () {
+				self.getData();
+			},
 			loadWidgets : function () {
 				$('.iosSlider.featured-quests').iosSlider({
 					desktopClickDrag : true,
@@ -198,6 +201,8 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 							method : 'get',
 							success : function (data) {
 								hyq.storage.questPopUp.checkTasks(data);
+								viewModel.refreshData();
+								EPLBar.updateUserInfo();
 								$(element).css({
 									'background-color' : '#67F211'
 								});
