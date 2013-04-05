@@ -2,6 +2,11 @@
 
 body {
 	margin-top: @topBarHeight-small;
+
+	&.hyq-dashboard {
+		background-color: lighten(desaturate(@epl-blue, 7%), 30%);
+		padding-top: 1px;
+	}
 }
 
 /* slider container */
@@ -11,8 +16,6 @@ body {
 	top: 0;
 	left: 0;
 	overflow: hidden;
-	
-	height: @questWidgetHeight;
 }
 
 /* slider */
@@ -28,61 +31,108 @@ body {
 	float: left;
 }
 
+#dashboard {
+	@dashboardRadius: 4px;
+	background-color: white;
+	margin: 50px auto;
+	.x-border-radius(@dashboardRadius);
+
+	.header {
+		@headerHeight: 50px;
+		height: @headerHeight;
+		background-color: @epl-blue;
+		background-image: linear-gradient(bottom, rgb(25,151,209) 6%, rgb(52,169,227) 77%);
+		background-image: -o-linear-gradient(bottom, rgb(25,151,209) 6%, rgb(52,169,227) 77%);
+		background-image: -moz-linear-gradient(bottom, rgb(25,151,209) 6%, rgb(52,169,227) 77%);
+		background-image: -webkit-linear-gradient(bottom, rgb(25,151,209) 6%, rgb(52,169,227) 77%);
+		background-image: -ms-linear-gradient(bottom, rgb(25,151,209) 6%, rgb(52,169,227) 77%);
+
+		background-image: -webkit-gradient(
+			linear,
+			left bottom,
+			left top,
+			color-stop(0.06, rgb(25,151,209)),
+			color-stop(0.77, rgb(52,169,227))
+		);
+		border: solid 1px darken(@epl-blue, 10%);
+		overflow: hidden;
+		.x-border-top-right-radius(@dashboardRadius);
+		.x-border-top-left-radius(@dashboardRadius);
+
+		.title {
+			@headerFontSize: 20px;
+			@headerPadding: 10px;
+			@headerInnerHeight: @headerHeight - (2 * @headerPadding);
+			padding: @headerPadding;
+			color: white;
+			line-height: @headerInnerHeight;
+			font-size: @headerFontSize;
+			font-weight: bold;
+			text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+			float: left;
+		}
+
+		.enter-code {
+			@codePadding: 8px;
+			@codeMargin: 5px;
+			float: right;
+			border: none;
+			padding: @codePadding;
+			margin: @codeMargin;
+			width: 200px;
+			outline: none;
+			background-color: lighten(desaturate(@epl-blue, 10%), 35%);
+			.x-border-radius(@dashboardRadius);
+			.x-box-shadow(2px,2px,2px,0,rgba(0,0,0,0.2),false);
+			color: rgb(100,100,100);
+			font-size: @headerHeight - (2*@codePadding) - (2*@codeMargin) - 6;
+			font-style: italic;
+			font-weight: normal;
+
+			&.text-entered {
+				font-size: 29px;
+				padding: 2px @codePadding;
+				font-weight: bold;
+				font-style: normal;
+			}
+		}
+	}
+}
+
 #info-panel {
-	@panelBackground: rgb(220,220,220);
-	@panelHeight: 80px;
-	background-color: @panelBackground;
-	height: @panelHeight;
-	.x-box-shadow(0, -2px, 4px, 0, rgba(0,0,0,0.2), true);
+	@panelBackground: lighten(desaturate(@epl-blue, 30%), 30%);
+	@panelHeight: 200px;
+	// background-color: @panelBackground;
+	// .x-box-shadow(0, 2px, 4px, 0, rgba(0,0,0,0.2), false);
+	// border-bottom: solid 1px lighten(desaturate(@epl-blue, 40%), 10%);
+	min-height: @panelHeight;
 	position: relative;
+	padding: 0 10px;
+	margin-bottom: 45px;
 
 	.profile {
 		float: left;
 
-		.title {
-			font-weight: bold;
-			font-size: @panelHeight;
-			color: darken(@panelBackground, 5%);
-			position: absolute;
-			top: -10px;
-			left: 0;
-			z-index: 0;
-		}
-
-		ul {
-			list-style-type: none;
-			padding: 0 0 0 12px;
-			position: relative;
-			z-index: 2;
-
-			li {
-				.field {
-					font-weight: bold;
-				}
-
-				.value {
-
-				}
-			}
-		}
+		
 	}
 
 	.rank {
+		@rankMargin: 10px;
+		@rankHeight: @panelHeight - (2*@rankMargin);
 		float: right;
 		background-color: darken(@panelBackground, 15%);
-		height: @panelHeight;
-		.x-box-shadow(0, -2px, 4px, 0, rgba(0,0,0,0.2), true);
-		margin-left: 3px;
+		height: @rankHeight;
+		margin: @rankMargin @rankMargin 0 0;
 		position: relative;
 		z-index: 3;
 
 		.text {
 			background-color: darken(@panelBackground, 25%);
-			height: 23px;
 			line-height: 25px;
 			font-size: 18px;
-			padding: 0 10px;
+			padding: 8px 15px;
 			text-align: center;
+			min-width: 200px;
 		}
 
 		.controls {
@@ -115,7 +165,7 @@ body {
 
 		.number {
 			padding: 0 10px;
-			font-size: 50px;
+			font-size: @rankHeight - 60;
 			text-align: center;
 			color: white;
 			text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
@@ -144,6 +194,18 @@ body {
 			font-size: 14px;
 		}
 	}
+}
+
+.quest-slider {
+	@sliderBase: @epl-blue;
+	margin: 20px auto;
+	// background-color: lighten(desaturate(@sliderBase, 40%), 30%);
+	padding: 10px;
+	overflow:hidden;
+	border: solid 1px lighten(@sliderBase, 25%);
+	border-left: solid 10px @epl-blue;
+
+	// .x-box-shadow(0, 2px, 2px, 1px, rgba(8,86,138,0.3), false);
 }
 
 .featured-quest {
@@ -253,10 +315,12 @@ body {
 }
 
 h1 {
-	color: rgb(50,50,50);
-	font-size: 25px;
-	padding: 10px;
+	color: rgb(2103,2103,2103);
+	font-size: 35px;
+	position: relative;
+	z-index: 1000;
 	margin: 0;
+	padding: 0 0 0 8px;
 }
 
 table#completed-quests {
@@ -402,6 +466,6 @@ table#completed-quests {
 	}
 }
 
-@questWidgetColor: @epl-blue;
+@questWidgetColor: @epl-pink;
 @questWidgetWidth: 400px;
 @questWidgetHeight: 197px;

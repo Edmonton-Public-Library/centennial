@@ -31,6 +31,9 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 				$('.iosSlider.active-quests').iosSlider({
 					desktopClickDrag : true,
 				});
+				window.setTimeout(function (){
+					$('.enter-code').eplInput();
+				}, 100);
 			},
 			//Enables sorting of the completed quests table
 			sortCompletedQuests : function(column, order) {

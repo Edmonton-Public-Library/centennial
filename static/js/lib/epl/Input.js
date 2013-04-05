@@ -71,7 +71,8 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 			 */
 			function init () {
 				config = Utils.mergeObjects(userConfig, config);
-				switch(input.prop('tagName').toLowerCase()) {
+				var tagName = typeof input.prop('tagName') == 'string' ? input.prop('tagName').toLowerCase() : '';
+				switch(tagName) {
 					case 'input':
 						switch(input.attr('type')) {
 							case 'text':
@@ -87,6 +88,9 @@ define(['lib/csc/Utils', 'lib/jquery.hotkeys'], function (Utils) {
 					break;
 					case 'div':
 						initSelect();
+					break;
+					default:
+						initText();
 				}
 			}
 

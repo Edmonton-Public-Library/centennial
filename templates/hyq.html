@@ -18,7 +18,7 @@
     </script>
 
     </head>
-<body>
+<body class="hyq-dashboard">
     <div id="epl-bar">
         <div>
             <a href="http://www.epl.ca/"><img class="logo" src="/static/images/epl-logo.png" alt="EPL Logo"/></a>
@@ -142,7 +142,7 @@
                         <div class="tab-contents" data-tab="login" data-bind="css: {active: loginMenu.currentTab() != 'link'}">
                             <p class="section-title">Edit Account Information</p>
                             <form>
-
+                            <p class="inputSuccess" data-bind="if: manageAccount.changed">Your account has been successfully updated!</p>
                             <p class="inputError" id="ajaxError"></p>
                             
                             <p>
@@ -234,88 +234,94 @@
 	    <div class="fb-like" data-send="true" data-bind="attr: {'data-href': baseURL()}" data-width="250" data-show-faces="false" data-font="arial"></div>
     	<div id="timeline" data-bind="style: {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
     </div>
-	<div id="dashboard">
-		<div id="info-panel" data-bind="style: {display: Environment.user() != null ? 'block' : 'none'}">
+	<div id="dashboard" data-bind="style: {width: Environment.display.width() - 100 + 'px'}">
+        <div class="header" data-bind="">
+            <!-- ko if: Environment.user() != null -->
+            <div class="title">The EPL Hundred Year Quest</div>
+            <input type="text" class="enter-code" data-bind="checkCode: true" data-default-text="Enter Code" />
+            <!-- /ko -->
+            <!-- ko if: Environment.user() == null -->
+            <div class="title">Please log into your Centennial or EPL Account to play the Hundred Year Quest</div>
+            <!-- /ko -->
+        </div>
+		<div id="info-panel">
 			<div class="profile">
-				<div class="title">Profile</div>
-				<ul data-bind="if: Environment.user() != null">
-					<li>
-						<span class="field">Username: </span>
-						<span class="value" data-bind="text: Environment.user().username"></span>
-					</li>
-					<li>
-						<span class="field">Email: </span>
-						<span class="value" data-bind="text: Environment.user().email"></span>
-					</li>
-				</ul>
+				<div class="welcome-message">
+                    <!-- ko if: Environment.user() != null -->
+                    Welcome back, <span data-bind="text: Environment.user().firstname"></span>!
+                    <!-- /ko -->
+                    <!-- ko if: Environment.user() == null -->
+                    Welcome back, adventurer!
+                    <!-- /ko -->
+                </div>
 			</div>
 			<div class="rank" data-bind="if: Environment.user() != null">
 				<div class="text">Level</div>
 				<div class="number" data-bind="text: Environment.user().level"></div>
 			</div>
-			<div class="rank" data-bind="if: Environment.user() != null">
+			<!--<div class="rank" data-bind="if: Environment.user() != null">
 				<div class="text">Points to Next Level</div>
 				<div class="number" data-bind="text: completionPoints() > Environment.user().points ? (completionPoints() - Environment.user().points) : 'N/A'"></div>
 			</div>
-			<div class="rank">
-				<div class="text">Enter Quest Code</div>
-				<div class="controls">
-					<input type="text" class="code" data-bind="checkCode: true, text: 'test'" />
-				</div>
-			</div>
+			-->
+            <div style="clear:both"></div>
 		</div>
         <script type="text/html" id="widgets">
     		<div data-bind="if: Environment.user() != null">
-    			<h1>Featured Quests</h1>
-    			<div class="iosSlider featured-quests" data-bind="iosSlider: true">
-    				<div class="slider">
-    					<!-- ko foreach: {data: featuredQuests} -->
-    						<div class="slide current-quest">
-    							<div class="progress-container">
-    								<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
-    							</div>
-    							<div class="title" data-bind="text: title"></div>
-    							<ul>
-    								<!-- ko foreach: quests -->
-    									<!-- ko if: $index() <= 3 -->
-    								<li data-bind="openQuestSetViewer: {questSetId: $parent.id}">
-    									<div class="quest-description">
-    										<span data-bind="text: title"></span>
-    									</div>
-    									<div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
-    								</li>
-    									<!-- /ko -->
-    								<!-- /ko -->
-    							</ul>
-    						</div>
-    					<!-- /ko -->
-    				</div>
-    			</div>
-    			<h1>Active Quests</h1>
-    			<div class="iosSlider active-quests" data-bind="iosSlider: true">
-    				<div class="slider">
-    					<!-- ko foreach: {data: activeQuests} -->
-    						<div class="slide current-quest">
-    							<div class="progress-container">
-    								<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
-    							</div>
-    							<div class="title" data-bind="text: title"></div>
-    							<ul>
-    								<!-- ko foreach: quests -->
-    									<!-- ko if: $index() <= 3 -->
-    								<li data-bind="openQuestSetViewer: {questSetId: $parent.id}">
-    									<div class="quest-description">
-    										<span data-bind="text: title"></span>
-    									</div>
-    									<div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
-    								</li>
-    									<!-- /ko -->
-    								<!-- /ko -->
-    							</ul>
-    						</div>
-    					<!-- /ko -->
-    				</div>
-    			</div>
+                <div class="quest-slider" data-bind="style: {width: Environment.display.width() - 100 + 'px'}">
+        			<h1>Featured Quests</h1>
+        			<div class="iosSlider featured-quests" data-bind="iosSlider: true">
+        				<div class="slider">
+        					<!-- ko foreach: {data: featuredQuests} -->
+        						<div class="slide current-quest">
+        							<div class="progress-container">
+        								<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
+        							</div>
+        							<div class="title" data-bind="text: title"></div>
+        							<ul>
+        								<!-- ko foreach: quests -->
+        									<!-- ko if: $index() <= 3 -->
+        								<li data-bind="openQuestSetViewer: {questSetId: $parent.id}">
+        									<div class="quest-description">
+        										<span data-bind="text: title"></span>
+        									</div>
+        									<div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
+        								</li>
+        									<!-- /ko -->
+        								<!-- /ko -->
+        							</ul>
+        						</div>
+        					<!-- /ko -->
+        				</div>
+        			</div>
+                </div>
+                <div class="quest-slider" data-bind="style: {width: Environment.display.width() - 100 + 'px'}">
+        			<h1>Active Quests</h1>
+                    <div class="iosSlider active-quests" data-bind="iosSlider: true">
+        				<div class="slider">
+        					<!-- ko foreach: {data: activeQuests} -->
+        						<div class="slide current-quest">
+        							<div class="progress-container">
+        								<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
+        							</div>
+        							<div class="title" data-bind="text: title"></div>
+        							<ul>
+        								<!-- ko foreach: quests -->
+        									<!-- ko if: $index() <= 3 -->
+        								<li data-bind="openQuestSetViewer: {questSetId: $parent.id}">
+        									<div class="quest-description">
+        										<span data-bind="text: title"></span>
+        									</div>
+        									<div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
+        								</li>
+        									<!-- /ko -->
+        								<!-- /ko -->
+        							</ul>
+        						</div>
+        					<!-- /ko -->
+        				</div>
+        			</div>
+                </div>
     			<div data-role="viewport"></div>   
     			<h1>Completed Quests</h1>
                 <!-- ko if: completedQuests().length > 0 -->
