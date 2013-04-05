@@ -36,6 +36,7 @@ body {
 	background-color: white;
 	margin: 50px auto;
 	.x-border-radius(@dashboardRadius);
+	padding-bottom: 10px;
 
 	.header {
 		@headerHeight: 50px;
@@ -102,127 +103,96 @@ body {
 #info-panel {
 	@panelBackground: lighten(desaturate(@epl-blue, 30%), 30%);
 	@panelHeight: 200px;
-	// background-color: @panelBackground;
-	// .x-box-shadow(0, 2px, 4px, 0, rgba(0,0,0,0.2), false);
-	// border-bottom: solid 1px lighten(desaturate(@epl-blue, 40%), 10%);
-	min-height: @panelHeight;
 	position: relative;
 	padding: 0 10px;
-	margin-bottom: 45px;
+	margin: 0 auto;
+	border-bottom: dotted 2px rgb(200,200,200);
 
 	.profile {
 		float: left;
 
-		
-	}
-
-	.rank {
-		@rankMargin: 10px;
-		@rankHeight: @panelHeight - (2*@rankMargin);
-		float: right;
-		background-color: darken(@panelBackground, 15%);
-		height: @rankHeight;
-		margin: @rankMargin @rankMargin 0 0;
-		position: relative;
-		z-index: 3;
-
-		.text {
-			background-color: darken(@panelBackground, 25%);
-			line-height: 25px;
-			font-size: 18px;
-			padding: 8px 15px;
-			text-align: center;
-			min-width: 200px;
+		.welcome-message {
+			font-size: 25px;
+			font-weight: bold;
+			margin: 20px 15px 0 15px;
+			color: rgb(60,60,60);
 		}
 
-		.controls {
-			font-size: 14px;
+		.secondary-message {
+			color: rgb(115,115,115);
+			font-style: italic;
+			margin: 0 15px;
+		}
+	}
 
-			input, button {
-				font-size: @panelHeight - 45px;
-				border: solid 1px darken(@panelBackground, 30%);
-				margin: 5px 5px 5px 0;
-				padding: 5px;
-				height: @panelHeight - 45px;
+	.statistics {
+		float: right;
 
-				&:first-child {
-					margin-left: 5px;
-				}
+		.stats-module {
+			float: right;
+			font-size: 18px;
+			text-align: center;
+			margin: 15px 0;
+			border-right: solid 1px rgb(200,200,200);
+			padding: 5px 15px;
+
+			//The one on the right shouldn't have a separator
+			&:first-child {
+				border-right: none;
 			}
 
-			input[type=text] {
-
-				&.code {
-					width: 205px;
-					float: left;
-				}
+			.title {
+				color: rgb(60,60,60);
 			}
 
-			button {
+			.value {
+				color: @epl-orange;
+				font-weight: bold;
 				font-size: 25px;
 			}
 		}
-
-		.number {
-			padding: 0 10px;
-			font-size: @rankHeight - 60;
-			text-align: center;
-			color: white;
-			text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
-		}
 	}
 
-	.progress {
-		float: right;
-		background-color: darken(@panelBackground, 15%);
-		height: @panelHeight;
-		.x-box-shadow(0, -2px, 4px, 0, rgba(0,0,0,0.2), true);
-		margin-right: 3px;
-
-		.title {
-			background-color: darken(@panelBackground, 25%);
-			height: 23px;
-			line-height: 25px;
-			font-size: 18px;
-			padding: 0 10px;
-			text-align: center;
-			margin-bottom: 5px;
-		}
-
-		.contents {
-			padding: 0 10px;
-			font-size: 14px;
-		}
-	}
 }
 
 .quest-slider {
 	@sliderBase: @epl-blue;
-	margin: 20px auto;
-	// background-color: lighten(desaturate(@sliderBase, 40%), 30%);
+	margin: 10px auto;
 	padding: 10px;
 	overflow:hidden;
-	border: solid 1px lighten(@sliderBase, 25%);
-	border-left: solid 10px @epl-blue;
+	background-color: rgb(235,235,235);
 
-	// .x-box-shadow(0, 2px, 2px, 1px, rgba(8,86,138,0.3), false);
+	.no-contents {
+		color: rgb(130,130,130);
+		padding: 10px;
+	}
+}
+
+h2 {
+	font-size: 35px;
+	color: rgb(150,150,150);
+	font-weight: bold;
+	margin: 10px 0 -18px 33px;
+	padding: 0;
 }
 
 .featured-quest {
-	@questWidgetColor: @epl-green;
-
-	width: @questWidgetWidth;
-	height: @questWidgetHeight;
-	background-color: @questWidgetColor;
-	margin: 10px;
+	.quest-slide(@epl-blue);
 }
 
 .current-quest {
+	.quest-slide(@epl-green);
+}
+
+.quest-slide(@questWidgetColor) {
 	@questBackgroundColor: desaturate(lighten(@questWidgetColor, 30%),30%);
 	width: @questWidgetWidth;
 	height: @questWidgetHeight;
-	background-color: @questBackgroundColor;
+	background-color: darken(@questBackgroundColor, 5%);
 	margin: 10px;
+	.x-box-shadow(2px,2px,5px,0,rgba(0,0,0,0.4),false);
+	border-bottom: solid 1px @questBackgroundColor;
+	border-right: solid 1px @questBackgroundColor;
 
 	.title {
 		padding: 10px;
@@ -330,6 +300,8 @@ table#completed-quests {
 
 	thead {
 		background-color: @questWidgetColor;
+		color: white;
+		text-shadow: 1px 1px 0 rgba(0,0,0,0.7);
 
 		th {
 			padding: 10px;
@@ -466,6 +438,6 @@ table#completed-quests {
 	}
 }
 
-@questWidgetColor: @epl-pink;
+@questWidgetColor: @epl-gray;
 @questWidgetWidth: 400px;
-@questWidgetHeight: 197px;
+@questWidgetHeight: 186px;

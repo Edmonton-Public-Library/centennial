@@ -218,7 +218,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 			require(['hyq'], function (hyq) {
 				$(element).keyup(function (e) {
 					var code = $(e.target).val();
-					if(code.length == 10 || code.length == 11) {
+					if((code.length == 10 && code.indexOf('-') == -1) || (code.length == 11 && code.indexOf('-') > -1)) {
 						if(code.length == 10) {
 							codePrefix = code.substring(0, 5);
 							codeSuffix = code.substring(5, 10);

@@ -244,36 +244,52 @@
             <div class="title">Please log into your Centennial or EPL Account to play the Hundred Year Quest</div>
             <!-- /ko -->
         </div>
-		<div id="info-panel">
+		<div id="info-panel" data-bind="style: {width: Environment.display.width() - 130 + 'px'}">
 			<div class="profile">
 				<div class="welcome-message">
                     <!-- ko if: Environment.user() != null -->
-                    Welcome back, <span data-bind="text: Environment.user().firstname"></span>!
+                    Welcome, <span data-bind="text: Environment.user().firstname"></span>!
                     <!-- /ko -->
                     <!-- ko if: Environment.user() == null -->
-                    Welcome back, adventurer!
+                    Welcome, adventurer!
+                    <!-- /ko -->
+                </div>
+                <div class="secondary-message">
+                    <!-- ko if: activeQuests().length == 0 -->
+                    You don't have any active quests; you should start one!
+                    <!-- /ko -->
+                    <!-- ko if: activeQuests().length == 1 -->
+                    A quest awaits you.
+                    <!-- /ko -->
+                    <!-- ko if: activeQuests().length > 1 -->
+                    <span data-bind="activeQuests().length"></span> quests await you.
                     <!-- /ko -->
                 </div>
 			</div>
-			<div class="rank" data-bind="if: Environment.user() != null">
-				<div class="text">Level</div>
-				<div class="number" data-bind="text: Environment.user().level"></div>
-			</div>
-			<!--<div class="rank" data-bind="if: Environment.user() != null">
-				<div class="text">Points to Next Level</div>
-				<div class="number" data-bind="text: completionPoints() > Environment.user().points ? (completionPoints() - Environment.user().points) : 'N/A'"></div>
-			</div>
-			-->
+            <div class="statistics" data-bind="if: Environment.user() != null">
+                <div class="stats-module">
+                    <div class="title">Level</div>
+                    <div class="value" data-bind="text: Environment.user().level"></div>
+                </div>
+                <div class="stats-module">
+                    <div class="title">Points to Next Level</div>
+                    <div class="value" data-bind="text: completionPoints() > Environment.user().points ? (completionPoints() - Environment.user().points) : 'You\'ve reached the last level!'"></div>
+                </div>
+                <div class="stats-module">
+                    <div class="title">Quests Completed</div>
+                    <div class="value" data-bind="text: completedQuests().length"></div>
+                </div>
+            </div>
             <div style="clear:both"></div>
 		</div>
         <script type="text/html" id="widgets">
     		<div data-bind="if: Environment.user() != null">
-                <div class="quest-slider" data-bind="style: {width: Environment.display.width() - 100 + 'px'}">
-        			<h1>Featured Quests</h1>
+    			<h2>Featured Quests</h2>
+                <div class="quest-slider" data-bind="style: {width: Environment.display.width() - 130 + 'px'}">
         			<div class="iosSlider featured-quests" data-bind="iosSlider: true">
         				<div class="slider">
         					<!-- ko foreach: {data: featuredQuests} -->
-        						<div class="slide current-quest">
+        						<div class="slide featured-quest">
         							<div class="progress-container">
         								<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
         							</div>
@@ -295,8 +311,8 @@
         				</div>
         			</div>
                 </div>
-                <div class="quest-slider" data-bind="style: {width: Environment.display.width() - 100 + 'px'}">
-        			<h1>Active Quests</h1>
+    			<h2>Active Quests</h2>
+                <div class="quest-slider" data-bind="style: {width: Environment.display.width() - 130 + 'px'}">
                     <div class="iosSlider active-quests" data-bind="iosSlider: true">
         				<div class="slider">
         					<!-- ko foreach: {data: activeQuests} -->
@@ -323,30 +339,37 @@
         			</div>
                 </div>
     			<div data-role="viewport"></div>   
-    			<h1>Completed Quests</h1>
-                <!-- ko if: completedQuests().length > 0 -->
-    			<table id="completed-quests">
-    				<thead>
-    					<tr>
-    						<th data-bind="sortQuests: {column: 'date'}">Date</th>
-    						<th data-bind="sortQuests: {column: 'title'}">Quest</th>
-    						<th data-bind="sortQuests: {column: 'points'}">Points</th>
-    					</tr>
-    				</thead>
-    				<tbody>
-    					<!-- ko foreach: {data: completedQuests} -->
-    					<tr data-bind="openQuestSetViewer: {questSetId: id}, css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
-    						<td data-bind="text: date_completed">0</td>
-    						<td data-bind="text: title"></td>
-    						<td data-bind="text: points"></td>
-    					</tr>
-    					<!-- /ko -->
-    				</tbody>
-    			</table>
-                <!-- /ko -->
-                <!-- ko ifnot: completedQuests().length > 0 -->
-                <div>You have not completed any quests.</div>
-                <!-- /ko -->
+    			<h2>Completed Quests</h2>
+                <div class="quest-slider" data-bind="style: {width: Environment.display.width() - 130 + 'px'}">
+                    <!-- ko if: completedQuests().length > 0 -->
+        			<table id="completed-quests">
+        				<thead>
+        					<tr>
+        						<th data-bind="">Date</th>
+        						<th data-bind="">Quest</th>
+        						<th data-bind="">Points</th>
+        					</tr>
+        				</thead>
+        				<tbody>
+                            <tr data-bind="openQuestSetViewer: {questSetId: id}, css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
+                                <td data-bind="text: date_completed">0</td>
+                                <td data-bind="text: title">fdffvf</td>
+                                <td data-bind="text: points">100</td>
+                            </tr>
+        					<!-- ko foreach: {data: completedQuests} -->
+        					<tr data-bind="openQuestSetViewer: {questSetId: id}, css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
+        						<td data-bind="text: date_completed">0</td>
+        						<td data-bind="text: title"></td>
+        						<td data-bind="text: points"></td>
+        					</tr>
+        					<!-- /ko -->
+        				</tbody>
+        			</table>
+                    <!-- /ko -->
+                    <!-- ko ifnot: completedQuests().length > 0 -->
+                    <div class="no-contents">You have not completed any quests.</div>
+                    <!-- /ko -->
+                </div>
     		</div>
         </script>
         <div data-bind="template: {name: 'widgets', data: $data, afterRender: loadWidgets}"></div>
