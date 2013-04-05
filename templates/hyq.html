@@ -244,7 +244,7 @@
             <div class="title">Please log into your Centennial or EPL Account to play the Hundred Year Quest</div>
             <!-- /ko -->
         </div>
-		<div id="info-panel" data-bind="style: {width: Environment.display.width() - 130 + 'px'}">
+		<div id="info-panel" data-bind="style: {width: Environment.display.width() - 130 + 'px'}, if: Environment.user() != null">
 			<div class="profile">
 				<div class="welcome-message">
                     <!-- ko if: Environment.user() != null -->
