@@ -119,6 +119,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	Dashboard.prototype.getCompletedQuests = function () {
 		var self = this;
 		$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
+			self.data.completedQuests.removeAll();
 			for(i in data.objects) {
 				self.data.completedQuests.push(data.objects[i]);
 			}
