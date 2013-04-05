@@ -37,6 +37,7 @@ body {
 	margin: 50px auto;
 	.x-border-radius(@dashboardRadius);
 	padding-bottom: 10px;
+	overflow: hidden;
 
 	.header {
 		@headerHeight: 50px;
@@ -96,6 +97,15 @@ body {
 				font-weight: bold;
 				font-style: normal;
 			}
+
+			&.success {
+				background-color: @epl-green;
+			}
+
+			&.error {
+				background-color: @epl-pink;
+				color: white;
+			}
 		}
 	}
 }
@@ -114,14 +124,14 @@ body {
 		.welcome-message {
 			font-size: 25px;
 			font-weight: bold;
-			margin: 20px 15px 0 15px;
+			margin: 20px 15px 0 0;
 			color: rgb(60,60,60);
 		}
 
 		.secondary-message {
 			color: rgb(115,115,115);
 			font-style: italic;
-			margin: 0 15px;
+			margin: 0 15px 0 0;
 		}
 	}
 
@@ -139,6 +149,7 @@ body {
 			//The one on the right shouldn't have a separator
 			&:first-child {
 				border-right: none;
+				padding-right: 0;
 			}
 
 			.title {
@@ -340,9 +351,8 @@ table#completed-quests {
 
 	@background: #F0F0F0;
 	background-color: @background;
-	border: 1px solid black;
 	overflow: auto;
-	width: 900px;
+	// width: 900px;
 	margin-left: -450px;
 	position: absolute;
 	left: 50%;
