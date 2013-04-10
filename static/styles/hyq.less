@@ -2,6 +2,11 @@
 
 body {
 	margin-top: @topBarHeight-small;
+
+	&.hyq-dashboard {
+		background-color: lighten(desaturate(@epl-blue, 7%), 30%);
+		padding-top: 1px;
+	}
 }
 
 /* slider container */
@@ -11,8 +16,6 @@ body {
 	top: 0;
 	left: 0;
 	overflow: hidden;
-	
-	height: @questWidgetHeight;
 }
 
 /* slider */
@@ -28,139 +31,179 @@ body {
 	float: left;
 }
 
+#dashboard {
+	@dashboardRadius: 4px;
+	background-color: white;
+	margin: 50px auto;
+	.x-border-radius(@dashboardRadius);
+	padding-bottom: 10px;
+	overflow: hidden;
+
+	.header {
+		@headerHeight: 50px;
+		height: @headerHeight;
+		background-color: @epl-blue;
+		background-image: linear-gradient(bottom, rgb(25,151,209) 6%, rgb(52,169,227) 77%);
+		background-image: -o-linear-gradient(bottom, rgb(25,151,209) 6%, rgb(52,169,227) 77%);
+		background-image: -moz-linear-gradient(bottom, rgb(25,151,209) 6%, rgb(52,169,227) 77%);
+		background-image: -webkit-linear-gradient(bottom, rgb(25,151,209) 6%, rgb(52,169,227) 77%);
+		background-image: -ms-linear-gradient(bottom, rgb(25,151,209) 6%, rgb(52,169,227) 77%);
+
+		background-image: -webkit-gradient(
+			linear,
+			left bottom,
+			left top,
+			color-stop(0.06, rgb(25,151,209)),
+			color-stop(0.77, rgb(52,169,227))
+		);
+		border: solid 1px darken(@epl-blue, 10%);
+		overflow: hidden;
+		.x-border-top-right-radius(@dashboardRadius);
+		.x-border-top-left-radius(@dashboardRadius);
+
+		.title {
+			@headerFontSize: 20px;
+			@headerPadding: 10px;
+			@headerInnerHeight: @headerHeight - (2 * @headerPadding);
+			padding: @headerPadding;
+			color: white;
+			line-height: @headerInnerHeight;
+			font-size: @headerFontSize;
+			font-weight: bold;
+			text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+			float: left;
+		}
+
+		.enter-code {
+			@codePadding: 8px;
+			@codeMargin: 5px;
+			float: right;
+			border: none;
+			padding: @codePadding;
+			margin: @codeMargin;
+			width: 200px;
+			outline: none;
+			background-color: lighten(desaturate(@epl-blue, 10%), 35%);
+			.x-border-radius(@dashboardRadius);
+			.x-box-shadow(2px,2px,2px,0,rgba(0,0,0,0.2),false);
+			color: rgb(100,100,100);
+			font-size: @headerHeight - (2*@codePadding) - (2*@codeMargin) - 6;
+			font-style: italic;
+			font-weight: normal;
+
+			&.text-entered {
+				font-size: 29px;
+				padding: 2px @codePadding;
+				font-weight: bold;
+				font-style: normal;
+			}
+
+			&.success {
+				background-color: @epl-green;
+			}
+
+			&.error {
+				background-color: @epl-pink;
+				color: white;
+			}
+		}
+	}
+}
+
 #info-panel {
-	@panelBackground: rgb(220,220,220);
-	@panelHeight: 80px;
-	background-color: @panelBackground;
-	height: @panelHeight;
-	.x-box-shadow(0, -2px, 4px, 0, rgba(0,0,0,0.2), true);
+	@panelBackground: lighten(desaturate(@epl-blue, 30%), 30%);
+	@panelHeight: 200px;
 	position: relative;
+	padding: 0 10px;
+	margin: 0 auto;
+	border-bottom: dotted 2px rgb(200,200,200);
 
 	.profile {
 		float: left;
 
-		.title {
+		.welcome-message {
+			font-size: 25px;
 			font-weight: bold;
-			font-size: @panelHeight;
-			color: darken(@panelBackground, 5%);
-			position: absolute;
-			top: -10px;
-			left: 0;
-			z-index: 0;
+			margin: 20px 15px 0 0;
+			color: rgb(60,60,60);
 		}
 
-		ul {
-			list-style-type: none;
-			padding: 0 0 0 12px;
-			position: relative;
-			z-index: 2;
-
-			li {
-				.field {
-					font-weight: bold;
-				}
-
-				.value {
-
-				}
-			}
+		.secondary-message {
+			color: rgb(115,115,115);
+			font-style: italic;
+			margin: 0 15px 0 0;
 		}
 	}
 
-	.rank {
+	.statistics {
 		float: right;
-		background-color: darken(@panelBackground, 15%);
-		height: @panelHeight;
-		.x-box-shadow(0, -2px, 4px, 0, rgba(0,0,0,0.2), true);
-		margin-left: 3px;
-		position: relative;
-		z-index: 3;
 
-		.text {
-			background-color: darken(@panelBackground, 25%);
-			height: 23px;
-			line-height: 25px;
+		.stats-module {
+			float: right;
 			font-size: 18px;
-			padding: 0 10px;
 			text-align: center;
-		}
+			margin: 15px 0;
+			border-right: solid 1px rgb(200,200,200);
+			padding: 5px 15px;
 
-		.controls {
-			font-size: 14px;
-
-			input, button {
-				font-size: @panelHeight - 45px;
-				border: solid 1px darken(@panelBackground, 30%);
-				margin: 5px 5px 5px 0;
-				padding: 5px;
-				height: @panelHeight - 45px;
-
-				&:first-child {
-					margin-left: 5px;
-				}
+			//The one on the right shouldn't have a separator
+			&:first-child {
+				border-right: none;
+				padding-right: 0;
 			}
 
-			input[type=text] {
-
-				&.code {
-					width: 205px;
-					float: left;
-				}
+			.title {
+				color: rgb(60,60,60);
 			}
 
-			button {
+			.value {
+				color: @epl-orange;
+				font-weight: bold;
 				font-size: 25px;
 			}
 		}
-
-		.number {
-			padding: 0 10px;
-			font-size: 50px;
-			text-align: center;
-			color: white;
-			text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
-		}
 	}
 
-	.progress {
-		float: right;
-		background-color: darken(@panelBackground, 15%);
-		height: @panelHeight;
-		.x-box-shadow(0, -2px, 4px, 0, rgba(0,0,0,0.2), true);
-		margin-right: 3px;
+}
 
-		.title {
-			background-color: darken(@panelBackground, 25%);
-			height: 23px;
-			line-height: 25px;
-			font-size: 18px;
-			padding: 0 10px;
-			text-align: center;
-			margin-bottom: 5px;
-		}
+.quest-slider {
+	@sliderBase: @epl-blue;
+	margin: 10px auto;
+	padding: 10px;
+	overflow:hidden;
+	background-color: rgb(235,235,235);
 
-		.contents {
-			padding: 0 10px;
-			font-size: 14px;
-		}
+	.no-contents {
+		color: rgb(130,130,130);
+		padding: 10px;
 	}
+}
+
+h2 {
+	font-size: 35px;
+	color: rgb(150,150,150);
+	font-weight: bold;
+	margin: 10px 0 -18px 33px;
+	padding: 0;
 }
 
 .featured-quest {
-	@questWidgetColor: @epl-green;
-
-	width: @questWidgetWidth;
-	height: @questWidgetHeight;
-	background-color: @questWidgetColor;
-	margin: 10px;
+	.quest-slide(@epl-blue);
 }
 
 .current-quest {
+	.quest-slide(@epl-green);
+}
+
+.quest-slide(@questWidgetColor) {
 	@questBackgroundColor: desaturate(lighten(@questWidgetColor, 30%),30%);
 	width: @questWidgetWidth;
 	height: @questWidgetHeight;
-	background-color: @questBackgroundColor;
+	background-color: darken(@questBackgroundColor, 5%);
 	margin: 10px;
+	.x-box-shadow(2px,2px,5px,0,rgba(0,0,0,0.4),false);
+	border-bottom: solid 1px @questBackgroundColor;
+	border-right: solid 1px @questBackgroundColor;
 
 	.title {
 		padding: 10px;
@@ -253,10 +296,12 @@ body {
 }
 
 h1 {
-	color: rgb(50,50,50);
-	font-size: 25px;
-	padding: 10px;
+	color: rgb(2103,2103,2103);
+	font-size: 35px;
+	position: relative;
+	z-index: 1000;
 	margin: 0;
+	padding: 0 0 0 8px;
 }
 
 table#completed-quests {
@@ -266,6 +311,8 @@ table#completed-quests {
 
 	thead {
 		background-color: @questWidgetColor;
+		color: white;
+		text-shadow: 1px 1px 0 rgba(0,0,0,0.7);
 
 		th {
 			padding: 10px;
@@ -304,9 +351,8 @@ table#completed-quests {
 
 	@background: #F0F0F0;
 	background-color: @background;
-	border: 1px solid black;
 	overflow: auto;
-	width: 900px;
+	// width: 900px;
 	margin-left: -450px;
 	position: absolute;
 	left: 50%;
@@ -402,6 +448,6 @@ table#completed-quests {
 	}
 }
 
-@questWidgetColor: @epl-blue;
+@questWidgetColor: @epl-gray;
 @questWidgetWidth: 400px;
-@questWidgetHeight: 197px;
+@questWidgetHeight: 186px;

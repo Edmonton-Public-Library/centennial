@@ -19,7 +19,7 @@
     <meta property='fb:app_id' content='150662938425048'/>
 
     <!-- Prevent page zooming on mobile devices -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="user-scalable=no" />
     <meta name="viewport" content="width=device-width" />
 </head>
 <body>
@@ -50,7 +50,6 @@
 		   ref.parentNode.insertBefore(js, ref);
 		 }(document, /*debug*/ false));
     </script>
-
     <div id="epl-bar">
         <div>
             <a href="http://www.epl.ca/"><img class="logo" src="/static/images/epl-logo.png" alt="EPL Logo"/></a>
@@ -63,14 +62,14 @@
                 </div>
             </div>
         </div>
-	    <ul class="buttons">
+        <ul class="buttons">
             <li class="button help" onClick="window.open('{{ STATIC_URL }}views/help.html', '_blank', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700px,height=800px');">Help</li>
             <!-- ko  if: Environment.user() != null -->
             <li class="button" data-bind="click: logOut">Log Out</li>
             <!-- /ko -->
-			<li class="button" data-role="account">
-				<span data-role="name" data-bind="text: Environment.user() == null ? 'Log In' : 'Manage'">Log In</span>
-				<div class="menu">
+            <li class="button" data-role="account">
+                <span data-role="name" data-bind="text: Environment.user() == null ? 'Log In' : 'Manage'">Log In</span>
+                <div class="menu">
                     <div class="menu-wrapper" data-bind="style: {'max-height': Environment.display.height() - 150 + 'px'}">
                         <div class="menu-section" data-role="authenticate-tabs" data-bind="css: {active: Environment.user() == null}">
                             <ul class="tabs" data-bind="eplBarTabs: true">
@@ -162,7 +161,6 @@
                         </div>
                     </div>
                     <div class="menu-section" data-role="management-tabs" data-bind="css: {active: Environment.user() != null}">
-
                         <ul class="tabs" data-bind="eplBarTabs: true">
                             <li class="tab" data-tab="manage" data-bind="css: {active: loginMenu.currentTab() != 'link'}">
                                 <div class="text">Manage Account</div>
@@ -175,7 +173,7 @@
                         <div class="tab-contents" data-tab="login" data-bind="css: {active: loginMenu.currentTab() != 'link'}">
                             <p class="section-title">Edit Account Information</p>
                             <form>
-
+                            <p class="inputSuccess" data-bind="if: manageAccount.changed">Your account has been successfully updated!</p>
                             <p class="inputError" id="ajaxError"></p>
                             
                             <p>
@@ -199,7 +197,7 @@
                             </p>
                             <p class="inputError indent" data-bind="validationMessage: manageAccount.account.lastname"></p>
 
-                            <p class="section-title">Password and Email</p>
+                            <p class="section-title">Edit Account Information</p>
 
                             <p class="hintText">Enter your current password to change your password or your email.</p>
 
@@ -261,11 +259,11 @@
                         </div>
                     </div>
                 </div>
-				</div>
-			</li>
-	    </ul>
-	    <div class="fb-like" data-send="true" data-bind="attr: {'data-href': baseURL()}" data-width="250" data-show-faces="false" data-font="arial"></div>
-    	<div id="timeline" data-bind="style: {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
+                </div>
+            </li>
+        </ul>
+        <div class="fb-like" data-send="true" data-bind="attr: {'data-href': baseURL()}" data-width="250" data-show-faces="false" data-font="arial"></div>
+        <div id="timeline" data-bind="style: {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
     </div>
     <div id="tm-sidebar">
     	<div class="contents" data-bind="style: {marginTop: Environment.display.topBarHeight() + 'px'}">

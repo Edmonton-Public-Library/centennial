@@ -21,6 +21,10 @@ return (function () {
             self.account.username(data.username);
         });
 
+        //Track whether the user data has been changed, and show a confirmation
+        //message once it has.
+        self.changed = ko.observable(false);
+
         // Add knockout validation to the account
         ko.validation.configure({ insertMessages: false });
         self.account.errors = ko.validation.group(self.account);
@@ -47,7 +51,10 @@ return (function () {
                 dataType: "json",
                 contentType: "application/json",
                 success: function () {
-                    // top.location="#updateAccountSuccess";
+                    require(['timemap/EPLBar'], function(EPLBar) {
+                        EPLBar.updateUserInfo();
+                    });
+                    self.changed(true);
                 }, 
                 error: function (xhr) {
                     // 403 indicates that the old password was incorrect or the user is not logged in

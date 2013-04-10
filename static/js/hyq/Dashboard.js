@@ -24,13 +24,13 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 			},
 			//Initializes the widget sliders
 			loadWidgets : function () {
-				$('.iosSlider.featured-quests').iosSlider({
-					desktopClickDrag : true,
-				});
+				// $('.iosSlider.featured-quests').iosSlider({
+				// 	desktopClickDrag : true,
+				// });
 
-				$('.iosSlider.active-quests').iosSlider({
-					desktopClickDrag : true,
-				});
+				// $('.iosSlider.active-quests').iosSlider({
+				// 	desktopClickDrag : true,
+				// });
 			},
 			//Enables sorting of the completed quests table
 			sortCompletedQuests : function(column, order) {
@@ -119,6 +119,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	Dashboard.prototype.getCompletedQuests = function () {
 		var self = this;
 		$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
+			self.data.completedQuests.removeAll();
 			for(i in data.objects) {
 				self.data.completedQuests.push(data.objects[i]);
 			}
@@ -177,6 +178,16 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		}	
 	};
 
+	ko.bindingHandlers.iosSlider = {
+		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			if($(element).find('.slide') != 0) {
+				// $(element).iosSlider({
+				// 	desktopClickDrag : true
+				// });
+			}
+		}
+	}
+
 	//Opens the Quest Set Viewer when clicking on a quest in a widget
 	ko.bindingHandlers.openQuestSetViewer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
@@ -213,9 +224,10 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	ko.bindingHandlers.checkCode = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			require(['hyq'], function (hyq) {
+				$(element).eplInput();
 				$(element).keyup(function (e) {
 					var code = $(e.target).val();
-					if(code.length == 10 || code.length == 11) {
+					if((code.length == 10 && code.indexOf('-') == -1) || (code.length == 11 && code.indexOf('-') > -1)) {
 						if(code.length == 10) {
 							codePrefix = code.substring(0, 5);
 							codeSuffix = code.substring(5, 10);
@@ -230,25 +242,17 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 								hyq.storage.questPopUp.checkTasks(data);
 								viewModel.refreshData();
 								EPLBar.updateUserInfo();
-								$(element).css({
-									'background-color' : '#67F211'
-								});
+								$(element).removeClass('error').addClass('success');
 								window.setTimeout(function () {
-									$(element).css({
-									'background-color' : 'white'
-									}).val('');
+									$(element).val('').removeClass('success');
 								}, 1000);
 							},
 							error : function () {
-								$(e.target).css({
-									'background-color' : '#ED1330'
-								});
+								$(e.target).removeClass('success').addClass('error');
 							}
 						});
 					} else {
-						$(element).css({
-							'background-color' : 'white'
-						});
+						$(element).removeClass('error').removeClass('success');
 					}
 				});
 			});
