@@ -2,6 +2,7 @@ from hyquest.models import QuestSet, UserQuestSetAction
 from hyquest.actionmanager import beginQuestSet
 from hyquest.constants import MAX_ACTIVE_QUESTS
 
+import time
 # Here are the methods used to ensure proper quest flow for users
 # These are called for each user whenever the dashboard is loaded
 
@@ -21,6 +22,8 @@ def replenishQuestSets(user):
 
             beginQuestSet(user, newquest)
             activeQuests += 1
+        time.sleep(0.01)
+
 
 def activateFeaturedQuestSets(user):
     for questset in QuestSet.objects.filter(featured=True):
