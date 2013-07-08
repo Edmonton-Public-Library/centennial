@@ -55,7 +55,9 @@ return (function () {
                     // Response code 409 indicates duplicate user.
                     if (xhr.status == 409) {
                         $("#ajaxErrorCreateAccount").text("Username is already taken. Please choose another username.");
-                    } else {
+                    } else if(xhr.status == 410) {
+                        $("#ajaxErrorCreateAccount").text("Email is already in use. Please choose another email."); 
+                    }else {
                         $("#ajaxErrorCreateAccount").text("An error occurred while creating a new user." +
                            " Please try again or contact a system administrator if the problem persists.");
                     }

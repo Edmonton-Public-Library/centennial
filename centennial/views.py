@@ -100,7 +100,11 @@ def create_user(request):
             if not captchaValid[0]:
                 return HttpResponse(captchaValid[1], status='400')
             #Perform data integrity verification
-            if User.objects.filter(username=data['username']).count() == 0:
+            if User.objects.filter(username=data['username']).count() != 0:
+                return HttpResponse(status='409')
+            elif User.objects.filter(email=data['email']).count() == 0:
+                return HttpResponse(status='410')
+            else:
                 user = User.objects.create(username = data['username'], email = data['email'], is_active = False)
                 user.first_name = data['firstname']
                 user.last_name = data['lastname']
@@ -108,8 +112,6 @@ def create_user(request):
                 user.set_password(data['password'])
                 user.save()
                 return HttpResponse(status='201')
-            else:
-                return HttpResponse(status='409')
         return HttpResponse(status='400')
 
 def current_user(request):
