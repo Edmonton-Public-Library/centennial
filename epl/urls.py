@@ -1,3 +1,4 @@
+from django.views.generic.simple import redirect_to
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.conf import settings
@@ -41,6 +42,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(v1_api.urls)),
     url(r'^timemap/', timemap),
+    (r'^$', redirect_to, {'url': 'timemap/'}),
     url(r'^hyq/', hyq),
     url(r'^account/logout', logout_user),
     url(r'^account/activate', accountActivate),
