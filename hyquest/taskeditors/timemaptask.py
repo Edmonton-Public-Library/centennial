@@ -17,8 +17,7 @@ class TimeMapTaskForm(forms.Form):
     minimum_year = forms.IntegerField(required=False)
     maximum_year_enabled = forms.BooleanField(required=False)
     maximum_year = forms.IntegerField(required=False)
-    on_map_enforced = forms.BooleanField(required=False)
-    on_map = forms.BooleanField(required=False)
+    on_map = forms.ChoiceField(required=False, choices=(("dontcare","Don't Care"), (True, "On Map"), (False, "Off Map")))
 
     def clean_story(self):
         if self.cleaned_data['visit_story'] and not self.cleaned_data['story']:
@@ -56,7 +55,7 @@ def edit_timemap_task(request):
                 taskinfo += "minYear="+str(form.cleaned_data['minimum_year'])+";"
             if form.cleaned_data['maximum_year_enabled']:
                 taskinfo += "maxYear="+str(form.cleaned_data['maximum_year'])+";"
-            if form.cleaned_data['on_map_enforced']:
+            if form.cleaned_data['on_map'] != "dontcare":
                 taskinfo += "onMap="+str(form.cleaned_data['on_map'])+";"
 
             task = Task.objects.get(id=form.cleaned_data['task_id'])
@@ -92,10 +91,7 @@ def edit_timemap_task(request):
             else:
                 arguments['maximum_year_enabled'] = False
             if('onMap' in taskinfo):
-                arguments['on_map_enforced'] = True
                 arguments['on_map'] = taskinfo['onMap'] == "True"
-            else:
-                arguments['on_map_enabled'] = False
             print arguments
         except Exception, e:
             print e
