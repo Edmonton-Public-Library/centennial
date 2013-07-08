@@ -19,8 +19,8 @@ class QuestSet(models.Model):
     for all users.
     """
     class Meta:
-        verbose_name = "Quest Set"
-        verbose_name_plural = "Quest Sets"
+        verbose_name = "Quest"
+        verbose_name_plural = "Quests"
 
     title = models.CharField(max_length=QUESTSET_TITLE_LEN)
     description = models.CharField(max_length=QUESTSET_DESC_LEN)
@@ -40,8 +40,8 @@ class Quest(models.Model):
     Stores a set of a few related Tasks and belongs to a QuestSet
     """
     class Meta:
-        verbose_name = "Quest"
-        verbose_name_plural = "Quests"
+        verbose_name = "Challenge"
+        verbose_name_plural = "Challenges"
 
     title = models.CharField(max_length=QUEST_TITLE_LEN)
     points = IntegerRangeField(min_value=0, max_value=MAX_POINTS)
@@ -232,11 +232,14 @@ class Level(models.Model):
         verbose_name = "Level"
         ordering = ["required_exp"]
 
-    level_name = models.CharField(default='1', max_length='40')
+    #level_name = models.CharField(default='1', max_length='40')
     required_exp = models.IntegerField(default=0)
 
+    def level_name(self):
+        return str(id)
+
     def __unicode__(self):
-        return self.level_name
+        return str(self.id)
 
 # Signal setup
 

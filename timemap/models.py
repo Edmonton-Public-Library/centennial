@@ -79,6 +79,10 @@ class Story(models.Model):
     title = models.CharField(db_index=True, max_length=STORY_TITLE_LEN)
     description = models.TextField(db_index=True, max_length=STORY_DESCRIPTION_LEN)
     story_text = models.TextField(max_length=STORY_TEXT_LEN, blank=True)
+    content_type = models.CharField(db_index=True,
+                                    max_length=1,
+                                    choices=CONTENT_TYPE_CHOICES,
+                                    default=TEXT)
     link_url = models.URLField(blank=True, error_messages={'invalid': "Please input a valid URL (for example: http://www.example.com)."})
     media_file = models.FileField(upload_to=media_upload_to,
                                   blank=True,
@@ -94,10 +98,6 @@ class Story(models.Model):
     user = models.ForeignKey(User)
     anonymous = models.BooleanField(default=False)
     public_approved = models.BooleanField(default=False)
-    content_type = models.CharField(db_index=True,
-                                    max_length=1,
-                                    choices=CONTENT_TYPE_CHOICES,
-                                    default=TEXT)
 
     def clean(self):
         try:

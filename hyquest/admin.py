@@ -22,6 +22,14 @@ class QuestSetAdmin(admin.ModelAdmin):
     list_display = ['title', 'active', 'points', 'depends_on']
     list_filter = ['active', 'featured']
 
+#Just to disable add button
+class TaskAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+    class Meta:
+        model = Task
+    readonly_fields = ['quest']
+
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
@@ -35,6 +43,8 @@ class TaskInline(admin.TabularInline):
     extra = 0
 
 class QuestAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
     model = Quest
     inlines = [ TaskInline ]
     readonly_fields = ['quest_set']
@@ -51,10 +61,12 @@ class TaskCodeAdmin(admin.ModelAdmin):
     list_filter = ['uses_remaining']
     actions = [print_task_codes]
 
-
+    
 class LevelAdmin(admin.ModelAdmin):
-    list_display = ['level_name', 'required_exp']
-
+    list_display = ['id', 'required_exp']
+    readonly_fields = ['id']
+    model = Level
+admin.site.register(Task, TaskAdmin)
 admin.site.register(QuestSet, QuestSetAdmin)
 admin.site.register(Quest, QuestAdmin)
 admin.site.register(TaskCode, TaskCodeAdmin)
