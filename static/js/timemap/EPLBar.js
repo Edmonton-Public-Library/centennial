@@ -56,13 +56,15 @@ return (function () {
 			e.stopPropagation();
 
 			//Automatically focus username field when opening the login menu
-			if(button.attr('data-role') == 'account') {
+			if(button.attr('data-role') == 'account' && button.attr("hasFocused") != "true") {
 				button.find('.tab-contents[data-tab=login]').find('input[type=text].auto-focus').focus();
+				button.attr("hasFocused", "true");
 			}
 
 			//TODO: Better event handler cleanup
 			$(document).bind('click', function () {
 				button.removeClass('active');
+				button.attr("hasFocused", "false");
 			});
 		});
 	};

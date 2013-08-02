@@ -17,6 +17,15 @@
         var KEYS = {{ KEYS }};
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('.menu-wrapper').css("max-height", ($(window).height() - 150) + 'px');
+            $(window).resize(function () {
+                $('.menu-wrapper').css("max-height", ($(window).height() - 150) + 'px');
+            });
+        });
+    </script>
+
     </head>
 <body class="hyq-dashboard">
     <div id="epl-bar">

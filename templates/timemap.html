@@ -21,6 +21,14 @@
     <!-- Prevent page zooming on mobile devices -->
     <meta name="viewport" content="user-scalable=no" />
     <meta name="viewport" content="width=device-width" />
+    <script>
+        $(document).ready(function() {
+            $('.menu-wrapper').css("max-height", ($(window).height() - 150) + 'px');
+            $(window).resize(function () {
+                $('.menu-wrapper').css("max-height", ($(window).height() - 150) + 'px');
+            });
+        });
+    </script>
 </head>
 <body>
 
