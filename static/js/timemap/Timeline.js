@@ -15,7 +15,9 @@ return (function () {
 		this.rightNumber = $('<div>').addClass('timelineBound').addClass('right');
 
 		//When the document is ready, initialize the timeline's DOM element
-		$(document).ready(function () {
+		$(document).ready(function () {\
+			$.ajaxSetup({timeout: 200000});
+
 			$.get('/preferences/', function(json) {
 				self.initTimeline(json, branchID, branchViewer);
 			});
@@ -384,6 +386,8 @@ return (function () {
 		self.branchViewer = viewer;
 		self.startYear = null;
 		self.endYear = null;
+
+		$.ajaxSetup({timeout: 200000});
 
 		$.get(Environment.routes.apiBase + '/story/?format=json&branch=' + branchID + '&order_by=year', function(json) {self.processStories(json);});
 	
