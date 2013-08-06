@@ -565,9 +565,41 @@ return (function () {
 
 			self.recenterTimeWindow();
 
+			/*$.ajax({
+				URL: Environment.routes.apiBase + '/branch/?format=json&order_by=start_year',
+				success: function(json) {
+					self.processBranchesByStart(json);
+				},
+				timeout: 1000
+			});
+			$.ajax({
+				URL: Environment.routes.apiBase + '/branch/?format=json&order_by=end_year',
+				success: function(json) {
+					self.processBranchesByEnd(json);
+				},
+				timeout: 1000
+			});*/
+
+			$.ajaxSetup({timeout: 200000});
+
 			$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=start_year', function(json) {self.processBranchesByStart(json);});
 			$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=end_year', function(json) {self.processBranchesByEnd(json);});
 			
+			/*$.ajax({
+				URL: Environment.routes.apiBase + 'maps/?format=json&order_by=start_year',
+				success: function(json) {
+					self.processTilesByStart(json);
+				},
+				timeout: 1000
+			});
+			$.ajax({
+				URL: Environment.routes.apiBase + 'maps/?format=json&order_by=start_year',
+				success: function(json) {
+					self.processTilesByEnd(json);
+				},
+				timeout: 1000
+			});*/
+
 			$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=start_year', function(json) {self.processTilesByStart(json);});
 			$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=start_year', function(json) {self.processTilesByEnd(json);});
 
