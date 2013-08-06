@@ -16,7 +16,7 @@ return (function () {
 
 		//When the document is ready, initialize the timeline's DOM element
 		$(document).ready(function () {
-			$.ajaxSetup({timeout: 200000});
+			
 
 			$.get('/preferences/', function(json) {
 				self.initTimeline(json, branchID, branchViewer);
@@ -387,7 +387,7 @@ return (function () {
 		self.startYear = null;
 		self.endYear = null;
 
-		$.ajaxSetup({timeout: 200000});
+		
 
 		$.get(Environment.routes.apiBase + '/story/?format=json&branch=' + branchID + '&order_by=year', function(json) {self.processStories(json);});
 	
@@ -584,7 +584,7 @@ return (function () {
 				timeout: 1000
 			});*/
 
-			$.ajaxSetup({timeout: 200000});
+			
 
 			$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=start_year', function(json) {self.processBranchesByStart(json);});
 			$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=end_year', function(json) {self.processBranchesByEnd(json);});

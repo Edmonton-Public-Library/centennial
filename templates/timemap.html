@@ -21,6 +21,11 @@
     <!-- Prevent page zooming on mobile devices -->
     <meta name="viewport" content="user-scalable=no" />
     <meta name="viewport" content="width=device-width" />
+
+    <script>
+        $.ajaxSetup({timeout: 200000});
+    </script>
+
     <script>
         $(document).ready(function() {
             $('.menu-wrapper').css("max-height", ($(window).height() - 150) + 'px');

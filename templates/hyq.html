@@ -18,6 +18,10 @@
     </script>
 
     <script>
+        $.ajaxSetup({timeout: 200000});
+    </script>
+
+    <script>
         $(document).ready(function() {
             $('.menu-wrapper').css("max-height", ($(window).height() - 150) + 'px');
             $(window).resize(function () {
