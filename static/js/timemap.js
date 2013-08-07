@@ -58,6 +58,7 @@ var AppClass = (function () {
 				Environment: Environment,
 				baseURL: baseURL
 			}, $('[data-role=viewport]')[0]);
+
 		});
 
 		//Start accepting routes

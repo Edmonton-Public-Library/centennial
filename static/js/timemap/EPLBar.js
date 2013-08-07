@@ -98,6 +98,8 @@ return (function () {
 		});
 	};
 
+	globalLogOutFunction = EPLBar.logOut;
+
 	//Allows EPL accounts to be linked from the EPLBar
 	ko.bindingHandlers.linkForm = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
