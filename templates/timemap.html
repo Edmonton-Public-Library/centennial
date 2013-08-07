@@ -78,7 +78,7 @@
         <ul class="buttons">
             <li class="button help" onClick="window.open('{{ STATIC_URL }}views/help.html', '_blank', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700px,height=800px');">Help</li>
             <!-- ko  if: Environment.user() != null -->
-            <li class="button" onClick="logOut">Log Out</li>
+            <li class="button" onClick="EPLBar.logOut">Log Out</li>
             <!-- /ko -->
             <li class="button" data-role="account">
                 <span data-role="name" data-bind="text: Environment.user() == null ? 'Log In' : 'Manage'">Log In</span>
