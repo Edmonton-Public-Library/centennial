@@ -82,9 +82,7 @@
         <ul class="buttons">
             <li class="button help" onClick="window.open('{{ STATIC_URL }}views/help.html', '_blank', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700px,height=800px');">Help</li>
             <!-- ko  if: Environment.user() != null -->
-            <li class="button" id="logoutbutton" onClick="
-            var wrgwgwrgwrgthetheth = 0;
-            globalLogOutFunction();">Log Out</li>
+            <li class="button" id="logoutbutton" onClick="globalLogOutFunction();">Log Out</li>
             <!-- /ko -->
             <li class="button" data-role="account">
                 <span data-role="name" data-bind="text: Environment.user() == null ? 'Log In' : 'Manage'">Log In</span>
