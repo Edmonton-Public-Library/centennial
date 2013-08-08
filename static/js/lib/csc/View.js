@@ -28,7 +28,7 @@ return (function () {
 	 *									different sources)
 	 * @param	callback	function	The callback to invoke when done transitioning
 	 */
-	View.prototype.in = function (fromView, viewport, callback) {
+	View.prototype.tranIn = function (fromView, viewport, callback) {
 		this.inFunction(fromView, viewport, function () {
 			if(!Utils.isFunction(callback)) return;
 			callback();
@@ -43,7 +43,7 @@ return (function () {
 	 *								different targets)
 	 * @param	callback	function	The callback to invoke when done transitioning
 	 */
-	View.prototype.out = function (toView, viewport, callback) {
+	View.prototype.tranOut = function (toView, viewport, callback) {
 		this.outFunction(toView, viewport, function () {
 			if(!Utils.isFunction(callback)) return;
 			callback();	

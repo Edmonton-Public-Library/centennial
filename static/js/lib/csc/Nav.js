@@ -45,14 +45,14 @@ return (function () {
 		//If forceRefresh isn't enabled, don't transition on identical targets
 		// if(!forceRefresh && this.currentView.id == toView.id) return;
 		//Transition the current view out
-		this.currentView.out(toView, this.viewport, function () {
+		this.currentView.tranOut(toView, this.viewport, function () {
 			//Ensure all handlers, etc. for the current view get destroyed
 			self.viewport.find("*").andSelf().unbind();
 			self.viewport.empty();
 			//Get the nre
 			self.currentView = toView;
 			self.prepareTemplate(function () {
-				self.currentView.in(fromView, self.viewport); //Do any transitions, setup, etc. needed for the page
+				self.currentView.tranIn(fromView, self.viewport); //Do any transitions, setup, etc. needed for the page
 			});
 		});
 	};
