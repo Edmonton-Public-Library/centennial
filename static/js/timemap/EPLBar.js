@@ -40,8 +40,8 @@ return (function () {
 			self.initButtons();
 			ko.applyBindings(self.data, self.element[0]);
 
-			$('.buttons').find('#auth-username').eplInput();
-			$('.buttons').find('#auth-password').eplInput();
+			//$('.buttons').find('#auth-username').eplInput();
+			//$('.buttons').find('#auth-password').eplInput();
 		});
 	};
 
@@ -57,7 +57,7 @@ return (function () {
 
 			//Automatically focus username field when opening the login menu
 			if(button.attr('data-role') == 'account' && button.attr("hasFocused") != "true") {
-				button.find('.tab-contents[data-tab=login]').find('input[type=text].auto-focus').focus();
+				//button.find('.tab-contents[data-tab=login]').find('input[type=text].auto-focus').focus();
 				button.attr("hasFocused", "true");
 			}
 
