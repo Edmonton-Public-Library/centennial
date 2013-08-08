@@ -71,7 +71,11 @@
                                 <form method="post" action="#" data-bind="loginForm: true">
                                     <p class="inputError indent" data-bind="if: loginError() == true">There was a problem logging you in. Check your credentials.</p>
                                     <input id="auth-username" data-role="username" type="text" class="epl-input text auto-focus" data-placeholder-text="Username" />
-                                    <input id="auth-password" data-role="password" type="password" class="epl-input text" data-placeholder-text="Password" />
+                                    <!--<input id="auth-password" data-role="password" type="password" class="epl-input text" data-placeholder-text="Password" />-->
+                                    <p>
+                                        <label for="password" class="form-label">Password:</label>
+                                        <input type="password" class="form-input text" id="auth-password" data-role="password" maxLength="30"/>
+                                    </p>
                                     <input type="submit" class="save-button" value="Log In" />
                                 </form>
                                 <div class="save-button-space"></div>
