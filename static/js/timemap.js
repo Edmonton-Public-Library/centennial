@@ -38,7 +38,7 @@ var AppClass = (function () {
 			self.storage.questPopUp = new QuestPopUp($('#questPopUp'));
 
 			//TODO: Extract the sidebar/EPL bar
-			var eplBar = new EPLBar('#epl-bar', 'timemap');
+			globalEPLBar = new EPLBar('#epl-bar', 'timemap');
 
 			//Initialize the sidebar
 			Environment.sidebar = new Sidebar($('#tm-sidebar'));
