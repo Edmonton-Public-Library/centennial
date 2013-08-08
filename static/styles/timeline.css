@@ -79,7 +79,12 @@
 .timeline-horizontal .timeline-date-label{border-width:0 0 0 1px;}
 /*.timeline-horizontal .timeline-date-label-em{height:2em}*/
 
-.timeline-horizontal .timeline-date-label{font-size:45px;}
+.timeline-horizontal .timeline-date-label{
+    font-size:45px;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+}
 
 /* vertical */
 .timeline-vertical .timeline-date-label{padding-top:2px;}
