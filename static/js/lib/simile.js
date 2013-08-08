@@ -5068,8 +5068,8 @@ define(['timemap/Environment'], function (Environment) {
 				O.className = "timeline-date-label";
 				if (Z.emphasized) {
 					O.className += " timeline-date-label-em"
-					O.setAttribute("unselectable", "on");
 				}
+				O.setAttribute("unselectable", "on");
 				this.positionDiv(O, U);
 				Y.appendChild(O);
 				return O
