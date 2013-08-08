@@ -117,7 +117,7 @@ return (function () {
             streetViewControl : false
 		});
 
-		if (typeof canvas[0] == 'undefined') Error.throw(new Error('Maps.invalidViewport'));
+		if (typeof canvas[0] == 'undefined') Error.throwNewError(new Error('Maps.invalidViewport'));
 		
 		//Clear canvas attributes from previous renderings
 		$.each(this.mapElement.prop('attributes'), function () {

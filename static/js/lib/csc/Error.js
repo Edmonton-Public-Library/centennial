@@ -62,7 +62,7 @@ return (function () {
 	 * Throw an Error, constructing an appropriate error message
 	 * @param	error	csc.Error	The Error to throw
 	 */
-	Error.throw = function (error) {
+	Error.throwNewError = function (error) {
 		throw error.getMessage();
 	};
 

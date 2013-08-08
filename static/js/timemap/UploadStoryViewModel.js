@@ -20,7 +20,7 @@ return (function () {
                 self.branchOptions(response.objects);
             },
             error : function(response) {
-                Error.throw(new Error('UploadStory.branchesAjax'));
+                Error.throwNewError(new Error('UploadStory.branchesAjax'));
             }
         });
 
