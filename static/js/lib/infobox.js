@@ -319,7 +319,7 @@ InfoBox.prototype.setBoxStyle_ = function () {
 
     this.div_.style.filter = "alpha(opacity=" + (this.div_.style.opacity * 100) + ")";
   }*/
-  
+  this.div_.style.filter = "aplha(opactity=100)";
 };
 
 /**
