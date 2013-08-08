@@ -241,7 +241,6 @@
                         </div>
                     </div>
                 </div>
-				</div>
 			</li>
 	    </ul>
 	    <div class="fb-like" data-send="true" data-bind="attr: {'data-href': baseURL()}" data-width="250" data-show-faces="false" data-font="arial"></div>
@@ -390,7 +389,7 @@
 		</div>
 	</div>
 	<div id="questPopUp" class="questPopUp">
-        <img src="/static/images/x.png" class="questPopUpCloseButton"></img>
+        <img src="/static/images/x.png" class="questPopUpCloseButton"/>
         <div class="questPopUpText">
             <div class="questPopUpTitle"></div>
             <div class="questPopUpDescription"></div>
@@ -400,18 +399,18 @@
             <div class="questPopUpPoints questPopUpPts"></div>
         </div>
         <div class="questPopUpArrows">
-            <img src="/static/images/arrow_right.png" class="questPopUpRightArrow questPopUpFloatingNumbers"></img>
+            <img src="/static/images/arrow_right.png" class="questPopUpRightArrow questPopUpFloatingNumbers"/>
             <div class="questPopUpTotalNumber questPopUpFloatingNumbers"></div>
             <div class="questPopUpFloatingNumbers">/</div>
             <div class="questPopUpCurrentNumber questPopUpFloatingNumbers"></div>
-            <img src="/static/images/arrow_left.png" class="questPopUpLeftArrow questPopUpFloatingNumbers"></img>
+            <img src="/static/images/arrow_left.png" class="questPopUpLeftArrow questPopUpFloatingNumbers"/>
         </div>
     </div>
 
 	<div class="quest-set-viewer hidden" id="quest-set-viewer">
-    <div id="close-icon" data-bind="closeQuestSetViewer: true">
-        <img data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/x.png'}">
-    </div>
+        <div id="close-icon" data-bind="closeQuestSetViewer: true">
+            <img data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/x.png'}">
+        </div>
 		<div class="quest-set-header">
 			<!-- ko if: questSetComplete -->
 			<img style="vertical-align:middle" height="80px" data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/check_yellow.png'}">
@@ -480,7 +479,7 @@
 					</div>
 				</div>
 			</div>
-	</div>
-</div>
+    	</div>
+    </div>
 </body>
 </html>
