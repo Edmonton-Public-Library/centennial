@@ -75,6 +75,8 @@ return (function () {
 		console.log(json[i].end_year.toString());
 
 		for (i in json) {
+			console.log(i);
+			console.log(json[i]);
 			newJson.push({
 				name: json[i].name,
 				description: json[i].description,
