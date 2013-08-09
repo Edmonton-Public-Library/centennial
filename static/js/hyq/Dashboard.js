@@ -120,7 +120,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		var self = this;
 		$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
 			self.data.completedQuests.removeAll();
-			data.object.forEach(function(ele) {
+			data.objects.forEach(function(ele) {
 				self.data.completedQuests.push(ele);
 			});
 		});
@@ -148,7 +148,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	 * @param	data	questset	The data from the questset/complete endpoint
 	 */
 	Dashboard.insertPoints = function(data) {
-		data.object.forEach(function(questSet) {
+		data.objects.forEach(function(questSet) {
 			questSet.completedPoints = 0;
 			questSet.totalPoints = questSet.points;
 			questSet.quests.forEach(function(quest) {
