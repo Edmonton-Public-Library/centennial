@@ -1,5 +1,5 @@
 ;
-define(['lib/simile', 'timemap/Environment', 'timemap/map/BranchPin', 'timemap/map/StoryPin', 'timemap', 'lib/jquery-ui'], function (Simile, Environment, BranchPin, StoryPin, Timemap) {
+define(['lib/lodash', 'lib/simile', 'timemap/Environment', 'timemap/map/BranchPin', 'timemap/map/StoryPin', 'timemap', 'lib/jquery-ui'], function (Simile, Environment, BranchPin, StoryPin, Timemap) {
 
 return (function () {
 
