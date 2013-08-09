@@ -312,7 +312,7 @@
                             </div>
                         <!-- /ko -->
                         <!-- ko foreach: {data: featuredStories(), as: 'result'} -->
-                        <div class="search-result linked" data-bind="attr: {class: 'search-result linked ' + result.story.content_type}">
+                        <div class="search-result linked" data-bind="style: {'z-index' : $root.featuredStories().length - $index()}">
                             <p class="title" data-bind="text: result.story.title"></p>
                             <p class="description" data-bind="text: result.story.description"></p>
                         </div>
