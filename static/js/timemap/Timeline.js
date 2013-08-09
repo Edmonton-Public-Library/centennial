@@ -37,8 +37,7 @@ return (function () {
 	Timeline.prototype.processStories = function(json) {
 		json = json.objects;
 		var newJson = [];
-		for (i in json) {
-			if(typeof json[i] == "object") {
+		json.forEach(function(ele, i, json) {
 				newJson.push({
 					title: json[i].title,
 					description: json[i].description,
@@ -48,7 +47,7 @@ return (function () {
 					id: json[i].id,
 					instant : "true"
 				});
-			}
+			});
 		}
 
 		if(json.length) {
