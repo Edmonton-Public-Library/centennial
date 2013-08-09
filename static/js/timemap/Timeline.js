@@ -70,9 +70,7 @@ return (function () {
 			S: 'bookmobile-trolley'
 		}
 
-		for (i in json) {
-			console.log(i);
-			console.log(json[i]);
+		for (var i = 0; i < json.length; i++) {
 			newJson.push({
 				name: json[i].name,
 				description: json[i].description,
