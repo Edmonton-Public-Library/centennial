@@ -38,17 +38,16 @@ return (function () {
 		json = json.objects;
 		var newJson = [];
 		json.forEach(function(ele, i, json) {
-				newJson.push({
-					title: json[i].title,
-					description: json[i].description,
-					content_type : json[i].content_type,
-					start: json[i].year.toString(),
-					end: json[i].year.toString(),
-					id: json[i].id,
-					instant : "true"
-				});
+			newJson.push({
+				title: json[i].title,
+				description: json[i].description,
+				content_type : json[i].content_type,
+				start: json[i].year.toString(),
+				end: json[i].year.toString(),
+				id: json[i].id,
+				instant : "true"
 			});
-		}
+		});
 
 		if(json.length) {
 			this.setTimelineStartDate(new Date(Date.UTC(json[0].year - 1, 0, 1)));
