@@ -70,18 +70,20 @@ return (function () {
 			S: 'bookmobile-trolley'
 		}
 
-		json.forEach(function(ele, i) {
-			newJson.push({
-				name: ele.name,
-				description: ele.description,
-				title: ele.name,
-				lat: ele.latitude,
-				lng: ele.longitude,
-				start: ele.start_year.toString(),
-				end: ele.end_year ? ele.end_year.toString() : currYear.toString(),
-				id: ele.id,
-				type: btypeToIcon[ele.btype]
-			});
+		json.forEach(function(ele) {
+			if(typeof ele != "function") {
+				newJson.push({
+					name: ele.name,
+					description: ele.description,
+					title: ele.name,
+					lat: ele.latitude,
+					lng: ele.longitude,
+					start: ele.start_year.toString(),
+					end: ele.end_year ? ele.end_year.toString() : currYear.toString(),
+					id: ele.id,
+					type: btypeToIcon[ele.btype]
+				});
+			}
 		});
 		return newJson;
 	};
