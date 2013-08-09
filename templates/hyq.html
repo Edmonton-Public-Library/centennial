@@ -57,8 +57,8 @@
 				<span data-role="name" data-bind="'text': Environment.user() == null ? 'Log In' : 'Manage'">Log In</span>
 				<div class="menu">
                     <div class="menu-wrapper" data-bind="'style': {'max-height': Environment.display.height() - 150 + 'px'}">
-                        <div class="menu-section" data-role="authenticate-tabs" data-bind="'css': {active: Environment.user() == null}">
-                            <ul class="tabs" data-bind="'epl'BarTabs: true">
+                        <div class="menu-section" data-role="authenticate-tabs" data-bind="css: {active: Environment.user() == null}">
+                            <ul class="tabs" data-bind="'eplBarTabs': true">
                                 <li class="tab" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() != 'create-account'}">
                                     <div class="text">Login</div>
                                 </li>
@@ -68,7 +68,7 @@
                             </ul>
                             <div class="tab-contents" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() != 'create-account'}">
                                 <p class="section-title">Authenticate</p>
-                                <form method="post" action="#" data-bind="'login'Form: true">
+                                <form method="post" action="#" data-bind="'loginForm': true">
                                     <p class="inputError indent" data-bind="'if': loginError() == true">There was a problem logging you in. Check your credentials.</p>
                                     <!--<input id="auth-username" data-role="username" type="text" class="epl-input text auto-focus" data-placeholder-text="Username" />-->
                                     <p>
@@ -95,42 +95,42 @@
                                         <input type="text" class="form-input text" id="firstName" maxLength="30"
                                             data-bind="'value': createAccount.account.firstname"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.firstname"></p>
+                                    <p class="inputError indent" data-bind="'validationMessage': createAccount.account.firstname"></p>
                                     
                                     <p>
                                         <label for="lastName" class="form-label">Last Name: <span class="required">*</span></label>
                                         <input type="text" class="form-input text" id="lastName" maxLength="30"
                                             data-bind="'value': createAccount.account.lastname"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.lastname"></p>
+                                    <p class="inputError indent" data-bind="'validationMessage': createAccount.account.lastname"></p>
 
                                     <p>
                                         <label for="email" class="form-label">Email: <span class="required">*</span></label>
                                         <input type="text" class="form-input text" id="email" 
                                              data-bind="'value': createAccount.account.email"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.email"></p>
+                                    <p class="inputError indent" data-bind="'validationMessage': createAccount.account.email"></p>
                                     
                                     <p>
                                         <label for="username" class="form-label">Username: <span class="required">*</span></label>
                                         <input type="text" class="form-input text" id="username" maxLength="30"
                                             data-bind="'value': createAccount.account.username"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.username"></p>
+                                    <p class="inputError indent" data-bind="'validationMessage': createAccount.account.username"></p>
                                     
                                     <p>
                                         <label for="password" class="form-label">Password: <span class="required">*</span></label>
                                         <input type="password" class="form-input text" id="password" maxLength="30"
                                             data-bind="'value': createAccount.account.password"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.password"></p>
+                                    <p class="inputError indent" data-bind="'validationMessage': createAccount.account.password"></p>
                                     
                                     <p>
                                         <label for="confirmPassword" class="form-label">Confirm Password: <span class="required">*</span></label>
                                         <input type="password" class="form-input text" id="confirmPassword" maxLength="30"
                                             data-bind="'value': createAccount.account.passwordConfirmation"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.passwordConfirmation"></p>
+                                    <p class="inputError indent" data-bind="'validationMessage': createAccount.account.passwordConfirmation"></p>
                                     
                                     <p>
                                         <input type="checkbox" id="agreeToTerms" data-bind="'checked': createAccount.account.agreeToTerms">
@@ -138,7 +138,7 @@
                                             <a href="/static/views/termsAndConditions.html" target="_blank" id="termsAndConditions">Terms and Conditions</a>.
                                         </label>
                                     </p>
-                                    <p class="inputError" data-bind="'validation'Message: createAccount.account.agreeToTerms"></p>
+                                    <p class="inputError" data-bind="'validationMessage': createAccount.account.agreeToTerms"></p>
 
                                     <div>
                                         <p>As a security measure to prevent spam account creation, please complete the Captcha below:</p>
@@ -154,7 +154,7 @@
                         </div>
                     </div>
                     <div class="menu-section" data-role="management-tabs" data-bind="'css': {active: Environment.user() != null}">
-                        <ul class="tabs" data-bind="'epl'BarTabs: true">
+                        <ul class="tabs" data-bind="'eplBarTabs': true">
                             <li class="tab" data-tab="manage" data-bind="'css': {active: loginMenu.currentTab() != 'link'}">
                                 <div class="text">Manage Account</div>
                             </li>
@@ -180,7 +180,7 @@
                                 <input type="text" class="form-input text" id="firstName" maxLength="30"
                                     data-bind="'value': manageAccount.account.firstname"/>
                             </p>
-                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.firstname"></p>
+                            <p class="inputError indent" data-bind="'validationMessage': manageAccount.account.firstname"></p>
                             
                             <p>
                                 <label for="lastName" class="form-label">Last Name: 
@@ -188,7 +188,7 @@
                                 <input type="text" class="form-input text" id="lastName" maxLength="30"
                                     data-bind="'value': manageAccount.account.lastname"/>
                             </p>
-                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.lastname"></p>
+                            <p class="inputError indent" data-bind="'validationMessage': manageAccount.account.lastname"></p>
 
                             <p class="section-title">Edit Account Information</p>
 
@@ -199,7 +199,7 @@
                                 <input type="password" class="form-input text" id="oldPassword" maxLength="30"
                                     data-bind="'value': manageAccount.account.oldpassword"/>
                             </p>
-                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.oldpassword"></p>
+                            <p class="inputError indent" data-bind="'validationMessage': manageAccount.account.oldpassword"></p>
 
                             <p>
                                 <label for="email" class="form-label">Email:
@@ -207,14 +207,14 @@
                                 <input type="text" class="form-input text" id="email" 
                                      data-bind="'value': manageAccount.account.email, enable: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
                             </p>
-                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.email"></p>
+                            <p class="inputError indent" data-bind="'validationMessage': manageAccount.account.email"></p>
                             
                             <p>
                                 <label for="newPassword" class="form-label">New Password:</label>
                                 <input type="password" class="form-input text" id="newPassword" maxLength="30"
                                     data-bind="'value': manageAccount.account.newpassword, enable: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
                             </p>
-                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.newpassword"></p>
+                            <p class="inputError indent" data-bind="'validationMessage': manageAccount.account.newpassword"></p>
                             
                             <p>
                                 <label for="confirmPassword" class="form-label">Confirm Password:
@@ -223,7 +223,7 @@
                                 <input type="password" class="form-input text" id="confirmPassword" maxLength="30"
                                     data-bind="'value': manageAccount.account.passwordconfirmation, enable: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
                             </p>
-                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.passwordconfirmation"></p>
+                            <p class="inputError indent" data-bind="'validationMessage': manageAccount.account.passwordconfirmation"></p>
                             
                             <div class="save-button-space"></div>
                             <p><input type="submit" class="save-button" data-bind="'click': manageAccount.submit" value="Save Changes"/></p>
@@ -232,7 +232,7 @@
                         <div class="tab-contents" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() == 'link'}">
                             <div data-bind="'style': {display: (Environment.user() != null && Environment.user().bibliolink == false) ? 'block' : 'none'}">
                                 <p class="section-title">Link Your Centennial and EPL Accounts</p>
-                                <form data-bind="'link'Form: true">
+                                <form data-bind="'linkForm': true">
                                     <p class="inputError indent" data-bind="'if': linkError() == true">There was a problem linking your EPL account. Check your credentials.</p>
                                     <p>
                                         <label for="eplUsername">EPL Username:</label>
@@ -258,10 +258,10 @@
     	<div id="timeline" data-bind="'style': {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
     </div>
 	<div id="dashboard" data-bind="'style': {width: Environment.display.width() - 100 + 'px'}">
-        <div class="header" data-bind="'">'
+        <div class="header" data-bind="">
             <!-- ko if: Environment.user() != null -->
             <div class="title">The EPL Hundred Year Quest</div>
-            <input type="text" class="enter-code" data-bind="'check'Code: true" data-default-text="Enter Quest Code" maxlength="11" />
+            <input type="text" class="enter-code" data-bind="'checkCode': true" data-default-text="Enter Quest Code" maxlength="11" />
             <!-- /ko -->
             <!-- ko if: Environment.user() == null -->
             <div class="title">Please log into your Centennial or EPL Account to play the Hundred Year Quest</div>
@@ -309,7 +309,7 @@
 			<h2>Featured Quests</h2>
             <div class="quest-slider" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}">
                 <!-- ko if: featuredQuests().length > 0 -->
-                <div class="iosSlider featured-quests" data-bind="'ios'Slider: true">
+                <div class="iosSlider featured-quests" data-bind="'iosSlider': true">
                     <div class="slider">
                         <!-- ko foreach: {data: featuredQuests} -->
                             <div class="slide featured-quest">
@@ -320,7 +320,7 @@
                                 <ul>
                                     <!-- ko foreach: quests -->
                                         <!-- ko if: $index() <= 3 -->
-                                    <li data-bind="'open'QuestSetViewer: {questSetId: $parent.id}">
+                                    <li data-bind="'openQuestSetViewer': {questSetId: $parent.id}">
                                         <div class="quest-description">
                                             <span data-bind="'text': title"></span>
                                         </div>
@@ -341,7 +341,7 @@
             <h2>Active Quests</h2>
             <div class="quest-slider" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}">
                 <!-- ko if: activeQuests().length > 0 -->
-                <div class="iosSlider active-quests" data-bind="'ios'Slider: true">
+                <div class="iosSlider active-quests" data-bind="'iosSlider': true">
     				<div class="slider">
     					<!-- ko foreach: {data: activeQuests} -->
     						<div class="slide current-quest">
@@ -352,7 +352,7 @@
     							<ul>
     								<!-- ko foreach: quests -->
     									<!-- ko if: $index() <= 3 -->
-    								<li data-bind="'open'QuestSetViewer: {questSetId: $parent.id}">
+    								<li data-bind="'openQuestSetViewer': {questSetId: $parent.id}">
     									<div class="quest-description">
     										<span data-bind="'text': title"></span>
     									</div>
@@ -377,14 +377,14 @@
     			<table id="completed-quests">
     				<thead>
     					<tr>
-    						<th data-bind="'sort'Quests: {column: 'date'}">Date</th>
-                            <th data-bind="'sort'Quests: {column: 'title'}">Quest</th>
-                            <th data-bind="'sort'Quests: {column: 'points'}">Points</th>
+    						<th data-bind="'sortQuests': {column: 'date'}">Date</th>
+                            <th data-bind="'sortQuests': {column: 'title'}">Quest</th>
+                            <th data-bind="'sortQuests': {column: 'points'}">Points</th>
     					</tr>
     				</thead>
     				<tbody>
     					<!-- ko foreach: {data: completedQuests} -->
-    					<tr data-bind="'open'QuestSetViewer: {questSetId: (typeof id == 'undefined' ? 0 : id)}, css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
+    					<tr data-bind="openQuestSetViewer: {questSetId: (typeof id == 'undefined' ? 0 : id)}, css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
     						<td data-bind="'text': (typeof date_complete == 'undefined' ? '' : date_completed)">0</td>
     						<td data-bind="'text': (typeof title == 'undefined' ? '' : title)"></td>
     						<td data-bind="'text': (typeof points == 'undefined' ? '' : points)"></td>
@@ -419,7 +419,7 @@
     </div>
 
 	<div class="quest-set-viewer hidden" id="quest-set-viewer">
-        <div id="close-icon" data-bind="'close'QuestSetViewer: true">
+        <div id="close-icon" data-bind="'closeQuestSetViewer': true">
             <img data-bind="'attr': {src: $root.Environment.routes.imageDirectory + '/x.png'}">
         </div>
 		<div class="quest-set-header">
