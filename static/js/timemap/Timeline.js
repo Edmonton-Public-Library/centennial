@@ -70,7 +70,7 @@ return (function () {
 			S: 'bookmobile-trolley'
 		}
 
-		json.forEach(function(ele) {
+		json.forEach(function(ele, i) {
 			newJson.push({
 				name: ele.name,
 				description: ele.description,
