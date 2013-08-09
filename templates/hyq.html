@@ -57,16 +57,16 @@
 				<span data-role="name" data-bind="'text': Environment.user() == null ? 'Log In' : 'Manage'">Log In</span>
 				<div class="menu">
                     <div class="menu-wrapper" data-bind="'style': {'max-height': Environment.display.height() - 150 + 'px'}">
-                        <div class="menu-section" data-role="authenticate-tabs" data-bind="'css': {active: Environment.user() == null}">
+                        <div class="menu-section" data-role="authenticate-tabs" data-bind="'css': {'active': Environment.user() == null}">
                             <ul class="tabs" data-bind="'eplBarTabs': true">
-                                <li class="tab" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() != 'create-account'}">
+                                <li class="tab" data-tab="login" data-bind="'css': {'active': loginMenu.currentTab() != 'create-account'}">
                                     <div class="text">Login</div>
                                 </li>
-                                <li class="tab" data-tab="create-account" data-bind="'css': {active: loginMenu.currentTab() == 'create-account'}">
+                                <li class="tab" data-tab="create-account" data-bind="'css': {'active': loginMenu.currentTab() == 'create-account'}">
                                     <div class="text">Create Account</div>
                                 </li>
                             </ul>
-                            <div class="tab-contents" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() != 'create-account'}">
+                            <div class="tab-contents" data-tab="login" data-bind="'css': {'active': loginMenu.currentTab() != 'create-account'}">
                                 <p class="section-title">Authenticate</p>
                                 <form method="post" action="#" data-bind="'loginForm': true">
                                     <p class="inputError indent" data-bind="'if': loginError() == true">There was a problem logging you in. Check your credentials.</p>
@@ -83,7 +83,7 @@
                                 </form>
                                 <div class="save-button-space"></div>
                             </div>
-                            <div class="tab-contents" data-tab="create-account" data-bind="'css': {active: loginMenu.currentTab() == 'create-account'}">
+                            <div class="tab-contents" data-tab="create-account" data-bind="'css': {'active': loginMenu.currentTab() == 'create-account'}">
                                 <p class="section-title">Create Account</p>
                                 <form>
                                     <p>If you do not have an EPL card, you can create your own account for the TimeMap below:</p>
@@ -153,17 +153,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="menu-section" data-role="management-tabs" data-bind="'css': {active: Environment.user() != null}">
+                    <div class="menu-section" data-role="management-tabs" data-bind="'css': {'active': Environment.user() != null}">
                         <ul class="tabs" data-bind="'eplBarTabs': true">
-                            <li class="tab" data-tab="manage" data-bind="'css': {active: loginMenu.currentTab() != 'link'}">
+                            <li class="tab" data-tab="manage" data-bind="'css': {'active': loginMenu.currentTab() != 'link'}">
                                 <div class="text">Manage Account</div>
                             </li>
-                            <li class="tab" data-tab="link" data-bind="'css': {active: loginMenu.currentTab() == 'link'}">
+                            <li class="tab" data-tab="link" data-bind="'css': {'active': loginMenu.currentTab() == 'link'}">
                                 <div class="text">Link to EPL Account</div>
                             </li>
                         </ul>
                         
-                        <div class="tab-contents" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() != 'link'}">
+                        <div class="tab-contents" data-tab="login" data-bind="'css': {'active': loginMenu.currentTab() != 'link'}">
                             <p class="section-title">Edit Account Information</p>
                             <form>
                             <p class="inputSuccess" data-bind="'if': manageAccount.changed">Your account has been successfully updated!</p>
@@ -229,8 +229,8 @@
                             <p><input type="submit" class="save-button" data-bind="'click': manageAccount.submit" value="Save Changes"/></p>
                             </form>
                         </div>
-                        <div class="tab-contents" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() == 'link'}">
-                            <div data-bind="'style': {display: (Environment.user() != null && Environment.user().bibliolink == false) ? 'block' : 'none'}">
+                        <div class="tab-contents" data-tab="login" data-bind="'css': {'active': loginMenu.currentTab() == 'link'}">
+                            <div data-bind="'style': {'display': (Environment.user() != null && Environment.user().bibliolink == false) ? 'block' : 'none'}">
                                 <p class="section-title">Link Your Centennial and EPL Accounts</p>
                                 <form data-bind="'linkForm': true">
                                     <p class="inputError indent" data-bind="'if': linkError() == true">There was a problem linking your EPL account. Check your credentials.</p>
@@ -246,7 +246,7 @@
                                     <p><input type="submit" class="save-button" value="Link to EPL"/></p>
                                 </form>
                             </div>
-                            <div data-bind="'style': {display: (Environment.user() != null && Environment.user().bibliolink == true) ? 'block' : 'none'}">
+                            <div data-bind="'style': {'display': (Environment.user() != null && Environment.user().bibliolink == true) ? 'block' : 'none'}">
                                 <p class="section-title">You have successfully linked your EPL account.</p>
                             </div>
                         </div>
@@ -255,9 +255,9 @@
 			</li>
 	    </ul>
 	    <div class="fb-like" data-send="true" data-bind="'attr': {'data-href': baseURL()}" data-width="250" data-show-faces="false" data-font="arial"></div>
-    	<div id="timeline" data-bind="'style': {height: Environment.chrome.timeline.height() + 'px'}, 'css': {active: Environment.chrome.timeline.height() > 0}"></div>
+    	<div id="timeline" data-bind="'style': {'height': Environment.chrome.timeline.height() + 'px'}, 'css': {'active': Environment.chrome.timeline.height() > 0}"></div>
     </div>
-	<div id="dashboard" data-bind="'style': {width: Environment.display.width() - 100 + 'px'}">
+	<div id="dashboard" data-bind="'style': {'width': Environment.display.width() - 100 + 'px'}">
         <div class="header" data-bind="">
             <!-- ko if: Environment.user() != null -->
             <div class="title">The EPL Hundred Year Quest</div>
@@ -267,7 +267,7 @@
             <div class="title">Please log into your Centennial or EPL Account to play the Hundred Year Quest</div>
             <!-- /ko -->
         </div>
-		<div id="info-panel" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}, 'if': Environment.user() != null">
+		<div id="info-panel" data-bind="'style': {'width': Environment.display.width() - 130 + 'px'}, 'if': Environment.user() != null">
 			<div class="profile">
 				<div class="welcome-message">
                     <!-- ko if: Environment.user() != null -->
@@ -307,14 +307,14 @@
 		</div>
 		<div data-bind="'if': Environment.user() != null">
 			<h2>Featured Quests</h2>
-            <div class="quest-slider" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}">
+            <div class="quest-slider" data-bind="'style': {'width': Environment.display.width() - 130 + 'px'}">
                 <!-- ko if: featuredQuests().length > 0 -->
                 <div class="iosSlider featured-quests" data-bind="'iosSlider': true">
                     <div class="slider">
                         <!-- ko foreach: {data: featuredQuests} -->
                             <div class="slide featured-quest">
                                 <div class="progress-container">
-                                    <div class="progress-bar" data-bind="'style': {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
+                                    <div class="progress-bar" data-bind="'style': {'width': ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
                                 </div>
                                 <div class="title" data-bind="'text': title"></div>
                                 <ul>
@@ -339,14 +339,14 @@
                 <!-- /ko -->
             </div>
             <h2>Active Quests</h2>
-            <div class="quest-slider" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}">
+            <div class="quest-slider" data-bind="'style': {'width': Environment.display.width() - 130 + 'px'}">
                 <!-- ko if: activeQuests().length > 0 -->
                 <div class="iosSlider active-quests" data-bind="'iosSlider': true">
     				<div class="slider">
     					<!-- ko foreach: {data: activeQuests} -->
     						<div class="slide current-quest">
     							<div class="progress-container">
-    								<div class="progress-bar" data-bind="'style': {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
+    								<div class="progress-bar" data-bind="'style': {'width': ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
     							</div>
     							<div class="title" data-bind="'text': title"></div>
     							<ul>
@@ -372,14 +372,14 @@
             </div>
 			<div data-role="viewport"></div>   
 			<h2>Completed Quests</h2>
-            <div class="quest-slider" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}">
+            <div class="quest-slider" data-bind="'style': {'width': Environment.display.width() - 130 + 'px'}">
                 <!-- ko if: completedQuests().length > 0 -->
     			<table id="completed-quests">
     				<thead>
     					<tr>
-    						<th data-bind="'sortQuests': {column: 'date'}">Date</th>
-                            <th data-bind="'sortQuests': {column: 'title'}">Quest</th>
-                            <th data-bind="'sortQuests': {column: 'points'}">Points</th>
+    						<th data-bind="'sortQuests': {'column': 'date'}">Date</th>
+                            <th data-bind="'sortQuests': {'column': 'title'}">Quest</th>
+                            <th data-bind="'sortQuests': {'column': 'points'}">Points</th>
     					</tr>
     				</thead>
     				<tbody>
@@ -420,11 +420,11 @@
 
 	<div class="quest-set-viewer hidden" id="quest-set-viewer">
         <div id="close-icon" data-bind="'closeQuestSetViewer': true">
-            <img data-bind="'attr': {src: $root.Environment.routes.imageDirectory + '/x.png'}">
+            <img data-bind="'attr': {'src': $root.Environment.routes.imageDirectory + '/x.png'}">
         </div>
 		<div class="quest-set-header">
 			<!-- ko if: questSetComplete -->
-			<img style="vertical-align:middle" height="80px" data-bind="'attr': {src: $root.Environment.routes.imageDirectory + '/check_yellow.png'}">
+			<img style="vertical-align:middle" height="80px" data-bind="'attr': {'src': $root.Environment.routes.imageDirectory + '/check_yellow.png'}">
 			<!-- /ko -->
 			<span data-bind="'text': questSetTitle"></span>
 		</div>
@@ -441,7 +441,7 @@
 				<div>
 					<p class="quest-title" >
 						<!-- ko if: questComplete -->
-						<img style="vertical-align:middle" height="60px" data-bind="'attr': {src: $root.Environment.routes.imageDirectory + '/check.png'}">
+						<img style="vertical-align:middle" height="60px" data-bind="'attr': {'src': $root.Environment.routes.imageDirectory + '/check.png'}">
 						<!-- /ko -->
 						Challenge: <span data-bind="'text': questTitle"></span>
 					</p>
@@ -453,10 +453,10 @@
 					<div class="quest-task" >
 						<p class="task-title">
 						<!-- ko if: taskComplete -->
-							<img style="vertical-align:middle" height="30px" data-bind="'attr': {src: $root.Environment.routes.imageDirectory + '/check.png'}">
+							<img style="vertical-align:middle" height="30px" data-bind="'attr': {'src': $root.Environment.routes.imageDirectory + '/check.png'}">
 						<!-- /ko -->
 						<!-- ko if: !taskComplete -->
-							<img style="vertical-align:middle" height="30px" data-bind="'attr': {src: $root.Environment.routes.imageDirectory + '/no_check.png', id: 'icon-task' + taskId}">
+							<img style="vertical-align:middle" height="30px" data-bind="'attr': {'src': $root.Environment.routes.imageDirectory + '/no_check.png', id: 'icon-task' + taskId}">
 						<!-- /ko -->
 							<span data-bind="'text': taskTitle" ></span>
 						</p>
@@ -470,17 +470,17 @@
 								<button id="checkBiblio" style="margin-top: 10px" data-bind="'click': checkBiblio">
 									Check Quest Completion
 								</button>
-								<span class="error hidden" data-bind="'attr': {id: 'biblioError' + taskId}"></span>
+								<span class="error hidden" data-bind="'attr': {'id': 'biblioError' + taskId}"></span>
 							<!-- /ko -->
 							<!-- ko if: taskType == 1 && !taskComplete -->
 							<!-- /ko -->
 							<!-- ko if: taskType == 2 && !taskComplete -->
-							<input data-bind="'value': code, attr: {id: 'codeInput' + taskId}">
-							<button data-bind="'click': checkCode, attr: {id: 'codeSubmit' + taskId}">
+							<input data-bind="'value': code, attr: {'id': 'codeInput' + taskId}">
+							<button data-bind="'click': checkCode, attr: {'id': 'codeSubmit' + taskId}">
 								Submit Code
 							</button>
-							<span class="error hidden" data-bind="'attr': {id: 'codeError' + taskId}"></span>
-							<span class="success hidden" data-bind="'attr': {id: 'codeSuccess' + taskId}">Task complete!</span>
+							<span class="error hidden" data-bind="'attr': {'id': 'codeError' + taskId}"></span>
+							<span class="success hidden" data-bind="'attr': {'id': 'codeSuccess' + taskId}">Task complete!</span>
 							<!-- /ko -->
 							<!-- ko if: taskType == 3 && !taskComplete -->
 								Explore the 
