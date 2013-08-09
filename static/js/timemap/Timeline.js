@@ -70,10 +70,6 @@ return (function () {
 			S: 'bookmobile-trolley'
 		}
 
-		console.log(currYear.toString());
-		console.log(json[i].start_year.toString());
-		console.log(json[i].end_year.toString());
-
 		for (i in json) {
 			console.log(i);
 			console.log(json[i]);
