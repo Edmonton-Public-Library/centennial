@@ -18,7 +18,7 @@
 	</div>
 	<img class="floorplan" data-bind="'attr': {'src': floorplanUrl()}" data-role="floorplan" />
 	<div data-bind="'foreach': contentTypesList">
-		<div data-bind="visible: $root.storyData[$data]().length > 0, 'click': $root.openStorySelector, 'attr': {'class': 'pin ' + $root.contentTypes[$data].color}, 'style': {'width': '100px', 'height': '100px', 'background': $root.contentTypes[$data].iconURL, 'padding': '8px', 'position': 'absolute', 'top': $root.typeCoordinates[$data]().random.y + 'px', 'left': $root.typeCoordinates[$data]().random.x + 'px'}">
+		<div data-bind="visible: $root.storyData[$data]().length > 0, 'click': $root.openStorySelector, 'attr': {'class': 'pin ' + $root.contentTypes[$data].color}, 'style': {'width': '100px', 'height': '100px', 'backgroundImage': $root.contentTypes[$data].iconURL, 'padding': '8px', 'position': 'absolute', 'top': $root.typeCoordinates[$data]().random.y + 'px', 'left': $root.typeCoordinates[$data]().random.x + 'px'}">
 			<img class="content-icon" style="display: block; margin-left: auto; margin-right: auto;"
 			    data-bind="'attr': {'src': $root.contentTypes[$data].iconURL}">
 			<div class="content-text" data-bind="'text': $root.contentTypes[$data].displayTitle + ': ' + $root.storyData[$data]().length"></div>
