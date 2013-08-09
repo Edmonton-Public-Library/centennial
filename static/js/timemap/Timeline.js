@@ -240,7 +240,7 @@ return (function () {
 			do {
 				hasChangedSomething = false;
 				if(obj.rightVisible + 1 < obj.byStart.length) {
-					currDate = new Date(obj.byStart[obj.rightVisible + 1].start.toString()).getTime();
+					currDate = new Date("Jan 1, " + obj.byStart[obj.rightVisible + 1].start.toString()).getTime();
 					if(currDate < rightVisibleDate) {
 						hasChangedSomething = true;
 						obj.rightVisible++;
@@ -254,7 +254,7 @@ return (function () {
 			do {
 				hasChangedSomething = false;
 				if(obj.leftVisible > 0) {
-					currDate = new Date(obj.byEnd[obj.leftVisible - 1].end.toString()).getTime();
+					currDate = new Date("Jan 1, " + obj.byEnd[obj.leftVisible - 1].end.toString()).getTime();
 					if(currDate > leftVisibleDate) {
 						hasChangedSomething = true;
 						obj.leftVisible--;
@@ -268,7 +268,7 @@ return (function () {
 			do {
 				hasChangedSomething = false;
 				if(obj.rightVisible >= 0) {
-					currDate = new Date(obj.byStart[obj.rightVisible].start.toString()).getTime();
+					currDate = new Date("Jan 1, " + obj.byStart[obj.rightVisible].start.toString()).getTime();
 					if(currDate > rightVisibleDate) {
 						hasChangedSomething = true;
 						obj.hideFunction(obj.byStart[obj.rightVisible]);
@@ -282,7 +282,7 @@ return (function () {
 			do {
 				hasChangedSomething = false;
 				if (obj.leftVisible < obj.byEnd.length) {
-					currDate = new Date(obj.byEnd[obj.leftVisible].end.toString()).getTime();
+					currDate = new Date("Jan 1, " + obj.byEnd[obj.leftVisible].end.toString()).getTime();
 					if(currDate < leftVisibleDate) {
 						hasChangedSomething = true;
 						obj.hideFunction(obj.byEnd[obj.leftVisible]);
