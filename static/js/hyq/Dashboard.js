@@ -120,9 +120,9 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		var self = this;
 		$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
 			self.data.completedQuests.removeAll();
-			for(i in data.objects) {
-				self.data.completedQuests.push(data.objects[i]);
-			}
+			data.object.forEach(function(ele) {
+				self.data.completedQuests.push(ele);
+			});
 		});
 	};
 
@@ -148,34 +148,31 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	 * @param	data	questset	The data from the questset/complete endpoint
 	 */
 	Dashboard.insertPoints = function(data) {
-		for(i in data.objects) {
-			var questSet = data.objects[i];
+		data.object.forEach(function(questSet) {
 			questSet.completedPoints = 0;
 			questSet.totalPoints = questSet.points;
-			for(var j in questSet.quests) {
-				var quest = questSet.quests[j];
+			questSet.quests.forEach(function(quest) {
 				quest.completedPoints = 0;
 				quest.totalPoints = quest.points;
-				for(var k in quest.tasks) {
-					var task = quest.tasks[k];
+				quest.tasks.forEach(function(task) {
 					quest.totalPoints += task.points;
 					if(task.complete) {
 						//If this task is completed, add its points to its quest
 						quest.completedPoints += task.points;
 					}
-				}
+				});
 				questSet.totalPoints += quest.totalPoints;
 				//If all of this quest's tasks were completed, then add its own points
 				if(quest.complete) {
 					quest.completedPoints += quest.points;
 				}
 				questSet.completedPoints += quest.completedPoints;
-			}
+			});
 			//If all of this quest set's quests were completed, then add its own points
 			if(questSet.complete) {
 				questSet.completedPoints += questSet.points;
 			}
-		}	
+		});	
 	};
 
 	ko.bindingHandlers.iosSlider = {

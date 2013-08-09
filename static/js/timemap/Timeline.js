@@ -97,11 +97,11 @@ return (function () {
 		var endNotNulls = [];
 		var endNulls = [];
 		json.forEach(function(ele) {
-			if(json[i].end_year) {
-				endNotNulls.push(json[i]);
+			if(ele.end_year) {
+				endNotNulls.push(ele);
 			}
 			else {
-				endNulls.push(json[i]);
+				endNulls.push(ele);
 			}
 		});
 		for (i in endNulls) {
