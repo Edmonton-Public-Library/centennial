@@ -314,7 +314,7 @@
                         <!-- ko foreach: {data: featuredQuests} -->
                             <div class="slide featured-quest">
                                 <div class="progress-container">
-                                    <div class="progress-bar" data-bind="'style': {'width': ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
+                                    <div class="progress-bar" data-bind="'style': {'width': 100 + 'px'}"></div>
                                 </div>
                                 <div class="title" data-bind="'text': title"></div>
                                 <ul>
@@ -346,7 +346,7 @@
     					<!-- ko foreach: {data: activeQuests} -->
     						<div class="slide current-quest">
     							<div class="progress-container">
-    								<div class="progress-bar" data-bind="'style': {'width': ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
+    								<div class="progress-bar" data-bind="'style': {'width': 100 + 'px'}"></div>
     							</div>
     							<div class="title" data-bind="'text': title"></div>
     							<ul>
