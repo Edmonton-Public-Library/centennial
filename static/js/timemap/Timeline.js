@@ -38,15 +38,17 @@ return (function () {
 		json = json.objects;
 		var newJson = [];
 		for (i in json) {
-			newJson.push({
-				title: json[i].title,
-				description: json[i].description,
-				content_type : json[i].content_type,
-				start: json[i].year.toString(),
-				end: json[i].year.toString(),
-				id: json[i].id,
-				instant : "true"
-			});
+			if(typeof json[i] == "object") {
+				newJson.push({
+					title: json[i].title,
+					description: json[i].description,
+					content_type : json[i].content_type,
+					start: json[i].year.toString(),
+					end: json[i].year.toString(),
+					id: json[i].id,
+					instant : "true"
+				});
+			}
 		}
 
 		if(json.length) {
@@ -99,11 +101,13 @@ return (function () {
 		var endNotNulls = [];
 		var endNulls = [];
 		for (i in json) {
-			if(json[i].end_year) {
-				endNotNulls.push(json[i]);
-			}
-			else {
-				endNulls.push(json[i]);
+			if(typeof json[i] == "object") {
+				if(json[i].end_year) {
+					endNotNulls.push(json[i]);
+				}
+				else {
+					endNulls.push(json[i]);
+				}
 			}
 		}
 		for (i in endNulls) {
@@ -118,11 +122,13 @@ return (function () {
 		json = json.objects;
 		var newJson = [];
 		for(i in json) {
-			newJson.push({
-				start : json[i].start_year.toString(),
-				end : json[i].start_year.toString(),
-				folder : json[i].base_folder.toString()
-			});
+			if(typeof json[i] == "object") {
+				newJson.push({
+					start : json[i].start_year.toString(),
+					end : json[i].start_year.toString(),
+					folder : json[i].base_folder.toString()
+				});
+			}
 		}
 
 		var currYear = new Date().getFullYear() - 6;
@@ -142,11 +148,13 @@ return (function () {
 		json = json.objects;
 		var newJson = [];
 		for(i in json) {
-			newJson.push({
-				start : json[i].start_year.toString(),
-				end : json[i].start_year.toString(),
-				folder : json[i].base_folder.toString()
-			});
+			if(typeof json[i] == "object") {
+				newJson.push({
+					start : json[i].start_year.toString(),
+					end : json[i].start_year.toString(),
+					folder : json[i].base_folder.toString()
+				});
+			}
 		}
 
 		var currYear = new Date().getFullYear() - 6;
