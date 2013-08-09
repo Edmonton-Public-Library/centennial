@@ -8,24 +8,24 @@
         
         <p>
             <label for="username" class="form-label">Username:</label>
-            <span id="username" data-bind="text: account.username"/>
+            <span id="username" data-bind="'text': account.username"/>
         </p>
 
         <p>
             <label for="firstName" class="form-label">First Name: 
             <span class="required">*</span></label>
             <input type="text" class="form-input text" id="firstName" maxLength="30"
-                data-bind="value: account.firstname"/>
+                data-bind="'value': account.firstname"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.firstname"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.firstname"></p>
         
         <p>
             <label for="lastName" class="form-label">Last Name: 
             <span class="required">*</span></label>
             <input type="text" class="form-input text" id="lastName" maxLength="30"
-                data-bind="value: account.lastname"/>
+                data-bind="'value': account.lastname"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.lastname"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.lastname"></p>
 
         <h2>Change Password and Email</h2>
 
@@ -34,35 +34,35 @@
         <p>
             <label for="oldPassword" class="form-label">Current Password:</label>
             <input type="password" class="form-input text" id="oldPassword" maxLength="30"
-                data-bind="value: account.oldpassword"/>
+                data-bind="'value': account.oldpassword"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.oldpassword"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.oldpassword"></p>
 
         <p>
             <label for="email" class="form-label">Email:
-            <span class="required" data-bind="visible: account.oldpassword() != '' && account.oldpassword.isValid()">*</span></label>
+            <span class="required" data-bind="'visible': account.oldpassword() != '' && account.oldpassword.isValid()">*</span></label>
             <input type="text" class="form-input text" id="email" 
-                 data-bind="value: account.email, enable: account.oldpassword() != '' && account.oldpassword.isValid()"/>
+                 data-bind="'value': account.email, enable: account.oldpassword() != '' && account.oldpassword.isValid()"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.email"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.email"></p>
         
         <p>
             <label for="newPassword" class="form-label">New Password:</label>
             <input type="password" class="form-input text" id="newPassword" maxLength="30"
-                data-bind="value: account.newpassword, enable: account.oldpassword() != '' && account.oldpassword.isValid()"/>
+                data-bind="'value': account.newpassword, enable: account.oldpassword() != '' && account.oldpassword.isValid()"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.newpassword"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.newpassword"></p>
     
         <p>
             <label for="confirmPassword" class="form-label">Confirm Password:
-            <span class="required" data-bind="visible: account.newpassword() != ''">*</span>
+            <span class="required" data-bind="'visible': account.newpassword() != ''">*</span>
             </label>
             <input type="password" class="form-input text" id="confirmPassword" maxLength="30"
-                data-bind="value: account.passwordconfirmation, enable: account.oldpassword() != '' && account.oldpassword.isValid()"/>
+                data-bind="'value': account.passwordconfirmation, enable: account.oldpassword() != '' && account.oldpassword.isValid()"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.passwordconfirmation"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.passwordconfirmation"></p>
     
-        <p><button data-bind="click: submit">Save Changes</button></p>
+        <p><button data-bind="'click': submit">Save Changes</button></p>
         
         <p class="hintText"><a href="/timemap/">(Click here to cancel and return to the TimeMap)</a></p>
 

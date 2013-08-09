@@ -2,10 +2,10 @@
 <div id="tm-branch-info-pane">
 	<div class="tm-branch-info">
 		<div class="title">
-			<span data-bind="text: selectedBranch().name"></span>
-			<div class="close" data-bind="closeBranchInfo: true">X</div>
+			<span data-bind="'text': selectedBranch().name"></span>
+			<div class="close" data-bind="'closeBranchInfo': true">X</div>
 		</div>
-		<div class="description" data-bind="text: selectedBranch().description"></div>
-		<a href="#" class="open-button" data-bind="attr: {href: '#branch/' + selectedBranch().id}">View Branch</a>
+		<div class="description" data-bind="'text': selectedBranch().description"></div>
+		<a href="#" class="open-button" data-bind="'attr': {'href': '#branch/' + selectedBranch().id}">View Branch</a>
 	</div>
 </div>

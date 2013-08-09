@@ -9,18 +9,18 @@
         <p>
             <label for="loginUsername" class="form-label">Username: <span class="required">*</span></label>
             <input type="text" class="form-input text" id="loginUsername" maxLength="30"
-                data-bind="value: login.username"/>
+                data-bind="'value': login.username"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: login.username"></p>
+        <p class="inputError indent" data-bind="'validationMessage': login.username"></p>
         
         <p>
             <label for="loginPassword" class="form-label">Password: <span class="required">*</span></label>
             <input type="password" class="form-input text" id="loginPassword" maxLength="30"
-                data-bind="value: login.password"/>
+                data-bind="'value': login.password"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: login.password"></p>
+        <p class="inputError indent" data-bind="'validationMessage': login.password"></p>
 
-        <p><button data-bind="click: loginSubmit">Sign In</button></p>
+        <p><button data-bind="'click': loginSubmit">Sign In</button></p>
 
         <br />
 
@@ -33,59 +33,59 @@
         <p>
             <label for="firstName" class="form-label">First Name: <span class="required">*</span></label>
             <input type="text" class="form-input text" id="firstName" maxLength="30"
-                data-bind="value: account.firstname"/>
+                data-bind="'value': account.firstname"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.firstname"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.firstname"></p>
         
         <p>
             <label for="lastName" class="form-label">Last Name: <span class="required">*</span></label>
             <input type="text" class="form-input text" id="lastName" maxLength="30"
-                data-bind="value: account.lastname"/>
+                data-bind="'value': account.lastname"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.lastname"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.lastname"></p>
 
         <p>
             <label for="email" class="form-label">Email: <span class="required">*</span></label>
             <input type="text" class="form-input text" id="email" 
-                 data-bind="value: account.email"/>
+                 data-bind="'value': account.email"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.email"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.email"></p>
         
         <p>
             <label for="username" class="form-label">Username: <span class="required">*</span></label>
             <input type="text" class="form-input text" id="username" maxLength="30"
-                data-bind="value: account.username"/>
+                data-bind="'value': account.username"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.username"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.username"></p>
         
         <p>
             <label for="password" class="form-label">Password: <span class="required">*</span></label>
             <input type="password" class="form-input text" id="password" maxLength="30"
-                data-bind="value: account.password"/>
+                data-bind="'value': account.password"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.password"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.password"></p>
         
         <p>
             <label for="confirmPassword" class="form-label">Confirm Password: <span class="required">*</span></label>
             <input type="password" class="form-input text" id="confirmPassword" maxLength="30"
-                data-bind="value: account.passwordConfirmation"/>
+                data-bind="'value': account.passwordConfirmation"/>
         </p>
-        <p class="inputError indent" data-bind="validationMessage: account.passwordConfirmation"></p>
+        <p class="inputError indent" data-bind="'validationMessage': account.passwordConfirmation"></p>
         
         <p>
-            <input type="checkbox" id="agreeToTerms" data-bind="checked: account.agreeToTerms">
+            <input type="checkbox" id="agreeToTerms" data-bind="'checked': account.agreeToTerms">
             <label for="agreeToTerms">I agree to the 
                 <a href="" target="_blank" id="termsAndConditions">Terms and Conditions</a>.
             </label>
         </p>
-        <p class="inputError" data-bind="validationMessage: account.agreeToTerms"></p>
+        <p class="inputError" data-bind="'validationMessage': account.agreeToTerms"></p>
 
         <div>
             <p>As a security measure to prevent spam account creation, please complete the Captcha below:</p>
             <div id="recaptcha-section"/>
         </div>
 
-        <p><button id="createAccountSubmit" data-bind="click: createAccountSubmit">Create Account</button></p>
+        <p><button id="createAccountSubmit" data-bind="'click': createAccountSubmit">Create Account</button></p>
         
         <p>You will receive an email to confirm your new account.</p>
         

@@ -5,30 +5,30 @@
 <div id="tm-content-panel">
     <div id="content-header">
         <div id="content-container">
-            <div id="close-icon" data-bind="click: closeStoryView">
-                <img data-bind="attr: {src: imagesDirectiory() + 'x.png'}">
+            <div id="close-icon" data-bind="'click': closeStoryView">
+                <img data-bind="'attr': {'src': imagesDirectiory() + 'x.png'}">
             </div>
             <table>
                 <tr>
                     <td class="icon-column" rowspan="3">
-                        <img id="iconImage" data-bind="attr: {src: imagesDirectiory() + content_type() + '_icon_disabled_crop.png'}" width="100px"/>
+                        <img id="iconImage" data-bind="'attr': {'src': imagesDirectiory() + content_type() + '_icon_disabled_crop.png'}" width="100px"/>
                     </td>
                     <td colspan="2" style="width: 100%">
-                        <h1 data-bind="text: title"> </h1>
+                        <h1 data-bind="'text': title"> </h1>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Submitted by <span data-bind="text: username"></span>
+                        Submitted by <span data-bind="'text': username"></span>
                     </td>
                     <td style="text-align: right">
-                        <span data-bind="text: date"> </span>
+                        <span data-bind="'text': date"> </span>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a data-bind="attr: {href: '#branch/' + branch_id()}">
-                            <h3 data-bind="text: branch_name"> </h3>
+                        <a data-bind="'attr': {'href': '#branch/' + branch_id()}">
+                            <h3 data-bind="'text': branch_name"> </h3>
                         </a>
                     </td>
                 </tr>
@@ -44,24 +44,24 @@
                     </td>
                 </td>
                 <tr><td>
-                    <p class="keywords" data-bind="if: keywords().length > 0"><b></b>
-                        <span data-bind="text: keywordsCommaSeparated" ></span>
+                    <p class="keywords" data-bind="'if': keywords().length > 0"><b></b>
+                        <span data-bind="'text': keywordsCommaSeparated" ></span>
                     </p>
 
                     <p>
-                        <span data-bind="text: description"></span>
+                        <span data-bind="'text': description"></span>
                     </p>
 
                     <!-- ko if: content_type() == 'text' -->
                     <div id="text" class="highlight-box text hidden">
-                        <span data-bind="text: story_text"></span>
+                        <span data-bind="'text': story_text"></span>
                     </div>
                     <!-- /ko -->
 
                     <!-- ko if: content_type() == 'image' -->
                     <p class="center hidden" id="image">
-                        <a data-bind="attr: {href: media_file}" target="_blank">
-                          <img data-bind="attr: {src: media_file}" width="500px">
+                        <a data-bind="'attr': {'href': media_file}" target="_blank">
+                          <img data-bind="'attr': {'src': media_file}" width="500px">
                         </a>
                         <br><span class="hintText">Click on the image to view the full size.</span>
                     </p>
@@ -70,14 +70,14 @@
                     <!-- ko if: content_type() == 'pdf' -->
                     <div id="pdf" class="hidden">
                         <p class="error">It appears you don't have a PDF plugin for this browser.
-                        Click <a data-bind="attr: {href: media_file}">here</a> to
+                        Click <a data-bind="'attr': {'href': media_file}">here</a> to
                         download the PDF file.</p>
                     </div>
                     <!-- /ko -->
 
                     <!-- ko if: content_type() == 'link' -->
                     <div id="link" class="highlight-box link hidden">
-                        <a data-bind="attr: {href: link_url, target: '_blank'}, text: link_url"></a>
+                        <a data-bind="'attr': {'href': link_url, 'target': '_blank'}, 'text': link_url"></a>
                     </div>
                     <!-- /ko -->
 
@@ -164,7 +164,7 @@
                             </div>
                             <div class="jp-title">
                               <ul>
-                                <li data-bind="text: title"></li>
+                                <li data-bind="'text': title"></li>
                               </ul>
                             </div>
                           </div>
