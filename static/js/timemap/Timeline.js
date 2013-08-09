@@ -82,7 +82,7 @@ return (function () {
 				id: ele.id,
 				type: btypeToIcon[ele.btype]
 			});
-		}
+		});
 		return newJson;
 	};
 
@@ -103,7 +103,7 @@ return (function () {
 			else {
 				endNulls.push(json[i]);
 			}
-		}
+		});
 		for (i in endNulls) {
 			endNotNulls.push(endNulls[i]);
 		}
@@ -121,7 +121,7 @@ return (function () {
 				end : ele.start_year.toString(),
 				folder : ele.base_folder.toString()
 			});
-		}
+		});
 
 		var currYear = new Date().getFullYear() - 6;
 
@@ -145,7 +145,7 @@ return (function () {
 				end : ele.start_year.toString(),
 				folder : ele.base_folder.toString()
 			});
-		}
+		});
 
 		var currYear = new Date().getFullYear() - 6;
 
