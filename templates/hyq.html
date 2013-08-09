@@ -57,7 +57,7 @@
 				<span data-role="name" data-bind="'text': Environment.user() == null ? 'Log In' : 'Manage'">Log In</span>
 				<div class="menu">
                     <div class="menu-wrapper" data-bind="'style': {'max-height': Environment.display.height() - 150 + 'px'}">
-                        <div class="menu-section" data-role="authenticate-tabs" data-bind="css: {active: Environment.user() == null}">
+                        <div class="menu-section" data-role="authenticate-tabs" data-bind="'css': {active: Environment.user() == null}">
                             <ul class="tabs" data-bind="'eplBarTabs': true">
                                 <li class="tab" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() != 'create-account'}">
                                     <div class="text">Login</div>
@@ -205,7 +205,7 @@
                                 <label for="email" class="form-label">Email:
                                 <span class="required" data-bind="'visible': manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()">*</span></label>
                                 <input type="text" class="form-input text" id="email" 
-                                     data-bind="'value': manageAccount.account.email, enable: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
+                                     data-bind="'value': manageAccount.account.email, 'enable': manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
                             </p>
                             <p class="inputError indent" data-bind="'validationMessage': manageAccount.account.email"></p>
                             
@@ -221,7 +221,7 @@
                                 <span class="required" data-bind="'visible': manageAccount.account.newpassword() != ''">*</span>
                                 </label>
                                 <input type="password" class="form-input text" id="confirmPassword" maxLength="30"
-                                    data-bind="'value': manageAccount.account.passwordconfirmation, enable: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
+                                    data-bind="'value': manageAccount.account.passwordconfirmation, 'enable': manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
                             </p>
                             <p class="inputError indent" data-bind="'validationMessage': manageAccount.account.passwordconfirmation"></p>
                             
@@ -255,7 +255,7 @@
 			</li>
 	    </ul>
 	    <div class="fb-like" data-send="true" data-bind="'attr': {'data-href': baseURL()}" data-width="250" data-show-faces="false" data-font="arial"></div>
-    	<div id="timeline" data-bind="'style': {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
+    	<div id="timeline" data-bind="'style': {height: Environment.chrome.timeline.height() + 'px'}, 'css': {active: Environment.chrome.timeline.height() > 0}"></div>
     </div>
 	<div id="dashboard" data-bind="'style': {width: Environment.display.width() - 100 + 'px'}">
         <div class="header" data-bind="">
@@ -267,7 +267,7 @@
             <div class="title">Please log into your Centennial or EPL Account to play the Hundred Year Quest</div>
             <!-- /ko -->
         </div>
-		<div id="info-panel" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}, if: Environment.user() != null">
+		<div id="info-panel" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}, 'if': Environment.user() != null">
 			<div class="profile">
 				<div class="welcome-message">
                     <!-- ko if: Environment.user() != null -->
