@@ -1,5 +1,5 @@
 ;
-define(['lib/lodash', 'lib/simile', 'timemap/Environment', 'timemap/map/BranchPin', 'timemap/map/StoryPin', 'timemap', 'lib/jquery-ui'], function (Simile, Environment, BranchPin, StoryPin, Timemap) {
+define(['lib/simile', 'timemap/Environment', 'timemap/map/BranchPin', 'timemap/map/StoryPin', 'timemap', 'lib/jquery-ui'], function (Simile, Environment, BranchPin, StoryPin, Timemap) {
 
 return (function () {
 
@@ -71,7 +71,7 @@ return (function () {
 		}
 
 		for (i in json) {
-			if(!_.isFunction(json[i])) {
+			if(typeof json[i] == "object") {
 				newJson.push({
 					name: json[i].name,
 					description: json[i].description,
