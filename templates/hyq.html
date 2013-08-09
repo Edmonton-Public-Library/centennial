@@ -51,25 +51,25 @@
 	    <ul class="buttons">
             <li class="button help" onClick="window.open('{{ STATIC_URL }}views/help.html', '_blank', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700px,height=800px');">Help</li>
             <!-- ko  if: Environment.user() != null -->
-            <li class="button" data-bind="click: logOut">Log Out</li>
+            <li class="button" data-bind="'click': logOut">Log Out</li>
             <!-- /ko -->
 			<li class="button" data-role="account">
-				<span data-role="name" data-bind="text: Environment.user() == null ? 'Log In' : 'Manage'">Log In</span>
+				<span data-role="name" data-bind="'text': Environment.user() == null ? 'Log In' : 'Manage'">Log In</span>
 				<div class="menu">
-                    <div class="menu-wrapper" data-bind="style: {'max-height': Environment.display.height() - 150 + 'px'}">
-                        <div class="menu-section" data-role="authenticate-tabs" data-bind="css: {active: Environment.user() == null}">
-                            <ul class="tabs" data-bind="eplBarTabs: true">
-                                <li class="tab" data-tab="login" data-bind="css: {active: loginMenu.currentTab() != 'create-account'}">
+                    <div class="menu-wrapper" data-bind="'style': {'max-height': Environment.display.height() - 150 + 'px'}">
+                        <div class="menu-section" data-role="authenticate-tabs" data-bind="'css': {active: Environment.user() == null}">
+                            <ul class="tabs" data-bind="'epl'BarTabs: true">
+                                <li class="tab" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() != 'create-account'}">
                                     <div class="text">Login</div>
                                 </li>
-                                <li class="tab" data-tab="create-account" data-bind="css: {active: loginMenu.currentTab() == 'create-account'}">
+                                <li class="tab" data-tab="create-account" data-bind="'css': {active: loginMenu.currentTab() == 'create-account'}">
                                     <div class="text">Create Account</div>
                                 </li>
                             </ul>
-                            <div class="tab-contents" data-tab="login" data-bind="css: {active: loginMenu.currentTab() != 'create-account'}">
+                            <div class="tab-contents" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() != 'create-account'}">
                                 <p class="section-title">Authenticate</p>
-                                <form method="post" action="#" data-bind="loginForm: true">
-                                    <p class="inputError indent" data-bind="if: loginError() == true">There was a problem logging you in. Check your credentials.</p>
+                                <form method="post" action="#" data-bind="'login'Form: true">
+                                    <p class="inputError indent" data-bind="'if': loginError() == true">There was a problem logging you in. Check your credentials.</p>
                                     <!--<input id="auth-username" data-role="username" type="text" class="epl-input text auto-focus" data-placeholder-text="Username" />-->
                                     <p>
                                         <label for="username" class="form-label">Username:</label>
@@ -83,7 +83,7 @@
                                 </form>
                                 <div class="save-button-space"></div>
                             </div>
-                            <div class="tab-contents" data-tab="create-account" data-bind="css: {active: loginMenu.currentTab() == 'create-account'}">
+                            <div class="tab-contents" data-tab="create-account" data-bind="'css': {active: loginMenu.currentTab() == 'create-account'}">
                                 <p class="section-title">Create Account</p>
                                 <form>
                                     <p>If you do not have an EPL card, you can create your own account for the TimeMap below:</p>
@@ -93,59 +93,59 @@
                                     <p>
                                         <label for="firstName" class="form-label">First Name: <span class="required">*</span></label>
                                         <input type="text" class="form-input text" id="firstName" maxLength="30"
-                                            data-bind="value: createAccount.account.firstname"/>
+                                            data-bind="'value': createAccount.account.firstname"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="validationMessage: createAccount.account.firstname"></p>
+                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.firstname"></p>
                                     
                                     <p>
                                         <label for="lastName" class="form-label">Last Name: <span class="required">*</span></label>
                                         <input type="text" class="form-input text" id="lastName" maxLength="30"
-                                            data-bind="value: createAccount.account.lastname"/>
+                                            data-bind="'value': createAccount.account.lastname"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="validationMessage: createAccount.account.lastname"></p>
+                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.lastname"></p>
 
                                     <p>
                                         <label for="email" class="form-label">Email: <span class="required">*</span></label>
                                         <input type="text" class="form-input text" id="email" 
-                                             data-bind="value: createAccount.account.email"/>
+                                             data-bind="'value': createAccount.account.email"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="validationMessage: createAccount.account.email"></p>
+                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.email"></p>
                                     
                                     <p>
                                         <label for="username" class="form-label">Username: <span class="required">*</span></label>
                                         <input type="text" class="form-input text" id="username" maxLength="30"
-                                            data-bind="value: createAccount.account.username"/>
+                                            data-bind="'value': createAccount.account.username"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="validationMessage: createAccount.account.username"></p>
+                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.username"></p>
                                     
                                     <p>
                                         <label for="password" class="form-label">Password: <span class="required">*</span></label>
                                         <input type="password" class="form-input text" id="password" maxLength="30"
-                                            data-bind="value: createAccount.account.password"/>
+                                            data-bind="'value': createAccount.account.password"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="validationMessage: createAccount.account.password"></p>
+                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.password"></p>
                                     
                                     <p>
                                         <label for="confirmPassword" class="form-label">Confirm Password: <span class="required">*</span></label>
                                         <input type="password" class="form-input text" id="confirmPassword" maxLength="30"
-                                            data-bind="value: createAccount.account.passwordConfirmation"/>
+                                            data-bind="'value': createAccount.account.passwordConfirmation"/>
                                     </p>
-                                    <p class="inputError indent" data-bind="validationMessage: createAccount.account.passwordConfirmation"></p>
+                                    <p class="inputError indent" data-bind="'validation'Message: createAccount.account.passwordConfirmation"></p>
                                     
                                     <p>
-                                        <input type="checkbox" id="agreeToTerms" data-bind="checked: createAccount.account.agreeToTerms">
+                                        <input type="checkbox" id="agreeToTerms" data-bind="'checked': createAccount.account.agreeToTerms">
                                         <label for="agreeToTerms">I agree to the 
                                             <a href="/static/views/termsAndConditions.html" target="_blank" id="termsAndConditions">Terms and Conditions</a>.
                                         </label>
                                     </p>
-                                    <p class="inputError" data-bind="validationMessage: createAccount.account.agreeToTerms"></p>
+                                    <p class="inputError" data-bind="'validation'Message: createAccount.account.agreeToTerms"></p>
 
                                     <div>
                                         <p>As a security measure to prevent spam account creation, please complete the Captcha below:</p>
                                         <div id="recaptcha-section"></div>
                                     </div>
 
-                                    <p><input class="save-button" type="submit" id="createAccountSubmit" data-bind="click: createAccount.createAccountSubmit" value="Create Account"></p>
+                                    <p><input class="save-button" type="submit" id="createAccountSubmit" data-bind="'click': createAccount.createAccountSubmit" value="Create Account"></p>
                                     
                                     <p>You will receive an email to confirm your new account.</p>
                                 </form>
@@ -153,42 +153,42 @@
                             </div>
                         </div>
                     </div>
-                    <div class="menu-section" data-role="management-tabs" data-bind="css: {active: Environment.user() != null}">
-                        <ul class="tabs" data-bind="eplBarTabs: true">
-                            <li class="tab" data-tab="manage" data-bind="css: {active: loginMenu.currentTab() != 'link'}">
+                    <div class="menu-section" data-role="management-tabs" data-bind="'css': {active: Environment.user() != null}">
+                        <ul class="tabs" data-bind="'epl'BarTabs: true">
+                            <li class="tab" data-tab="manage" data-bind="'css': {active: loginMenu.currentTab() != 'link'}">
                                 <div class="text">Manage Account</div>
                             </li>
-                            <li class="tab" data-tab="link" data-bind="css: {active: loginMenu.currentTab() == 'link'}">
+                            <li class="tab" data-tab="link" data-bind="'css': {active: loginMenu.currentTab() == 'link'}">
                                 <div class="text">Link to EPL Account</div>
                             </li>
                         </ul>
                         
-                        <div class="tab-contents" data-tab="login" data-bind="css: {active: loginMenu.currentTab() != 'link'}">
+                        <div class="tab-contents" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() != 'link'}">
                             <p class="section-title">Edit Account Information</p>
                             <form>
-                            <p class="inputSuccess" data-bind="if: manageAccount.changed">Your account has been successfully updated!</p>
+                            <p class="inputSuccess" data-bind="'if': manageAccount.changed">Your account has been successfully updated!</p>
                             <p class="inputError" id="ajaxError"></p>
                             
                             <p>
                                 <label for="username" class="form-label">Username:</label>
-                                <span id="username" data-bind="text: manageAccount.account.username"></span>
+                                <span id="username" data-bind="'text': manageAccount.account.username"></span>
                             </p>
 
                             <p>
                                 <label for="firstName" class="form-label">First Name: 
                                 <span class="required">*</span></label>
                                 <input type="text" class="form-input text" id="firstName" maxLength="30"
-                                    data-bind="value: manageAccount.account.firstname"/>
+                                    data-bind="'value': manageAccount.account.firstname"/>
                             </p>
-                            <p class="inputError indent" data-bind="validationMessage: manageAccount.account.firstname"></p>
+                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.firstname"></p>
                             
                             <p>
                                 <label for="lastName" class="form-label">Last Name: 
                                 <span class="required">*</span></label>
                                 <input type="text" class="form-input text" id="lastName" maxLength="30"
-                                    data-bind="value: manageAccount.account.lastname"/>
+                                    data-bind="'value': manageAccount.account.lastname"/>
                             </p>
-                            <p class="inputError indent" data-bind="validationMessage: manageAccount.account.lastname"></p>
+                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.lastname"></p>
 
                             <p class="section-title">Edit Account Information</p>
 
@@ -197,43 +197,43 @@
                             <p>
                                 <label for="oldPassword" class="form-label">Current Password:</label>
                                 <input type="password" class="form-input text" id="oldPassword" maxLength="30"
-                                    data-bind="value: manageAccount.account.oldpassword"/>
+                                    data-bind="'value': manageAccount.account.oldpassword"/>
                             </p>
-                            <p class="inputError indent" data-bind="validationMessage: manageAccount.account.oldpassword"></p>
+                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.oldpassword"></p>
 
                             <p>
                                 <label for="email" class="form-label">Email:
-                                <span class="required" data-bind="visible: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()">*</span></label>
+                                <span class="required" data-bind="'visible': manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()">*</span></label>
                                 <input type="text" class="form-input text" id="email" 
-                                     data-bind="value: manageAccount.account.email, enable: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
+                                     data-bind="'value': manageAccount.account.email, enable: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
                             </p>
-                            <p class="inputError indent" data-bind="validationMessage: manageAccount.account.email"></p>
+                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.email"></p>
                             
                             <p>
                                 <label for="newPassword" class="form-label">New Password:</label>
                                 <input type="password" class="form-input text" id="newPassword" maxLength="30"
-                                    data-bind="value: manageAccount.account.newpassword, enable: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
+                                    data-bind="'value': manageAccount.account.newpassword, enable: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
                             </p>
-                            <p class="inputError indent" data-bind="validationMessage: manageAccount.account.newpassword"></p>
+                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.newpassword"></p>
                             
                             <p>
                                 <label for="confirmPassword" class="form-label">Confirm Password:
-                                <span class="required" data-bind="visible: manageAccount.account.newpassword() != ''">*</span>
+                                <span class="required" data-bind="'visible': manageAccount.account.newpassword() != ''">*</span>
                                 </label>
                                 <input type="password" class="form-input text" id="confirmPassword" maxLength="30"
-                                    data-bind="value: manageAccount.account.passwordconfirmation, enable: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
+                                    data-bind="'value': manageAccount.account.passwordconfirmation, enable: manageAccount.account.oldpassword() != '' && manageAccount.account.oldpassword.isValid()"/>
                             </p>
-                            <p class="inputError indent" data-bind="validationMessage: manageAccount.account.passwordconfirmation"></p>
+                            <p class="inputError indent" data-bind="'validation'Message: manageAccount.account.passwordconfirmation"></p>
                             
                             <div class="save-button-space"></div>
-                            <p><input type="submit" class="save-button" data-bind="click: manageAccount.submit" value="Save Changes"/></p>
+                            <p><input type="submit" class="save-button" data-bind="'click': manageAccount.submit" value="Save Changes"/></p>
                             </form>
                         </div>
-                        <div class="tab-contents" data-tab="login" data-bind="css: {active: loginMenu.currentTab() == 'link'}">
-                            <div data-bind="style: {display: (Environment.user() != null && Environment.user().bibliolink == false) ? 'block' : 'none'}">
+                        <div class="tab-contents" data-tab="login" data-bind="'css': {active: loginMenu.currentTab() == 'link'}">
+                            <div data-bind="'style': {display: (Environment.user() != null && Environment.user().bibliolink == false) ? 'block' : 'none'}">
                                 <p class="section-title">Link Your Centennial and EPL Accounts</p>
-                                <form data-bind="linkForm: true">
-                                    <p class="inputError indent" data-bind="if: linkError() == true">There was a problem linking your EPL account. Check your credentials.</p>
+                                <form data-bind="'link'Form: true">
+                                    <p class="inputError indent" data-bind="'if': linkError() == true">There was a problem linking your EPL account. Check your credentials.</p>
                                     <p>
                                         <label for="eplUsername">EPL Username:</label>
                                         <input id="eplUsername" data-role="username" type="text" class="form-input text" data-default-text="Username" />
@@ -246,7 +246,7 @@
                                     <p><input type="submit" class="save-button" value="Link to EPL"/></p>
                                 </form>
                             </div>
-                            <div data-bind="style: {display: (Environment.user() != null && Environment.user().bibliolink == true) ? 'block' : 'none'}">
+                            <div data-bind="'style': {display: (Environment.user() != null && Environment.user().bibliolink == true) ? 'block' : 'none'}">
                                 <p class="section-title">You have successfully linked your EPL account.</p>
                             </div>
                         </div>
@@ -254,24 +254,24 @@
                 </div>
 			</li>
 	    </ul>
-	    <div class="fb-like" data-send="true" data-bind="attr: {'data-href': baseURL()}" data-width="250" data-show-faces="false" data-font="arial"></div>
-    	<div id="timeline" data-bind="style: {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
+	    <div class="fb-like" data-send="true" data-bind="'attr': {'data-href': baseURL()}" data-width="250" data-show-faces="false" data-font="arial"></div>
+    	<div id="timeline" data-bind="'style': {height: Environment.chrome.timeline.height() + 'px'}, css: {active: Environment.chrome.timeline.height() > 0}"></div>
     </div>
-	<div id="dashboard" data-bind="style: {width: Environment.display.width() - 100 + 'px'}">
-        <div class="header" data-bind="">
+	<div id="dashboard" data-bind="'style': {width: Environment.display.width() - 100 + 'px'}">
+        <div class="header" data-bind="'">'
             <!-- ko if: Environment.user() != null -->
             <div class="title">The EPL Hundred Year Quest</div>
-            <input type="text" class="enter-code" data-bind="checkCode: true" data-default-text="Enter Quest Code" maxlength="11" />
+            <input type="text" class="enter-code" data-bind="'check'Code: true" data-default-text="Enter Quest Code" maxlength="11" />
             <!-- /ko -->
             <!-- ko if: Environment.user() == null -->
             <div class="title">Please log into your Centennial or EPL Account to play the Hundred Year Quest</div>
             <!-- /ko -->
         </div>
-		<div id="info-panel" data-bind="style: {width: Environment.display.width() - 130 + 'px'}, if: Environment.user() != null">
+		<div id="info-panel" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}, if: Environment.user() != null">
 			<div class="profile">
 				<div class="welcome-message">
                     <!-- ko if: Environment.user() != null -->
-                    Welcome, <span data-bind="text: Environment.user().firstname.length > 0 ? Environment.user().firstname : 'adventurer'"></span>!
+                    Welcome, <span data-bind="'text': Environment.user().firstname.length > 0 ? Environment.user().firstname : 'adventurer'"></span>!
                     <!-- /ko -->
                     <!-- ko if: Environment.user() == null -->
                     Welcome, adventurer!
@@ -285,46 +285,46 @@
                     A quest awaits you.
                     <!-- /ko -->
                     <!-- ko if: activeQuests().length > 1 -->
-                    <span data-bind="text: activeQuests().length"></span> quests await you.
+                    <span data-bind="'text': activeQuests().length"></span> quests await you.
                     <!-- /ko -->
                 </div>
 			</div>
-            <div class="statistics" data-bind="if: Environment.user() != null">
+            <div class="statistics" data-bind="'if': Environment.user() != null">
                 <div class="stats-module">
                     <div class="title">Level</div>
-                    <div class="value" data-bind="text: Environment.user().level"></div>
+                    <div class="value" data-bind="'text': Environment.user().level"></div>
                 </div>
                 <div class="stats-module">
                     <div class="title">Points to Next Level</div>
-                    <div class="value" data-bind="text: completionPoints() > Environment.user().points ? (completionPoints() - Environment.user().points) : 'You\'ve reached the last level!'"></div>
+                    <div class="value" data-bind="'text': completionPoints() > Environment.user().points ? (completionPoints() - Environment.user().points) : 'You\'ve reached the last level!'"></div>
                 </div>
                 <div class="stats-module">
                     <div class="title">Quests Completed</div>
-                    <div class="value" data-bind="text: completedQuests().length"></div>
+                    <div class="value" data-bind="'text': completedQuests().length"></div>
                 </div>
             </div>
             <div style="clear:both"></div>
 		</div>
-		<div data-bind="if: Environment.user() != null">
+		<div data-bind="'if': Environment.user() != null">
 			<h2>Featured Quests</h2>
-            <div class="quest-slider" data-bind="style: {width: Environment.display.width() - 130 + 'px'}">
+            <div class="quest-slider" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}">
                 <!-- ko if: featuredQuests().length > 0 -->
-                <div class="iosSlider featured-quests" data-bind="iosSlider: true">
+                <div class="iosSlider featured-quests" data-bind="'ios'Slider: true">
                     <div class="slider">
                         <!-- ko foreach: {data: featuredQuests} -->
                             <div class="slide featured-quest">
                                 <div class="progress-container">
-                                    <div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
+                                    <div class="progress-bar" data-bind="'style': {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
                                 </div>
-                                <div class="title" data-bind="text: title"></div>
+                                <div class="title" data-bind="'text': title"></div>
                                 <ul>
                                     <!-- ko foreach: quests -->
                                         <!-- ko if: $index() <= 3 -->
-                                    <li data-bind="openQuestSetViewer: {questSetId: $parent.id}">
+                                    <li data-bind="'open'QuestSetViewer: {questSetId: $parent.id}">
                                         <div class="quest-description">
-                                            <span data-bind="text: title"></span>
+                                            <span data-bind="'text': title"></span>
                                         </div>
-                                        <div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
+                                        <div class="completion-count" data-bind="'text': completedPoints + '/' + totalPoints"></div>
                                     </li>
                                         <!-- /ko -->
                                     <!-- /ko -->
@@ -339,24 +339,24 @@
                 <!-- /ko -->
             </div>
             <h2>Active Quests</h2>
-            <div class="quest-slider" data-bind="style: {width: Environment.display.width() - 130 + 'px'}">
+            <div class="quest-slider" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}">
                 <!-- ko if: activeQuests().length > 0 -->
-                <div class="iosSlider active-quests" data-bind="iosSlider: true">
+                <div class="iosSlider active-quests" data-bind="'ios'Slider: true">
     				<div class="slider">
     					<!-- ko foreach: {data: activeQuests} -->
     						<div class="slide current-quest">
     							<div class="progress-container">
-    								<div class="progress-bar" data-bind="style: {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
+    								<div class="progress-bar" data-bind="'style': {width: ((completedPoints/totalPoints) * $root.widgetWidth) + 'px'}"></div>
     							</div>
-    							<div class="title" data-bind="text: title"></div>
+    							<div class="title" data-bind="'text': title"></div>
     							<ul>
     								<!-- ko foreach: quests -->
     									<!-- ko if: $index() <= 3 -->
-    								<li data-bind="openQuestSetViewer: {questSetId: $parent.id}">
+    								<li data-bind="'open'QuestSetViewer: {questSetId: $parent.id}">
     									<div class="quest-description">
-    										<span data-bind="text: title"></span>
+    										<span data-bind="'text': title"></span>
     									</div>
-    									<div class="completion-count" data-bind="text: completedPoints + '/' + totalPoints"></div>
+    									<div class="completion-count" data-bind="'text': completedPoints + '/' + totalPoints"></div>
     								</li>
     									<!-- /ko -->
     								<!-- /ko -->
@@ -372,22 +372,22 @@
             </div>
 			<div data-role="viewport"></div>   
 			<h2>Completed Quests</h2>
-            <div class="quest-slider" data-bind="style: {width: Environment.display.width() - 130 + 'px'}">
+            <div class="quest-slider" data-bind="'style': {width: Environment.display.width() - 130 + 'px'}">
                 <!-- ko if: completedQuests().length > 0 -->
     			<table id="completed-quests">
     				<thead>
     					<tr>
-    						<th data-bind="sortQuests: {column: 'date'}">Date</th>
-                            <th data-bind="sortQuests: {column: 'title'}">Quest</th>
-                            <th data-bind="sortQuests: {column: 'points'}">Points</th>
+    						<th data-bind="'sort'Quests: {column: 'date'}">Date</th>
+                            <th data-bind="'sort'Quests: {column: 'title'}">Quest</th>
+                            <th data-bind="'sort'Quests: {column: 'points'}">Points</th>
     					</tr>
     				</thead>
     				<tbody>
     					<!-- ko foreach: {data: completedQuests} -->
-    					<tr data-bind="openQuestSetViewer: {questSetId: (typeof id == 'undefined' ? 0 : id)}, css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
-    						<td data-bind="text: (typeof date_complete == 'undefined' ? '' : date_completed)">0</td>
-    						<td data-bind="text: (typeof title == 'undefined' ? '' : title)"></td>
-    						<td data-bind="text: (typeof points == 'undefined' ? '' : points)"></td>
+    					<tr data-bind="'open'QuestSetViewer: {questSetId: (typeof id == 'undefined' ? 0 : id)}, css: {'row-even': $index()%2 == 0, 'row-odd': $index()%2 != 0}">
+    						<td data-bind="'text': (typeof date_complete == 'undefined' ? '' : date_completed)">0</td>
+    						<td data-bind="'text': (typeof title == 'undefined' ? '' : title)"></td>
+    						<td data-bind="'text': (typeof points == 'undefined' ? '' : points)"></td>
     					</tr>
     					<!-- /ko -->
     				</tbody>
@@ -419,68 +419,68 @@
     </div>
 
 	<div class="quest-set-viewer hidden" id="quest-set-viewer">
-        <div id="close-icon" data-bind="closeQuestSetViewer: true">
-            <img data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/x.png'}">
+        <div id="close-icon" data-bind="'close'QuestSetViewer: true">
+            <img data-bind="'attr': {src: $root.Environment.routes.imageDirectory + '/x.png'}">
         </div>
 		<div class="quest-set-header">
 			<!-- ko if: questSetComplete -->
-			<img style="vertical-align:middle" height="80px" data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/check_yellow.png'}">
+			<img style="vertical-align:middle" height="80px" data-bind="'attr': {src: $root.Environment.routes.imageDirectory + '/check_yellow.png'}">
 			<!-- /ko -->
-			<span data-bind="text: questSetTitle"></span>
+			<span data-bind="'text': questSetTitle"></span>
 		</div>
 		<div class="quest-set-content">
 			<div >
 				<p class="quest-set-desc">
-					<span data-bind="text: questSetDesc"></span>
+					<span data-bind="'text': questSetDesc"></span>
 				</p>
 				<p class="quest-set-points">
-					+<span data-bind="text: questSetPoints"></span> points
+					+<span data-bind="'text': questSetPoints"></span> points
 				</p>
 			</div>
-			<div data-bind="foreach: quests">
+			<div data-bind="'foreach': quests">
 				<div>
 					<p class="quest-title" >
 						<!-- ko if: questComplete -->
-						<img style="vertical-align:middle" height="60px" data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/check.png'}">
+						<img style="vertical-align:middle" height="60px" data-bind="'attr': {src: $root.Environment.routes.imageDirectory + '/check.png'}">
 						<!-- /ko -->
-						Challenge: <span data-bind="text: questTitle"></span>
+						Challenge: <span data-bind="'text': questTitle"></span>
 					</p>
 					<p class="quest-points">
-						+<span data-bind="text: questPoints"></span> points
+						+<span data-bind="'text': questPoints"></span> points
 					</p>
 				</div>
-				<div data-bind="foreach: tasks">
+				<div data-bind="'foreach': tasks">
 					<div class="quest-task" >
 						<p class="task-title">
 						<!-- ko if: taskComplete -->
-							<img style="vertical-align:middle" height="30px" data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/check.png'}">
+							<img style="vertical-align:middle" height="30px" data-bind="'attr': {src: $root.Environment.routes.imageDirectory + '/check.png'}">
 						<!-- /ko -->
 						<!-- ko if: !taskComplete -->
-							<img style="vertical-align:middle" height="30px" data-bind="attr: {src: $root.Environment.routes.imageDirectory + '/no_check.png', id: 'icon-task' + taskId}">
+							<img style="vertical-align:middle" height="30px" data-bind="'attr': {src: $root.Environment.routes.imageDirectory + '/no_check.png', id: 'icon-task' + taskId}">
 						<!-- /ko -->
-							<span data-bind="text: taskTitle" ></span>
+							<span data-bind="'text': taskTitle" ></span>
 						</p>
 						<p class="task-points">
-							<b>+<span data-bind="text: taskPoints" ></span> points</b>
+							<b>+<span data-bind="'text': taskPoints" ></span> points</b>
 						</p>
 
 						<p class="task-interaction">
 							<!-- ko if: taskType == 0 && !taskComplete -->
 								Complete this task by exploring the EPL catalog at <a href="http://epl.bibliocommons.com/" target="_blank">epl.bibliocommons.com</a>. When you have completed this quest, click the button below. Note that it may take up to a minute to verify your quests. <br> 
-								<button id="checkBiblio" style="margin-top: 10px" data-bind="click: checkBiblio">
+								<button id="checkBiblio" style="margin-top: 10px" data-bind="'click': checkBiblio">
 									Check Quest Completion
 								</button>
-								<span class="error hidden" data-bind="attr: {id: 'biblioError' + taskId}"></span>
+								<span class="error hidden" data-bind="'attr': {id: 'biblioError' + taskId}"></span>
 							<!-- /ko -->
 							<!-- ko if: taskType == 1 && !taskComplete -->
 							<!-- /ko -->
 							<!-- ko if: taskType == 2 && !taskComplete -->
-							<input data-bind="value: code, attr: {id: 'codeInput' + taskId}">
-							<button data-bind="click: checkCode, attr: {id: 'codeSubmit' + taskId}">
+							<input data-bind="'value': code, attr: {id: 'codeInput' + taskId}">
+							<button data-bind="'click': checkCode, attr: {id: 'codeSubmit' + taskId}">
 								Submit Code
 							</button>
-							<span class="error hidden" data-bind="attr: {id: 'codeError' + taskId}"></span>
-							<span class="success hidden" data-bind="attr: {id: 'codeSuccess' + taskId}">Task complete!</span>
+							<span class="error hidden" data-bind="'attr': {id: 'codeError' + taskId}"></span>
+							<span class="success hidden" data-bind="'attr': {id: 'codeSuccess' + taskId}">Task complete!</span>
 							<!-- /ko -->
 							<!-- ko if: taskType == 3 && !taskComplete -->
 								Explore the 
