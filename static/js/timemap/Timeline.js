@@ -37,14 +37,14 @@ return (function () {
 	Timeline.prototype.processStories = function(json) {
 		json = json.objects;
 		var newJson = [];
-		json.forEach(function(ele, i, json) {
+		json.forEach(function(ele) {
 			newJson.push({
-				title: json[i].title,
-				description: json[i].description,
-				content_type : json[i].content_type,
-				start: json[i].year.toString(),
-				end: json[i].year.toString(),
-				id: json[i].id,
+				title: ele.title,
+				description: ele.description,
+				content_type : ele.content_type,
+				start: ele.year.toString(),
+				end: ele.year.toString(),
+				id: ele.id,
 				instant : "true"
 			});
 		});
@@ -70,20 +70,18 @@ return (function () {
 			S: 'bookmobile-trolley'
 		}
 
-		for (i in json) {
-			if(typeof json[i] == "object") {
-				newJson.push({
-					name: json[i].name,
-					description: json[i].description,
-					title: json[i].name,
-					lat: json[i].latitude,
-					lng: json[i].longitude,
-					start: json[i].start_year.toString(),
-					end: json[i].end_year ? json[i].end_year.toString() : currYear.toString(),
-					id: json[i].id,
-					type: btypeToIcon[json[i].btype]
-				});
-			}
+		json.forEach(function(ele) {
+			newJson.push({
+				name: ele.name,
+				description: ele.description,
+				title: ele.name,
+				lat: ele.latitude,
+				lng: ele.longitude,
+				start: ele.start_year.toString(),
+				end: ele.end_year ? ele.end_year.toString() : currYear.toString(),
+				id: ele.id,
+				type: btypeToIcon[ele.btype]
+			});
 		}
 		return newJson;
 	};
@@ -98,14 +96,12 @@ return (function () {
 		json = json.objects;
 		var endNotNulls = [];
 		var endNulls = [];
-		for (i in json) {
-			if(typeof json[i] == "object") {
-				if(json[i].end_year) {
-					endNotNulls.push(json[i]);
-				}
-				else {
-					endNulls.push(json[i]);
-				}
+		json.forEach(function(ele) {
+			if(json[i].end_year) {
+				endNotNulls.push(json[i]);
+			}
+			else {
+				endNulls.push(json[i]);
 			}
 		}
 		for (i in endNulls) {
@@ -119,14 +115,12 @@ return (function () {
 	Timeline.prototype.processTilesByStart = function(json) {
 		json = json.objects;
 		var newJson = [];
-		for(i in json) {
-			if(typeof json[i] == "object") {
-				newJson.push({
-					start : json[i].start_year.toString(),
-					end : json[i].start_year.toString(),
-					folder : json[i].base_folder.toString()
-				});
-			}
+		json.forEach(function(ele) {
+			newJson.push({
+				start : ele.start_year.toString(),
+				end : ele.start_year.toString(),
+				folder : ele.base_folder.toString()
+			});
 		}
 
 		var currYear = new Date().getFullYear() - 6;
@@ -145,14 +139,12 @@ return (function () {
 	Timeline.prototype.processTilesByEnd = function(json) {
 		json = json.objects;
 		var newJson = [];
-		for(i in json) {
-			if(typeof json[i] == "object") {
-				newJson.push({
-					start : json[i].start_year.toString(),
-					end : json[i].start_year.toString(),
-					folder : json[i].base_folder.toString()
-				});
-			}
+		json.forEach(function(ele) {
+			newJson.push({
+				start : ele.start_year.toString(),
+				end : ele.start_year.toString(),
+				folder : ele.base_folder.toString()
+			});
 		}
 
 		var currYear = new Date().getFullYear() - 6;
