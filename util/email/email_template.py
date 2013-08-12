@@ -12,7 +12,7 @@ def getRegistrationNotification(name, baseUrl, email, creationTime, MIME):
     return getattr(sys.modules[__name__], textFormatter)(_REGISTRATION_NOTIFICATION % (name, url))
 
 def _formatUrlAshtml(raw):
-    return "<a href=\"%s\">link</a>" % (raw)
+    return "<a href=\"%s\">\"%s\"</a>" % (raw)
 
 def _formatTextAshtml(raw):
     return """\
