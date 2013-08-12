@@ -143,7 +143,12 @@ return (function () {
 	 */
 	Branch.prototype.showStorySelector = function (type) {
 		this.selectedStoryType(type);
-		var x = Math.min(Environment.display.width() - this.storySelector.width(), Environment.display.mouseX());
+		var x1 = Environment.display.width();
+		var xtemp = this.storySelector.width();
+		x1 = x1 - xtemp;
+		var x2 = Environment.display.mouseX();
+		var x = Math.min(x1,x2);
+		//var x = Math.min(Environment.display.width() - this.storySelector.width(), Environment.display.mouseX());
 		var y = Math.min(Environment.display.height() - this.storySelector.height(), Environment.display.mouseY());
 		this.storySelector.show().css('left', x).css('top', y);
 	};
