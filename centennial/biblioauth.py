@@ -18,7 +18,7 @@ class BiblioBackend:
             while (User.objects.filter(username=centennialName).count() > 0):
                 count += 1
                 centennialName = username + str(count)
-            user = User.objects.create_user(username=centennialName, email=username+"@bibliocommons.com",password="67023458714!@#$%^&^%$%^&*()*&^%$%^%$#$%^&aoehyx.rkkk'p'uxxi489i")
+            user = User.objects.create_user(username=centennialName, email="",password="67023458714!@#$%^&^%$%^&*()*&^%$%^%$#$%^&aoehyx.rkkk'p'uxxi489i")
             user.is_active = True
             user.save()
             biblio_link = BibliocommonsLink.objects.create(biblioname=username, user=user)
