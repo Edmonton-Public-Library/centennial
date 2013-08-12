@@ -9,10 +9,10 @@ def getRegistrationNotification(name, baseUrl, email, creationTime, MIME):
     urlFormatter = "_formatUrlAs%s" % (MIME)
     url = getattr(sys.modules[__name__], urlFormatter)("%s/account/activate?%s" % (baseUrl, keyValue))
     textFormatter = "_formatTextAs%s" % (MIME)
-    return getattr(sys.modules[__name__], textFormatter)(_REGISTRATION_NOTIFICATION % (name, url, url))
+    return getattr(sys.modules[__name__], textFormatter)(_REGISTRATION_NOTIFICATION % (name, url))
 
 def _formatUrlAshtml(raw):
-    return "<a href=\"%s\">%s</a>" % (raw)
+    return "<a href=\"%s\">%s</a>" % (raw,raw)
 
 def _formatTextAshtml(raw):
     return """\
