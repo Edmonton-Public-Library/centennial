@@ -98,7 +98,7 @@ def create_user(request):
             #Perform ReCaptcha Verification
             captchaValid = verifyReCaptcha(request, data['recaptcha_challenge'], data['recaptcha_response'])
             if not captchaValid[0]:
-                return HttpResponse(captchaValid[1], status='400')
+                return HttpResponse(captchaValid[1], status='401')
             #Perform data integrity verification
             if User.objects.filter(username=data['username']).count() != 0:
                 return HttpResponse(status='409')
@@ -112,7 +112,7 @@ def create_user(request):
                 user.set_password(data['password'])
                 user.save()
                 return HttpResponse(status='201')
-        return HttpResponse(status='400')
+        return HttpResponse(status='402')
 
 def current_user(request):
     """
