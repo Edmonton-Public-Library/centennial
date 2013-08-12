@@ -97,11 +97,11 @@
                                     <div class="text">Login</div>
                                 </li>
                                 <li class="tab" data-tab="create-account" data-bind="'css': {'active': loginMenu.currentTab() == 'create-account'}">
-                                    <div class="text">Create Account</div>
+                                    <div class="text">Create TimeMap Account</div>
                                 </li>
                             </ul>
                             <div class="tab-contents" data-tab="login" data-bind="'css': {'active': loginMenu.currentTab() != 'create-account'}">
-                                <p class="section-title">Authenticate</p>
+                                <p class="section-title">Login using your EPL Library Card or Username</p>
                                 <form method="post" action="#" data-bind="'loginForm': true">
                                     <p class="inputError indent" data-bind="'if': loginError() == true">There was a problem logging you in. Check your credentials.</p>
                                     <p>
@@ -117,7 +117,7 @@
                                 <div class="save-button-space"></div>
                             </div>
                             <div class="tab-contents" data-tab="create-account" data-bind="'css': {'active': loginMenu.currentTab() == 'create-account'}">
-                                <p class="section-title">Create Account</p>
+                                <p class="section-title">Create TimeMap Account</p>
                                 <form>
                                     <p>If you do not have an EPL card, you can create your own account for the TimeMap below:</p>
 

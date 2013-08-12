@@ -11,7 +11,7 @@ def do_send(msg_text, src_address, dst_address, MIME='html', smtp_login=None):
 
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = "Link"
+    msg['Subject'] = "Centennial Timemap Email Confirmation"
     msg['From'] = me
     msg['To'] = dst_address
 
