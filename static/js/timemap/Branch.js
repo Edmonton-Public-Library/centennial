@@ -143,13 +143,21 @@ return (function () {
 	 */
 	Branch.prototype.showStorySelector = function (type) {
 		this.selectedStoryType(type);
-		var x1 = Environment.display.width();
-		var xtemp = this.storySelector.width();
-		x1 = x1 - xtemp;
+		var x1 = Environment.display.width() - this.storySelector.width();
 		var x2 = Environment.display.mouseX();
-		var x = Math.min(x1,x2);
-		//var x = Math.min(Environment.display.width() - this.storySelector.width(), Environment.display.mouseX());
-		var y = Math.min(Environment.display.height() - this.storySelector.height(), Environment.display.mouseY());
+		var y1 = Environment.display.height() - this.storySelector.height();
+		var y2 = Environment.display.mouseY();
+
+		//IE8 doesn't do the mouse tracking well, so this is for IE8
+		if(x2 == 0) {
+			x2 = this.storySelector.left() + (this.storySelect.width() / 2);
+		}
+		if(y2 == 0) {
+			y2 = this.storySelector.top() + (this.storySelect.height() / 2);
+		}
+
+		var x = Math.min(x1, x2);
+		var y = Math.min(y1, y2);
 		this.storySelector.show().css('left', x).css('top', y);
 	};
 
