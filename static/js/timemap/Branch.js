@@ -106,7 +106,7 @@ return (function () {
 			branchEndDate : this.branchEndDate,
 			allBranches : this.allBranches,
 			openStorySelector : function (type, event) {
-				self.showStorySelector(type);
+				self.showStorySelector(type, event.clientX, event.clientY);
 				event.stopPropagation(); //Otherwise the story selector will hide as soon as it's displayed
 			},
 			closeBranchView : function () {
@@ -141,23 +141,10 @@ return (function () {
 	 * Displays a menu near the cursor allowing the user to open stories related to the clicked pin
 	 * @param	type	The type of pin that was selected
 	 */
-	Branch.prototype.showStorySelector = function (type) {
+	Branch.prototype.showStorySelector = function (type, mX, mY) {
 		this.selectedStoryType(type);
-		var x1 = Environment.display.width() - this.storySelector.width();
-		var x2 = Environment.display.mouseX();
-		var y1 = Environment.display.height() - this.storySelector.height();
-		var y2 = Environment.display.mouseY();
-
-		//IE8 doesn't do the mouse tracking well, so this is for IE8
-		if(x2 == 0) {
-			x2 = this.storySelector.offset().left + (this.storySelector.width() / 2);
-		}
-		if(y2 == 0) {
-			y2 = this.storySelector.offset().top + (this.storySelector.height() / 2);
-		}
-
-		var x = Math.min(x1, x2);
-		var y = Math.min(y1, y2);
+		var x = Math.min(Environment.display.width() - this.storySelector.width(), mX);
+		var y = Math.min(Environment.display.height() - this.storySelector.height(), mY);
 		this.storySelector.show().css('left', x).css('top', y);
 	};
 
