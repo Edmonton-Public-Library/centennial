@@ -150,10 +150,10 @@ return (function () {
 
 		//IE8 doesn't do the mouse tracking well, so this is for IE8
 		if(x2 == 0) {
-			x2 = this.storySelector.offset().left + (this.storySelect.width() / 2);
+			x2 = this.storySelector.offset().left + (this.storySelector.width() / 2);
 		}
 		if(y2 == 0) {
-			y2 = this.storySelector.offset().top + (this.storySelect.height() / 2);
+			y2 = this.storySelector.offset().top + (this.storySelector.height() / 2);
 		}
 
 		var x = Math.min(x1, x2);
