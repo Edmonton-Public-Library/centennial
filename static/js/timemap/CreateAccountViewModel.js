@@ -9,14 +9,18 @@ return (function () {
     var CreateAccountViewModel = function () {
         var self = this;
 
-        // Load the ReCaptcha Library
-        $.getScript("http://www.google.com/recaptcha/api/js/recaptcha_ajax.js")
-        .done(function(script, textStatus) {
+        self.createRecaptchaSection = function() {
             Recaptcha.create("6LeKB94SAAAAAJobmSzc9kLGeGizn8VWjbiKDJ9p", 
             "recaptcha-section",
             {
             theme: "red"
             });
+        }
+
+        // Load the ReCaptcha Library
+        $.getScript("http://www.google.com/recaptcha/api/js/recaptcha_ajax.js")
+        .done(function(script, textStatus) {
+            self.createRecaptchaSection();
         });
         
         // Set up an empty account and login
@@ -51,6 +55,7 @@ return (function () {
                     top.location.reload(true);
                 }, 
                 error: function (xhr) {
+                    self.createRecaptchaSection();
                      $('#createAccountSubmit').attr('disabled', false);
                     // Response code 409 indicates duplicate user.
                     if (xhr.status == 409) {
