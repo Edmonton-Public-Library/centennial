@@ -65,6 +65,7 @@ return (function () {
                     } else if(xhr.status == 401){
                         $("#ajaxErrorCreateAccount").text("Captcha incorrect, please try again.");
                     } else {
+                        console.log("Create account error: " + xhr.status);
                         $("#ajaxErrorCreateAccount").text("An error occurred while creating a new user." +
                            " Please try again or contact a system administrator if the problem persists.");
                     }
