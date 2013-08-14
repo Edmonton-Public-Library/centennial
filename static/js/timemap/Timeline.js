@@ -611,7 +611,7 @@ return (function () {
 
 			self.viewport.find('.timeline-ether-highlight').append(self.leftNumber).append(self.rightNumber);
 
-			self.maxYearCount
+			//self.maxYearCount
 			self.startYearLoop(100, 30);
 
 			self.hasInitialized = true;

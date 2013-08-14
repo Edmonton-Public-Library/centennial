@@ -231,6 +231,10 @@ viewStory : new View('viewStory', 'View Story',
         //in
         function (fromView, viewport, callback) {
             var storyId = epl.nav.params['id'];
+            epl.updateQuest({
+				story : storyId,
+				onMap : false
+			});
             require(['timemap/StoryViewModel', 'lib/jquery.jplayer', 'lib/pdfobject'], function (StoryViewModel) {
                 // Obtain the story id from the URL param
                 var story = new StoryViewModel(storyId);
