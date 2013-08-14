@@ -19,6 +19,7 @@ class BiblioBackend:
                 count += 1
                 centennialName = username + str(count)
             user = User.objects.create_user(username=centennialName, email="",password="67023458714!@#$%^&^%$%^&*()*&^%$%^%$#$%^&aoehyx.rkkk'p'uxxi489i")
+            user.groups.add(1)
             user.is_active = True
             user.save()
             biblio_link = BibliocommonsLink.objects.create(biblioname=username, user=user)
