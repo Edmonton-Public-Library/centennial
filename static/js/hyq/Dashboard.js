@@ -97,8 +97,10 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	Dashboard.prototype.getFeaturedQuests = function () {
 		var self = this;
 		$.get(Settings.apiQuestSetsUrl + '/' + featuredEndpoint, function (data) {
-			Dashboard.insertPoints(data);
-			self.data.featuredQuests(data.objects);
+			$.get(Settings.apiQuestSetsUrl + '/' + featuredEndpoint, function (data) {
+				Dashboard.insertPoints(data);
+				self.data.featuredQuests(data.objects);
+			});
 		});
 	};
 
@@ -131,9 +133,11 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	Dashboard.prototype.getCompletedQuests = function () {
 		var self = this;
 		$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
-			self.data.completedQuests.removeAll();
-			data.objects.forEach(function(ele) {
-				self.data.completedQuests.push(ele);
+			$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
+				self.data.completedQuests.removeAll();
+				data.objects.forEach(function(ele) {
+					self.data.completedQuests.push(ele);
+				});
 			});
 		});
 	};

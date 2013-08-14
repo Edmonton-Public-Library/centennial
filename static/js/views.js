@@ -322,9 +322,9 @@ viewStory : new View('viewStory', 'View Story',
                 var gpd = $(googlePlusDiv).find('.g-plus')[0];
                 $.getScript("https://apis.google.com/js/plusone.js" , function() {
                     gapi.plusone.go(gpd);
-                    epl.updateSocialQuest({
+                    /*epl.updateSocialQuest({
 	                	story : storyId
-	                });
+	                });*/
                 });
             });
 
