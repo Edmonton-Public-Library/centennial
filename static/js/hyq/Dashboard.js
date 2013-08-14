@@ -107,9 +107,19 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	 */
 	Dashboard.prototype.getActiveQuests = function () {
 		var self = this;
-		$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
+		/*$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
 			Dashboard.insertPoints(data);
 			self.data.activeQuests(data.objects);
+		});*/
+		$.ajax(Settings.apiQuestSetsUrl + '/' + activeEndpoint,{
+			//data : JSON.stringify(data),
+			dataType : 'json',
+			processData : false,
+			type : 'post',
+			cache : false,
+			success : function (data) {
+				Dashboard.insertPoints(data);
+				self.data.activeQuests(data.objects);
 		});
 	};
 
