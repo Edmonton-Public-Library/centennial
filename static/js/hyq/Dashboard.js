@@ -120,6 +120,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 			success : function (data) {
 				Dashboard.insertPoints(data);
 				self.data.activeQuests(data.objects);
+			}
 		});
 	};
 
