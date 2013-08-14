@@ -70,7 +70,7 @@ class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
         resource_name = 'user'
-        fields = ["id","groups"]
+        fields = ["id"]
 
 class MapResource(ModelResource):
     class Meta:

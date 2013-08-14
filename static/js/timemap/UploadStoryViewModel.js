@@ -84,7 +84,12 @@ return (function () {
                                 }
                             },
                             error: function (data, status, e) {
-                                self.story.errorMessage(data);
+                                if(typeof data == "object") {
+                                    self.story.errorMessage("An error has occured");
+                                }
+                                else {
+                                    self.story.errorMessage(data);
+                                }
                             }
                         });
                     } else {
