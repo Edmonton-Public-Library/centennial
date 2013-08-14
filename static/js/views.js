@@ -296,7 +296,7 @@ viewStory : new View('viewStory', 'View Story',
                         data-colorscheme="dark" data-action="like"></div>'
                 FB.XFBML.parse(facebookDiv, function () {
                 	FB.Event.subscribe('edge.create', function(href, widget) {
-						epl.updateQuest({
+						epl.updateSocialQuest({
 							story : storyId
 						});
 					});
@@ -309,7 +309,7 @@ viewStory : new View('viewStory', 'View Story',
                 $.getScript('http://platform.twitter.com/widgets.js', function() {
                     twttr.widgets.load(twitterDiv);
                     twttr.events.bind('tweet', function(event) {
-                        epl.updateQuest({
+                        epl.updateSocialQuest({
                         	story : storyId
                         });
                     });
@@ -322,6 +322,9 @@ viewStory : new View('viewStory', 'View Story',
                 var gpd = $(googlePlusDiv).find('.g-plus')[0];
                 $.getScript("https://apis.google.com/js/plusone.js" , function() {
                     gapi.plusone.go(gpd);
+                    epl.updateSocialQuest({
+	                	story : storyId
+	                });
                 });
             });
 

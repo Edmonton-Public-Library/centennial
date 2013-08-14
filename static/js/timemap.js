@@ -84,6 +84,23 @@ var AppClass = (function () {
 		});
 	};
 
+	/**
+	 * Send the current app state to the quest checking service
+	 * @param	data	object		The game state
+	 */
+	AppClass.prototype.updateSocialQuest = function (data) {
+		var self = this;
+		$.ajax(Settings.apiSocialQuestUrl,{
+			data : JSON.stringify(data),
+			dataType : 'json',
+			processData : false,
+			type : 'post',
+			success : function(data) {
+				self.storage.questPopUp.checkTasks(data);
+			}
+		});
+	};
+
 	return AppClass;
 
 })();

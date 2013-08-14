@@ -13,6 +13,7 @@ return {
 	apiAccountUrl : '/account/',
 	apiQuestBaseUrl : '/game/complete/',
 	apiQuestUrl : '/game/complete/timemap',
+	apiSocialQuestUrl : '/game/complete/social',
 	apiCodeUrl : '/game/complete/code',
 	apiQuestSetsUrl : '/game/questsets',
 	apiQuestsUrl : '/api/v1/quest',
