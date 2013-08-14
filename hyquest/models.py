@@ -240,38 +240,3 @@ class Level(models.Model):
 
     def __unicode__(self):
         return str(self.id)
-
-# Signal setup
-
-from django.dispatch.dispatcher import receiver
-from django.db.models.signals import post_save, post_delete
-from hyquest.actionmanager import beginTask, beginQuest, completeQuest, completeQuestSet
-
-@receiver(post_save, sender=Task)
-def maintainUserTaskActions(sender, instance, created, **kwargs):
-    if created:
-        userActions = UserQuestAction.objects.filter(quest=instance.quest, complete=False)
-        for action in userActions:
-            beginTask(user=action.user, task=instance)
-
-@receiver(post_save, sender=Quest)
-def maintainUserQuestActions(sender, instance, created, **kwargs):
-    if created:
-        userActions = UserQuestSetAction.objects.filter(questset=instance.quest_set, complete=False)
-        for action in userActions:
-            beginQuest(user=action.user, quest=instance)
-
-@receiver(post_delete, sender=Task)
-def maintainDeletedTaskActions(sender, instance, **kwargs):
-    #try:
-        #userActions = UserQuestAction.objects.filter(quest=instance.quest, complete=False)
-        #for action in userActions:
-            #completeQuest(action.user, action.quest)
-    #except ObjectDoesNotExist:
-        #pass
-
-@receiver(post_delete, sender=Quest)
-def maintainDeletedQuestActions(sender, instance, **kwargs):
-    #userActions = UserQuestSetAction.objects.filter(questset=instance.quest_set, complete=False)
-    #for action in userActions:
-        #completeQuestSet(action.user, action.questset)
