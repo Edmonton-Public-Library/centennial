@@ -105,7 +105,7 @@ def create_user(request):
             elif User.objects.filter(email=data['email']).count() != 0:
                 return HttpResponse(status='410')
             else:
-                user = User.objects.create(username = data['username'], email = data['email'], is_active = False)
+                user = User.objects.create(username = data['username'], email = data['email'], is_active = False, groups = ['Basic User'])
                 user.first_name = data['firstname']
                 user.last_name = data['lastname']
                 user.save()
