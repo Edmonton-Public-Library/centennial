@@ -289,7 +289,7 @@ viewStory : new View('viewStory', 'View Story',
                 facebookDiv.innerHTML = 
                     '<div class="fb-like" data-send="false" data-width="450"\
                         data-show-faces="false" data-font="arial"\
-                        data-colorscheme="dark" data-action="recommend"></div>'
+                        data-colorscheme="dark" data-action="like"></div>'
                 FB.XFBML.parse(facebookDiv, function () {
                 	FB.Event.subscribe('edge.create', function(href, widget) {
 						epl.updateQuest({
