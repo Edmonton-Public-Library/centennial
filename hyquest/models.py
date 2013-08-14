@@ -263,15 +263,15 @@ def maintainUserQuestActions(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=Task)
 def maintainDeletedTaskActions(sender, instance, **kwargs):
-    try:
-        userActions = UserQuestAction.objects.filter(quest=instance.quest, complete=False)
-        for action in userActions:
-            completeQuest(action.user, action.quest)
-    except ObjectDoesNotExist:
-        pass
+    #try:
+        #userActions = UserQuestAction.objects.filter(quest=instance.quest, complete=False)
+        #for action in userActions:
+            #completeQuest(action.user, action.quest)
+    #except ObjectDoesNotExist:
+        #pass
 
 @receiver(post_delete, sender=Quest)
 def maintainDeletedQuestActions(sender, instance, **kwargs):
-    userActions = UserQuestSetAction.objects.filter(questset=instance.quest_set, complete=False)
-    for action in userActions:
-        completeQuestSet(action.user, action.questset)
+    #userActions = UserQuestSetAction.objects.filter(questset=instance.quest_set, complete=False)
+    #for action in userActions:
+        #completeQuestSet(action.user, action.questset)
