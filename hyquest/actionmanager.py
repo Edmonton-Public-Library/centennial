@@ -3,7 +3,6 @@ from django.db.models import F
 from hyquest.models import Quest, Task, UserTaskAction, UserQuestAction, UserQuestSetAction
 
 from datetime import datetime
-import logging
 
 # This is a central location for other classes to call, that handles bookkeeping and integrity
 # management for User Actions with the Quest structure.
@@ -71,14 +70,12 @@ def completeQuest(user, quest):
 
 def completeTask(user, task):
     #Load and Complete the UserTaskAction
-    logger = logging.getLogger('taskstuff')
     try:
         uta = UserTaskAction.objects.get(user=user, task=task)
         uta.complete = True
         uta.completionTime = datetime.now()
         uta.save()
         givePoints(user, task.points)
-        logger.info("test")
         completeQuest(user=user, quest=uta.task.quest)
     except ObjectDoesNotExist:
         pass

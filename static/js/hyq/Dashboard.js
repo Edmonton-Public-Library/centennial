@@ -96,50 +96,90 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	 */
 	Dashboard.prototype.getFeaturedQuests = function () {
 		var self = this;
-		$.get(Settings.apiQuestSetsUrl + '/' + featuredEndpoint, function (data) {
-			//$.get(Settings.apiQuestSetsUrl + '/' + featuredEndpoint, function (data) {
+
+		self.featuredGetCount = 0;
+		seld.maxFeaturedGetCount = 5;
+
+		self.doGetFeaturedQuests = function(data) {
+			self.featuredGetCount++;
+			if(self.featuredGetCount <= self.maxFeaturedGetCount) {
+				$.get(Settings.apiQuestSetsUrl + '/' + featuredEndpoint, function (data) {
+					if(data.objects.length > 0) {
+						Dashboard.insertPoints(data);
+						self.data.featuredQuests(data.objects);
+					}
+					else {
+						self.doGetFeaturedQuests(data);
+					}
+				});
+			}
+			else {
 				Dashboard.insertPoints(data);
 				self.data.featuredQuests(data.objects);
-			//});
-		});
+			}
+		}
 	};
 
 	/**
 	 * Gets active quest data
 	 */
-	Dashboard.prototype.getActiveQuests = function () {
+	 Dashboard.prototype.getActiveQuests = function () {
 		var self = this;
-		$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
-			//$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
+
+		self.activeGetCount = 0;
+		seld.maxActiveGetCount = 5;
+
+		self.doGetActiveQuests = function(data) {
+			self.activeGetCount++;
+			if(self.activeGetCount <= self.maxActiveGetCount) {
+				$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
+					if(data.objects.length > 0) {
+						Dashboard.insertPoints(data);
+						self.data.activeQuests(data.objects);
+					}
+					else {
+						self.doGetActiveQuests(data);
+					}
+				});
+			}
+			else {
 				Dashboard.insertPoints(data);
 				self.data.activeQuests(data.objects);
-			//});
-		});
-		/*$.ajax(Settings.apiQuestSetsUrl + '/' + activeEndpoint,{
-			//data : JSON.stringify(data),
-			dataType : 'json',
-			processData : false,
-			type : 'post',
-			cache : false,
-			success : function (data) {
-				Dashboard.insertPoints(data);
-			self.data.activeQuests(data.objects);
-		});*/
+			}
+		}
 	};
 
 	/**
 	 * Gets completed quest data
 	 */
-	Dashboard.prototype.getCompletedQuests = function () {
+	 Dashboard.prototype.getCompletedQuests = function () {
 		var self = this;
-		$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
-			//$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
+
+		self.completedGetCount = 0;
+		seld.maxCompletedGetCount = 5;
+
+		self.goGetCompeltedQuests = function(data) {
+			self.completedGetCount++;
+			if(self.completedGetCount <= self.maxCompletedGetCount) {
+				$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
+					if(data.objects.length > 0) {
+						self.data.completedQuests.removeAll();
+						data.objects.forEach(function(ele) {
+							self.data.completedQuests.push(ele);
+						});
+					}
+					else {
+						self.goGetCompeltedQuests(data);
+					}
+				});
+			}
+			else {
 				self.data.completedQuests.removeAll();
 				data.objects.forEach(function(ele) {
 					self.data.completedQuests.push(ele);
 				});
-			//});
-		});
+			}
+		}
 	};
 
 	/**
