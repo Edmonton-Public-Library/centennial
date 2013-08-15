@@ -252,6 +252,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
 				if(!hyqGlobal_WindowOpen) {
+					$('#quest-set-viewer-decoy').clone().attr("id", "quest-set-viewer").appendTo("body");
 					hyqGlobal_WindowOpen = true;
 					$(document).scrollTop(0);
 					$('#quest-set-viewer').removeClass('hidden');
@@ -267,10 +268,11 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
 				hyqGlobal_WindowOpen = false;
-				$('#quest-set-viewer').addClass('hidden');
+				//$('#quest-set-viewer').addClass('hidden');
+				$("#quest-set-viewer").remove();
 				$('#dashboard').fadeTo(500, 1);
 				// Reload the page to prevent weird behaviour with the knockout bindings...
-				window.location.reload();
+				//window.location.reload();
 			});
 		}
 	};
