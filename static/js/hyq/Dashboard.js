@@ -97,10 +97,10 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	Dashboard.prototype.getFeaturedQuests = function () {
 		var self = this;
 		$.get(Settings.apiQuestSetsUrl + '/' + featuredEndpoint, function (data) {
-			$.get(Settings.apiQuestSetsUrl + '/' + featuredEndpoint, function (data) {
+			//$.get(Settings.apiQuestSetsUrl + '/' + featuredEndpoint, function (data) {
 				Dashboard.insertPoints(data);
 				self.data.featuredQuests(data.objects);
-			});
+			//});
 		});
 	};
 
@@ -110,10 +110,10 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	Dashboard.prototype.getActiveQuests = function () {
 		var self = this;
 		$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
-			$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
+			//$.get(Settings.apiQuestSetsUrl + '/' + activeEndpoint, function (data) {
 				Dashboard.insertPoints(data);
 				self.data.activeQuests(data.objects);
-			});
+			//});
 		});
 		/*$.ajax(Settings.apiQuestSetsUrl + '/' + activeEndpoint,{
 			//data : JSON.stringify(data),
@@ -133,12 +133,12 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	Dashboard.prototype.getCompletedQuests = function () {
 		var self = this;
 		$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
-			$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
+			//$.get(Settings.apiBaseUrl + completedEndpoint + '/?format=json&complete', function (data) {
 				self.data.completedQuests.removeAll();
 				data.objects.forEach(function(ele) {
 					self.data.completedQuests.push(ele);
 				});
-			});
+			//});
 		});
 	};
 
