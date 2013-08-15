@@ -22,7 +22,7 @@ def replenishQuestSets(user):
 
             beginQuestSet(user, newquest)
             activeQuests += 1
-        time.sleep(1)
+        time.sleep(0.1)
 
 
 def activateFeaturedQuestSets(user):
