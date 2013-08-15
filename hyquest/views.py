@@ -107,6 +107,7 @@ def get_featured_quests(request):
 def get_active_quests(request):
     if request.user.is_authenticated():
         replenishQuestSets(request.user)
+    time.sleep(0.01)
     return HttpResponseRedirect('/api/v1/questset/?active')
 
 def completedTasksHttpResponse(user, activeTasks, otherTasks):
