@@ -118,6 +118,8 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 				self.data.featuredQuests(data.objects);
 			}
 		}
+
+		self.doGetFeaturedQuests();
 	};
 
 	/**
@@ -147,6 +149,8 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 				self.data.activeQuests(data.objects);
 			}
 		}
+
+		self.doGetActiveQuests();
 	};
 
 	/**
@@ -180,6 +184,8 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 				});
 			}
 		}
+
+		self.goGetCompeltedQuests();
 	};
 
 	/**
