@@ -251,6 +251,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	ko.bindingHandlers.openQuestSetViewer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
+				$(document).scrollTop(0);
 				$('#quest-set-viewer').removeClass('hidden');
 				$('#dashboard').fadeTo(500, 0.2);
 				questSetView = new QuestSetViewer(valueAccessor().questSetId, $('#quest-set-viewer'));
