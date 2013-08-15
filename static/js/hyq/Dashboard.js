@@ -98,7 +98,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		var self = this;
 
 		self.featuredGetCount = 0;
-		seld.maxFeaturedGetCount = 5;
+		self.maxFeaturedGetCount = 5;
 
 		self.doGetFeaturedQuests = function(data) {
 			self.featuredGetCount++;
@@ -127,7 +127,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		var self = this;
 
 		self.activeGetCount = 0;
-		seld.maxActiveGetCount = 5;
+		self.maxActiveGetCount = 5;
 
 		self.doGetActiveQuests = function(data) {
 			self.activeGetCount++;
@@ -156,7 +156,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		var self = this;
 
 		self.completedGetCount = 0;
-		seld.maxCompletedGetCount = 5;
+		self.maxCompletedGetCount = 5;
 
 		self.goGetCompeltedQuests = function(data) {
 			self.completedGetCount++;
