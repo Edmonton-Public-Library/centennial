@@ -251,10 +251,13 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	ko.bindingHandlers.openQuestSetViewer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
-				$(document).scrollTop(0);
-				$('#quest-set-viewer').removeClass('hidden');
-				$('#dashboard').fadeTo(500, 0.2);
-				questSetView = new QuestSetViewer(valueAccessor().questSetId, $('#quest-set-viewer'));
+				if(!hyqGlobal_WindowOpen) {
+					hyqGlobal_WindowOpen = true;
+					$(document).scrollTop(0);
+					$('#quest-set-viewer').removeClass('hidden');
+					$('#dashboard').fadeTo(500, 0.2);
+					questSetView = new QuestSetViewer(valueAccessor().questSetId, $('#quest-set-viewer'));
+				}
 			});
 		}
 	};
@@ -263,6 +266,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	ko.bindingHandlers.closeQuestSetViewer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
+				hyqGlobal_WindowOpen = false;
 				$('#quest-set-viewer').addClass('hidden');
 				$('#dashboard').fadeTo(500, 1);
 				// Reload the page to prevent weird behaviour with the knockout bindings...
