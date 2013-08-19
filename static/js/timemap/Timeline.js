@@ -164,7 +164,7 @@ return (function () {
 
 	Timeline.prototype.setNumbers = function() {
 		var maxVisDate = this.tl._bands[0].getMaxVisibleDate();
-		var minVisDate = this.tl._bands[0].getMinVisibleDate();
+		var minVisDate = this.tl._bands[0].getCenterVisibleDate();
 
 		var maxVisYear = maxVisDate.getFullYear();
 		var minVisYear = minVisDate.getFullYear();
