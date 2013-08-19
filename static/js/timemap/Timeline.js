@@ -494,7 +494,7 @@ return (function () {
 			var bandInfos = [
 				Simile.createBandInfo({
 					width : "0%",
-					intervalUnit : Simile.DateTime.YEAR,
+					intervalUnit : Simile.DateTime.MONTH,
 					intervalPixels : self.viewport.width()/10,
 					theme : timelineTheme
 				}),
