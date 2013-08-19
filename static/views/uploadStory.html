@@ -53,7 +53,7 @@
                                 <span class="required" data-bind="'css': { 'hidden': story.content_type() != 'media' }">*</span>
                             </label>
                             <input type="file" id="fileInput" name="up_file" data-bind="'enable': story.content_type() == 'media'">
-                            <span class="hintText">(.jpg, .png, .pdf, .mp4 or .mp3)</span>
+                            <span class="hintText">(.jpg, .png or .pdf)</span>
                         </p>
                 </p>
                 <p class="inputError" data-bind="'validationMessage': story.content_type"></p>

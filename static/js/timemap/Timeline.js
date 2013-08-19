@@ -12,7 +12,7 @@ return (function () {
 		this.questTimeout = null;
 
 		this.leftNumber = $('<div>').addClass('timelineBound').addClass('left');
-		this.rightNumber = $('<div>').addClass('timelineBound').addClass('right');
+		//this.rightNumber = $('<div>').addClass('timelineBound').addClass('right');
 
 		//When the document is ready, initialize the timeline's DOM element
 		$(document).ready(function () {
@@ -609,7 +609,7 @@ return (function () {
 			$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=start_year', function(json) {self.processTilesByStart(json);});
 			$.get(Environment.routes.apiBase + '/maps/?format=json&order_by=start_year', function(json) {self.processTilesByEnd(json);});
 
-			self.viewport.find('.timeline-ether-highlight').append(self.leftNumber).append(self.rightNumber);
+			self.viewport.find('.timeline-ether-highlight').append(self.leftNumber);
 
 			//self.maxYearCount
 			self.startYearLoop(100, 30);
