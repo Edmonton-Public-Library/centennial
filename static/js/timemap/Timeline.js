@@ -12,7 +12,7 @@ return (function () {
 		this.questTimeout = null;
 
 		this.leftNumber = $('<div>').addClass('timelineBound').addClass('left');
-		//this.rightNumber = $('<div>').addClass('timelineBound').addClass('right');
+		this.rightNumber = $('<div>').addClass('timelineBound').addClass('right');
 
 		//When the document is ready, initialize the timeline's DOM element
 		$(document).ready(function () {
