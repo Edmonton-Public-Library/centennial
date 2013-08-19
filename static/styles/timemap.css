@@ -438,7 +438,7 @@ body {
   top: 0;
 }
 #timeline .timelineBound.left {
-  left: 3px;
+  left: 10px;
 }
 #timeline .timelineBound.right {
   right: 0;
