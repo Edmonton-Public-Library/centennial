@@ -80,6 +80,10 @@ return (function () {
 			success : function(data) {
 				TimemapEnvironment.user(data);
 				HYQEnvironment.user(data);
+				manageAccount.account.username = data.username;
+				manageAccount.account.firstname = data.firstname;
+				manageAccount.account.lastname = data.lastname;
+				manageAccount.account.email = data.email;
 				if(typeof callback == 'function') callback(data);
 			},
 			error : function () {
