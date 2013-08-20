@@ -81,9 +81,9 @@ return (function () {
 				TimemapEnvironment.user(data);
 				HYQEnvironment.user(data);
 				$(".menu-section #username").text(data.username);
-				//manageAccount.account.firstname = data.firstname;
-				//manageAccount.account.lastname = data.lastname;
-				//manageAccount.account.email = data.email;
+				$(".menu-section #firstname").text(data.firstname);
+				$(".menu-section #lastname").text(data.lastname);
+				$(".menu-section #email").text(data.email);
 				if(typeof callback == 'function') callback(data);
 			},
 			error : function () {
