@@ -80,7 +80,7 @@ return (function () {
 			success : function(data) {
 				TimemapEnvironment.user(data);
 				HYQEnvironment.user(data);
-				#(".menu-section #username").text(data.username);
+				$(".menu-section #username").text(data.username);
 				//manageAccount.account.firstname = data.firstname;
 				//manageAccount.account.lastname = data.lastname;
 				//manageAccount.account.email = data.email;
