@@ -11,7 +11,7 @@ def verifyBibliocommonsAccount(user):
     try:
         bibliolink = BibliocommonsLink.objects.get(user=user)
         if bibliolink.biblioid == -1:
-            raise Exception(bibliolink.biblioname)
+            #raise Exception(bibliolink.biblioname)
             bibliolink.biblioid = int(centennial.bibliocommons.userID(bibliolink.biblioname))
             raise Exception(bibliolink.biblioid)
             bibliolink.save()
