@@ -43,7 +43,6 @@ def matchingBibliocommonsTasks(user):
     return (activeTasks, otherTasks)
 
 def bibliocommonsMatches(contentSet, task):
-    return HttpResponse("test");
     reqs = task.getInfoReqs()
     for content in contentSet:
         skip = True
