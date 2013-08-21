@@ -120,7 +120,7 @@ return (function () {
         });
         this.password = ko.observable().extend({
             required: { message: 'Password is required.' },
-            minLength: 6
+            minLength: 4
         });
         this.passwordConfirmation = ko.observable().extend({
             validation: {
