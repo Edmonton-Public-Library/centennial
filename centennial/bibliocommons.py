@@ -22,9 +22,9 @@ def validUser(username, password):
 
 def userID(username):
     req = requests.get(APIRoot+"users", params={'q': username, 'api_key': APIKey})
-    raise Exception(req)
     req.raise_for_status()
     response = req.json()
+    raise Exception(response)
     for user in response["users"]:
         if (user["name"] == username):
             return user["id"]
