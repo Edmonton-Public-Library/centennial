@@ -51,10 +51,9 @@ def bibliocommonsMatches(contentSet, task):
                 skip = False
         if skip:
             continue
-        if 'format' in reqs and reqs['format'] != content['title']['format']['id']:
+        if 'format' in reqs and reqs['format'].lower() != content['title']['format']['id'].lower():
             continue
-        if 'title' in reqs and reqs['title'] != content['title']['title']:
-            raise Exception(content['title']['title'])
+        if 'title' in reqs and reqs['title'].lower() != content['title']['title'].lower():
             continue
         if 'author' in reqs:
             reqAuthors = reqs['author'].split(':')
