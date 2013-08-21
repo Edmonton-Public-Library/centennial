@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from centennial.models import BibliocommonsLink
 from centennial.bibliocommons import validUser
 from centennial.recaptcha import verifyReCaptcha
@@ -111,7 +112,8 @@ def create_user(request):
                 user.save()
                 user.set_password(data['password'])
                 user.save()
-                user.groups.add(1)
+                grp = Group.objects.get(name='Basic User') 
+                grp.user_set.add(user)
                 return HttpResponse(status='201')
         return HttpResponse(status='402')
 
