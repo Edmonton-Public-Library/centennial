@@ -25,8 +25,7 @@ def userID(username):
     req.raise_for_status()
     response = req.json()
     for user in response["users"]:
-        raise Exception(user["name"])
-        if (user["name"] == username):
+        if (user["name"].lower() == username.lower()):
             return user["id"]
     raise Exception("No user matches provided Username")
 
