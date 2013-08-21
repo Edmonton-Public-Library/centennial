@@ -212,7 +212,8 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	Dashboard.insertPoints = function(data) {
 		data.objects.forEach(function(questSet) {
 			questSet.completedPoints = 0;
-			questSet.totalPoints = questSet.points;
+			//questSet.totalPoints = questSet.points;
+			questSet.totalPoints = 0;
 			questSet.quests.forEach(function(quest) {
 				quest.completedPoints = 0;
 				quest.totalPoints = quest.points;
@@ -232,7 +233,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 			});
 			//If all of this quest set's quests were completed, then add its own points
 			if(questSet.complete) {
-				questSet.completedPoints += questSet.points;
+				//questSet.completedPoints += questSet.points;
 			}
 		});	
 	};
