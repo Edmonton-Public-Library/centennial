@@ -19,7 +19,6 @@ def verifyBibliocommonsAccount(user):
         return False
 
 def matchingBibliocommonsTasks(user):
-    raise Exception("test")
     try:
         bibliolink = BibliocommonsLink.objects.get(user=user)
         if bibliolink.biblioid == -1:
