@@ -89,7 +89,8 @@ return (function () {
 			error : function () {
 				TimemapEnvironment.user(null);
 				HYQEnvironment.user(null);
-			}
+			},
+			cache : false
 		});
 	};
 
