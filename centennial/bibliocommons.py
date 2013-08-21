@@ -21,7 +21,7 @@ def validUser(username, password):
     return (valid.text == "+VALID")
 
 def userID(username):
-    raise Exception(username)
+    username = 'Taltesting1'
     req = requests.get(APIRoot+"users", params={'q': username, 'api_key': APIKey})
     req.raise_for_status()
     response = req.json()
