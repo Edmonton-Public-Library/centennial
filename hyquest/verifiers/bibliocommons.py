@@ -8,7 +8,7 @@ import centennial.bibliocommons
 # This is the code that matches bibliocommons content to bibliocommons tasks
 
 def verifyBibliocommonsAccount(user):
-    raise Exception("cant verify bad thingy")
+    raise Exception(user)
     try:
         bibliolink = BibliocommonsLink.objects.get(user=user)
         if bibliolink.biblioid == -1:
