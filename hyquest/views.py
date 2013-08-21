@@ -28,7 +28,7 @@ def hyq(request):
 
 
 def check_biblio_tasks(request):
-    print 'test'
+    return HttpResponse(json.dumps(request), status=404, content_type='application/json');
     if not request.user.is_authenticated():
         return HttpResponse(json.dumps({'Response':'Error: Must be logged in'}), status=403, content_type='application/json')
     if not verifyBibliocommonsAccount(request.user):
