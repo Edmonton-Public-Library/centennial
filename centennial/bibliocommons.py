@@ -24,8 +24,8 @@ def userID(username):
     req = requests.get(APIRoot+"users", params={'q': username, 'api_key': APIKey})
     req.raise_for_status()
     response = req.json()
-    raise Exception(response)
     for user in response["users"]:
+        raise Exception(user["name"])
         if (user["name"] == username):
             return user["id"]
     raise Exception("No user matches provided Username")
