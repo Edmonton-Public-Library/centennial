@@ -10,10 +10,12 @@ import centennial.bibliocommons
 def verifyBibliocommonsAccount(user):
     try:
         bibliolink = BibliocommonsLink.objects.get(user=user)
-        raise Exception(user)
         if bibliolink.biblioid == -1:
+            raise Exception(user)
             bibliolink.biblioid = int(centennial.bibliocommons.userID(bibliolink.biblioname))
+            raise Exception("again")
             bibliolink.save()
+        raise Exception(bibliolink.biblioid)
 
         return True
     except ObjectDoesNotExist:
