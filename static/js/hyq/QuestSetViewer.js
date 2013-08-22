@@ -1,5 +1,5 @@
 ;
-define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment', 'hyq/Dashboard'], function (hyq, Settings, ko, Environment, Dashboard) {
+define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (hyq, Settings, ko, Environment) {
 
     var QuestSetViewer = function (questSetId, viewport) {
         var self = this;
@@ -100,10 +100,12 @@ define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment', 'hyq/Dashboard
                     var errorElement = $("#biblioError" + self.taskId);
                     errorElement.addClass("hidden");
 
-                    var qID = hyqGlobal_WindowOpen;
-                    Dashboard.prototype.getData();
-                    Dashboard.doCloseQuestSetViewer();
-                    Dashboard.doOpenQuestSetViewer(qID);
+                    require(['hyq/Dashboard'], function (Dashboard) {
+                        var qID = hyqGlobal_WindowOpen;
+                        Dashboard.prototype.getData();
+                        Dashboard.doCloseQuestSetViewer();
+                        Dashboard.doOpenQuestSetViewer(qID);
+                    });
                 },
                 error : function(data) {
                     $('#checkBiblio').attr('disabled', false);
