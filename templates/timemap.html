@@ -36,6 +36,7 @@
             $(window).resize(function () {
                 $('.menu-wrapper').css("max-height", ($(window).height() - 150) + 'px');
             });
+            FB.XFBML.parse($("#my-FB-Button")[0]);
         });
     </script>
 
@@ -63,13 +64,13 @@
 		// Note that the debug version is being actively developed and might
 		// contain some type checks that are overly strict.
 		// Please report such bugs using the bugs tool.
-		/*(function(d, debug){
+		(function(d, debug){
 		   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
 		   if (d.getElementById(id)) {return;}
 		   js = d.createElement('script'); js.id = id; js.async = false;
 		   js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
 		   ref.parentNode.insertBefore(js, ref);
-		 }(document, /*debug*/ /*false));*/
+		 }(document, /*debug*/ false));
     </script>
     <div id="epl-bar">
         <div>
