@@ -76,10 +76,16 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 			}
 		};
 
-		this.getData();
+		self.doRefresh();
+	};
+
+	Dashboard.prototype.doRefresh = function() {
+		var self = this;
+
+		self.getData();
 
 		ko.applyBindings(self.data, self.viewport[0]);
-	};
+	}
 
 	/**
 	 * Gets all of the Quest data ready for Knockout

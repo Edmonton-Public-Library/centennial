@@ -75,6 +75,13 @@ define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (hyq
                     });
                     var errorElement = $("#codeError" + self.taskId);
                     errorElement.addClass("hidden");
+
+                    require(['hyq/Dashboard'], function (Dashboard) {
+                        var qID = hyqGlobal_WindowOpen;
+                        //Dashboard.prototype.getData();
+                        Dashboard.doCloseQuestSetViewer();
+                        Dashboard.doOpenQuestSetViewer(qID);
+                    });
                 },
                 error : function(data) {
                     var errorElement = $("#codeError" + self.taskId);
@@ -102,7 +109,7 @@ define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (hyq
 
                     require(['hyq/Dashboard'], function (Dashboard) {
                         var qID = hyqGlobal_WindowOpen;
-                        Dashboard.prototype.getData();
+                        //Dashboard.prototype.getData();
                         Dashboard.doCloseQuestSetViewer();
                         Dashboard.doOpenQuestSetViewer(qID);
                     });
