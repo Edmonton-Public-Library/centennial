@@ -248,7 +248,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		}
 	}
 
-	Dashboard.prototype.doOpenQuestSetViewer = function(qID, doAnimate) {
+	Dashboard.doOpenQuestSetViewer = function(qID, doAnimate) {
 		if(hyqGlobal_WindowOpen == -1) {
 			$('#quest-set-viewer-decoy').clone().attr("id", "quest-set-viewer").appendTo("body");
 			hyqGlobal_WindowOpen = qID;
@@ -263,15 +263,14 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 
 	//Opens the Quest Set Viewer when clicking on a quest in a widget
 	ko.bindingHandlers.openQuestSetViewer = {
-		var self = this;
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
-				self.doOpenQuestSetViewer(valueAccessor().questSetId, true);
+				Dashboard.doOpenQuestSetViewer(valueAccessor().questSetId, true);
 			});
 		}
 	};
 
-	Dashboard.prototype.doCloseQuestSetViewer = function(doAnimate) {
+	Dashboard.doCloseQuestSetViewer = function(doAnimate) {
 		hyqGlobal_WindowOpen = -1;
 		//$('#quest-set-viewer').addClass('hidden');
 		$("#quest-set-viewer").remove();
@@ -284,10 +283,9 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 
 	//Closes the Quest Set Viewer when clicking the close button
 	ko.bindingHandlers.closeQuestSetViewer = {
-		var self = this;
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
-				self.doCloseQuestSetViewer(true);
+				Dashboard.doCloseQuestSetViewer(true);
 			});
 		}
 	};
