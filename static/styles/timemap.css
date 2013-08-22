@@ -10,6 +10,11 @@ div {
   /* Opera/IE 8+ */
 
 }
+
+.pluginConnectTextDark {
+  color: #3b5998 !important;
+}
+
 .epl-input {
   width: 300px;
   height: 30px;
