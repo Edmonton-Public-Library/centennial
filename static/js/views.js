@@ -10,7 +10,6 @@ return {
 main : new View('timemap', 'Home', 
 		//in
 		function (fromView, viewport, callback) {
-            FB.XFBML.parse($("#my-FB-Button")[0]);
 			
 			var self = this,
 				mapCanvas = $('#tm-canvas'),
