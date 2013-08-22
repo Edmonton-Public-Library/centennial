@@ -1,5 +1,5 @@
 ;
-define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (hyq, Settings, ko, Environment) {
+define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment', 'hyq/Dashboard'], function (hyq, Settings, ko, Environment) {
 
     var QuestSetViewer = function (questSetId, viewport) {
         var self = this;
