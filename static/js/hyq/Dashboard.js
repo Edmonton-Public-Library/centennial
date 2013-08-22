@@ -76,16 +76,10 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 			}
 		};
 
-		self.doRefresh();
-	};
-
-	Dashboard.prototype.doRefresh = function() {
-		var self = this;
-
-		self.getData();
+		this.getData();
 
 		ko.applyBindings(self.data, self.viewport[0]);
-	}
+	};
 
 	/**
 	 * Gets all of the Quest data ready for Knockout
@@ -254,13 +248,15 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		}
 	}
 
-	Dashboard.doOpenQuestSetViewer = function(qID) {
+	Dashboard.prototype.doOpenQuestSetViewer = function(qID, doAnimate) {
 		if(hyqGlobal_WindowOpen == -1) {
 			$('#quest-set-viewer-decoy').clone().attr("id", "quest-set-viewer").appendTo("body");
 			hyqGlobal_WindowOpen = qID;
 			$(document).scrollTop(0);
 			$('#quest-set-viewer').removeClass('hidden');
-			$('#dashboard').fadeTo(500, 0.2);
+			if(doAnimate) {
+				$('#dashboard').fadeTo(500, 0.2);
+			}
 			questSetView = new QuestSetViewer(qID, $('#quest-set-viewer'));
 		}
 	}
@@ -269,16 +265,18 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	ko.bindingHandlers.openQuestSetViewer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
-				Dashboard.doOpenQuestSetViewer(valueAccessor().questSetId);
+				this.doOpenQuestSetViewer(valueAccessor().questSetId, true);
 			});
 		}
 	};
 
-	Dashboard.doCloseQuestSetViewer = function() {
+	Dashboard.prototype.doCloseQuestSetViewer = function(doAnimate) {
 		hyqGlobal_WindowOpen = -1;
 		//$('#quest-set-viewer').addClass('hidden');
 		$("#quest-set-viewer").remove();
-		$('#dashboard').fadeTo(500, 1);
+		if(doAnimate) {
+			$('#dashboard').fadeTo(500, 1);
+		}
 		// Reload the page to prevent weird behaviour with the knockout bindings...
 		//window.location.reload();
 	}
@@ -287,7 +285,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	ko.bindingHandlers.closeQuestSetViewer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
-				Dashboard.doCloseQuestSetViewer();
+				this.doCloseQuestSetViewer(true);
 			});
 		}
 	};

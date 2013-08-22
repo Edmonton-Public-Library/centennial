@@ -76,12 +76,10 @@ define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (hyq
                     var errorElement = $("#codeError" + self.taskId);
                     errorElement.addClass("hidden");
 
-                    require(['hyq/Dashboard'], function (Dashboard) {
-                        var qID = hyqGlobal_WindowOpen;
-                        Environment.dashboard.getData();
-                        Dashboard.doCloseQuestSetViewer();
-                        Dashboard.doOpenQuestSetViewer(qID);
-                    });
+                    var qID = hyqGlobal_WindowOpen;
+                    Environment.dashboard.getData();
+                    Environment.dashboard.doCloseQuestSetViewer();
+                    Environment.dashboard.doOpenQuestSetViewer(qID);
                 },
                 error : function(data) {
                     var errorElement = $("#codeError" + self.taskId);
@@ -107,12 +105,10 @@ define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (hyq
                     var errorElement = $("#biblioError" + self.taskId);
                     errorElement.addClass("hidden");
 
-                    require(['hyq/Dashboard'], function (Dashboard) {
-                        var qID = hyqGlobal_WindowOpen;
-                        Environment.dashboard.getData();
-                        Dashboard.doCloseQuestSetViewer();
-                        Dashboard.doOpenQuestSetViewer(qID);
-                    });
+                    var qID = hyqGlobal_WindowOpen;
+                    Environment.dashboard.getData();
+                    Environment.dashboard.doCloseQuestSetViewer();
+                    Environment.dashboard.doOpenQuestSetViewer(qID);
                 },
                 error : function(data) {
                     $('#checkBiblio').attr('disabled', false);
