@@ -47,29 +47,6 @@
 
     <div id="fb-root"></div>
     <script>
-        window.fbAsyncInit = function() {
-            // init the FB JS SDK
-            FB.init({
-                appId      : KEYS.FB_KEY,
-                //appId      : Settings.apiKeys.facebook.connect, // App ID from the App Dashboard
-                //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File for x-domain communication
-                status     : true, // check the login status upon init?
-                cookie     : true, // set sessions cookies to allow your server to access the session?
-                xfbml      : true  // parse XFBML tags on this page?
-            });
-        };
-
-        (function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-
-    <!--<div id="fb-root"></div>
-    <script>
 		window.fbAsyncInit = function() {
 			// init the FB JS SDK
 			FB.init({
@@ -93,7 +70,7 @@
 		   js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
 		   ref.parentNode.insertBefore(js, ref);
 		 }(document, /*debug*/ false));
-    </script>-->
+    </script>
     <div id="epl-bar">
         <div>
             <a href="http://www.epl.ca/"><img class="logo" src="/static/images/epl-logo.png" alt="EPL Logo"/></a>
@@ -311,8 +288,7 @@
                 </div>
             </li>
         </ul>
-        <!--<div id="my-FB-Button" class="fb-like" data-send="true" data-bind="'attr': {'data-href': baseURL()}" data-width="250" data-show-faces="false" data-font="arial" data-colorscheme="light"></div>-->
-        <fb:like data-bind="'attr': {'href': baseURL()}" width="450" show_faces="false" send="true"></fb:like>
+        <div class="fb-like" data-send="true" data-bind="'attr': {'data-href': baseURL()}" data-width="250" data-show-faces="false" data-font="arial"></div>
         <div id="timeline" data-bind="'style': {'height': Environment.chrome.timeline.height() + 'px'}, 'css': {'active': Environment.chrome.timeline.height() > 0}"></div>
     </div>
     <div id="tm-sidebar">
