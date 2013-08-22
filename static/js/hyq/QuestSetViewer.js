@@ -101,7 +101,8 @@ define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment', 'hyq/Dashboard
                     errorElement.addClass("hidden");
 
                     var qID = hyqGlobal_WindowOpen;
-                    window.location.reload();
+                    Dashboard.getData();
+                    Dashboard.doCloseQuestSetViewer();
                     Dashboard.doOpenQuestSetViewer(qID);
                 },
                 error : function(data) {
