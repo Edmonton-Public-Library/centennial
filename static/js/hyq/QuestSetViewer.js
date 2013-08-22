@@ -78,7 +78,7 @@ define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (hyq
 
                     require(['hyq/Dashboard'], function (Dashboard) {
                         var qID = hyqGlobal_WindowOpen;
-                        Dashboard.prototype.doRefresh();
+                        Environment.dashboard.getData();
                         Dashboard.doCloseQuestSetViewer();
                         Dashboard.doOpenQuestSetViewer(qID);
                     });
@@ -109,7 +109,7 @@ define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (hyq
 
                     require(['hyq/Dashboard'], function (Dashboard) {
                         var qID = hyqGlobal_WindowOpen;
-                        Dashboard.prototype.doRefresh();
+                        Environment.dashboard.getData();
                         Dashboard.doCloseQuestSetViewer();
                         Dashboard.doOpenQuestSetViewer(qID);
                     });
