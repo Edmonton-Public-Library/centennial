@@ -99,6 +99,10 @@ define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment'], function (hyq
                     });
                     var errorElement = $("#biblioError" + self.taskId);
                     errorElement.addClass("hidden");
+
+                    var qID = Dashboard.hyqGlobal_WindowOpen;
+                    window.location.reload();
+                    Dashboard.doOpenQuestSetViewer(qID);
                 },
                 error : function(data) {
                     $('#checkBiblio').attr('disabled', false);

@@ -249,9 +249,9 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	}
 
 	Dashboard.doOpenQuestSetViewer = function(qID) {
-		if(!hyqGlobal_WindowOpen) {
+		if(hyqGlobal_WindowOpen == -1) {
 			$('#quest-set-viewer-decoy').clone().attr("id", "quest-set-viewer").appendTo("body");
-			hyqGlobal_WindowOpen = true;
+			hyqGlobal_WindowOpen = qID;
 			$(document).scrollTop(0);
 			$('#quest-set-viewer').removeClass('hidden');
 			$('#dashboard').fadeTo(500, 0.2);
@@ -269,7 +269,7 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 	};
 
 	Dashboard.doCloseQuestSetViewer = function() {
-		hyqGlobal_WindowOpen = false;
+		hyqGlobal_WindowOpen = -1;
 		//$('#quest-set-viewer').addClass('hidden');
 		$("#quest-set-viewer").remove();
 		$('#dashboard').fadeTo(500, 1);
