@@ -34,7 +34,7 @@ def beginTask(user, task):
 def completeQuestSet(user, questset):
     #Check that all tasks for this questset are complete
     complete = True
-    for uqa in UserQuestAction.objects.filter(quest__quest_set=questset):
+    for uqa in UserQuestAction.objects.filter(user=user, quest__quest_set=questset):
         if not uqa.complete:
             complete = False
 
@@ -52,7 +52,7 @@ def completeQuestSet(user, questset):
 def completeQuest(user, quest):
     #Check that all tasks for this quest are complete
     complete = True
-    for uta in UserTaskAction.objects.filter(task__quest=quest):
+    for uta in UserTaskAction.objects.filter(user=user, task__quest=quest):
         if not uta.complete:
             #raise Exception('something isnt complete')
             complete = False
