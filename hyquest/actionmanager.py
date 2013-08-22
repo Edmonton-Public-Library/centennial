@@ -50,6 +50,7 @@ def completeQuestSet(user, questset):
             pass
 
 def completeQuest(user, quest):
+    raise Exception('checking challenge')
     #Check that all tasks for this quest are complete
     complete = True
     for uta in UserTaskAction.objects.filter(task__quest=quest):
