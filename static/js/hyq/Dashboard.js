@@ -263,9 +263,10 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 
 	//Opens the Quest Set Viewer when clicking on a quest in a widget
 	ko.bindingHandlers.openQuestSetViewer = {
+		var self = this;
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
-				this.doOpenQuestSetViewer(valueAccessor().questSetId, true);
+				self.doOpenQuestSetViewer(valueAccessor().questSetId, true);
 			});
 		}
 	};
@@ -283,9 +284,10 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 
 	//Closes the Quest Set Viewer when clicking the close button
 	ko.bindingHandlers.closeQuestSetViewer = {
+		var self = this;
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
-				this.doCloseQuestSetViewer(true);
+				self.doCloseQuestSetViewer(true);
 			});
 		}
 	};
