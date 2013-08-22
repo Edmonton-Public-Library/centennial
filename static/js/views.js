@@ -10,7 +10,7 @@ return {
 main : new View('timemap', 'Home', 
 		//in
 		function (fromView, viewport, callback) {
-			
+
 			var self = this,
 				mapCanvas = $('#tm-canvas'),
 				sidebar = null,
@@ -292,7 +292,7 @@ viewStory : new View('viewStory', 'View Story',
                 //load the facebook buttons here
                 var facebookDiv = $('#my-facebook-share-button')[0];
                 facebookDiv.innerHTML = 
-                    '<div class="fb-like" data-send="false" data-width="450"\
+                    '<div class="fb-like" data-send="true" data-width="450"\
                         data-show-faces="false" data-font="arial"\
                         data-colorscheme="light" data-action="like"></div>'
                 FB.XFBML.parse(facebookDiv, function () {
