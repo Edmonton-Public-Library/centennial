@@ -100,7 +100,7 @@ define(['hyq', 'epl/Settings', 'lib/knockout', 'hyq/Environment', 'hyq/Dashboard
                     var errorElement = $("#biblioError" + self.taskId);
                     errorElement.addClass("hidden");
 
-                    var qID = Dashboard.hyqGlobal_WindowOpen;
+                    var qID = hyqGlobal_WindowOpen;
                     window.location.reload();
                     Dashboard.doOpenQuestSetViewer(qID);
                 },
