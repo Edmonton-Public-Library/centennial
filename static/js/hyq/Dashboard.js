@@ -248,32 +248,40 @@ define(['hyq', 'lib/knockout', 'epl/Settings', 'hyq/Environment', 'timemap/EPLBa
 		}
 	}
 
+	Dashboard.doOpenQuestSetViewer = function(qID) {
+		if(!hyqGlobal_WindowOpen) {
+			$('#quest-set-viewer-decoy').clone().attr("id", "quest-set-viewer").appendTo("body");
+			hyqGlobal_WindowOpen = true;
+			$(document).scrollTop(0);
+			$('#quest-set-viewer').removeClass('hidden');
+			$('#dashboard').fadeTo(500, 0.2);
+			questSetView = new QuestSetViewer(qID, $('#quest-set-viewer'));
+		}
+	}
+
 	//Opens the Quest Set Viewer when clicking on a quest in a widget
 	ko.bindingHandlers.openQuestSetViewer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
-				if(!hyqGlobal_WindowOpen) {
-					$('#quest-set-viewer-decoy').clone().attr("id", "quest-set-viewer").appendTo("body");
-					hyqGlobal_WindowOpen = true;
-					$(document).scrollTop(0);
-					$('#quest-set-viewer').removeClass('hidden');
-					$('#dashboard').fadeTo(500, 0.2);
-					questSetView = new QuestSetViewer(valueAccessor().questSetId, $('#quest-set-viewer'));
-				}
+				Dashboard.doOpenQuestSetViewer(valueAccessor().questSetId);
 			});
 		}
 	};
+
+	Dashboard.doCloseQuestSetViewer = function() {
+		hyqGlobal_WindowOpen = false;
+		//$('#quest-set-viewer').addClass('hidden');
+		$("#quest-set-viewer").remove();
+		$('#dashboard').fadeTo(500, 1);
+		// Reload the page to prevent weird behaviour with the knockout bindings...
+		//window.location.reload();
+	}
 
 	//Closes the Quest Set Viewer when clicking the close button
 	ko.bindingHandlers.closeQuestSetViewer = {
 		init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
 			$(element).click(function () {
-				hyqGlobal_WindowOpen = false;
-				//$('#quest-set-viewer').addClass('hidden');
-				$("#quest-set-viewer").remove();
-				$('#dashboard').fadeTo(500, 1);
-				// Reload the page to prevent weird behaviour with the knockout bindings...
-				//window.location.reload();
+				Dashboard.doCloseQuestSetViewer();
 			});
 		}
 	};
