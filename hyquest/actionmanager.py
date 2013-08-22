@@ -54,7 +54,7 @@ def completeQuest(user, quest):
     complete = True
     for uta in UserTaskAction.objects.filter(task__quest=quest):
         if not uta.complete:
-            raise Exception('something isnt complete')
+            #raise Exception('something isnt complete')
             complete = False
 
     if complete:
