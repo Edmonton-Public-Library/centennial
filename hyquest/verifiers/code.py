@@ -21,7 +21,7 @@ def matchingCodeTasks(user, code):
 def getTaskForCode(code):
     try:
         tcode = TaskCode.objects.get(code=code)
-        if tcode.uses_remaining < 1:
+        if tcode.uses_remaining == 0:
             return None
         task = tcode.task
         if task.quest.quest_set.active:
@@ -33,7 +33,8 @@ def getTaskForCode(code):
 def burnCode(code):
     try:
         taskcode = TaskCode.objects.get(code=code)
-        taskcode.uses_remaining = F('uses_remaining')-1
+        if taskcode.uses_remaining > 0:
+            taskcode.uses_remaining = F('uses_remaining')-1
         taskcode.save()
     except ObjectDoesNotExist:
         pass
