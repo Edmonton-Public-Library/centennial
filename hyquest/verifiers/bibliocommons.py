@@ -47,20 +47,20 @@ def bibliocommonsMatches(contentSet, task):
     for content in contentSet:
         skip = True
         for nestedContent in content['content']:
-            if 'action' in reqs and reqs['action'].lower() == nestedContent['content_type']['id'].lower():
+            if 'action' in reqs and reqs['action'].strip().lower() == nestedContent['content_type']['id'].strip().lower():
                 skip = False
         if skip:
             continue
-        if 'format' in reqs and reqs['format'].lower() != content['title']['format']['id'].lower():
+        if 'format' in reqs and reqs['format'].strip().lower() != content['title']['format']['id'].strip().lower():
             continue
-        if 'title' in reqs and reqs['title'].lower() != content['title']['title'].lower():
+        if 'title' in reqs and reqs['title'].strip().lower() != content['title']['title'].strip().lower():
             continue
         if 'author' in reqs:
             reqAuthors = reqs['author'].split(':')
             containsAuthor = False
             for author in content['title']['authors']:
                 for reqAuthor in reqAuthors:
-                    if author['name'].lower() == reqAuthor.lower():
+                    if author['name'].strip().lower() == reqAuthor.strip().lower():
                         containsAuthor = True
             if not containsAuthor:
                 continue
