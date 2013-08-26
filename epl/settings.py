@@ -3,7 +3,7 @@ import os
 
 PROJECT_ROOT = os.path.split(os.path.realpath(os.path.dirname(__file__)))[0]
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ROOT_PATH = os.path.dirname(__file__)
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
