@@ -138,7 +138,7 @@ class Task(models.Model):
         if self.id and self.type == TASK_BIBLIOCOMMONS:
             return self.interpretBiblioInfo() + "<br><a href='/admin/hyquest/modifybibliocommons?task_id="+str(self.id)+"'>Change</a>"
         if self.id and self.type == TASK_CODE:
-            return "<a href='/admin/hyquest/taskcode/?task="+str(self.id)+"' target='_blank'>"+str(TaskCode.objects.filter(task=self, uses_remaining__exact=0).exclude().count())+" Codes</a><br><a href='/admin/hyquest/generatecodes?task_id=%s' target='_blank'><img src='/static/admin/img/icon_addlink.gif' width='10' height='10'/> Generate More Codes</a>" % str(self.id)
+            return "<a href='/admin/hyquest/taskcode/?task="+str(self.id)+"' target='_blank'>"+str(TaskCode.objects.exclude(task=self, uses_remaining__exact=0).count())+" Codes</a><br><a href='/admin/hyquest/generatecodes?task_id=%s' target='_blank'><img src='/static/admin/img/icon_addlink.gif' width='10' height='10'/> Generate More Codes</a>" % str(self.id)
         elif self.id and self.type == TASK_SOCIAL:
             return self.interpretSocialInfo()+"<br><a href='/admin/hyquest/modifysocial?task_id="+str(self.id)+"'>Change</a>"
         elif self.id and self.type == TASK_TIMEMAP:
