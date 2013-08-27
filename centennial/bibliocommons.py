@@ -24,6 +24,7 @@ def RepresentsInt(s):
 def validUser(username, password):
     spaceLessUsername = username
     spaceLessUsername.replace(" ","")
+    raise Exception(spaceLessUsername)
     if (len(spaceLessUsername) == 14 and RepresentsInt(spaceLessUsername)):
         raise Exception("OH NOES! BAD THINGS")
         return False
