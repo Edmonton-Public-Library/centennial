@@ -14,11 +14,21 @@ LibraryShortCode = "epl"
 # Bibliocommons EasyProxy
 AuthRoot = "https://"+LibraryShortCode+".bibliocommons.com/user/ext_auth"
 
+def RepresentsInt(s):
+    try: 
+        int(s)
+        return True
+    except ValueError:
+        return False
 
 def validUser(username, password):
+    spaceLessUsername = username
+    spaceLessUsername.replace(" ","")
+    if (len(spaceLessUsername) == 14 and RepresentsInt(spaceLessUsername)):
+        raise Exception("OH NOES! BAD THINGS")
+        return False
     valid = requests.get(AuthRoot, params={'name': username, 'user_pin': password})
     valid.raise_for_status()
-    raise Exception(valid.text)
     return (valid.text == "+VALID")
 
 def userID(username):
