@@ -18,6 +18,7 @@ AuthRoot = "https://"+LibraryShortCode+".bibliocommons.com/user/ext_auth"
 def validUser(username, password):
     valid = requests.get(AuthRoot, params={'name': username, 'user_pin': password})
     valid.raise_for_status()
+    raise Exception(valid.text)
     return (valid.text == "+VALID")
 
 def userID(username):
