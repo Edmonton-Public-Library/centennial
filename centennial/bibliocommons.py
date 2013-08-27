@@ -24,7 +24,6 @@ def RepresentsInt(s):
 def validUser(username, password):
     spaceLessUsername = username.replace(" ","")
     if (len(spaceLessUsername) == 14 and RepresentsInt(spaceLessUsername)):
-        raise Exception("OH NOES! BAD THINGS")
         return False
     valid = requests.get(AuthRoot, params={'name': username, 'user_pin': password})
     valid.raise_for_status()
