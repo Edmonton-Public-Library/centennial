@@ -588,8 +588,8 @@ return (function () {
 
 			
 
-			$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=start_year&limit=5', function(json) {self.processBranchesByStart(json);});
-			$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=end_year&limit=5', function(json) {self.processBranchesByEnd(json);});
+			$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=start_year&limit=999', function(json) {self.processBranchesByStart(json);});
+			$.get(Environment.routes.apiBase + '/branch/?format=json&order_by=end_year&limit=999', function(json) {self.processBranchesByEnd(json);});
 			
 			/*$.ajax({
 				URL: Environment.routes.apiBase + 'maps/?format=json&order_by=start_year',
