@@ -267,7 +267,7 @@
                             <div data-bind="'style': {display: (Environment.user() != null && Environment.user().bibliolink == false) ? 'block' : 'none'}">
                                 <p class="section-title">Link Your Centennial and EPL Accounts</p>
                                 <form data-bind="'linkForm': true">
-                                    <p class="inputError indent" data-bind="'if': linkError() == true">There was a problem linking your EPL account. Check your credentials.</p>
+                                    <p id="inputLinkError" class="inputError indent" data-bind="'if': linkError() == true">There was a problem linking your EPL account. Check your credentials.</p>
                                     <p>
                                         <label for="eplUsername">EPL Username:</label>
                                         <input id="eplUsername" data-role="username" type="text" class="form-input text" data-default-text="Username" />

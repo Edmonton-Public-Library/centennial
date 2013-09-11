@@ -116,6 +116,7 @@ return (function () {
 						password : linkForm.find('[data-role=password]').val()}),
 					success : function (data) {
 						if(data.result.toLowerCase().indexOf("error") > -1) {
+							$("#inputLinkError").text(data.result);
 							viewModel.linkError(true);
 						} else {
 							EPLBar.updateUserInfo();
@@ -123,6 +124,7 @@ return (function () {
 						}
 					},
 					error : function (data) {
+						$("#inputLinkError").text(data.result);
 						viewModel.linkError(true);
 					}
 				});
