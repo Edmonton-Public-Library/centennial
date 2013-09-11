@@ -143,14 +143,14 @@ def link_bibliocommons(request):
             if ('username' in data and 'password' in data):
                 if validUser(data['username'], data['password']):
                     if BibliocommonsLink.objects.filter(user=request.user).count() > 0:
-                        return HttpResponse(json.dumps({'result': 'Error: Centennial account already linked'}), content_type='application/json')
+                        return HttpResponse(json.dumps({'result': 'Error', 'message':'Centennial account already linked'}), content_type='application/json')
                     if BibliocommonsLink.objects.filter(biblioname=data['username']).count() > 0:
-                        return HttpResponse(json.dumps({'result': 'Error: Bibliocommons account already linked'}), content_type='application/json')
+                        return HttpResponse(json.dumps({'result': 'Error', 'message':'Bibliocommons account already linked'}), content_type='application/json')
                     link = BibliocommonsLink.objects.create(biblioname=data['username'], user=request.user)
                     link.save()
                     return HttpResponse(json.dumps({'result':'success'}), content_type='application/json')
                 else:
-                    return HttpResponse(json.dumps({'result':'Error: Invalid Username or Password'}), content_type='application/json')
+                    return HttpResponse(json.dumps({'result':'Error', 'message':'Invalid Username or Password'}), content_type='application/json')
             else:
                 return HttpResponse(status='400')
         else:

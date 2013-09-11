@@ -117,7 +117,7 @@ return (function () {
 					success : function (data) {
 						if(data.result.toLowerCase().indexOf("error") > -1) {
 							viewModel.linkError(true);
-							$("#inputLinkError").text(data.result);
+							$("#inputLinkError").text(data.message);
 						} else {
 							EPLBar.updateUserInfo();
 							viewModel.linkError(false);
