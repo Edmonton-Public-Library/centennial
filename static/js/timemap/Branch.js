@@ -244,7 +244,7 @@ return (function () {
 		this.branchEndDate(endYear);
 		this.floorplanUrl(branchData.floor_plan);
 		// Obtain all the branches for the 'Jump to Branch' drop down
-		$.getJSON (Settings.apiBranchUrl + "?limit=999", function(data) {
+		$.getJSON (Settings.apiBranchUrl + "?limit=5", function(data) {
 			self.allBranches(data.objects);
 			// Remove the current branch from the drop down options
 			self.allBranches.remove(function(branch) {
